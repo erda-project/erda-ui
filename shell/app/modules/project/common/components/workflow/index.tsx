@@ -188,7 +188,7 @@ const CodeCard = (props: CardProps) => {
             <>
               <Commit commitId={commit.id} appId={appID} projectId={projectID} />
               <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
-              <Ellipsis className=" flex-1 text-default-8 " title={commit.commitMessage} />
+              <Ellipsis className="flex-1 text-default-8" title={commit.commitMessage} />
             </>
           ) : null}
         </div>
@@ -221,7 +221,7 @@ const MergeCard = (props: CardProps) => {
             />
             <div className="flex-h-center w-[140px] text-xs  flex-shrink-0">
               <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
-              <Ellipsis className=" flex-1 text-default-8 " title={item.commit.commitMessage} />
+              <Ellipsis className="flex-1 text-default-8" title={item.commit.commitMessage} />
             </div>
           </div>
         );
@@ -276,13 +276,13 @@ const MergeCard = (props: CardProps) => {
                 <>
                   <Commit commitId={baseCommit.id} appId={appID} projectId={projectID} />
                   <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
-                  <Ellipsis className=" flex-1 text-default-8 " title={baseCommit.commitMessage} />
+                  <Ellipsis className="flex-1 text-default-8" title={baseCommit.commitMessage} />
                 </>
               ) : (
                 <>
                   <ErdaIcon type="commitID" className="mr-1 text-default-4" />
                   <Ellipsis
-                    className=" flex-1 text-default-8 "
+                    className="flex-1 text-default-8"
                     title={i18n.s('This task branch has no content merged', 'dop')}
                   />
                 </>
