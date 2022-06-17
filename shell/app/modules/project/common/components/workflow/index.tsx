@@ -12,14 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DevFlowInfo, DevFlowInfos, getPipelineDetail, PipelineInfo } from 'project/services/project-workflow';
+import { DevFlowInfo, DevFlowInfos, PipelineInfo } from 'project/services/project-workflow';
 import { ErdaIcon, Ellipsis, EmptyHolder, Badge, MarkdownRender } from 'common';
 import i18n from 'i18n';
 import { ciStatusMap } from 'project/common/components/pipeline-new/config';
 import { Popover, Tooltip } from 'antd';
 import { goTo } from 'common/utils';
-import { ciNodeStatusSet } from 'project/common/components/pipeline-new/config';
-import { produce } from 'immer';
+
 import { decode } from 'js-base64';
 import { tempMerge } from 'project/services/project-workflow';
 
@@ -28,13 +27,6 @@ export interface IProps {
   projectID: number;
   flowInfo: DevFlowInfos;
   getFlowNodeList: () => void;
-}
-
-interface IPipelineInfo extends PipelineInfo {
-  taskCount?: {
-    taskTotal?: number;
-    finishTaskTotal?: number;
-  };
 }
 
 const WorkflowItem: React.FC<
@@ -318,7 +310,6 @@ const MergeCard = (props: CardProps) => {
 const PipelineCard = (props: CardProps) => {
   const { data, projectID, className, index } = props;
   const { pipelineStepInfos, devFlowNode, inode, hasOnPushBranch } = data;
-  const [pipelineInfo, setPipelineInfo] = React.useState<IPipelineInfo[]>(pipelineStepInfos);
   const { commit, tempBranch } = data.devFlowNode || {};
 
   const getStepStatus = () => {
@@ -335,41 +326,7 @@ const PipelineCard = (props: CardProps) => {
   };
   const stepStatus = data.changeBranch?.find((item) => item.commit.id === commit?.id) ? getStepStatus() : 'wait';
 
-  React.useEffect(() => {
-    setPipelineInfo(pipelineStepInfos);
-    const queryQueue = (pipelineStepInfos ?? [])
-      .filter((item) => !!item.pipelineID)
-      .map((item) => getPipelineDetail({ pipelineID: item.pipelineID }).then((res) => res.data));
-    Promise.all(queryQueue ?? []).then((pipelineDetails) => {
-      const taskMap = {};
-      pipelineDetails.forEach((pipelineDetail) => {
-        if (pipelineDetail) {
-          const { pipelineStages } = pipelineDetail;
-          const taskTotal = pipelineStages.reduce((prev, curr) => prev + curr.pipelineTasks?.length ?? 0, 0);
-          const finishTaskTotal = pipelineStages.reduce(
-            (prev, curr) =>
-              prev + curr.pipelineTasks?.filter((t) => ciNodeStatusSet.taskFinalStatus.includes(t.status)).length,
-            0,
-          );
-          taskMap[pipelineDetail.id] = {
-            finishTaskTotal,
-            taskTotal,
-          };
-        }
-      });
-      const newInfo = produce(pipelineStepInfos ?? [], (draft) =>
-        draft.map((item) => {
-          return {
-            ...item,
-            taskCount: taskMap[item.pipelineID],
-          };
-        }),
-      );
-      setPipelineInfo(newInfo);
-    });
-  }, [pipelineStepInfos]);
-
-  const pipeline = pipelineInfo[0]; // || { status: 'Running', pipelineID: '121212', ymlName: 'pipeline.yml' };
+  const pipeline = pipelineStepInfos[0];
 
   const genGuideCode = `
   \`\`\`yml
