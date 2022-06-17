@@ -84,7 +84,7 @@ const Branch = ({
 }) => {
   return (
     <div
-      className={`${className} flex-h-center text-xs group jump-out-link`}
+      className={`${className} flex-h-center text-xs group cursor-pointer`}
       onClick={() => {
         goTo(goTo.pages.repoBranch, { appId, projectId, branch, jumpOut: true });
       }}
@@ -108,7 +108,7 @@ const Commit = ({
 }) => {
   return (
     <div
-      className={`${className} text-xs group flex-h-center jump-out-link`}
+      className={`${className} text-xs group flex-h-center cursor-pointer`}
       onClick={() => {
         goTo(goTo.pages.commit, {
           projectId,
@@ -400,7 +400,7 @@ const PipelineCard = (props: CardProps) => {
     subContent = (
       <>
         <div
-          className="flex-h-center text-xs group jump-out-link"
+          className="flex-h-center text-xs group cursor-pointer"
           onClick={() => {
             goTo(goTo.pages.pipelineRoot, {
               jumpOut: true,
@@ -434,7 +434,7 @@ const PipelineCard = (props: CardProps) => {
     subContent = (
       <>
         <div
-          className="flex-h-center text-xs group jump-out-link"
+          className="flex-h-center text-xs group cursor-pointer"
           onClick={() => {
             goTo(goTo.pages.pipelineRoot, {
               jumpOut: true,
