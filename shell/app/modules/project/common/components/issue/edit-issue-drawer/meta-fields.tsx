@@ -769,7 +769,7 @@ const IssueMetaFields = React.forwardRef(
           },
           onDropdownVisibleChange: (visible: boolean) => {
             if (visible) {
-              !optionList.length && getLabels({ type: 'issue', projectID: Number(projectId) });
+              getLabels({ type: 'issue', projectID: Number(projectId) });
             }
           },
         },
