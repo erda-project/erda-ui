@@ -1,5 +1,5 @@
 #!dice
-FROM registry.erda.cloud/retag/node:14.18.2-bullseye-slim
+FROM registry.erda.cloud/retag/node:14.18.2-slim
 
 # Set special timezone
 RUN echo "Asia/Shanghai" | tee /etc/timezone
