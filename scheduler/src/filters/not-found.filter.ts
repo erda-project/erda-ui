@@ -130,7 +130,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         );
         if (userRes?.status === 401) {
           const loginRes = await callApi('/api/openapi/login', {
-            headers: { referer: `${request.protocol}://${request.hostname}` },
+            headers: { referer: request.url },
           });
           if (loginRes?.data?.url) {
             response.redirect(loginRes.data.url);
