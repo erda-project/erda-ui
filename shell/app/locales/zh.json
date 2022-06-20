@@ -1151,7 +1151,6 @@
     "No followers": "无人关注",
     "No followers-now": "暂无成员关注",
     "No permission to access the current application {name}, Contact the application administrator to add permission": "暂无访问当前应用 {name} 的权限，请联系应用管理员添加权限",
-    "No pipeline trigger": "暂无流水线触发",
     "No starred apps": "暂无星标应用",
     "No starred projects": "暂无星标项目",
     "No workflow data": "暂无工作流数据",
@@ -1868,7 +1867,6 @@
     "rerun whole pipeline": "重试全流程",
     "reselect": "重新选择",
     "reset and switch": "重置并切换",
-    "resolve conflict manually": "手动解决冲突",
     "resolved": "已解决",
     "resources": "资源",
     "restored successfully": "还原成功",
@@ -2032,8 +2030,7 @@
     "your browser does not support WebSocket!": "您的浏览器不支持 WebSocket!",
     "{app}: {branch}, gets new pipelines {time}": "{app}: {branch}, 于 {time}发现了新流水线文件",
     "{num} followers": "{num} 人关注",
-    "{num} followers-ing": "{num} 位成员正在关注",
-    "{type} node": "{type}节点"
+    "{num} followers-ing": "{num} 位成员正在关注"
   },
   "ecp": {
     "Configuration": "配置集管理",

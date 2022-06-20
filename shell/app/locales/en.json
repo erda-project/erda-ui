@@ -1151,7 +1151,6 @@
     "No followers": "No followers",
     "No followers-now": "No followers",
     "No permission to access the current application {name}, Contact the application administrator to add permission": "No permission to access the current application {name}, Contact the application administrator to add permission",
-    "No pipeline trigger": "暂无流水线触发",
     "No starred apps": "No starred apps",
     "No starred projects": "No starred projects",
     "No workflow data": "No workflow data",
@@ -1868,7 +1867,6 @@
     "rerun whole pipeline": "rerun whole pipeline",
     "reselect": "reselect",
     "reset and switch": "reset and switch",
-    "resolve conflict manually": "resolve conflict manually",
     "resolved": "resolved",
     "resources": "resources",
     "restored successfully": "restored successfully",
@@ -2032,8 +2030,7 @@
     "your browser does not support WebSocket!": "your browser does not support WebSocket!",
     "{app}: {branch}, gets new pipelines {time}": "{app}: {branch}, gets new pipelines {time}",
     "{num} followers": "{num} followers",
-    "{num} followers-ing": "{num} followers",
-    "{type} node": "{type} node"
+    "{num} followers-ing": "{num} followers"
   },
   "ecp": {
     "Configuration": "Configuration",
