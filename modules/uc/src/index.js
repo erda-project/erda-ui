@@ -16,7 +16,7 @@ import ReactDOM from 'react-dom';
 import App from './router';
 import { initI18n, history } from 'src/common';
 import { ory } from 'src/ory';
-import { parse } from 'query-string';
+import { getCookies } from 'src/common/utils';
 import './index.css';
 
 const startApp = () => {
