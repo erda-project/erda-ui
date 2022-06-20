@@ -133,6 +133,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
             headers: { referer: request.url },
           });
           if (loginRes?.data?.url) {
+            response.setHeader('Set-Cookie', [`redirectUrl=${request.url}`]);
             response.redirect(loginRes.data.url);
             return;
           }

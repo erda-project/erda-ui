@@ -14,7 +14,7 @@
 import React from 'react';
 import { i18n, history, Container } from 'src/common';
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client';
-import { keepRedirectUrlQuery } from 'src/common/utils';
+import { getCookies } from 'src/common/utils';
 import { ory, handleFlowError, Flow } from 'src/ory';
 import { parse } from 'query-string';
 
@@ -50,15 +50,15 @@ export default function Login() {
   }, [flowId, refresh, flow]);
 
   const onSubmit = (values: SubmitSelfServiceLoginFlowBody) => {
-    history.push(keepRedirectUrlQuery(`/uc/login?flow=${flow?.id}`));
+    history.push(`/uc/login?flow=${flow?.id}`);
     return (
       ory
         .submitSelfServiceLoginFlow(String(flow?.id), undefined, values)
         // We logged in successfully! Let's bring the user home.
         .then((res) => {
-          const query = parse(window.location.search);
-          if (query?.redirectUrl) {
-            window.location.href = query.redirectUrl as string;
+          const redirectUrl = getCookies('redirectUrl') || window.localStorage.getItem('redirectUrl');
+          if (redirectUrl) {
+            window.location.href = redirectUrl as string;
           } else {
             history.push('/uc/settings');
           }

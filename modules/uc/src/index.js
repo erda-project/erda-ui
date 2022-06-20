@@ -15,7 +15,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './router';
 import { initI18n, history } from 'src/common';
-import { keepRedirectUrlQuery } from 'src/common/utils';
 import { ory } from 'src/ory';
 import { parse } from 'query-string';
 import './index.css';
@@ -35,15 +34,15 @@ const init = () => {
     .toSession()
     .then(({ data }) => {
       if (pathname.startsWith('/uc') && pathname !== '/uc/settings') {
-        const query = parse(window.location.search);
-        window.location.href = query?.redirectUrl || '/uc/settings';
+        const redirectUrl = getCookies('redirectUrl') || window.localStorage.getItem('redirectUrl');
+        window.location.href = redirectUrl || '/uc/settings';
       }
       startApp();
     })
     .catch((e) => {
       if (e.response?.status === 401) {
         if (!['/uc/registration'].includes(pathname)) {
-          history.replace(keepRedirectUrlQuery('/uc/login'));
+          history.replace('/uc/login');
         }
         startApp();
       }
