@@ -164,7 +164,7 @@ describe('RenderFormItem', () => {
       label: 'name',
       type: 'cascader',
     });
-    expect(result.container).isExist('.ant-cascader-picker', 1);
+    expect(result.container).isExist('.ant-cascader', 1);
   });
   it('should work well when type is custom', () => {
     const changeFn = jest.fn();
@@ -338,7 +338,7 @@ describe('RenderFormItem', () => {
     });
     expect(result.container).isExist('[name="help"]', 1);
     expect(await validateFields(formRef)).toStrictEqual({
-      errorFields: [{ errors: ['pleaseinputname'], name: ['name'] }],
+      errorFields: [{ errors: ['pleaseinputname'], name: ['name'], warnings: [] }],
       outOfDate: false,
       values: { name: undefined },
     });
@@ -360,19 +360,19 @@ describe('RenderFormItem', () => {
       ],
     });
     expect(await validateFields(formRef)).toStrictEqual({
-      errorFields: [{ errors: ['can not be empty'], name: ['name'] }],
+      errorFields: [{ errors: ['can not be empty'], name: ['name'], warnings: [] }],
       outOfDate: false,
       values: { name: undefined },
     });
     fireEvent.change(result.getByRole('textbox'), { target: { value: 'THIS IS STRING THAT LENGTH GREATER THAN TEN' } });
     expect(await validateFields(formRef)).toStrictEqual({
-      errorFields: [{ errors: ['maxLength is 10'], name: ['name'] }],
+      errorFields: [{ errors: ['maxLength is 10'], name: ['name'], warnings: [] }],
       outOfDate: false,
       values: { name: 'THIS IS STRING THAT LENGTH GREATER THAN TEN' },
     });
     fireEvent.change(result.getByRole('textbox'), { target: { value: 'Erda' } });
     expect(await validateFields(formRef)).toStrictEqual({
-      errorFields: [{ errors: ['please enter capital letters'], name: ['name'] }],
+      errorFields: [{ errors: ['please enter capital letters'], name: ['name'], warnings: [] }],
       outOfDate: false,
       values: { name: 'Erda' },
     });

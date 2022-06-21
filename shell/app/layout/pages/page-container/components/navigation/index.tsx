@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Badge, Tooltip, ConfigProvider } from 'antd';
+import { Badge, Tooltip } from 'antd';
 import orgStore from 'app/org-home/stores/org';
 import { ErdaIcon } from 'common';
 import { DOC_HELP_HOME, erdaEnv } from 'common/constants';
@@ -26,7 +26,6 @@ import UserMenu from './user-menu';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import OrgSelector from '../org-selector';
-import { THEME_MAP } from 'app/theme-map';
 
 const usePlatformEntries = () => {
   const permMap = usePerm((s) => s.org);
@@ -83,30 +82,6 @@ const Navigation = () => {
   const isAdminRoute = isIn('sysAdmin');
   const curOrgName = currentOrg.name;
   const bottomItems = [
-    {
-      icon: <div className="w-4 h-4" style={{ background: THEME_MAP.default }} />,
-      onClick: () => {
-        ConfigProvider.config({
-          theme: {
-            primaryColor: THEME_MAP.default,
-          },
-        });
-        localStorage.setItem('erda-theme', 'default');
-        document.documentElement.setAttribute('data-theme', 'default-theme');
-      },
-    },
-    {
-      icon: <div className="w-4 h-4" style={{ background: THEME_MAP.purple }} />,
-      onClick: () => {
-        ConfigProvider.config({
-          theme: {
-            primaryColor: THEME_MAP.purple,
-          },
-        });
-        localStorage.setItem('erda-theme', 'purple');
-        document.documentElement.setAttribute('data-theme', 'purple-theme');
-      },
-    },
     {
       icon: <ErdaIcon type="bangzhuwendang" className="text-normal" size={20} />,
       label: i18n.t('layout:Docs'),

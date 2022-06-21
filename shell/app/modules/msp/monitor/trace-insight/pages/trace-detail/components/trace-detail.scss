@@ -1,10 +1,18 @@
-@mixin duration-color($color: theme('colors[primary]')) {
+@mixin duration-color($color: '') {
   @for $i from 0 through 5 {
     &.depth-#{$i} .duration {
       @if $i == 0 {
-        background: rgba($color, 0.1);
+        @if $color != '' {
+          background: rgba($color, 0.1);
+        } @else {
+          background: theme('colors[primary]' / 0.1);
+        }
       } @else {
-        background: rgba($color, $i * 0.1);
+        @if $color != '' {
+          background: rgba($color, $i * 0.1);
+        } @else {
+          background: theme('colors[primary]' / #{$i * 0.1});
+        }
       }
     }
   }

@@ -14,7 +14,6 @@
 import React from 'react';
 import Echarts from 'charts/components/echarts';
 import type { ECharts } from 'echarts';
-import { colorToRgb } from 'common/utils';
 import { genLinearGradient, theme } from 'charts/theme';
 import EmptyHolder from 'common/components/empty-holder';
 import themeColors from 'app/theme-color';
@@ -31,8 +30,8 @@ interface IBrushSelectedParams {
 }
 
 const themeColor = {
-  dark: '#ffffff',
-  light: themeColors.default({ opacityValue: 1 }),
+  dark: () => '#ffffff',
+  light: (opacityValue: number) => themeColors.default({ opacityValue: opacityValue || 1 }),
 };
 
 const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
@@ -82,7 +81,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         data: (dimensions ?? []).map((item) => ({
           name: item,
           textStyle: {
-            color: colorToRgb(color, 0.6),
+            color: color(0.6),
           },
           icon: 'reat',
           itemWidth: 12,
@@ -94,7 +93,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
       xAxis: {
         data: xAxisData,
         axisLabel: {
-          color: colorToRgb(color, 0.6),
+          color: color(0.6),
           formatter:
             xOptions?.structure?.enable && xAxisData.length
               ? (v: number) =>
@@ -116,13 +115,13 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         return {
           type: 'value',
           axisLabel: {
-            color: colorToRgb(color, 0.3),
+            color: color(0.3),
             formatter: enable ? (v: number) => formatValue(type, precision, v) : undefined,
           },
           splitLine: {
             show: true,
             lineStyle: {
-              color: [colorToRgb(color, 0.1)],
+              color: [color(0.1)],
             },
           },
         };
@@ -199,7 +198,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
   );
 
   return (
-    <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: colorToRgb(color, 0.02) }}>
+    <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: color(0.02) }}>
       {data.title ? (
         <div
           className={`title h-12 flex items-center justify-between ${

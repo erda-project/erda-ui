@@ -114,6 +114,12 @@ module.exports = async () => {
               },
             },
             {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: require('./postcss.config.js'),
+              },
+            },
+            {
               loader: 'sass-loader',
               options: {
                 sourceMap: false,
@@ -144,6 +150,7 @@ module.exports = async () => {
                 sourceMap: true,
                 lessOptions: {
                   javascriptEnabled: true,
+                  modifyVars: require('./app/theme-color.js').getLessTheme(),
                 },
               },
             },

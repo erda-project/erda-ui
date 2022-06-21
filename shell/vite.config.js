@@ -19,6 +19,8 @@ import * as path from 'path';
 import postcss from './postcss.config.js';
 import commonjs from '@rollup/plugin-commonjs';
 
+const getLessTheme = require('./app/theme-color.js').getLessTheme;
+
 const babelConfig = require('./babel.config.js')();
 
 const packageJson = require('./package.json');
@@ -145,6 +147,7 @@ export default ({ command, mode }) => {
         less: {
           // 支持内联 JavaScript
           javascriptEnabled: true,
+          modifyVars: getLessTheme(),
         },
         scss: {
           additionalData:

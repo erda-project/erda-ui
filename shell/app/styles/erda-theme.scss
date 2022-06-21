@@ -4,11 +4,6 @@ $themes: (
     color-primary-rgb: '48 38 71',
     color-primary-light: '12 11 20',
   ),
-  'purple-theme': (
-    color-primary-rgb: '106 84 158',
-    //#6a549e
-    color-primary-light: '249 240 255',
-  ),
 );
 
 @each $key, $list in $themes {

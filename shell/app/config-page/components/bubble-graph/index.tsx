@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { colorToRgb } from 'common/utils';
 import Echarts from 'charts/components/echarts';
 import { groupBy, isNumber } from 'lodash';
 import EmptyHolder from 'common/components/empty-holder';
@@ -20,8 +19,8 @@ import themeColors from 'app/theme-color';
 import { formatValue } from 'charts/utils';
 
 const themeColor = {
-  dark: '#ffffff',
-  light: themeColors.default({ opacityValue: 1 }),
+  dark: () => '#ffffff',
+  light: (opacityValue: number) => themeColors.default({ opacityValue: opacityValue || 1 }),
 };
 
 const genCommonSize = (chartSize: number, maxSize: number, current: number) => {
@@ -89,7 +88,7 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
         data: (dimensionsArr ?? []).map((item) => ({
           name: item,
           textStyle: {
-            color: colorToRgb(color, 0.6),
+            color: color(0.6),
           },
         })),
         icon: 'reat',
@@ -108,7 +107,7 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
       xAxis: {
         data: xAxisData,
         axisLabel: {
-          color: colorToRgb(color, 0.6),
+          color: color(0.6),
           formatter:
             xOptions?.structure?.enable && xAxisData.length
               ? (v: number) =>
@@ -129,13 +128,13 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
         const { enable, type, precision } = structure;
         return {
           axisLabel: {
-            color: colorToRgb(color, 0.3),
+            color: color(0.3),
             formatter: enable ? (v: number) => formatValue(type, precision, v) : undefined,
           },
           splitLine: {
             show: true,
             lineStyle: {
-              color: [colorToRgb(color, 0.1)],
+              color: [color(0.1)],
             },
           },
           scale: true,
@@ -156,7 +155,7 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
   }, [data.list, operations, customOp, configProps.useRealSize]);
 
   return (
-    <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: colorToRgb(color, 0.02) }}>
+    <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: color(0.02) }}>
       {data.title ? (
         <div
           className={`title h-12 flex items-center justify-between ${

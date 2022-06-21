@@ -98,7 +98,7 @@ const CodeCoverage = ({ data }: { data: Array<{ value: number[] }> }) => {
       <Progress
         percent={100}
         success={{
-          percent: percent,
+          percent,
         }}
         strokeColor={themeColor['default-02']}
         format={(_percent: number, successPercent: number) => `${Math.floor(successPercent)}%`}

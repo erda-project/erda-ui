@@ -29,8 +29,8 @@ describe('erda-icon', () => {
       <ErdaIcon type="lock" color="primary" fill="normal" stroke="red" className="customize-cls" size={24} />,
     );
     expect(icon).toHaveAttribute('size', '24');
-    expect(icon).toHaveAttribute('color', 'rgba(48, 38, 71, 1)');
-    expect(icon).toHaveAttribute('fill', 'rgba(48, 38, 71, .8)');
+    expect(icon).toHaveAttribute('color', 'rgba(var(--color-primary-rgb) / 1)');
+    expect(icon).toHaveAttribute('fill', 'rgba(var(--color-primary-rgb) / 0.8)');
     expect(icon).toHaveAttribute('stroke', '#d84b65');
   });
 });

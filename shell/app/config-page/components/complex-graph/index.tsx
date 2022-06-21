@@ -13,17 +13,16 @@
 
 import React from 'react';
 import themeColors from 'app/theme-color';
-import { colorToRgb } from 'common/utils';
 import Echarts from 'charts/components/echarts';
 import EmptyHolder from 'common/components/empty-holder';
 import { formatValue } from 'charts/utils';
 
 const themeColor = {
-  dark: themeColors.white,
-  light: themeColors.default({ opacityValue: 1 }),
+  dark: () => themeColors.white,
+  light: (opacityValue: number) => themeColors.default({ opacityValue: opacityValue || 1 }),
 };
 
-const genAxis = (axis: CP_COMPLEX_GRAPH.Axis[], axisType: 'x' | 'y', color: string) => {
+const genAxis = (axis: CP_COMPLEX_GRAPH.Axis[], axisType: 'x' | 'y', color: (n: number) => string) => {
   const positionMap = {
     left: 0,
     right: 0,
@@ -44,13 +43,13 @@ const genAxis = (axis: CP_COMPLEX_GRAPH.Axis[], axisType: 'x' | 'y', color: stri
     return {
       offset: offset * 50,
       axisLabel: {
-        color: colorToRgb(color, 0.3),
+        color: color(0.3),
         formatter: enable ? (v: number) => formatValue(type, precision, v, min, max) : undefined,
       },
       splitLine: {
         show: axisType === 'y',
         lineStyle: {
-          color: [colorToRgb(color, 0.1)],
+          color: [color(0.1)],
         },
       },
       ...rest,
@@ -94,7 +93,7 @@ const CP_ComplexGraph: React.FC<CP_COMPLEX_GRAPH.Props> = (props) => {
         data: (dimensions || []).map((item) => ({
           name: item,
           textStyle: {
-            color: colorToRgb(color, 0.6),
+            color: color(0.6),
           },
         })),
         icon: 'reat',
@@ -111,14 +110,14 @@ const CP_ComplexGraph: React.FC<CP_COMPLEX_GRAPH.Props> = (props) => {
           [axisIndex]: yAxis.findIndex((t) => t.dimensions.includes(item.dimension)),
         };
       }),
-      yAxis: genAxis(Y_Axis, 'y', color),
-      xAxis: genAxis(X_Axis, 'x', color),
+      yAxis: genAxis(Y_Axis, 'y', (n: number) => color(n)),
+      xAxis: genAxis(X_Axis, 'x', (n: number) => color(n)),
     };
     return [chartOption];
   }, [color, data, operations]);
 
   return (
-    <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: colorToRgb(color, 0.02) }}>
+    <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: color(0.02) }}>
       {data.title ? (
         <div
           className={`title h-12 flex items-center justify-between ${
