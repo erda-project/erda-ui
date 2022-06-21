@@ -34,7 +34,8 @@ const init = () => {
     .toSession()
     .then(({ data }) => {
       if (pathname.startsWith('/uc') && pathname !== '/uc/settings') {
-        window.location.href = '/uc/settings';
+        const redirectUrl = getCookies('redirectUrl');
+        window.location.href = encodeURIComponent(redirectUrl) || '/uc/settings';
       }
       startApp();
     })
