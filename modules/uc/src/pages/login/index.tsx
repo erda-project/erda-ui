@@ -24,6 +24,7 @@ export default function Login() {
   // refres: means we want to refresh the session. This is needed, for example, when we want to update the password of a user.
   const { flow: flowId, refresh } = query;
   const [flow, setFlow] = React.useState<SelfServiceLoginFlow>();
+  const [url, setUrl] = React.useState(getCookies('redirectUrl'));
 
   React.useEffect(() => {
     if (flow) {
@@ -56,9 +57,14 @@ export default function Login() {
         .submitSelfServiceLoginFlow(String(flow?.id), undefined, values)
         // We logged in successfully! Let's bring the user home.
         .then((res) => {
-          const redirectUrl = getCookies('redirectUrl') || window.localStorage.getItem('redirectUrl');
+          const localRedirectUrl = window.localStorage.getItem('redirectUrl');
+          const redirectUrl = localRedirectUrl || (url as string);
+
+          if (localRedirectUrl) {
+            window.localStorage.removeItem('redirectUrl');
+          }
           if (redirectUrl) {
-            window.location.href = redirectUrl as string;
+            window.location.href = decodeURIComponent(redirectUrl);
           } else {
             history.push('/uc/settings');
           }

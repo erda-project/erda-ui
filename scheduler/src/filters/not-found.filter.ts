@@ -133,7 +133,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
             headers: { referer: request.url },
           });
           if (loginRes?.data?.url) {
-            response.setHeader('Set-Cookie', [`redirectUrl=${request.url}`]);
+            response.cookie('redirectUrl', request.url, { maxAge: 3000 }); // expired after 3s
             response.redirect(loginRes.data.url);
             return;
           }
