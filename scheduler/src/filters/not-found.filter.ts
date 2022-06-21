@@ -17,6 +17,7 @@ import path from 'path';
 import fs from 'fs';
 import axios from 'axios';
 import { getEnv, getHttpUrl, logger } from '../util';
+import qs from 'query-string';
 
 const { staticDir, envConfig } = getEnv();
 const { BACKEND_URL } = envConfig;
@@ -130,10 +131,11 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         );
         if (userRes?.status === 401) {
           const loginRes = await callApi('/api/openapi/login', {
-            headers: { referer: `${request.protocol}://${request.hostname}` },
+            headers: { referer: `${request.protocol}://${request.hostname}${request.url}` },
           });
           if (loginRes?.data?.url) {
-            response.cookie('redirectUrl', request.url, { maxAge: 3000 }); // expired after 3s
+            const { query } = qs.parseUrl(loginRes.data.url);
+            response.cookie('redirectUrl', query?.redirectUrl || request.url, { maxAge: 3000 }); // expired after 3s
             response.redirect(loginRes.data.url);
             return;
           }
