@@ -58,7 +58,7 @@ export default function Login() {
         // We logged in successfully! Let's bring the user home.
         .then((res) => {
           const localRedirectUrl = window.localStorage.getItem('redirectUrl');
-          const redirectUrl = localRedirectUrl || (url as string);
+          const redirectUrl = (url as string) || localRedirectUrl;
 
           if (localRedirectUrl) {
             window.localStorage.removeItem('redirectUrl');
