@@ -376,13 +376,14 @@ importers:
       express: ^4.17.1
       helmet: ^4.6.0
       http-proxy-middleware: ^2.0.1
+      md5: ^2.3.0
       query-string: ^7.0.1
       reflect-metadata: ^0.1.13
       rxjs: ^7.5.5
       typescript: ^4.6.3
       winston: ^3.3.3
     dependencies:
-      '@nestjs/cli': 8.0.2_webpack-cli@4.9.2
+      '@nestjs/cli': 8.0.2
       '@nestjs/common': 8.0.1_e7ea248743279784063e3708d703abc5
       '@nestjs/core': 8.0.1_045a9944efcdb99e50a74a971379dea2
       '@nestjs/platform-express': 8.0.5_1d3982a3146285faca229314653bb7a9
@@ -393,6 +394,7 @@ importers:
       express: 4.17.1
       helmet: 4.6.0
       http-proxy-middleware: 2.0.1
+      md5: 2.3.0
       query-string: 7.0.1
       reflect-metadata: 0.1.13
       rxjs: 7.5.5
@@ -6373,7 +6375,7 @@ packages:
       glob-to-regexp: 0.3.0
     dev: true
 
-  /@nestjs/cli/8.0.2_webpack-cli@4.9.2:
+  /@nestjs/cli/8.0.2:
     resolution: {integrity: sha512-q46mQvqhRkmnG6fXTzL9Wk7CtDxRaa2rE1IrDX3CgXaeOgjBZsA3oJKkIqelQHfKWvPGuU6yV6gDF5pOXNXixw==}
     engines: {node: '>= 10.13.0', npm: '>= 6.11.0'}
     hasBin: true
@@ -6398,7 +6400,7 @@ packages:
       tsconfig-paths: 3.10.1
       tsconfig-paths-webpack-plugin: 3.5.1
       typescript: 4.3.5
-      webpack: 5.43.0_webpack-cli@4.9.2
+      webpack: 5.43.0
       webpack-node-externals: 3.0.0
     transitivePeerDependencies:
       - webpack-cli
@@ -11093,6 +11095,10 @@ packages:
   /chardet/0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
 
+  /charenc/0.0.2:
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+    dev: false
+
   /check-types/11.1.2:
     resolution: {integrity: sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ==}
     dev: false
@@ -12139,6 +12145,10 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  /crypt/0.0.2:
+    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
+    dev: false
 
   /crypto-browserify/3.12.0:
     resolution: {integrity: sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==}
@@ -19894,6 +19904,14 @@ packages:
       inherits: 2.0.4
       safe-buffer: 5.2.1
 
+  /md5/2.3.0:
+    resolution: {integrity: sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==}
+    dependencies:
+      charenc: 0.0.2
+      crypt: 0.0.2
+      is-buffer: 1.1.6
+    dev: false
+
   /mdast-util-compact/1.0.4:
     resolution: {integrity: sha512-3YDMQHI5vRiS2uygEFYaqckibpJtKq5Sj2c8JioeOQBU6INpKbdWzfyLqFFnDwEcEnRFIdMsguzs5pC1Jp4Isg==}
     dependencies:
@@ -27455,7 +27473,7 @@ packages:
       serialize-javascript: 6.0.0
       source-map: 0.6.1
       terser: 5.7.1
-      webpack: 5.43.0_webpack-cli@4.9.2
+      webpack: 5.43.0
     dev: false
 
   /terser-webpack-plugin/5.1.4_webpack@5.72.0:
@@ -29106,7 +29124,7 @@ packages:
       webpack-sources: 1.4.3
     dev: false
 
-  /webpack/5.43.0_webpack-cli@4.9.2:
+  /webpack/5.43.0:
     resolution: {integrity: sha512-ex3nB9uxNI0azzb0r3xGwi+LS5Gw1RCRSKk0kg3kq9MYdIPmLS6UI3oEtG7esBaB51t9I+5H+vHmL3htaxqMSw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
@@ -29138,7 +29156,6 @@ packages:
       tapable: 2.2.0
       terser-webpack-plugin: 5.1.4_webpack@5.43.0
       watchpack: 2.2.0
-      webpack-cli: 4.9.2_45fa8c1c963d4a2518095c2e51e96cdb
       webpack-sources: 2.3.0
     dev: false
 

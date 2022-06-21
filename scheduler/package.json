@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "http-proxy-middleware": "^2.0.1",
+    "md5": "^2.3.0",
     "query-string": "^7.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",

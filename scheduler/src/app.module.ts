@@ -19,6 +19,7 @@ import { getEnv } from './util';
 import { MarketController } from './controllers/market.controller';
 import { UCController } from './controllers/uc.controller';
 import { Response } from 'express';
+import { LinksTokenController } from './controllers/linkS-token.controller';
 
 const { publicDir } = getEnv();
 @Module({
@@ -38,7 +39,7 @@ const { publicDir } = getEnv();
       },
     }),
   ],
-  controllers: [HealthController, LegacyRouteController, MarketController, UCController],
+  controllers: [HealthController, LegacyRouteController, MarketController, UCController, LinksTokenController],
   providers: [],
 })
 export class AppModule {}
