@@ -44,6 +44,7 @@ import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
 import 'tailwindcss/tailwind.css';
+import axios from 'axios';
 
 setConfig('onAPISuccess', message.success);
 setConfig('onAPIFail', notify);
@@ -133,6 +134,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
     ReactDOM.render(<Wrap />, document.getElementById('erda-content'));
     // delete window._userData;
     registChartControl();
+    initLinkS();
   });
 };
 
@@ -148,4 +150,24 @@ if (user) {
     history.replace(lastPath);
   }
   start(user, orgs, currentOrg, orgAccess);
+}
+
+function initLinkS() {
+  axios
+    .get('/getLinksToken')
+    .then((res) => {
+      const element = document.createElement('script');
+      element.src = `https://links-tp.alipay.com/widgetInit/6295896f51a53d0479bd6528/?links_auth_token=${res.data}`;
+      element.type = 'text/javascript';
+      element.async = true;
+
+      element.onerror = (e) => {
+        console.error('Failed to load LinkS:', e);
+      };
+
+      document.head.appendChild(element);
+    })
+    .catch((e) => {
+      console.error('get Links Token failed', e);
+    });
 }
