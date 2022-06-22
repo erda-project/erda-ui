@@ -1,0 +1,53 @@
+$dark: #313033;
+$gray: #a19ea7;
+$light-gray: #e9eaef;
+$white: #ffffff;
+$ghostwhite: #f5f5f5;
+$whitesmoke: #f2f3f7;
+$primary: #5d48df !default;
+$light-purple: rgba(56, 64, 98, 0.7);
+$dark-purple: rgb(36, 31, 69);
+$red: #f0072c !default;
+
+$primary-9: rgba($primary, 0.9);
+$primary-1: rgba($primary, 0.1);
+
+$color-dark-8: rgba(0, 0, 0, 0.8) !default;
+$color-dark-6: rgba(0, 0, 0, 0.6) !default;
+$color-dark-5: rgba(0, 0, 0, 0.5) !default;
+$color-dark-4: rgba(0, 0, 0, 0.4) !default;
+$color-dark-3: rgba(0, 0, 0, 0.3) !default;
+$color-dark-2: rgba(0, 0, 0, 0.2) !default;
+$color-dark-1: rgba(0, 0, 0, 0.1) !default;
+$color-dark-06: rgba(0, 0, 0, 0.06) !default;
+$color-dark-02: rgba(0, 0, 0, 0.02) !default;
+
+$color-white-9: rgba(255, 255, 255, 0.9) !default;
+$color-white-8: rgba(255, 255, 255, 0.8) !default;
+$color-white-7: rgba(255, 255, 255, 0.7) !default;
+$color-white-6: rgba(255, 255, 255, 0.6) !default;
+$color-white-4: rgba(255, 255, 255, 0.4) !default;
+$color-white-3: rgba(255, 255, 255, 0.3) !default;
+$color-white-2: rgba(255, 255, 255, 0.2) !default;
+$color-white-1: rgba(255, 255, 255, 0.1) !default;
+
+// bg
+$bg-color: $whitesmoke;
+$bg-mask: $color-white-6;
+$bg-gray: $light-gray;
+$color-danger-bg: rgba($red, 0.1) !default;
+// status
+$color-disabled: $color-dark-2;
+
+// text
+$text-normal: $color-dark-8;
+$text-sub: $color-dark-6;
+$text-desc: $color-dark-5;
+$text-light: $color-dark-4;
+
+// border
+$border-color: $ghostwhite;
+$border-color-dark: $color-dark-1;
+$border-gray: #dedfe1;
+
+// other

@@ -1,0 +1,165 @@
+@import './reset.scss';
+@import './util.scss';
+
+body {
+  margin: 0;
+  font-family: PingFangSC-Regular, Segoe UI, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.block-1200 {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.block-800 {
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+.ant-btn {
+  height: 28px;
+  color: $primary;
+  font-size: 14px;
+  background: transparent;
+  border-color: $primary;
+  border-radius: 28px;
+  transition: all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  &.ant-btn-primary {
+    color: $white;
+    background: $primary;
+
+    &:hover {
+      background: $primary;
+    }
+  }
+
+  &:hover {
+    background: $color-white-1;
+  }
+
+  &.invert {
+    color: $white;
+
+    background: transparent;
+    border-color: $white;
+
+    &:hover {
+      color: $white;
+      background: transparent;
+    }
+  }
+
+  &.gray {
+    color: $gray;
+    border-color: $gray;
+
+    &:hover {
+      color: $color-dark-5;
+      border-color: $color-dark-5;
+    }
+  }
+}
+
+.ant-back-top {
+  z-index: 20;
+}
+
+@include sm-width() {
+  .ant-btn {
+    height: 32px;
+    line-height: 32px;
+  }
+}
+
+.page-header-bgimg {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-position: bottom;
+
+  .header-name {
+    color: $primary;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1.75rem;
+  }
+
+  .header-desc {
+    margin-top: 12px;
+    color: $text-normal;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+@include sm-width() {
+  .page-header-bgimg {
+    .header-name,
+    .header-desc {
+      font-size: 14px;
+    }
+  }
+}
+
+.ant-modal-content {
+  .ant-modal-header {
+    padding: 20px;
+  }
+
+  .ant-modal-body {
+    padding: 0 20px;
+  }
+
+  .ant-modal-footer {
+    padding: 18px 32px;
+  }
+}
+
+.g-img-enlarge {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 20px;
+  background-color: $color-dark-6;
+  cursor: zoom-out !important;
+
+  img {
+    width: auto !important;
+    max-height: 90% !important;
+  }
+}
+
+.g-img-enlarge-mobile {
+  @extend .g-img-enlarge;
+
+  img {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}

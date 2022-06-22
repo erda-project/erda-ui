@@ -18,6 +18,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const resolve = (pathname) => path.resolve(__dirname, pathname);
 const themeColor = '#6A549E';
 const outputPath = path.resolve(__dirname, '../../public/static/market');
+// dev server
+const devUrlDomain = 'erda.daily.terminus.io';
+const devProxyUrl = `https://${devUrlDomain}`;
 
 module.exports = {
   webpack: {
@@ -26,7 +29,7 @@ module.exports = {
       webpackConfig.output = {
         ...webpackConfig.output,
         path: outputPath,
-        publicPath: '/static/market/',
+        publicPath: '/',
       };
       webpackConfig.plugins = [...webpackConfig.plugins, new CleanWebpackPlugin()];
       return webpackConfig;
@@ -78,4 +81,18 @@ module.exports = {
       },
     },
   ],
+  devServer: {
+    // https: {
+    //   key: fs.readFileSync('../../cert/dev/server.key'),
+    //   cert: fs.readFileSync('../../cert/dev/server.crt'),
+    // },
+    proxy: {
+      '/api/': {
+        target: devProxyUrl,
+        source: false,
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 };

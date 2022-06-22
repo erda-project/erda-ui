@@ -12,23 +12,71 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, message, Button } from 'antd';
+import { Spin, message, Button, Rate, Tabs, Carousel, Col, Row } from 'antd';
+import { StickyContainer, Sticky } from 'react-sticky';
 import { withRouter } from 'react-router-dom';
-import QRCode from 'qrcode.react';
-import downloadBg_2x from '../images/download/download-bg@2x.png';
-import downloadR1_2x from '../images/download/download-r1@2x.png';
-import downloadC_2x from '../images/download/download-c@2x.png';
-import downloadS1_2x from '../images/download/download-s1@2x.png';
-import downloadY1_2x from '../images/download/download-y1@2x.png';
-import downloadY2_2x from '../images/download/download-y2@2x.png';
-
+import axios from 'axios';
+import moment from 'moment';
+import classNames from 'classnames';
+import resolve from 'resolve-pathname';
 import agent from 'superagent';
-import dayjs from 'dayjs';
 import './download.scss';
 
+const { TabPane } = Tabs;
 interface IObj {
   [key: string]: any;
 }
+
+interface IPublishItemCard {
+  id: number;
+  name: string;
+  displayName: string;
+  logo: string;
+  publisherId: number;
+  publishItemKey: string;
+  type: string;
+  public: boolean;
+  orgId: number;
+  desc: string;
+  creator: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const useRecommend = (curId: string): [IPublishItemCard[], boolean] => {
+  const [loading, setLoading] = React.useState(false);
+  const [data, setDate] = React.useState([] as IPublishItemCard[]);
+
+  React.useEffect(() => {
+    setLoading(true);
+    axios
+      .get('/api/publish-items', {
+        params: {
+          public: true,
+          type: 'MOBILE',
+          pageSize: 9,
+          pageNo: 1,
+        },
+      })
+      .then((response: any) => {
+        const body = response.data;
+        if (body.success) {
+          const { list } = body.data;
+          if (list && list.length) {
+            // 推荐列表移除当前app
+            setDate(list.filter((item: IPublishItemCard) => String(item.id) !== curId).slice(0, 6));
+          }
+        } else {
+          handleError(body.err || {});
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, [curId]);
+  return [data, loading];
+};
 
 type ClientType = 'iOS' | 'Android' | 'PC';
 /**
@@ -48,6 +96,8 @@ export const judgeClient = (): ClientType => {
   }
   return client;
 };
+// const replaceHost = (logo: string) => logo ? location.origin.replace('http:', 'https:') + '/api' + logo.split('/api')[1] : logo;
+const replaceHost = (logo: string) => (logo ? window.location.origin + '/api' + logo.split('/api')[1] : logo);
 
 const getOrgFromPath = () => {
   return window.location.pathname.split('/')[1] || '-';
@@ -57,15 +107,65 @@ const isEmptyObj = (obj: IObj) => {
   return obj === null || obj === undefined || Object.keys(obj).length === 0;
 };
 
+const handleError = (error: { msg: string | undefined } = { msg: undefined }) => {
+  console.error(error);
+  message.error(error.msg || '很抱歉，当前请求遇到问题，我们将尽快修复！');
+};
+
+const globalSpace: any = {};
+const getGlobal = (key: string) => globalSpace[key];
+
+interface IGoToOps {
+  jumpOut?: boolean;
+}
+const goTo = (path: string, ops: IGoToOps = {}) => {
+  if (ops.jumpOut) {
+    window.open(path);
+    return;
+  }
+
+  const history = getGlobal('history');
+  if (history) {
+    history.push(resolve(path, window.location.pathname));
+  }
+};
+
+interface IProps {
+  type: string;
+  className?: string;
+  color?: boolean;
+  style?: React.CSSProperties;
+  onClick?: React.MouseEventHandler;
+}
+const Icon = ({ type, className, style, onClick, color, ...rest }: IProps) => {
+  const classes = classNames(!color && 'iconfont', !color && `icon${type}`, color && 'icon', className);
+  if (color) {
+    return (
+      <svg className={classes} aria-hidden="true" style={style} onClick={onClick}>
+        <use xlinkHref={`#icon${type}`} />
+      </svg>
+    );
+  }
+  return <i className={classes} style={style} onClick={onClick} {...rest} />;
+};
+
 const DownloadPage = ({ match }: any) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [hasDefault, setHasDefault] = React.useState(false);
   const [versionList, setVersionList] = React.useState([] as any[]);
   const [current, setCurrent] = React.useState({ activeKey: '', pkg: {} } as IObj);
   const [logo, setLogo] = React.useState('');
-  const [showDownload, setShowDownload] = React.useState(false);
   const [name, setName] = React.useState('');
+  const [desc, setDesc] = React.useState('');
+  const [previewImgs, setPreviewImgs] = React.useState([]);
+  const [showDownload, setShowDownload] = React.useState(false);
+  const [descExpand, setDescExpand] = React.useState(false);
+  const [showGallery, setShowGallery] = React.useState(false);
+  const [fullBgUrl, setFullBgUrl] = React.useState('');
   const client = judgeClient().toLowerCase();
+  const [recommend] = useRecommend(match.params.publishItemId);
+  const slideRef: any = React.useRef(null);
+
   const curOrg = getOrgFromPath();
   React.useEffect(() => {
     setIsLoading(true);
@@ -76,8 +176,12 @@ const DownloadPage = ({ match }: any) => {
       .then((response: any) => {
         const { success, data, err } = response.body;
         if (success) {
-          const { default: defaultVersion } = data as { default: any; versions: { list: any[]; total: number } };
-          const vList = isEmptyObj(defaultVersion) ? [] : [defaultVersion];
+          const { default: defaultVersion, versions } = data as {
+            default: any;
+            versions: { list: any[]; total: number };
+          };
+          // const vList = isEmptyObj(defaultVersion) ? [] : [defaultVersion];
+          const vList = versions.list || [];
           let has_default = false;
           if (defaultVersion) {
             const { id, updatedAt } = defaultVersion;
@@ -88,15 +192,14 @@ const DownloadPage = ({ match }: any) => {
             }
             const { meta = {}, type } = pkg;
             const activeKey = `${id}-${type}-${meta.fileId}`;
-            setCurrent({ activeKey, pkg, updatedAt });
+            setCurrent({ activeKey, pkg, updatedAt, version: meta.version });
             has_default = resources.some((t: any) => t.type === client || (t.type === 'data' && client === 'pc'));
             setHasDefault(has_default);
           }
-          const logStr = (defaultVersion || {}).logo;
-          const reg = /^https?:\/\/.*?(?=\/)/i;
-          const logoUrl = logStr ? `${logStr.replace(reg, '')}` : '';
-          setLogo(logoUrl);
-          setName(data.name);
+          setLogo(replaceHost(data.logo));
+          setName(data.displayName || data.name);
+          setDesc(data.desc || '');
+          setPreviewImgs(data.previewImages ? data.previewImages.map(replaceHost) : []);
           setVersionList(vList);
           if (client === 'pc') {
             const { resources = [] } = defaultVersion || {};
@@ -106,14 +209,15 @@ const DownloadPage = ({ match }: any) => {
             setShowDownload(has_default);
           }
         } else {
-          message.error(err.msg || '很抱歉，当前请求遇到问题，我们将尽快修复！');
+          handleError(err);
         }
         setIsLoading(false);
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         setIsLoading(false);
       });
-  }, [client, match.params.publishItemId]);
+  }, [client, curOrg, match.params.publishItemId]);
   const handleChangePkg = (activeKey: string, pkg: IObj, updatedAt: string) => {
     const { type } = pkg;
     let download = false;
@@ -163,10 +267,13 @@ const DownloadPage = ({ match }: any) => {
     return byteSize ? `${(byteSize / 1024 / 1024).toFixed(2)}M` : '';
   };
   const versions = [...versionList].map((item) => {
-    const { resources = [], id, updatedAt } = item;
+    const { resources = [], id, updatedAt, isDefault } = item;
     let packages = resources || [];
     if (client !== 'pc') {
       packages = packages.filter((pkg: IObj) => pkg.type === client);
+    }
+    if (!isDefault) {
+      return null;
     }
     return packages.map((pkg: IObj) => {
       const { meta, name: vName, type } = pkg;
@@ -189,61 +296,143 @@ const DownloadPage = ({ match }: any) => {
     });
   });
 
+  const handleShowGallery = (index: number) => {
+    slideRef.current && slideRef.current.goTo(index);
+    setTimeout(() => {
+      setShowGallery(true);
+    }, 0);
+  };
+
+  const renderTabBar = (props: any, DefaultTabBar: any) => (
+    <Sticky bottomOffset={80}>
+      {({ style }) => <DefaultTabBar {...props} className="site-custom-tab-bar" style={{ ...style }} />}
+    </Sticky>
+  );
+
   const appStoreURL = current?.pkg?.meta?.appStoreURL;
+
   return (
-    <Spin spinning={isLoading}>
-      <div className="download-page bg-gray">
-        <div className="content">
-          {client === 'ios' && appStoreURL ? (
-            <div className="jump-app-store">
-              <a href={appStoreURL} target="_blank" rel="noopener noreferrer">
-                跳转至App Store
-              </a>
-            </div>
-          ) : null}
-          <div className="card-container">
-            <div className="qrcode-wrap">
-              {client !== 'pc' && logo ? (
-                <img className="logo" src={logo} alt="" />
-              ) : (
-                <QRCode className="qrcode" value={window.location.href} level="H" bgColor="rgba(0,0,0,0)" />
-              )}
-            </div>
-            <p className="app-name">{name}</p>
-            <p className="tips download-notice">扫描二维码下载</p>
-            <p className="tips download-notice">或用手机浏览器输入网址: {window.location.href}</p>
-            <div className="line" />
-            {React.Children.count(versions) ? (
-              <>
-                <ul className="version-list">{versions}</ul>
-                <p className="tips version-notice">{byteToM(current.pkg)}</p>
-                <p className="tips version-notice">
-                  更新于: {current.updatedAt ? dayjs(current.updatedAt).format('YYYY/MM/DD HH:mm') : '--'}
-                </p>
-                <div className="button-wrap">
-                  {showDownload ? (
-                    <Button type="primary" onClick={handleDownload}>
-                      下载{client === 'pc' ? '' : '安装'}
+    <>
+      <Spin spinning={isLoading}>
+        <div className={`download ${fullBgUrl ? 'full-bg' : ''}`} style={{ backgroundImage: `url(${fullBgUrl})` }}>
+          <div className="content">
+            {client === 'ios' && appStoreURL ? (
+              <div className="jump-app-store">
+                <a href={appStoreURL} target="_blank">
+                  跳转至App Store
+                </a>
+              </div>
+            ) : null}
+            <div className="card-container">
+              <div className="app-logo text-center">
+                {logo ? <img className="logo" src={logo} alt="" /> : <Icon type="app" />}
+              </div>
+
+              <div className="app-name">{name}</div>
+              <div className="center-flex-box rate">
+                <Rate disabled defaultValue={5} />
+                <span className="v-line"></span>
+                办公应用
+              </div>
+              <div className="tag-list">
+                <span className="tag">安全</span>
+                <span className="tag">系统已审核</span>
+              </div>
+
+              <StickyContainer>
+                <Tabs className="mt20" defaultActiveKey="1" renderTabBar={renderTabBar} centered>
+                  <TabPane tab="详情" key="1">
+                    <div className="preview-img-list">
+                      {previewImgs.map((url, index) => {
+                        return (
+                          <img
+                            key={index}
+                            className="preview-img"
+                            src={url}
+                            alt="preview-image"
+                            onClick={() => handleShowGallery(index)}
+                          />
+                        );
+                      })}
+                      <div style={{ paddingRight: '1rem' }}></div>
+                    </div>
+                    <div className="flex-box mt12 app-provider">
+                      <span>
+                        <span className="mr8">
+                          {current.version ? moment(current.updatedAt).format('YYYY/MM/DD') : '-'} 更新
+                        </span>
+                        <span>{current.version || '-'} 版本</span>
+                      </span>
+                      <span>山东能源</span>
+                    </div>
+                    {desc && (
+                      <div className="app-desc" onClick={() => setDescExpand((p) => !p)}>
+                        {descExpand ? desc : desc.length > 90 ? `${desc.slice(0, 90)}...` : desc}
+                        {desc.length > 90 ? (
+                          <span className="expand">
+                            <Icon type={descExpand ? 'fold' : 'unfold'}></Icon>
+                          </span>
+                        ) : null}
+                      </div>
+                    )}
+                  </TabPane>
+                  <TabPane tab="评论" key="2">
+                    暂未开放，敬请期待
+                  </TabPane>
+                  <TabPane tab="精选" key="3" forceRender>
+                    <Row gutter={12} className="recommend-list">
+                      {recommend.map((item) => {
+                        const logoUrl = replaceHost(item.logo); // 兖矿Dice上传图片为http的，市场为https的，看不到，临时替换为当前域名
+                        return (
+                          <Col key={item.id} span={8} className="recommend-app" onClick={() => goTo(`./${item.id}`)}>
+                            {logoUrl ? (
+                              <img src={logoUrl} alt={item.name || 'app-logo'} />
+                            ) : (
+                              <Icon type="app" style={{ fontSize: '3rem' }} />
+                            )}
+                            <div className="bold nowrap">{item.displayName || item.name}</div>
+                            <div className="install">安装</div>
+                          </Col>
+                        );
+                      })}
+                    </Row>
+                  </TabPane>
+                </Tabs>
+              </StickyContainer>
+              <div className="button-wrap">
+                {React.Children.count(versions) ? (
+                  showDownload && client !== 'ios' ? (
+                    <Button type="primary" style={{ borderColor: 'transparent' }} size="large" onClick={handleDownload}>
+                      安装 ({byteToM(current.pkg)})
                     </Button>
-                  ) : null}
-                </div>
-              </>
-            ) : (
-              <p className="tips">暂时没有符合该机型的安装包</p>
-            )}
+                  ) : null
+                ) : (
+                  <Button type="ghost" style={{ backgroundColor: '#fff' }} size="large">
+                    暂无当前机型的安装包
+                  </Button>
+                )}
+              </div>
+            </div>
           </div>
+          <Carousel ref={slideRef} className={`full-gallery ${showGallery ? '' : 'invisible'}`}>
+            {previewImgs.map((url) => {
+              return (
+                <div key={url} className="img-wrap">
+                  <img
+                    onClick={() => {
+                      setShowGallery(false);
+                    }}
+                    className="gallery-img"
+                    src={url}
+                    alt=""
+                  />
+                </div>
+              );
+            })}
+          </Carousel>
         </div>
-        <img className="bg-img" src={downloadBg_2x} alt="" />
-        <div className="bg-wrap">
-          <img className="bg-img" src={downloadBg_2x} alt="" />
-          <img className="people" src={downloadR1_2x} alt="" />
-          <img className="water-mark" src={downloadC_2x} alt="" />
-          <img className="s1" src={downloadS1_2x} alt="" />
-          <img className="y1" src={downloadY1_2x} alt="" />
-          <img className="y2" src={downloadY2_2x} alt="" />
-        </div>
-      </div>
-    </Spin>
+      </Spin>
+    </>
   );
 };
 
