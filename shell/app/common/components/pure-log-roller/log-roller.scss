@@ -114,58 +114,6 @@ $log-bg-color: #3c444f;
       width: auto;
     }
 
-    .ant-switch {
-      min-width: 84px;
-      height: auto;
-      line-height: 32px;
-      background-color: #ffffff47;
-      border: 1px solid #cccccc;
-      opacity: 0.6;
-
-      &:hover {
-        opacity: 1;
-
-        &:after {
-          background-color: rgba(255, 255, 255, 0.6);
-        }
-      }
-
-      .ant-switch-handle {
-        top: 1px;
-        width: 30px;
-        height: 30px;
-
-        &:after {
-          width: 30px;
-          height: 30px;
-          background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        &:before {
-          border-radius: 18px;
-          background-color: $color-white-3;
-        }
-      }
-
-      &.ant-switch-checked .ant-switch-handle {
-        left: calc(100% - 32px);
-      }
-    }
-
-    .ant-switch-checked {
-      background-color: transparent;
-    }
-
-    .ant-switch-inner {
-      margin-left: 40px;
-      font-size: 14px;
-    }
-
-    .ant-switch-checked .ant-switch-inner {
-      margin-left: 12px;
-      text-align: left;
-    }
-
     .log-type-switch {
       position: relative;
       display: inline-block;
