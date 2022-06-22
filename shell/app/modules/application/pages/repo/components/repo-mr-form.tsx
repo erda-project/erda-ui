@@ -599,7 +599,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
     <div className="mb-3 repo-mr-issue-relation">
       <div className="section-title mt-3">{i18n.t('Relate to issue')}</div>
 
-      <AddIssueRelation editAuth onSave={addRelation} projectId={projectId} relationType={RelationType.RelatedTo} />
+      <AddIssueRelation editAuth onSave={addRelation} projectId={projectId} relationType={RelationType.Connection} />
 
       <Table
         wrapperClassName="mt-2"
