@@ -1300,6 +1300,7 @@
     "The creation of the service takes a while, please wait a moment": "服务的创建需要一段时间，请稍等片刻",
     "The current application parameters have changed. Do you want to give up the modification?": "当前应用参数发生变更，是否放弃修改？",
     "The current document has not been saved. Publish the saved document?": "当前文档尚未保存，是否发布已保存的文档",
+    "The current log has entered degraded mode, log loading may be slow, please be patient": "当前日志已进入降级模式，日志加载可能很慢，请耐心等待",
     "The default branch cannot be deleted.": "默认分支不可删除",
     "The deployment time should not be longer than 7 days.": "部署时间不得大于7天",
     "The export task has been created, please check the progress in the record": "导出任务已创建，请在记录中查看进度",
