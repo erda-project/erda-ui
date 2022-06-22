@@ -109,6 +109,8 @@ const useIssueRelation = (props: IProps) => {
   };
   const createAuth = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass as boolean);
   if (!issueDetail) return [null, null];
+
+  const issueTypeOption = relationType === RelationType.Inclusion ? [ISSUE_OPTION.TASK, ISSUE_OPTION.BUG] : undefined;
   return [
     <React.Fragment key="1">
       <If condition={issueDetail.type !== ISSUE_TYPE.TICKET}>
@@ -133,7 +135,7 @@ const useIssueRelation = (props: IProps) => {
           currentIssue={issueDetail}
           defaultIssueType={defaultIssueType}
           relationType={relationType}
-          issueType={issueType}
+          issueTypeOption={issueTypeOption}
         />
       </If>
     </React.Fragment>,
@@ -144,7 +146,7 @@ const useIssueRelation = (props: IProps) => {
         onCancel={() => setActiveButtonType('')}
         iterationID={curIterationID}
         defaultIssueType={defaultIssueType}
-        typeDisabled={relationType === RelationType.Inclusion}
+        issueTypeOption={issueTypeOption}
       />
       <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT' && !!list?.length}>
         <div className="rounded-sm border border-solid border-default-1">
@@ -426,7 +428,7 @@ interface IAddProps {
   defaultIssueType?: IDefaultIssueType;
   onSave: (v: number[], issues: ISSUE.IssueType[]) => void;
   relationType: RelationType;
-  issueType: IDefaultIssueType;
+  issueTypeOption?: ISSUE_OPTION[];
 }
 
 const typeList = [
@@ -443,7 +445,7 @@ export const AddIssueRelation = ({
   currentIssue,
   defaultIssueType = 'TASK',
   relationType,
-  issueType,
+  issueTypeOption,
 }: IAddProps) => {
   const [{ filterData, total, visible, issueList, iterationList }, updater, update] = useUpdate({
     visible: false,
@@ -455,30 +457,27 @@ export const AddIssueRelation = ({
       type: defaultIssueType,
       pageNo: 1,
       pageSize: 7,
-      startFinishedAt: '',
-      endFinishedAt: '',
-      startCreatedAt: '',
-      endCreatedAt: '',
+      startFinishedAt: undefined,
+      endFinishedAt: undefined,
+      startCreatedAt: undefined,
+      endCreatedAt: undefined,
     },
     iterationList: [] as ITERATION.Detail[],
   });
-
+  const issueOption = map(issueTypeOption || ISSUE_OPTION, (item: string) => item);
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const stateList = React.useMemo(() => {
-    if (relationType === RelationType.Inclusion) {
-      return workflowStateList
-        .filter((item) => item.issueType === { REQUIREMENT: 'TASK', TASK: 'BUG' }[issueType])
-        .map((state) => ({ label: state.stateName, value: state.stateID }));
-    } else {
-      return typeList.map((item) => ({
+    const curOption = typeList
+      .filter((item) => issueOption.includes(item.value))
+      .map((item) => ({
         ...item,
         children: workflowStateList
           .filter((state) => state.issueType === item.value)
           .map((state) => ({ label: state.stateName, value: state.stateID })),
       }));
-    }
-  }, [workflowStateList, relationType, issueType]);
 
+    return curOption.length === 1 && curOption[0].children.length ? curOption[0].children : curOption;
+  }, [workflowStateList]);
   const labelList = labelStore.useStore((s) => s.list);
   const { getLabels } = labelStore.effects;
 
@@ -491,12 +490,14 @@ export const AddIssueRelation = ({
   const getIssueList = React.useCallback(
     (extra?: Obj) => {
       if (visible && projectId) {
-        getIssues({
+        const _query = {
           ...filterData,
           ...extra,
           projectID: +projectId,
           notIncluded: relationType === RelationType.Inclusion,
-        }).then((res) => {
+        };
+        (!_query.type || !_query.type?.length) && (_query.type = issueOption);
+        getIssues(_query).then((res) => {
           if (res.data) {
             updater.issueList(res.data?.list || []);
             updater.total(res.data?.total || 0);
@@ -586,16 +587,13 @@ export const AddIssueRelation = ({
               outside: true,
               placeholder: i18n.t('filter by {name}', { name: i18n.t('Title') }),
             },
-            ...insertWhen(relationType !== RelationType.Inclusion, [
-              {
-                label: i18n.t('dop:Type-issue'),
-                type: 'select',
-                key: 'type',
-                options: map(ISSUE_OPTION, (item) => ISSUE_TYPE_MAP[item]),
-                disabled: relationType === RelationType.Inclusion,
-                placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Type-issue') }),
-              },
-            ]),
+            {
+              label: i18n.t('dop:Type-issue'),
+              type: 'select',
+              key: 'type',
+              options: map(issueOption, (item) => ISSUE_TYPE_MAP[item]),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Type-issue') }),
+            },
             {
               label: i18n.t('dop:Iteration-owned'),
               type: 'select',
@@ -668,7 +666,6 @@ export const AddIssueRelation = ({
             updater.filterData({
               ...filterData,
               ...value,
-              type: relationType === RelationType.Inclusion ? ['TASK'] : v.type,
               startFinishedAt: finishedAt?.[0],
               endFinishedAt: finishedAt?.[1],
               startCreatedAt: createdAt?.[0],
@@ -732,6 +729,7 @@ export const AddIssueRelation = ({
 interface IAddNewIssueProps {
   iterationID: number | undefined;
   defaultIssueType: IDefaultIssueType;
+  issueTypeOption?: ISSUE_OPTION[];
   onSaveRelation: (v: number[]) => void;
   onCancel: () => void;
   typeDisabled?: boolean;
@@ -744,6 +742,7 @@ const AddNewIssue = ({
   onCancel,
   defaultIssueType,
   typeDisabled,
+  issueTypeOption,
   className = '',
 }: IAddNewIssueProps) => {
   const { createIssue } = iterationStore.effects;
@@ -754,6 +753,7 @@ const AddNewIssue = ({
       key="add"
       className={`mt-3 mb-2 ${className}`}
       onCancel={onCancel}
+      issueTypeOption={issueTypeOption}
       defaultIssueType={defaultIssueType}
       onOk={(val: ISSUE.BacklogIssueCreateBody) => {
         return createIssue({
