@@ -206,7 +206,7 @@ export enum pages {
   commit = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/commit/{commitId}',
   branches = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/branches',
   commits = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/commits/{branch}/{path}',
-  pipeline = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline?caseId={caseId}&pipelineID={pipelineID}',
+  pipeline = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline/obsoleted?caseId={caseId}&pipelineID={pipelineID}',
   dataTask = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataTask/{pipelineID}',
   appDeployEnv = '/{orgName}/dop/projects/{projectId}/apps/{appId}/deploy/list/{workspace}',
   appDeployRuntime = '/{orgName}/dop/projects/{projectId}/apps/{appId}/deploy/list/{workspace}/runtime/{runtimeId}?serviceName={serviceName}&jumpFrom={jumpFrom}',

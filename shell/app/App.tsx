@@ -45,6 +45,13 @@ import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
 import 'tailwindcss/tailwind.css';
 import axios from 'axios';
+import ReactGA from 'react-ga';
+
+if (process.env.GA_ID) {
+  console.log('process.env.GA_ID: ', process.env.GA_ID);
+  ReactGA.initialize(process.env.GA_ID);
+  ReactGA.send('pageview');
+}
 
 setConfig('onAPISuccess', message.success);
 setConfig('onAPIFail', notify);
