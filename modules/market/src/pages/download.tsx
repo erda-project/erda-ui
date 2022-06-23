@@ -18,8 +18,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import classNames from 'classnames';
-import resolve from 'resolve-pathname';
-import agent from 'superagent';
+import { goTo, handleError, judgeClient } from './utils';
 import './download.scss';
 
 const { TabPane } = Tabs;
@@ -78,24 +77,6 @@ const useRecommend = (curId: string): [IPublishItemCard[], boolean] => {
   return [data, loading];
 };
 
-type ClientType = 'iOS' | 'Android' | 'PC';
-/**
- * 判断客户端
- */
-export const judgeClient = (): ClientType => {
-  const { userAgent } = navigator;
-  let client: ClientType;
-  // Android机中，userAgent字段中也包含safari，因此要先判断是否是安卓
-  if (/(Android)/i.test(userAgent)) {
-    client = 'Android';
-    // XXX 2020/4/23 IOS 13 之后，在Ipad中，safari默认请求桌面网站，导致userAgent和MAC中safari的userAgent一样
-  } else if (/(iPhone|iPad|iPod|iOS)/i.test(userAgent) || (/safari/i.test(userAgent) && 'ontouchend' in document)) {
-    client = 'iOS';
-  } else {
-    client = 'PC';
-  }
-  return client;
-};
 // const replaceHost = (logo: string) => logo ? location.origin.replace('http:', 'https:') + '/api' + logo.split('/api')[1] : logo;
 const replaceHost = (logo: string) => (logo ? window.location.origin + '/api' + logo.split('/api')[1] : logo);
 
@@ -105,29 +86,6 @@ const getOrgFromPath = () => {
 
 const isEmptyObj = (obj: IObj) => {
   return obj === null || obj === undefined || Object.keys(obj).length === 0;
-};
-
-const handleError = (error: { msg: string | undefined } = { msg: undefined }) => {
-  console.error(error);
-  message.error(error.msg || '很抱歉，当前请求遇到问题，我们将尽快修复！');
-};
-
-const globalSpace: any = {};
-const getGlobal = (key: string) => globalSpace[key];
-
-interface IGoToOps {
-  jumpOut?: boolean;
-}
-const goTo = (path: string, ops: IGoToOps = {}) => {
-  if (ops.jumpOut) {
-    window.open(path);
-    return;
-  }
-
-  const history = getGlobal('history');
-  if (history) {
-    history.push(resolve(path, window.location.pathname));
-  }
 };
 
 interface IProps {
@@ -169,18 +127,19 @@ const DownloadPage = ({ match }: any) => {
   const curOrg = getOrgFromPath();
   React.useEffect(() => {
     setIsLoading(true);
-    agent
-      .get(`/api/${curOrg}/publish-items/${match.params.publishItemId}/distribution`)
-      .set('org', curOrg)
-      .query({ mobileType: client })
+    axios
+      .get(`/api//${curOrg}/publish-items/${match.params.publishItemId}/distribution`, {
+        params: {
+          mobileType: client === 'pc' ? undefined : client,
+        },
+      }) // pc 端就不传参数，返回空列表
       .then((response: any) => {
-        const { success, data, err } = response.body;
+        const { success, data, err } = response.data;
         if (success) {
           const { default: defaultVersion, versions } = data as {
             default: any;
             versions: { list: any[]; total: number };
           };
-          // const vList = isEmptyObj(defaultVersion) ? [] : [defaultVersion];
           const vList = versions.list || [];
           let has_default = false;
           if (defaultVersion) {
@@ -318,7 +277,7 @@ const DownloadPage = ({ match }: any) => {
           <div className="content">
             {client === 'ios' && appStoreURL ? (
               <div className="jump-app-store">
-                <a href={appStoreURL} target="_blank">
+                <a href={appStoreURL} target="_blank" rel="noreferrer">
                   跳转至App Store
                 </a>
               </div>
