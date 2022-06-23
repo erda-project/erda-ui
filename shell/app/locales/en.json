@@ -1300,7 +1300,7 @@
     "The creation of the service takes a while, please wait a moment": "The creation of the service takes a while, please wait a moment",
     "The current application parameters have changed. Do you want to give up the modification?": "The current application parameters have changed. Do you want to give up the modification?",
     "The current document has not been saved. Publish the saved document?": "the current document has not been saved, whether to publish the saved document",
-    "The current log has entered degraded mode, log loading may be slow, please be patient": "The current log has entered degraded mode, log loading may be slow, please be patient",
+    "The current log has entered degraded mode (only all types will enter the degraded mode), log loading may be slow, please be patient": "The current log has entered degraded mode (only all types will enter the degraded mode), log loading may be slow, please be patient",
     "The default branch cannot be deleted.": "The default branch cannot be deleted.",
     "The deployment time should not be longer than 7 days.": "The deployment time should not be longer than 7 days.",
     "The export task has been created, please check the progress in the record": "The export task has been created, please check the progress in the record",
