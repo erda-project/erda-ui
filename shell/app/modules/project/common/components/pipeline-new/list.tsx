@@ -233,15 +233,7 @@ const PipelineProtocol = React.forwardRef(
                   const { operations, id } = record;
                   const serverData = get(operations, 'click.serverData');
                   const { pipelineID: pipelineId, inode, appName, pipelineName } = serverData;
-                  getPipelineRecord({
-                    projectID: projectId,
-                    pageNo: 1,
-                    pageSize: 20,
-                    name: pipelineName,
-                    appNames: appName,
-                  }).then((res) => {
-                    setRecord(res?.data || emptyHistory);
-                  });
+
                   if (inode) {
                     const path = decode(inode).split('/');
                     path.pop();
@@ -253,6 +245,17 @@ const PipelineProtocol = React.forwardRef(
                       const branch = res.data.find((item: { name: string }) => item.name === branchName);
                       branch && (branchExist = true);
                     }
+
+                    getPipelineRecord({
+                      projectID: projectId,
+                      pageNo: 1,
+                      pageSize: 20,
+                      name: pipelineName,
+                      appNames: appName,
+                      branches: [branchName],
+                    }).then((res) => {
+                      setRecord(res?.data || emptyHistory);
+                    });
                     // url search 'applicationId' use for action-config-form some action with member-selector
                     updateSearch({ applicationId: appId });
                     setChosenPipeineId(pipelineId);
