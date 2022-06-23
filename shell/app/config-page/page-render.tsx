@@ -74,10 +74,9 @@ const ConfigPageRender = (props: IProps) => {
     const str_num_query = pickBy(query, (v) => ['string', 'number'].includes(typeof v));
     const targetPath = goTo.pages[target] || target;
     const _query = { ...routeParams, ...str_num_params, jumpOut, query: str_num_query };
-    if (targetPath && customGoto) {
-      return customGoto(targetPath, _query, serverData);
+    if (targetPath) {
+      customGoto ? customGoto(targetPath, _query, serverData) : goTo(targetPath, _query);
     }
-    targetPath && goTo(targetPath, _query);
   };
 
   const execCommand = (command: Obj, val: Obj) => {
