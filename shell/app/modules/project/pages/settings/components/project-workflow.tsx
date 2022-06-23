@@ -271,7 +271,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
     {
       label: i18n.t('dop:target branch'),
       type: 'input',
-      labelTip: i18n.t('dop:Merge change branch'),
+      labelTip: i18n.t('dop:Create a change branch based on that branch'),
       required: true,
       name: 'targetBranch',
       rules: [
@@ -289,7 +289,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
     ...insertWhen([FlowType.MULTI_BRANCH].includes(flowType), [
       {
         label: i18n.t('dop:source branch'),
-        labelTip: i18n.t('dop:Create a change branch based on that branch'),
+        labelTip: i18n.t('dop:Merge change branch'),
         type: 'input',
         required: true,
         name: 'changeFromBranch',
