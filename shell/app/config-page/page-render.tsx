@@ -67,13 +67,17 @@ const ConfigPageRender = (props: IProps) => {
     return updateState(`${compPrefixKey}.${_cId}.state`, val);
   };
 
-  const handleClickGoto = (_op: CP_COMMON.Operation) => {
+  const handleClickGoto = (_op: CP_COMMON.Operation, customGoto?: (p: string, _q: Obj, sData?: Obj) => void) => {
     const { serverData } = _op;
     const { params, query, target, jumpOut } = serverData || {};
     const str_num_params = pickBy({ ...params }, (v) => ['string', 'number'].includes(typeof v));
     const str_num_query = pickBy(query, (v) => ['string', 'number'].includes(typeof v));
     const targetPath = goTo.pages[target] || target;
-    targetPath && goTo(targetPath, { ...routeParams, ...str_num_params, jumpOut, query: str_num_query });
+    const _query = { ...routeParams, ...str_num_params, jumpOut, query: str_num_query };
+    if (targetPath && customGoto) {
+      return customGoto(targetPath, _query, serverData);
+    }
+    targetPath && goTo(targetPath, _query);
   };
 
   const execCommand = (command: Obj, val: Obj) => {
@@ -93,7 +97,7 @@ const ConfigPageRender = (props: IProps) => {
     return false;
   };
 
-  const reExecOperation = (_cId: string) => (_op: any, val: any) => {
+  const reExecOperation = (_cId: string, _customOp?: Obj) => (_op: any, val: any) => {
     if (!_op || isEmpty(_op)) return;
     if (_op.disabled) {
       const tip = _op.disabledTip || _op.tip;
@@ -101,7 +105,7 @@ const ConfigPageRender = (props: IProps) => {
       return;
     }
     if (_op.key === 'clickGoto') {
-      return handleClickGoto(_op);
+      return handleClickGoto(_op, _customOp?.clickGoto);
     }
 
     const op = cloneDeep({ ..._op });
@@ -154,9 +158,8 @@ const ConfigPageRender = (props: IProps) => {
         key: cId,
         cId,
         customOp: op || emptyObj,
-
         updateState: reUpdateState(cId),
-        execOperation: reExecOperation(cId),
+        execOperation: reExecOperation(cId, op),
       };
 
       if (isArray(structureItem)) {
