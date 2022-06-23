@@ -128,6 +128,7 @@ const traceQuerier = createStore({
         query: query || {},
         header: header || {},
         ...rest,
+        status: 0,
       });
     },
     async getTraceStatusDetail(
