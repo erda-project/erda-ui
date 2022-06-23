@@ -45,7 +45,7 @@ import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
 import 'tailwindcss/tailwind.css';
 import axios from 'axios';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 if (process.env.GA_ID) {
   console.log('process.env.GA_ID: ', process.env.GA_ID);
