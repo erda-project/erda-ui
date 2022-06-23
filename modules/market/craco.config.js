@@ -11,6 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+const fs = require('fs');
 const path = require('path');
 const CracoAntDesignPlugin = require('craco-antd');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -82,10 +83,10 @@ module.exports = {
     },
   ],
   devServer: {
-    // https: {
-    //   key: fs.readFileSync('../../cert/dev/server.key'),
-    //   cert: fs.readFileSync('../../cert/dev/server.crt'),
-    // },
+    https: {
+      key: fs.readFileSync('../../cert/dev/server.key'),
+      cert: fs.readFileSync('../../cert/dev/server.crt'),
+    },
     proxy: {
       '/api/': {
         target: devProxyUrl,

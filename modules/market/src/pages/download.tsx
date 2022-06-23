@@ -77,8 +77,8 @@ const useRecommend = (curId: string): [IPublishItemCard[], boolean] => {
   return [data, loading];
 };
 
-// const replaceHost = (logo: string) => logo ? location.origin.replace('http:', 'https:') + '/api' + logo.split('/api')[1] : logo;
-const replaceHost = (logo: string) => (logo ? window.location.origin + '/api' + logo.split('/api')[1] : logo);
+const replaceHost = (logo: string) =>
+  logo ? window.location.origin.replace('http:', 'https:') + '/api' + logo.split('/api')[1] : logo;
 
 const getOrgFromPath = () => {
   return window.location.pathname.split('/')[1] || '-';
