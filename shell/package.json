@@ -112,6 +112,7 @@
     "mockjs": "^1.0.1-beta3",
     "mq-polyfill": "^1.1.8",
     "playwright": "^1.14.0",
+    "react-ga4": "^1.4.1",
     "react-test-renderer": "^17.0.2",
     "tsconfig-paths-jest": "0.0.1"
   },
