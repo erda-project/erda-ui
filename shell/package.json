@@ -77,6 +77,7 @@
     "react-dom": "16.14.0",
     "react-flame-graph": "^1.4.0",
     "react-flow-renderer": "^9.6.11",
+    "react-ga4": "^1.4.1",
     "react-markdown": "^7.1.0",
     "react-router-config": "^5.0.0",
     "react-router-dom": "^5.2.0",
@@ -112,7 +113,6 @@
     "mockjs": "^1.0.1-beta3",
     "mq-polyfill": "^1.1.8",
     "playwright": "^1.14.0",
-    "react-ga4": "^1.4.1",
     "react-test-renderer": "^17.0.2",
     "tsconfig-paths-jest": "0.0.1"
   },

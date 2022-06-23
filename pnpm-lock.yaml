@@ -539,6 +539,7 @@ importers:
       react-dom: 16.14.0_react@16.14.0
       react-flame-graph: 1.4.0_react-dom@16.14.0+react@16.14.0
       react-flow-renderer: 9.7.0_react-dom@16.14.0+react@16.14.0
+      react-ga4: 1.4.1
       react-markdown: 7.1.0_414da64a83d07b5b28f5e74e56d85156
       react-router-config: 5.1.1_react@16.14.0
       react-router-dom: 5.2.0_react@16.14.0
@@ -573,7 +574,6 @@ importers:
       mockjs: 1.1.0
       mq-polyfill: 1.1.8
       playwright: 1.14.0
-      react-ga4: 1.4.1
       react-test-renderer: 17.0.2_react@16.14.0
       tsconfig-paths-jest: 0.0.1
     devDependencies:
@@ -24387,7 +24387,6 @@ packages:
   /react-ga4/1.4.1:
     resolution: {integrity: sha512-ioBMEIxd4ePw4YtaloTUgqhQGqz5ebDdC4slEpLgy2sLx1LuZBC9iYCwDymTXzcntw6K1dHX183ulP32nNdG7w==}
     dev: false
-    optional: true
 
   /react-grid-layout/1.3.0_react-dom@16.14.0+react@16.14.0:
     resolution: {integrity: sha512-WqFwybAItXu0AaSt9YL8+9xE5YotIzMcCYE0Q9XBqSKNyShTxPbC0LjObV/tOWZoADNWJ+osseVfRoZsjzwWXg==}
