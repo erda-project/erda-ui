@@ -54,3 +54,11 @@ export const goTo = (path: string, ops: IGoToOps = {}) => {
     history.push(resolve(path, window.location.pathname));
   }
 };
+
+interface IObj {
+  [key: string]: any;
+}
+export const byteToM = ({ meta }: IObj) => {
+  const { byteSize = 0 } = meta || {};
+  return byteSize ? `${(byteSize / 1024 / 1024).toFixed(2)}M` : '';
+};

@@ -18,8 +18,9 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import classNames from 'classnames';
-import { goTo, handleError, judgeClient } from './utils';
+import { goTo, handleError, judgeClient, byteToM } from './utils';
 import './download.scss';
+import DownloadPC from './download-pc';
 
 const { TabPane } = Tabs;
 interface IObj {
@@ -221,10 +222,6 @@ const DownloadPage = ({ match }: any) => {
     link.click();
     link.remove();
   };
-  const byteToM = ({ meta }: IObj) => {
-    const { byteSize = 0 } = meta || {};
-    return byteSize ? `${(byteSize / 1024 / 1024).toFixed(2)}M` : '';
-  };
   const versions = [...versionList].map((item) => {
     const { resources = [], id, updatedAt, isDefault } = item;
     let packages = resources || [];
@@ -269,127 +266,144 @@ const DownloadPage = ({ match }: any) => {
   );
 
   const appStoreURL = current?.pkg?.meta?.appStoreURL;
+  const pcProps = {
+    name,
+    versionList,
+    versions,
+    current,
+    showDownload,
+    handleDownload,
+  };
 
   return (
     <>
       <Spin spinning={isLoading}>
-        <div className={`download ${fullBgUrl ? 'full-bg' : ''}`} style={{ backgroundImage: `url(${fullBgUrl})` }}>
-          <div className="content">
-            {client === 'ios' && appStoreURL ? (
-              <div className="jump-app-store">
-                <a href={appStoreURL} target="_blank" rel="noreferrer">
-                  跳转至App Store
-                </a>
-              </div>
-            ) : null}
-            <div className="card-container">
-              <div className="app-logo text-center">
-                {logo ? <img className="logo" src={logo} alt="" /> : <Icon type="app" />}
-              </div>
+        {client === 'pc' ? (
+          <DownloadPC {...pcProps} />
+        ) : (
+          <div className={`download ${fullBgUrl ? 'full-bg' : ''}`} style={{ backgroundImage: `url(${fullBgUrl})` }}>
+            <div className="content">
+              {client === 'ios' && appStoreURL ? (
+                <div className="jump-app-store">
+                  <a href={appStoreURL} target="_blank" rel="noreferrer">
+                    跳转至App Store
+                  </a>
+                </div>
+              ) : null}
+              <div className="card-container">
+                <div className="app-logo text-center">
+                  {logo ? <img className="logo" src={logo} alt="" /> : <Icon type="app" />}
+                </div>
 
-              <div className="app-name">{name}</div>
-              <div className="center-flex-box rate">
-                <Rate disabled defaultValue={5} />
-                <span className="v-line"></span>
-                办公应用
-              </div>
-              <div className="tag-list">
-                <span className="tag">安全</span>
-                <span className="tag">系统已审核</span>
-              </div>
+                <div className="app-name">{name}</div>
+                <div className="center-flex-box rate">
+                  <Rate disabled defaultValue={5} />
+                  <span className="v-line"></span>
+                  办公应用
+                </div>
+                <div className="tag-list">
+                  <span className="tag">安全</span>
+                  <span className="tag">系统已审核</span>
+                </div>
 
-              <StickyContainer>
-                <Tabs className="mt20" defaultActiveKey="1" renderTabBar={renderTabBar} centered>
-                  <TabPane tab="详情" key="1">
-                    <div className="preview-img-list">
-                      {previewImgs.map((url, index) => {
-                        return (
-                          <img
-                            key={index}
-                            className="preview-img"
-                            src={url}
-                            alt="preview-image"
-                            onClick={() => handleShowGallery(index)}
-                          />
-                        );
-                      })}
-                      <div style={{ paddingRight: '1rem' }}></div>
-                    </div>
-                    <div className="flex-box mt12 app-provider">
-                      <span>
-                        <span className="mr8">
-                          {current.version ? moment(current.updatedAt).format('YYYY/MM/DD') : '-'} 更新
-                        </span>
-                        <span>{current.version || '-'} 版本</span>
-                      </span>
-                      <span>山东能源</span>
-                    </div>
-                    {desc && (
-                      <div className="app-desc" onClick={() => setDescExpand((p) => !p)}>
-                        {descExpand ? desc : desc.length > 90 ? `${desc.slice(0, 90)}...` : desc}
-                        {desc.length > 90 ? (
-                          <span className="expand">
-                            <Icon type={descExpand ? 'fold' : 'unfold'}></Icon>
-                          </span>
-                        ) : null}
+                <StickyContainer>
+                  <Tabs className="mt20" defaultActiveKey="1" renderTabBar={renderTabBar} centered>
+                    <TabPane tab="详情" key="1">
+                      <div className="preview-img-list">
+                        {previewImgs.map((url, index) => {
+                          return (
+                            <img
+                              key={index}
+                              className="preview-img"
+                              src={url}
+                              alt="preview-image"
+                              onClick={() => handleShowGallery(index)}
+                            />
+                          );
+                        })}
+                        <div style={{ paddingRight: '1rem' }}></div>
                       </div>
-                    )}
-                  </TabPane>
-                  <TabPane tab="评论" key="2">
-                    暂未开放，敬请期待
-                  </TabPane>
-                  <TabPane tab="精选" key="3" forceRender>
-                    <Row gutter={12} className="recommend-list">
-                      {recommend.map((item) => {
-                        const logoUrl = replaceHost(item.logo); // 兖矿Dice上传图片为http的，市场为https的，看不到，临时替换为当前域名
-                        return (
-                          <Col key={item.id} span={8} className="recommend-app" onClick={() => goTo(`./${item.id}`)}>
-                            {logoUrl ? (
-                              <img src={logoUrl} alt={item.name || 'app-logo'} />
-                            ) : (
-                              <Icon type="app" style={{ fontSize: '3rem' }} />
-                            )}
-                            <div className="bold nowrap">{item.displayName || item.name}</div>
-                            <div className="install">安装</div>
-                          </Col>
-                        );
-                      })}
-                    </Row>
-                  </TabPane>
-                </Tabs>
-              </StickyContainer>
-              <div className="button-wrap">
-                {React.Children.count(versions) ? (
-                  showDownload && client !== 'ios' ? (
-                    <Button type="primary" style={{ borderColor: 'transparent' }} size="large" onClick={handleDownload}>
-                      安装 ({byteToM(current.pkg)})
+                      <div className="flex-box mt12 app-provider">
+                        <span>
+                          <span className="mr8">
+                            {current.version ? moment(current.updatedAt).format('YYYY/MM/DD') : '-'} 更新
+                          </span>
+                          <span>{current.version || '-'} 版本</span>
+                        </span>
+                        <span>山东能源</span>
+                      </div>
+                      {desc && (
+                        <div className="app-desc" onClick={() => setDescExpand((p) => !p)}>
+                          {descExpand ? desc : desc.length > 90 ? `${desc.slice(0, 90)}...` : desc}
+                          {desc.length > 90 ? (
+                            <span className="expand">
+                              <Icon type={descExpand ? 'fold' : 'unfold'}></Icon>
+                            </span>
+                          ) : null}
+                        </div>
+                      )}
+                    </TabPane>
+                    <TabPane tab="评论" key="2">
+                      暂未开放，敬请期待
+                    </TabPane>
+                    <TabPane tab="精选" key="3" forceRender>
+                      <Row gutter={12} className="recommend-list">
+                        {recommend.map((item) => {
+                          const logoUrl = replaceHost(item.logo); // 兖矿Dice上传图片为http的，市场为https的，看不到，临时替换为当前域名
+                          return (
+                            <Col key={item.id} span={8} className="recommend-app" onClick={() => goTo(`./${item.id}`)}>
+                              {logoUrl ? (
+                                <img src={logoUrl} alt={item.name || 'app-logo'} />
+                              ) : (
+                                <Icon type="app" style={{ fontSize: '3rem' }} />
+                              )}
+                              <div className="bold nowrap">{item.displayName || item.name}</div>
+                              <div className="install">安装</div>
+                            </Col>
+                          );
+                        })}
+                      </Row>
+                    </TabPane>
+                  </Tabs>
+                </StickyContainer>
+                <div className="button-wrap">
+                  {React.Children.count(versions) ? (
+                    showDownload && client !== 'ios' ? (
+                      <Button
+                        type="primary"
+                        style={{ borderColor: 'transparent' }}
+                        size="large"
+                        onClick={handleDownload}
+                      >
+                        安装 ({byteToM(current.pkg)})
+                      </Button>
+                    ) : null
+                  ) : (
+                    <Button type="ghost" style={{ backgroundColor: '#fff' }} size="large">
+                      暂无当前机型的安装包
                     </Button>
-                  ) : null
-                ) : (
-                  <Button type="ghost" style={{ backgroundColor: '#fff' }} size="large">
-                    暂无当前机型的安装包
-                  </Button>
-                )}
+                  )}
+                </div>
               </div>
             </div>
+            <Carousel ref={slideRef} className={`full-gallery ${showGallery ? '' : 'invisible'}`}>
+              {previewImgs.map((url) => {
+                return (
+                  <div key={url} className="img-wrap">
+                    <img
+                      onClick={() => {
+                        setShowGallery(false);
+                      }}
+                      className="gallery-img"
+                      src={url}
+                      alt=""
+                    />
+                  </div>
+                );
+              })}
+            </Carousel>
           </div>
-          <Carousel ref={slideRef} className={`full-gallery ${showGallery ? '' : 'invisible'}`}>
-            {previewImgs.map((url) => {
-              return (
-                <div key={url} className="img-wrap">
-                  <img
-                    onClick={() => {
-                      setShowGallery(false);
-                    }}
-                    className="gallery-img"
-                    src={url}
-                    alt=""
-                  />
-                </div>
-              );
-            })}
-          </Carousel>
-        </div>
+        )}
       </Spin>
     </>
   );
