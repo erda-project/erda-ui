@@ -30,7 +30,7 @@ module.exports = {
       webpackConfig.output = {
         ...webpackConfig.output,
         path: outputPath,
-        publicPath: '/',
+        publicPath: '/static/market/',
       };
       webpackConfig.plugins = [...webpackConfig.plugins, new CleanWebpackPlugin()];
       return webpackConfig;
