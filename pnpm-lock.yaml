@@ -301,7 +301,10 @@ importers:
     specifiers:
       '@craco/craco': ^6.1.2
       '@types/qrcode.react': ^1.0.1
+      '@types/react': 16.x
+      '@types/react-sticky': ^6.0.4
       antd: ^4.16.13
+      axios: ^0.19.2
       craco-antd: ^1.19.0
       dayjs: ^1.10.7
       file-loader: ^6.2.0
@@ -311,9 +314,12 @@ importers:
       react-dom: 16.14.0
       react-router-dom: ^5.2.0
       react-scripts: 4.0.3
+      react-sticky: ^6.0.3
+      resolve-pathname: ^3.0.0
     dependencies:
       '@craco/craco': 6.1.2_react-scripts@4.0.3
       antd: 4.16.13_react-dom@16.14.0+react@16.14.0
+      axios: 0.19.2
       craco-antd: 1.19.0_b99dfe8db6038972fa66e356ddd78263
       dayjs: 1.10.7
       file-loader: 6.2.0_webpack@5.72.0
@@ -323,8 +329,12 @@ importers:
       react-dom: 16.14.0_react@16.14.0
       react-router-dom: 5.2.0_react@16.14.0
       react-scripts: 4.0.3_7c815f403aef2a496ccadb47b660caa6
+      react-sticky: 6.0.3_react-dom@16.14.0+react@16.14.0
+      resolve-pathname: 3.0.0
     devDependencies:
       '@types/qrcode.react': 1.0.1
+      '@types/react': 16.14.21
+      '@types/react-sticky': 6.0.4
 
   modules/uc:
     specifiers:
@@ -7613,6 +7623,12 @@ packages:
       '@types/react': 17.0.20
     dev: true
 
+  /@types/react-sticky/6.0.4:
+    resolution: {integrity: sha512-n5yneeM7PrUu4nqk7oV0c0p9LqHXO2D+17DhQ/Z7UiWhaoSvKJXBkSzAdNRRxZO/njttKd0Ch9hLnaFPqZlAdg==}
+    dependencies:
+      '@types/react': 17.0.20
+    dev: true
+
   /@types/react-syntax-highlighter/13.5.2:
     resolution: {integrity: sha512-sRZoKZBGKaE7CzMvTTgz+0x/aVR58ZYUTfB7HN76vC+yQnvo1FWtzNARBt0fGqcLGEVakEzMu/CtPzssmanu8Q==}
     dependencies:
@@ -9906,6 +9922,13 @@ packages:
   /axe-core/4.2.1:
     resolution: {integrity: sha512-evY7DN8qSIbsW2H/TWQ1bX3sXN1d4MNb5Vb4n7BzPuCwRHdkZ1H2eNLuSh73EoQqkGKUtju2G2HCcjCfhvZIAA==}
     engines: {node: '>=4'}
+
+  /axios/0.19.2:
+    resolution: {integrity: sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==}
+    deprecated: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
+    dependencies:
+      follow-redirects: 1.5.10
+    dev: false
 
   /axios/0.21.1:
     resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
@@ -12578,6 +12601,12 @@ packages:
     dependencies:
       ms: 2.0.0
 
+  /debug/3.1.0:
+    resolution: {integrity: sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==}
+    dependencies:
+      ms: 2.0.0
+    dev: false
+
   /debug/3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
     dependencies:
@@ -15235,6 +15264,13 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
+
+  /follow-redirects/1.5.10:
+    resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
+    engines: {node: '>=4.0'}
+    dependencies:
+      debug: 3.1.0
     dev: false
 
   /for-in/1.0.2:
@@ -21018,7 +21054,7 @@ packages:
     engines: {node: '>=4'}
 
   /ms/2.0.0:
-    resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
+    resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
 
   /ms/2.1.1:
     resolution: {integrity: sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==}
@@ -22116,7 +22152,7 @@ packages:
     optional: true
 
   /performance-now/2.1.0:
-    resolution: {integrity: sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=}
+    resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
     dev: false
 
   /picocolors/0.2.1:
@@ -24687,6 +24723,18 @@ packages:
       '@babel/runtime': 7.18.0
       react: 16.14.0
       resize-observer-polyfill: 1.5.1
+    dev: false
+
+  /react-sticky/6.0.3_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha512-LNH4UJlRatOqo29/VHxDZOf6fwbgfgcHO4mkEFvrie5FuaZCSTGtug5R8NGqJ0kSnX8gHw8qZN37FcvnFBJpTQ==}
+    peerDependencies:
+      react: '>=15'
+      react-dom: '>=15'
+    dependencies:
+      prop-types: 15.8.1
+      raf: 3.4.1
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
     dev: false
 
   /react-syntax-highlighter/15.4.5_react@16.14.0:
