@@ -45,6 +45,7 @@ import {
   allWordsFirstLetterUpper,
   replaceWithLink,
   setSearch,
+  encodeNumberSign,
 } from 'common/utils';
 
 class ClassComp extends React.Component {
@@ -257,5 +258,9 @@ describe('utils', () => {
         },
       }),
     ).toEqual('Good Job');
+  });
+  it('encodeNumberSign should work well', () => {
+    expect(encodeNumberSign('#test')).toEqual('%23test');
+    expect(encodeNumberSign('#test...#test2')).toEqual('%23test...%23test2');
   });
 });
