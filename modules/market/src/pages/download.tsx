@@ -129,7 +129,7 @@ const DownloadPage = ({ match }: any) => {
   React.useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`/api//${curOrg}/publish-items/${match.params.publishItemId}/distribution`, {
+      .get(`/api/${curOrg}/publish-items/${match.params.publishItemId}/distribution`, {
         params: {
           mobileType: client === 'pc' ? undefined : client,
         },
