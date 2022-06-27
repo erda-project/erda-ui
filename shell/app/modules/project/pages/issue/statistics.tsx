@@ -17,11 +17,23 @@ import { updateSearch } from 'common/utils';
 import { MEASURE_TABS } from 'project/tabs';
 import TaskSummary from './task-summary';
 import IssueDashboard from './issue-dashboard';
+import { useUpdateSearch } from 'common/use-hooks';
 
 const options = MEASURE_TABS.map((item) => ({ value: item.key, label: item.name }));
 
 const Statistics = () => {
-  const [type, setType] = React.useState<string>('task');
+  const ref = React.useRef<{ reload: () => void }>(null);
+
+  const [setUrlQuery, urlQuery] = useUpdateSearch({
+    reload: (q?: Obj) => {
+      q?.type && setType(q.type);
+      ref.current?.reload();
+    },
+  });
+  const [type, setType] = React.useState<string>(urlQuery?.type || 'task');
+  React.useEffect(() => {
+    setUrlQuery({ type });
+  }, [type]);
 
   return (
     <div>
@@ -34,8 +46,8 @@ const Statistics = () => {
         }}
         className="mb-2"
       />
-      {type === 'task' ? <TaskSummary /> : null}
-      {type === 'bug' ? <IssueDashboard /> : null}
+      {type === 'task' ? <TaskSummary ref={ref} /> : null}
+      {type === 'bug' ? <IssueDashboard ref={ref} /> : null}
     </div>
   );
 };

@@ -20,14 +20,14 @@ import echarts from 'echarts/lib/echarts';
 import React from 'react';
 import './simple-chart.scss';
 
-const getOption = (chart: CP_SIMPLE_CHART.IData['chart']) => {
+const getOption = (chart?: CP_SIMPLE_CHART.IData['chart']) => {
   return {
     backgroundColor: 'transparent',
     xAxis: {
       show: false,
       type: 'category',
       boundaryGap: false,
-      data: chart.xAxis,
+      data: chart?.xAxis,
     },
     yAxis: {
       type: 'value',
@@ -60,7 +60,7 @@ const getOption = (chart: CP_SIMPLE_CHART.IData['chart']) => {
         },
       },
     },
-    series: chart.series.map((serie, index) => {
+    series: chart?.series?.map((serie, index) => {
       return {
         name: serie.name,
         data: serie.data,
