@@ -48,7 +48,7 @@ const RepoBranchCompare = () => {
     updater[type](value);
   };
   const goToCompare = () => {
-    goTo(`${getSplitPathBy('compare').before}/${encodeURIComponent(state.from)}...${encodeURIComponent(state.to)}`);
+    goTo(`${getSplitPathBy('compare').before}/${state.from}...${state.to}`, { encode: true });
   };
   const { branches, tags } = info;
   return (

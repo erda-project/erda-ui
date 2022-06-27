@@ -17,6 +17,7 @@ import { qs } from './query-string';
 import { DOC_ORG_INTRO, DOC_PROJECT_INTRO } from 'common/constants';
 import routeInfoStore from 'core/stores/route';
 import { getConfig } from 'core/config';
+import { encodeNumberSign } from 'common/utils';
 
 export function resolvePath(goPath: string) {
   return path.resolve(window.location.pathname, goPath);
@@ -37,6 +38,7 @@ export interface IOptions {
   replace?: boolean;
   forbidRepeat?: boolean;
   jumpOut?: boolean;
+  encode?: boolean;
 }
 
 /**
@@ -49,7 +51,14 @@ export interface IOptions {
  */
 
 export const goTo = (pathStr: string, options?: IOptions) => {
-  const { replace = false, forbidRepeat = false, jumpOut = false, query, ...rest } = (options as IOptions) || {};
+  const {
+    replace = false,
+    forbidRepeat = false,
+    jumpOut = false,
+    query,
+    encode = false,
+    ...rest
+  } = (options as IOptions) || {};
   let _path = '';
 
   if (/^(http|https):\/\//.test(pathStr)) {
@@ -73,6 +82,9 @@ export const goTo = (pathStr: string, options?: IOptions) => {
     _path = isFunction(curPath) ? curPath(pathParams) : curPath;
   } else {
     _path = resolvePath(pathStr);
+  }
+  if (encode) {
+    _path = encodeNumberSign(_path);
   }
   if (query && !isEmpty(query)) {
     _path += `?${qs.stringify(query)}`;

@@ -62,7 +62,7 @@ const PureRepoBreadcrumb = ({ path, children, splitKey = 'tree' }: IProps) => {
             </li>
           ) : (
             <li key={item.text + item.href}>
-              <span onClick={() => goTo(item.href)}>{item.text}</span>
+              <span onClick={() => goTo(item.href, { encode: true })}>{item.text}</span>
             </li>
           ),
         )}
