@@ -15,14 +15,21 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
-const TaskSummary = () => {
+const TaskSummary = React.forwardRef(({}, ref) => {
   const [{ projectId, iterationId }] = routeInfoStore.useStore((s) => [s.params]);
 
   const inParams = { projectId, fixedIteration: iterationId };
+  const reloadRef = React.useRef<{ reload: () => void }>(null);
 
+  React.useImperativeHandle(ref, () => ({
+    reload: () => {
+      reloadRef.current?.reload();
+    },
+  }));
   return (
     <div>
       <DiceConfigPage
+        ref={reloadRef}
         scenarioType={'requirement-task-overview'}
         scenarioKey={'requirement-task-overview'}
         inParams={inParams}
@@ -60,6 +67,6 @@ const TaskSummary = () => {
       />
     </div>
   );
-};
+});
 
 export default TaskSummary;
