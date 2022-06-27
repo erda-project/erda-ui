@@ -15,12 +15,24 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
-const IssueDashboard = () => {
+const IssueDashboard = React.forwardRef(({}, ref) => {
   const [{ projectId, iterationId }] = routeInfoStore.useStore((s) => [s.params]);
 
   const inParams = { projectId, fixedIteration: iterationId };
-
-  return <DiceConfigPage scenarioType={'issue-dashboard'} scenarioKey={'issue-dashboard'} inParams={inParams} />;
-};
+  const reloadRef = React.useRef<{ reload: () => void }>(null);
+  React.useImperativeHandle(ref, () => ({
+    reload: () => {
+      reloadRef.current?.reload();
+    },
+  }));
+  return (
+    <DiceConfigPage
+      ref={reloadRef}
+      scenarioType={'issue-dashboard'}
+      scenarioKey={'issue-dashboard'}
+      inParams={inParams}
+    />
+  );
+});
 
 export default IssueDashboard;
