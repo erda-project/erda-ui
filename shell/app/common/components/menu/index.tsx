@@ -101,11 +101,11 @@ const PureMenu = (props: IMenu) => {
       const result = beforeTabChange(from);
       if (isPromise(result)) {
         return result.then(() => {
-          goToPath(path);
+          goToPath(path, { encode: true });
         });
       }
     }
-    return goToPath(path);
+    return goToPath(path, { encode: true });
   };
 
   const handleClick = (currentKey: string, targetKey: string) => {

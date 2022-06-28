@@ -154,9 +154,8 @@ export const APP_TABS = () => {
         (useTabs.length && curKey
           ? useTabs.find((item) => (item.isActive ? item.isActive(curKey) : item.key === curKey))
           : null) || useTabs[0];
-
       if (curTab?.key) {
-        goTo(curTab.key, { replace: true });
+        goTo(curTab.key, { replace: true, encode: true });
       }
     }
   }, [currentRoute, tabs, curKey, initAppInfo]);

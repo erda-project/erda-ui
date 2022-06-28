@@ -13,6 +13,7 @@
 
 import agent from 'agent';
 import { apiCreator } from 'core/service';
+import { encodeNumberSign } from 'common/utils';
 
 const apis = {
   getAppMR: {
@@ -48,7 +49,7 @@ export const getFromRepo = ({
   | Promise<{ success: true; data: Record<string, any> }> => {
   const [, ...after] = window.location.href.split('repo');
   const afterPath = after.join('repo').slice('/tree'.length);
-  const realPath = path || afterPath;
+  const realPath = encodeNumberSign(path || afterPath);
   // 当进入代码浏览页又快速退出时，url已经变了，此时取的afterPath是错的，所以判断一下
   if (!realPath.startsWith('/')) {
     return Promise.resolve({ success: true, data: {} });
@@ -109,7 +110,7 @@ export const getCommits = ({
     }
   }
   return agent
-    .get(`/api/repo/${repoPrefix}/commits/${branchPath}`)
+    .get(`/api/repo/${repoPrefix}/commits/${encodeNumberSign(branchPath)}`)
     .query({ pageNo, pageSize, search })
     .then((response: any) => response.body);
 };
@@ -229,7 +230,9 @@ export const getCompareDetail = ({
   compareA,
   compareB,
 }: Merge<REPOSITORY.QueryCompareDetail, { repoPrefix: string }>): REPOSITORY.CompareDetail => {
-  return agent.get(`/api/repo/${repoPrefix}/compare/${compareA}...${compareB}`).then((response: any) => response.body);
+  return agent
+    .get(`/api/repo/${repoPrefix}/compare/${encodeNumberSign(compareA)}...${encodeNumberSign(compareB)}`)
+    .then((response: any) => response.body);
 };
 
 export const commit = ({ repoPrefix, data }: { data: REPOSITORY.Commit; repoPrefix: string }): REPOSITORY.ICommit => {

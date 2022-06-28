@@ -183,15 +183,14 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
             rowKey="name"
             scroll={{ x: 800 }}
             onRow={({ name, id }) => {
-              const tropicalPathName = encodeURI(name);
               return {
                 onClick: () => {
                   if (inIndexPage) {
-                    goTo(`./tree/${curBranch}/${tropicalPathName}`, { forbidRepeat: true });
+                    goTo(`./tree/${curBranch}/${name}`, { forbidRepeat: true, encode: true });
                   } else if (name === '..' && !id) {
-                    goTo('../', { forbidRepeat: true });
+                    goTo('../', { forbidRepeat: true, encode: true });
                   } else {
-                    goTo(`./${tropicalPathName}`, { forbidRepeat: true });
+                    goTo(`./${name}`, { forbidRepeat: true, encode: true });
                   }
                 },
               };
