@@ -267,10 +267,12 @@ function getCmpRouter(): RouteConfigItem[] {
         {
           path: 'report',
           breadcrumbName: i18n.t('O&M Report'),
+          mark: 'cmpReport',
           routes: [
             {
               path: ':taskId',
               breadcrumbName: '{opReportName}',
+              backToUp: 'cmpReport',
               layout: { fullHeight: true },
               getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-report/report-records')),
             },
