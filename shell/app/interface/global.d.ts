@@ -360,6 +360,7 @@ type ROUTE_MARK =
   | 'ecp'
   | 'testCase'
   | 'testPlan'
+  | 'cmpReport'
   | 'gallery';
 
 type ROUTE_TO_MARK = 'orgIndex' | 'mspDetail';

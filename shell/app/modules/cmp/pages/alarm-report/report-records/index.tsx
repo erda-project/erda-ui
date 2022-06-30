@@ -16,7 +16,7 @@ import moment, { Moment } from 'moment';
 import { isEmpty, map, get, set, values } from 'lodash';
 import classnames from 'classnames';
 import { useMount, useUnmount } from 'react-use';
-import { Spin, Pagination, DatePicker } from 'antd';
+import { Spin, DatePicker } from 'antd';
 import { Holder, Icon as CustomIcon, BoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';
@@ -116,7 +116,7 @@ const ReportRecords = () => {
   }, [activedRecord, clearReportTaskRecord, getReportTaskRecord]);
 
   const handleChange = (no: number, dates?: Array<undefined | Moment>) => {
-    let payload = { pageNo: no, pageSize } as any;
+    let payload = { pageNo: no, pageSize: 1000 } as any;
     if (dates) {
       payload = {
         ...payload,
@@ -168,15 +168,6 @@ const ReportRecords = () => {
                   </li>
                 ))}
               </ul>
-              {total && (
-                <Pagination
-                  className="text-center mt-3"
-                  simple
-                  defaultCurrent={1}
-                  total={total}
-                  onChange={(no) => handleChange(no)}
-                />
-              )}
             </Holder>
           </Spin>
         </div>
