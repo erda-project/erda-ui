@@ -48,7 +48,6 @@ import axios from 'axios';
 import ReactGA from 'react-ga4';
 
 if (process.env.GA_ID) {
-  console.log('process.env.GA_ID: ', process.env.GA_ID);
   ReactGA.initialize(process.env.GA_ID);
   ReactGA.send('pageview');
 }
@@ -141,7 +140,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
     ReactDOM.render(<Wrap />, document.getElementById('erda-content'));
     // delete window._userData;
     registChartControl();
-    initLinkS();
+    // initLinkS();
   });
 };
 
