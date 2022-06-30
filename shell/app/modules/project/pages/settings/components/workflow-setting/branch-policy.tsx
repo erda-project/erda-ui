@@ -416,7 +416,7 @@ export const BranchPolicyItem = ({
                     }}
                     className="text-purple-deep cursor-pointer"
                   >
-                    {i18n.s('Click to add a branch policy')}
+                    {i18n.s('Click to add a branch policy', 'dop')}
                   </span>
                 </If>
               </div>
@@ -463,15 +463,13 @@ const SourceBranchCard = (props: CardProps) => {
         </Tooltip>
       </div>
       {editing ? (
-        <>
-          <Input
-            autoFocus
-            placeholder={i18n.t('start with letters and can contain characters that are not wildcard')}
-            className="bg-default-06 border-none rounded"
-            value={data?.policy?.sourceBranch}
-            onChange={(e) => setData({ ...data, policy: { ...data.policy, sourceBranch: e.target.value } })}
-          />
-        </>
+        <Input
+          autoFocus
+          placeholder={i18n.t('start with letters and can contain characters that are not wildcard')}
+          className="bg-default-06 border-none rounded"
+          value={data?.policy?.sourceBranch}
+          onChange={(e) => setData({ ...data, policy: { ...data.policy, sourceBranch: e.target.value } })}
+        />
       ) : (
         <Ellipsis
           className="text-default-8 bg-default-06 rounded px-[11px] py-1 hover:bg-default-1 cursor-pointer h-[30px]"
@@ -536,23 +534,21 @@ const CurrentBranchCard = (props: CardProps) => {
         </Tooltip>
       </div>
       {editing ? (
-        <>
-          <BranchInput
-            value={data?.policy?.currentBranch || ''}
-            type={data?.branchType}
-            onChange={(val) => {
-              setData({
-                ...data,
-                branch: val.value,
-                branchType: val.type,
-                policy: {
-                  ...data.policy,
-                  currentBranch: val.value,
-                },
-              });
-            }}
-          />
-        </>
+        <BranchInput
+          value={data?.policy?.currentBranch || ''}
+          type={data?.branchType}
+          onChange={(val) => {
+            setData({
+              ...data,
+              branch: val.value,
+              branchType: val.type,
+              policy: {
+                ...data.policy,
+                currentBranch: val.value,
+              },
+            });
+          }}
+        />
       ) : (
         <div className="text-default-8 bg-default-06 rounded px-2 py-1 hover:bg-default-1 cursor-pointer">
           {data?.policy?.currentBranch || ' '}
