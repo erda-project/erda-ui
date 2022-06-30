@@ -378,7 +378,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       return;
     }
     return agent
-      .post('/api/admin/notify/dingtalk-test')
+      .post('/api/notify/dingtalk-test')
       .send({
         secret,
         webhook: receiver,
