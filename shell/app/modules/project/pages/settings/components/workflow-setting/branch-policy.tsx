@@ -18,6 +18,7 @@ import { EmptyHolder, ErdaIcon, Ellipsis } from 'common';
 import { Button, Switch, Input, Select, Popconfirm, message, Tooltip, Spin } from 'antd';
 import { uuid } from 'common/utils';
 import { throttle, compact } from 'lodash';
+import { FlowType } from 'project/common/config';
 import ResizeObserver from 'rc-resize-observer';
 import { branchNameValidator, branchNameWithoutWildcard } from 'project/common/config';
 import { WithAuth } from 'user/common';
@@ -26,11 +27,6 @@ import i18n from 'i18n';
 interface IProps {
   projectId: string;
   editAuth: boolean;
-}
-
-enum BranchType {
-  multiple = 'multi_branch',
-  single = 'single_branch',
 }
 
 interface BranchPolicyData extends BranchPolicy {
@@ -59,17 +55,19 @@ const emptyData = {
   id: emptyId,
   branch: '',
   openTempMerge: false,
-  branchType: BranchType.single,
+  branchType: FlowType.SINGLE_BRANCH,
   policy: null,
 };
 const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
   const [data, loading] = getBranchPolicy.useState();
   const [useData, setUseData] = React.useState<BranchPolicyData[]>(convertPolicyData(data?.branchPolicies || []));
   const [editData, setEditData] = React.useState<BranchPolicyData | null>(null);
-
+  const fullDataRef = React.useRef(useData);
   const getData = () => {
     return getBranchPolicy.fetch({ projectID: projectId });
   };
+
+  React.useImperativeHandle(fullDataRef, () => useData, [useData]);
 
   useMount(() => {
     getData();
@@ -80,29 +78,6 @@ const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
   };
 
   const saveData = (d: BranchPolicyData) => {
-    const validMap = getValid(
-      d,
-      useData.filter((item) => item.id !== d.id),
-    );
-    const validStrArr = compact(Object.values(validMap));
-    if (validStrArr.length) {
-      message.warn(
-        <div>
-          {validStrArr.map((item) => {
-            const [l, t] = item.split(tipSplit);
-            return (
-              <div key={item} className="py-1 flex-h-center">
-                <span className="text-default-6 w-[100]">{`${l}:`}</span>
-
-                <span className="text-red">{t}</span>
-              </div>
-            );
-          })}
-        </div>,
-        1.5 * validStrArr.length,
-      );
-      return;
-    }
     updateData(useData.map((item) => (item.id === d.id ? { ...d } : { ...item })));
   };
 
@@ -114,7 +89,7 @@ const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
       });
       updateBranchPolicy({ id: data.id, flows: data.flows, branchPolicies: rePolicies }).then(() => {
         getData().then(() => {
-          message.success('更新成功');
+          message.success(i18n.t('updated successfully'));
           setEditData(null);
         });
       });
@@ -124,6 +99,18 @@ const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
   React.useEffect(() => {
     setUseData(convertPolicyData(data?.branchPolicies || []));
   }, [data]);
+
+  const validData = (d: BranchPolicyData) => {
+    const validMap = getValid(
+      d,
+      (fullDataRef.current || []).filter((item) => item.id !== d.id),
+    );
+    const validStrArr = compact(Object.values(validMap));
+    return validStrArr.map((item) => {
+      const [l, t] = item.split(tipSplit);
+      return { label: l, tip: t };
+    });
+  };
 
   return (
     <Spin spinning={loading}>
@@ -137,7 +124,7 @@ const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
               setEditData({ ...emptyData });
             }}
           >
-            新建
+            {i18n.t('Add')}
           </Button>
         </WithAuth>
       </div>
@@ -153,6 +140,7 @@ const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
             key={item.id}
             fullData={useData}
             editAuth={editAuth}
+            validData={validData}
             data={item}
             editId={editData?.id || ''}
             onEdit={() => setEditData({ ...item })}
@@ -180,7 +168,7 @@ const hasNoPolicy = (
   branchType: string,
 ) => {
   if (!policy) return true;
-  if (branchType === BranchType.multiple) {
+  if (branchType === FlowType.MULTI_BRANCH) {
     const valueLen = compact(Object.values(policy)).length;
     return valueLen === 0 || (valueLen === 1 && policy.currentBranch);
   } else {
@@ -196,11 +184,11 @@ const getValid = (policyData: BranchPolicyData, fullData: BranchPolicyData[]) =>
       const [pass, tips] = branchNameValidator(_v);
       if (!pass) t = `${tips}`;
       if (!t && fullData.find((item) => item.branch === _v)) {
-        t = `${_v} 已存在`;
+        t = `${_v} ${i18n.t('{name} already exists', { name: '' })}`;
       }
       return t ? `${_label}${tipSplit} ${t}` : '';
     }
-    return `${_label}${tipSplit} 不能为空`;
+    return `${_label}${tipSplit} ${i18n.t('can not be empty')}`;
   };
   const normalBranch = (_label: string, _v?: string, required?: boolean) => {
     let t = '';
@@ -208,7 +196,7 @@ const getValid = (policyData: BranchPolicyData, fullData: BranchPolicyData[]) =>
       const [pass, tips] = branchNameWithoutWildcard(_v, false);
       t = !pass ? `${tips}` : '';
     } else if (required) {
-      t = '不能为空';
+      t = i18n.t('can not be empty');
     }
     return t ? `${_label}${tipSplit} ${t}` : '';
   };
@@ -229,19 +217,21 @@ const getValid = (policyData: BranchPolicyData, fullData: BranchPolicyData[]) =>
   };
   return {
     sourceBranch: rules.sourceBranch(
-      '来源分支',
+      i18n.s('source branch', 'dop'),
       policyData?.policy?.sourceBranch,
-      policyData.branchType === BranchType.multiple,
+      policyData.branchType === FlowType.MULTI_BRANCH,
     ),
     // currentBranch: branchValid rules.currentBranch('当前分支', policyData?.policy?.currentBranch),
-    branch: rules.branch('分支', policyData?.branch),
-    tempBranch: policyData?.openTempMerge ? rules.tempBranch('临时分支', policyData?.policy?.tempBranch) : '',
+    branch: rules.branch(i18n.t('dop:branch'), policyData?.branch),
+    tempBranch: policyData?.openTempMerge
+      ? rules.tempBranch(i18n.s('temporary branch', 'dop'), policyData?.policy?.tempBranch)
+      : '',
     mergeRequest: rules.mergeRequest(
-      '目标分支',
+      i18n.t('dop:target branch'),
       policyData?.policy?.targetBranch?.mergeRequest,
-      policyData.branchType === BranchType.multiple,
+      policyData.branchType === FlowType.MULTI_BRANCH,
     ),
-    cherryPick: rules.cherryPick('pick 分支', policyData?.policy?.targetBranch?.cherryPick),
+    cherryPick: rules.cherryPick(`pick ${i18n.t('dop:branch')}`, policyData?.policy?.targetBranch?.cherryPick),
   };
 };
 
@@ -249,6 +239,7 @@ export const BranchPolicyItem = ({
   data: propsData,
   editId,
   onEdit,
+  validData,
   cancelEdit,
   onSave,
   onDelete,
@@ -257,8 +248,8 @@ export const BranchPolicyItem = ({
   data: BranchPolicyData;
   editId?: string;
   onEdit?: () => void;
+  validData?: (d: BranchPolicyData) => Array<{ label: string; tip: string }>;
   cancelEdit?: () => void;
-  fullData: BranchPolicyData[];
   editAuth?: boolean;
   onDelete?: () => void;
   onSave?: (d: BranchPolicyData) => void;
@@ -267,13 +258,18 @@ export const BranchPolicyItem = ({
   const [lineWidth, setLineWidth] = React.useState(138);
   const { branch, policy, branchType } = data || {};
   const [showAdd, setShowAdd] = React.useState(false);
+  const [validArr, setValidArr] = React.useState<Array<{ label: string; tip: string }>>([]);
 
   React.useEffect(() => {
     setData(propsData);
   }, [propsData]);
 
   const setDataValue = (val: Obj) => {
-    setData((prev) => ({ ...prev, ...val }));
+    setData((prev) => {
+      const _curData = { ...prev, ...val };
+      validData && setValidArr(validData(_curData));
+      return _curData;
+    });
   };
 
   const noPolicy = hasNoPolicy(policy, branchType);
@@ -283,6 +279,8 @@ export const BranchPolicyItem = ({
     const curW = (width - 600) / 2;
     setLineWidth(curW < 138 ? 138 : curW);
   }, 500);
+
+  const saveable = data.branch && !validArr.length;
 
   return (
     <ResizeObserver onResize={onResize}>
@@ -301,7 +299,7 @@ export const BranchPolicyItem = ({
                     const _data = {
                       ...data,
                       branch: val,
-                      branchType: val.endsWith('*') ? BranchType.multiple : BranchType.single,
+                      branchType: val.endsWith('*') ? FlowType.MULTI_BRANCH : FlowType.SINGLE_BRANCH,
                       policy: {
                         ...data.policy,
                         currentBranch: val,
@@ -319,19 +317,24 @@ export const BranchPolicyItem = ({
             {data.id === editId ? (
               <div>
                 <span
-                  className={'px-2 py-1 rounded  mr-2 cursor-pointer text-purple-deep hover:bg-purple-light'}
-                  onClick={() => onSave?.(data)}
+                  className={`px-2 py-1 rounded  mr-2  ${
+                    saveable
+                      ? 'cursor-pointer text-purple-deep hover:bg-purple-light'
+                      : 'cursor-not-allowed text-default-6'
+                  }`}
+                  onClick={() => saveable && onSave?.(data)}
                 >
-                  保存
+                  {i18n.t('Save')}
                 </span>
                 <span
                   className="cursor-pointer px-2 py-1 rounded text-default-8 hover:bg-default-1"
                   onClick={() => {
                     setShowAdd(false);
+                    setValidArr([]);
                     cancelEdit?.();
                   }}
                 >
-                  取消
+                  {i18n.t('Cancel')}
                 </span>
               </div>
             ) : (
@@ -344,7 +347,11 @@ export const BranchPolicyItem = ({
                     editId ? 'text-default-3 cursor-not-allowed' : 'text-default-6 cursor-pointer hover:text-default-8'
                   }`}
                 />
-                <Popconfirm title={'是否确认删除'} disabled={!!editId} onConfirm={() => !editId && onDelete?.()}>
+                <Popconfirm
+                  title={i18n.t('is it confirmed {action}?', { action: i18n.t('Delete') })}
+                  disabled={!!editId}
+                  onConfirm={() => !editId && onDelete?.()}
+                >
                   <ErdaIcon
                     size={18}
                     type="shanchu-4d7l02mb"
@@ -375,7 +382,7 @@ export const BranchPolicyItem = ({
                 data={data}
                 className="flex-shrink-0"
               />
-              <If condition={data.branchType === BranchType.multiple}>
+              <If condition={data.branchType === FlowType.MULTI_BRANCH}>
                 <Line index={2} data={data} lineWidth={lineWidth} />
                 <TargetBranchCard
                   setData={setDataValue}
@@ -394,7 +401,7 @@ export const BranchPolicyItem = ({
             style={{ height: 100 }}
             tip={
               <div className="text-sm">
-                {'该分支暂无分支策略'}
+                {i18n.s('current branch has no policy', 'dop')}
                 <If condition={editAuth}>
                   {', '}
                   <span
@@ -409,13 +416,26 @@ export const BranchPolicyItem = ({
                     }}
                     className="text-purple-deep cursor-pointer"
                   >
-                    点击添加
+                    {i18n.s('Click to add a branch policy')}
                   </span>
                 </If>
               </div>
             }
           />
         )}
+        <If condition={!!validArr.length}>
+          <div className="px-4">
+            {validArr.map((item) => {
+              return (
+                <div key={item.label} className="mb-1 flex-h-center">
+                  <span className="text-default-6 text-left mr-2">{`${item.label}: `}</span>
+
+                  <span className="text-red">{item.tip}</span>
+                </div>
+              );
+            })}
+          </div>
+        </If>
       </div>
     </ResizeObserver>
   );
@@ -433,7 +453,7 @@ const SourceBranchCard = (props: CardProps) => {
   return (
     <div className={`flex-col w-[180px] ${className}`}>
       <div className="text-default-4 mr-2 text-center mb-2 flex-h-center justify-center">
-        {'来源分支'}
+        {i18n.s('source branch', 'dop')}
         <Tooltip
           title={`${i18n.t('dop:Merge change branch')}, ${i18n.t(
             'start with letters and can contain characters that are not wildcard',
@@ -471,7 +491,7 @@ const BranchInput = ({ value, type, onChange }: { value: string; type: string; o
           className="bg-default-06 border-none flex-1 rounded"
           value={val}
           onChange={(e) =>
-            onChange({ type, value: type === BranchType.multiple ? `${e.target.value}/*` : e.target.value })
+            onChange({ type, value: type === FlowType.MULTI_BRANCH ? `${e.target.value}/*` : e.target.value })
           }
         />
         <span className="px-1 text-base">/</span>
@@ -479,10 +499,10 @@ const BranchInput = ({ value, type, onChange }: { value: string; type: string; o
           bordered={false}
           className="bg-default-06 w-[75px] h-[30px] rounded"
           value={type}
-          onChange={(v) => onChange({ type: v, value: v === BranchType.multiple ? `${val}/*` : val })}
+          onChange={(v) => onChange({ type: v, value: v === FlowType.MULTI_BRANCH ? `${val}/*` : val })}
         >
-          <Select.Option value={BranchType.single}>无</Select.Option>
-          <Select.Option value={BranchType.multiple}>*</Select.Option>
+          <Select.Option value={FlowType.SINGLE_BRANCH}>无</Select.Option>
+          <Select.Option value={FlowType.MULTI_BRANCH}>*</Select.Option>
         </Select>
       </div>
     </div>
@@ -498,13 +518,15 @@ const CurrentBranchCard = (props: CardProps) => {
         <If condition={editing}>
           <span data-required="* " className="ml-1 before:required" />
         </If>
-        {'当前分支'}
+        {i18n.s('current branch', 'dop')}
         <Tooltip
           title={
             <div>
               <div>{i18n.t('dop:A branch for feature development')}</div>
-              <div className="mt-1">{`${'当前分支'}: 字母开头，可包含:数字 _ - . / $ # @，结尾可带*`}</div>
-              <div className="mt-1">{`${'临时分支'}:${i18n.t(
+              <div className="mt-1">{`${i18n.s('current branch', 'dop')}: ${i18n.t(
+                'start with letters and can contain',
+              )}`}</div>
+              <div className="mt-1">{`${i18n.s('temporary branch', 'dop')}: ${i18n.t(
                 'start with letters and can contain characters that are not wildcard',
               )}`}</div>
             </div>
@@ -536,14 +558,14 @@ const CurrentBranchCard = (props: CardProps) => {
           {data?.policy?.currentBranch || ' '}
         </div>
       )}
-      <If condition={data.branchType === BranchType.multiple}>
+      <If condition={data.branchType === FlowType.MULTI_BRANCH}>
         <div className="flex-col mt-2">
           <div className="flex-h-center">
-            <span className="text-default-6 mr-2">临时合并</span>
+            <span className="text-default-6 mr-2">{i18n.s('temporary merge', 'dop')}</span>
             <Switch
               checked={data.openTempMerge}
-              unCheckedChildren="关闭"
-              checkedChildren="开启"
+              unCheckedChildren={i18n.t('off')}
+              checkedChildren={i18n.t('on')}
               onChange={(c) => editing && setData({ ...data, openTempMerge: c })}
             />
           </div>
@@ -608,15 +630,15 @@ const TargetBranchCard = (props: CardProps) => {
   return (
     <div className={`flex-col w-[180px] ${className} `}>
       <div className="text-default-4 mr-2 text-center mb-2">
-        {'目标分支'}
+        {i18n.t('dop:target branch')}
         <Tooltip
           title={
             <div>
               <div>{i18n.t('dop:Create a change branch based on that branch')}</div>
-              <div className="mt-1">{`${'目标分支'}: ${i18n.t(
+              <div className="mt-1">{`${i18n.t('dop:target branch')}: ${i18n.t(
                 'start with letters and can contain characters that are not wildcard',
               )}`}</div>
-              <div className="mt-1">{`${'pick 分支'}:${i18n.t(
+              <div className="mt-1">{`pick ${i18n.t('dop:branch')}: ${i18n.t(
                 'start with letters and can contain characters that are not wildcard',
               )}`}</div>
             </div>
@@ -705,7 +727,7 @@ const Line = ({ index, data, lineWidth }: { index: number; data: BranchPolicy; l
       const pos = { x1: distance, y1: height / 2 + top, x2: width - distance - markedWidth, y2: height / 2 + top };
       const _id = uuid();
       return (
-        <svg key={'1'} width={width} height={top + height}>
+        <svg key={'line1'} width={width} height={top + height}>
           <defs>
             <marker id={`markerEnd${_id}`} markerWidth={14} markerHeight={14} refX={2} refY={6}>
               <path d="M2,2 L2,11 L10,6 L2,2" fill={themeColor['light-gray']} />
@@ -715,9 +737,9 @@ const Line = ({ index, data, lineWidth }: { index: number; data: BranchPolicy; l
             {...pos}
             style={{ stroke: themeColor['light-gray'], strokeWidth: '1px', markerEnd: `url(#markerEnd${_id})` }}
           />
-          <text x={(pos.x2 + pos.x1) / 2 - 10} y={pos.y1 - 10} fill={themeColor['default-6']} style={{ fontSize: 12 }}>
-            {'pull'}
-          </text>
+          <foreignObject width={70} height={18} x={(pos.x2 + pos.x1) / 2 - 35} y={pos.y1 - 18}>
+            <div className="text-xs text-default-6 text-center">{'pull'}</div>
+          </foreignObject>
         </svg>
       );
     } else {
@@ -726,7 +748,7 @@ const Line = ({ index, data, lineWidth }: { index: number; data: BranchPolicy; l
       const pos = { x1: distance, y1: height / 2 + top, x2: width - distance - markedWidth, y2: height / 2 + top };
       const _id = uuid();
       return (
-        <svg key={'1'} width={width} height={top + height + pickLen * (height + margin)}>
+        <svg key={'line2'} width={width} height={top + height + pickLen * (height + margin)}>
           <defs>
             <marker id={`markerEnd1_${_id}`} markerWidth={14} markerHeight={14} refX={2} refY={6}>
               <path d="M2,2 L2,11 L10,6 L2,2" fill={themeColor['light-gray']} />
@@ -740,34 +762,29 @@ const Line = ({ index, data, lineWidth }: { index: number; data: BranchPolicy; l
               {...pos}
               style={{ stroke: themeColor['light-gray'], strokeWidth: '1px', markerEnd: `url(#markerEnd1_${_id})` }}
             />
-            <text
-              x={(pos.x2 + pos.x1) / 2 - 10}
-              y={pos.y1 - 10}
-              fill={themeColor['default-6']}
-              style={{ fontSize: 12 }}
-            >
-              {'merge'}
-            </text>
+            <foreignObject width={70} height={18} x={(pos.x2 + pos.x1) / 2 - 35} y={pos.y1 - 18}>
+              <div className="text-xs text-default-6 text-center">{'merge'}</div>
+            </foreignObject>
           </g>
           {new Array(pickLen).fill('').map((_, idx) => {
-            const [d, textPos] = getCPath(
+            const { path, textPos } = getCPath(
               distance,
               height / 2 + top,
               width - distance - markedWidth,
               height / 2 + top + (idx + 1) * (height + margin),
             );
             return (
-              <g key="idx">
+              <g key={idx}>
                 <path
-                  key={idx}
                   stroke={themeColor['light-gray']}
                   fill="transparent"
-                  d={d}
+                  d={path}
                   style={{ markerEnd: `url(#markerEnd2_${_id})` }}
                 />
-                <text x={textPos?.x} y={textPos?.y} fill={themeColor['default-6']} style={{ fontSize: 12 }}>
-                  {'pick'}
-                </text>
+
+                <foreignObject width={70} height={18} x={textPos.x - 35} y={textPos.y - 9}>
+                  <div className="text-xs text-default-6 text-center">{'pick'}</div>
+                </foreignObject>
               </g>
             );
           })}
@@ -792,7 +809,7 @@ const getCPath = (x1: number, y1: number, x2: number, y2: number) => {
     0.7,
   )},${x2} ${y2}`;
 
-  return [`${path}${c}`, { x: (x2 + x1) / 2 - 10, y: y2 === y1 ? y1 - 10 : (y2 + y1) / 2 }];
+  return { path: `${path}${c}`, textPos: { x: (x2 + x1) / 2, y: y2 === y1 ? y1 : (y2 + y1) / 2 } };
 };
 
 // bersier formula

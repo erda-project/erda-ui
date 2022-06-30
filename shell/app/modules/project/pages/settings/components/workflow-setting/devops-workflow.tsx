@@ -110,7 +110,7 @@ const DevOpsWorkflow = (props: IProps) => {
       dataIndex: 'name',
     },
     {
-      title: '分支策略',
+      title: i18n.s('Branch policy', 'dop'),
       dataIndex: 'targetBranch',
       render: (_v: string) => {
         const curPolicy = (data?.branchPolicies || []).find((item) => item.branch === _v);
@@ -122,12 +122,17 @@ const DevOpsWorkflow = (props: IProps) => {
                 {curPolicy ? (
                   <div>
                     <div className="flex-h-center">
-                      <span className="text-default-6">分支策略：</span>
+                      <span className="text-default-6">{i18n.s('Branch policy', 'dop')}</span>
                     </div>
                     <BranchPolicyItem data={policyObj} />
                   </div>
                 ) : (
-                  <span className="text-default-6">找不到对应的分支策略，可能被删除或被修改，请重新选择</span>
+                  <span className="text-default-6">
+                    {i18n.s(
+                      'Could not found the policy of the branch, it may be deleted or modified, please select again.',
+                      'dop',
+                    )}
+                  </span>
                 )}
               </div>
             }
@@ -138,12 +143,12 @@ const DevOpsWorkflow = (props: IProps) => {
       },
     },
     {
-      title: '部署环境',
+      title: i18n.t('dop:Deployment environment'),
       dataIndex: 'environment',
       render: (_v: string) => envArr?.find((item) => item.value === _v)?.name || _v,
     },
     {
-      title: '制品类型',
+      title: i18n.t('dop:Artifact type'),
       dataIndex: 'artifact',
     },
   ];
@@ -178,7 +183,7 @@ const DevOpsWorkflow = (props: IProps) => {
       <div className="flex justify-end mb-2">
         <WithAuth pass={editAuth}>
           <Button type="primary" onClick={() => updater.drawerVis(true)}>
-            新建
+            {i18n.t('Add')}
           </Button>
         </WithAuth>
       </div>
@@ -251,7 +256,11 @@ const FlowDrawer = ({
 
   const extraData = fullData.filter((item) => item.id !== editData?.id);
 
-  const title = `${flowData ? '编辑' : '新建'}`;
+  const title = `${
+    flowData
+      ? `${i18n.t('edit {name}', { name: i18n.t('dop:workflow') })}`
+      : `${i18n.t('add {name}', { name: i18n.t('dop:workflow') })}`
+  }`;
   const curPolicy = branchData.find((item) => item.branch === editData?.targetBranch);
   const policyObj = (curPolicy ? convertPolicyData([curPolicy]) : [])[0];
   const policyComp = editData?.targetBranch ? (
@@ -259,12 +268,17 @@ const FlowDrawer = ({
       {curPolicy ? (
         <div>
           <div className="flex-h-center">
-            <span className="text-default-6">分支策略：</span>
+            <span className="text-default-6">{i18n.s('Branch policy', 'dop')}</span>
           </div>
           <BranchPolicyItem data={policyObj} />
         </div>
       ) : (
-        <span className="text-default-6">找不到对应的分支策略，可能被删除或被修改，请重新选择</span>
+        <span className="text-default-6">
+          {i18n.s(
+            'Could not found the policy of the branch, it may be deleted or modified, please select again.',
+            'dop',
+          )}
+        </span>
       )}
     </div>
   ) : null;
@@ -317,7 +331,7 @@ const FlowDrawer = ({
       },
     },
     {
-      label: i18n.t('dop:Environment'),
+      label: i18n.t('dop:Deployment environment'),
       type: 'select',
       showRequiredMark: true,
       name: 'environment',
@@ -337,7 +351,7 @@ const FlowDrawer = ({
       },
     },
     {
-      label: '分支策略',
+      label: i18n.s('Branch policy', 'dop'),
       showRequiredMark: true,
       name: 'targetBranch',
       icon: 'daimafenzhi',
@@ -372,7 +386,9 @@ const FlowDrawer = ({
                       goTo(goTo.resolve.projectSetting(), { jumpOut: true, query: { tabKey: 'branchPolicy' } });
                     }}
                   >
-                    <div className="mx-3 text-purple-deep">{'编辑分支策略'}</div>
+                    <div className="mx-3 text-purple-deep">
+                      {i18n.t('edit {name}', { name: i18n.t('dop:branch policy') })}
+                    </div>
                   </Link>
                 </div>
               )}
@@ -393,8 +409,6 @@ const FlowDrawer = ({
   const submitAble =
     !nameValid && editData?.name && editData?.targetBranch && editData?.artifact && editData?.environment;
 
-  console.log('------', editData);
-
   return (
     <Drawer
       title={title}
@@ -411,9 +425,9 @@ const FlowDrawer = ({
               editData && onSubmit({ ...editData }, branchData);
             }}
           >
-            保存
+            {i18n.t('Save')}
           </Button>
-          <Button onClick={onClose}>取消</Button>
+          <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
         </div>
       }
     >

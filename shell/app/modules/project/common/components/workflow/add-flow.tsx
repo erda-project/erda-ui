@@ -16,13 +16,7 @@ import { AutoComplete, Button, Form, Popover } from 'antd';
 import { ErdaIcon, RenderPureForm } from 'common';
 import projectStore from 'project/stores/project';
 import { getJoinedApps } from 'user/services/user';
-import {
-  createFlow,
-  CreateFlowNode,
-  getBranches,
-  getBranchPolicy,
-  WorkflowHint,
-} from 'project/services/project-workflow';
+import { createFlow, CreateFlowNode, getBranches, getBranchPolicy } from 'project/services/project-workflow';
 import i18n from 'i18n';
 import { FlowType } from 'project/common/config';
 
@@ -33,10 +27,9 @@ interface IProps {
     iteration: ITERATION.Detail;
     issue: Obj;
   };
-  type: WorkflowHint['place'];
 }
 
-const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
+const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
   const [form] = Form.useForm<Omit<CreateFlowNode, 'issueID'>>();
   const allBranch = getBranches.useData();
   const { id: projectId, name: projectName } = projectStore.useStore((s) => s.info);

@@ -26,7 +26,6 @@ import routeInfoStore from 'core/stores/route';
 import IssueWorkflow from 'project/common/components/issue-workflow';
 import { usePerm } from 'app/user/common';
 import ScanRule from 'project/common/components/scan-rule';
-import ProjectWorkflow from 'project/pages/settings/components/project-workflow';
 import { replaceWithLink } from 'app/common/utils';
 import BranchPolicy from './workflow-setting/branch-policy';
 import DevOpsWorkflow from './workflow-setting/devops-workflow';
@@ -117,14 +116,17 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: '分支策略',
+          tabTitle: i18n.s('branch policy', 'dop'),
           tabKey: 'branchPolicy',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: '分支策略管理',
-                  desc: '项目分支管理规范，主要规范不同的分支是从哪个分支切出来，最终合并到那个分支。',
+                  title: i18n.s('Branch policy', 'dop'),
+                  desc: i18n.s(
+                    'The project branch management specification mainly regulates which branch different branches are cut from and finally merged into that branch.',
+                    'dop',
+                  ),
                   children: (
                     <BranchPolicy projectId={projectId} editAuth={permMap.setting.customWorkflow.operation.pass} />
                   ),
