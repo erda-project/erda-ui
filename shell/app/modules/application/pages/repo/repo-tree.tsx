@@ -25,7 +25,7 @@ import {
   Form,
   FormInstance,
 } from 'antd';
-import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils';
+import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg, encodeNumberSign } from 'common/utils';
 import { groupBy, sortBy, get } from 'lodash';
 import React from 'react';
 import { useUnmount, useUpdateEffect } from 'react-use';
@@ -38,6 +38,7 @@ import { renderAsLink, getInfoFromRefName, getSplitPathBy } from './util';
 import { Link } from 'react-router-dom';
 import { RepoNav } from './components/repo-nav';
 import routeInfoStore from 'core/stores/route';
+
 import repoStore from 'application/stores/repo';
 import { useLoading } from 'core/stores/loading';
 import { WithAuth, usePerm } from 'user/common';
@@ -393,7 +394,7 @@ const RepoTreePage = () => {
         return;
       }
       const { before } = getSplitPathBy('tree');
-      goTo(`${before}/${branchInfo.branch}`, { append: false });
+      goTo(`${before}/${encodeNumberSign(branchInfo.branch)}`, { append: false });
       setVisible(false);
     });
   };
