@@ -136,11 +136,15 @@ export const createBranch = ({ repoPrefix, branch, refValue }: REPOSITORY.Create
 };
 
 export const deleteBranch = ({ repoPrefix, branch }: Omit<REPOSITORY.CreateBranch, 'refValue'>): boolean => {
-  return agent.delete(`/api/repo/${repoPrefix}/branches/${branch}`).then((response: any) => response.body);
+  return agent
+    .delete(`/api/repo/${repoPrefix}/branches/${encodeNumberSign(branch)}`)
+    .then((response: any) => response.body);
 };
 
 export const setDefaultBranch = ({ repoPrefix, branch }: Omit<REPOSITORY.CreateBranch, 'refValue'>): boolean => {
-  return agent.put(`/api/repo/${repoPrefix}/branch/default/${branch}`).then((response: any) => response.body);
+  return agent
+    .put(`/api/repo/${repoPrefix}/branch/default/${encodeNumberSign(branch)}`)
+    .then((response: any) => response.body);
 };
 
 export const getAvailableAddonList = (query: { projectId: string; workspace: string }): ADDON.Instance[] => {
