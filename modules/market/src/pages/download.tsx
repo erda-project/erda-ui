@@ -330,7 +330,6 @@ const DownloadPage = ({ match }: any) => {
                           </span>
                           <span>{current.version || '-'} 版本</span>
                         </span>
-                        <span>山东能源</span>
                       </div>
                       {desc && (
                         <div className="app-desc" onClick={() => setDescExpand((p) => !p)}>
