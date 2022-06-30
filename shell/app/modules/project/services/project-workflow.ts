@@ -115,6 +115,56 @@ export interface DevFlowInfos {
   devFlowInfos: DevFlowInfo[];
 }
 
+const mock = {
+  id: 'xxxx',
+  branchPolicies: [
+    {
+      branch: 'feature/*',
+      branchType: 'multi_branch',
+      policy: {
+        sourceBranch: 'develp',
+        currentBranch: 'feature/*',
+        tempBranch: 'dev',
+        targetBranch: {
+          mergeRequest: 'master',
+          cherryPick: '',
+        },
+      },
+    },
+    {
+      branch: 'feat/*',
+      branchType: 'multi_branch',
+      policy: {
+        sourceBranch: 'developdevelopdevelopdevelopdevelopdevelopdevelopdevelopdevelopdevelop',
+        currentBranch: 'feat/*',
+        tempBranch: 'dev',
+        targetBranch: {
+          mergeRequest: 'master',
+          cherryPick: 'release/2.2,release/2.3,release/2.4,release/2.5,release/2.6',
+        },
+      },
+    },
+    {
+      branch: 'release/*',
+      branchType: 'single_branch',
+      policy: null,
+    },
+    {
+      branch: 'master',
+      branchType: 'single_branch',
+      policy: null,
+    },
+  ],
+  flows: [
+    {
+      name: 'DEV',
+      targetBranch: 'feature/*',
+      artifact: 'alpha',
+      environment: 'DEV',
+    },
+  ],
+};
+
 const apis = {
   queryWorkflow: {
     api: 'get@/api/devFlowRule/actions/get-by-projectID',
@@ -145,6 +195,20 @@ const apis = {
   },
   getPipelineDetail: {
     api: 'get@/api/pipelines/:pipelineID',
+  },
+  getBranchPolicy: {
+    api: 'get@/api/devFlowRule/actions/get-by-projectID',
+    mock1() {
+      return { ...mock };
+    },
+  },
+  updateBranchPolicy: {
+    api: 'put@/api/devFlowRule/:id',
+    mock1(payload) {
+      console.log('------', payload);
+      mock.flows = payload.flows;
+      mock.branchPolicies = payload.branchPolicies;
+    },
   },
 };
 
@@ -177,3 +241,37 @@ export const deleteFlowNode = apiCreator<(payload: { mergeID: number }) => DevFl
 export const getPipelineDetail = apiCreator<(payload: { pipelineID: number }) => BUILD.IPipelineDetail>(
   apis.getPipelineDetail,
 );
+
+export interface BranchPolicy {
+  branch: string;
+  branchType: string;
+  policy: null | {
+    sourceBranch: string;
+    currentBranch: string;
+    tempBranch: string;
+    targetBranch:
+      | null
+      | undefined
+      | {
+          mergeRequest: string;
+          cherryPick: string | undefined;
+        };
+  };
+}
+
+export interface BranchFlows {
+  name: string;
+  targetBranch: string;
+  artifact: string;
+  environment: string;
+}
+
+export interface DevOpsWorkFlow {
+  id: string;
+  flows: BranchFlows[];
+  branchPolicies: BranchPolicy[];
+}
+
+export const getBranchPolicy = apiCreator<(payload: { projectID: string }) => DevOpsWorkFlow>(apis.getBranchPolicy);
+
+export const updateBranchPolicy = apiCreator<(payload: DevOpsWorkFlow) => DevOpsWorkFlow>(apis.updateBranchPolicy);

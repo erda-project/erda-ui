@@ -37,7 +37,7 @@ const typeTips = (
 );
 
 interface IProps {
-  editAuth: boolean;
+  canOperate: boolean;
   projectID: number;
 }
 
@@ -105,7 +105,7 @@ const StartWorkflowHints = ({
   );
 };
 
-const ProjectWorkflow: React.FC<IProps> = ({ editAuth, projectID }) => {
+const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
   const [form] = Form.useForm();
   const [data, loading] = queryWorkflow.useState();
   const [{ visible, formData, flowType }, updater, update] = useUpdate<IState>({
@@ -211,7 +211,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ editAuth, projectID }) => {
     },
   ];
 
-  const tableActions: IActions<WorkflowItem> | undefined = editAuth
+  const tableActions: IActions<WorkflowItem> | undefined = canOperate
     ? {
         render: (record: WorkflowItem) => {
           return [
@@ -402,7 +402,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ editAuth, projectID }) => {
 
   return (
     <div className="project-workflow">
-      {editAuth ? (
+      {canOperate ? (
         <TopButtonGroup>
           <Button
             onClick={() => {

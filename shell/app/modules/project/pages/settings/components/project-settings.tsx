@@ -28,6 +28,8 @@ import { usePerm } from 'app/user/common';
 import ScanRule from 'project/common/components/scan-rule';
 import ProjectWorkflow from 'project/pages/settings/components/project-workflow';
 import { replaceWithLink } from 'app/common/utils';
+import BranchPolicy from './workflow-setting/branch-policy';
+import DevOpsWorkflow from './workflow-setting/devops-workflow';
 
 const ProjectSettings = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
@@ -114,6 +116,23 @@ const ProjectSettings = () => {
             />
           ),
         },
+        {
+          tabTitle: '分支策略',
+          tabKey: 'branchPolicy',
+          content: (
+            <ConfigLayout
+              sectionList={[
+                {
+                  title: '分支策略管理',
+                  desc: '项目分支管理规范，主要规范不同的分支是从哪个分支切出来，最终合并到那个分支。',
+                  children: (
+                    <BranchPolicy projectId={projectId} editAuth={permMap.setting.customWorkflow.operation.pass} />
+                  ),
+                },
+              ]}
+            />
+          ),
+        },
       ],
     },
     {
@@ -189,10 +208,7 @@ const ProjectSettings = () => {
                     'dop:You can configure stages of the R&D process here, such as development, testing, staging and production, as well as code branches, artifact types, deployment environments and steps required for these stages.',
                   ),
                   children: (
-                    <ProjectWorkflow
-                      projectID={+projectId}
-                      canOperate={permMap.setting.customWorkflow.operation.pass}
-                    />
+                    <DevOpsWorkflow projectId={projectId} editAuth={permMap.setting.customWorkflow.operation.pass} />
                   ),
                 },
               ]}

@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import './index.scss';
 
 interface IEmptyProps {
-  tip?: string;
+  tip?: string | JSX.Element;
   desc?: string;
   icon?: string | JSX.Element;
   relative?: boolean;

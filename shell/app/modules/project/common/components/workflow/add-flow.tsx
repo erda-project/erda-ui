@@ -20,7 +20,7 @@ import {
   createFlow,
   CreateFlowNode,
   getBranches,
-  queryWorkflow,
+  getBranchPolicy,
   WorkflowHint,
 } from 'project/services/project-workflow';
 import i18n from 'i18n';
@@ -43,9 +43,13 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
   const [visible, setVisible] = React.useState(false);
   const [flowName, setFlowName] = React.useState('');
   const apps = getJoinedApps.useData();
-  const metaWorkflow = queryWorkflow.useData();
+  const metaWorkflow = getBranchPolicy.useData();
   const workflow = metaWorkflow?.flows ?? [];
-  const branches = workflow.filter((item) => item.flowType !== FlowType.SINGLE_BRANCH);
+  const branchPolicies = metaWorkflow?.branchPolicies ?? [];
+  const branches = workflow.filter((item) => {
+    const curBranchType = branchPolicies.find((bItem) => bItem.branch === item.targetBranch)?.branchType;
+    return curBranchType !== FlowType.SINGLE_BRANCH;
+  });
   const { iteration, issue } = metaData;
 
   React.useEffect(() => {
@@ -55,7 +59,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
         pageNo: 1,
         pageSize: 200,
       });
-      queryWorkflow.fetch({ projectID: projectId });
+      getBranchPolicy.fetch({ projectID: `${projectId}` });
     }
   }, [projectId]);
   React.useEffect(() => {
@@ -81,12 +85,12 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
     const getBranchInfo = (flowName: string) => {
       const flow = branches.find((item) => item.name === flowName)!;
       let sourceBranch;
-      if (flow && flow.flowType !== FlowType.SINGLE_BRANCH) {
-        const { changeBranchRule } = flow.startWorkflowHints.find((t) => t.place === type)!;
-        sourceBranch = changeBranchRule.replace('*', issue.id);
+      const curPolicy = branchPolicies.find((item) => item.branch === flow.targetBranch);
+      if (flow && curPolicy?.branchType !== FlowType.SINGLE_BRANCH) {
+        sourceBranch = flow.targetBranch.replace('*', issue.id);
       }
       return {
-        targetBranch: flow.targetBranch,
+        targetBranch: curPolicy?.policy?.sourceBranch,
         sourceBranch,
       };
     };
@@ -138,7 +142,10 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
         name: 'targetBranch',
         options: branches
           ?.filter((item) => item.name === flowName)
-          .map((branch) => ({ name: branch.targetBranch, value: branch.targetBranch })),
+          .map((branch) => {
+            const curBranch = branchPolicies.find((item) => item.branch === branch.targetBranch)?.policy?.sourceBranch;
+            return { name: curBranch, value: curBranch };
+          }),
         itemProps: {
           onChange: (v: string) => {
             const { name } = branches.find((item) => item.targetBranch === v)!;
