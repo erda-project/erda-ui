@@ -35,11 +35,20 @@ interface IProps {
   openSlidePanel: (type: string, options?: any) => void;
   openDomainModalVisible: () => void;
   updateServicesConfig: (payload: RUNTIME_SERVICE.PreOverlay) => void;
+  onElasticScaling: () => void;
 }
 
 const ServiceDropdown = (props: IProps) => {
-  const { service, name, updateServicesConfig, openSlidePanel, openDomainModalVisible, isEndpoint, deployStatus } =
-    props;
+  const {
+    service,
+    name,
+    updateServicesConfig,
+    openSlidePanel,
+    openDomainModalVisible,
+    isEndpoint,
+    deployStatus,
+    onElasticScaling,
+  } = props;
   const permMap = usePerm((s) => s.app);
 
   const {
@@ -47,6 +56,7 @@ const ServiceDropdown = (props: IProps) => {
     addrs,
     envs,
     deployments: { replicas },
+    autoscalerEnabled,
   } = service;
   const runtimeDetail = runtimeStore.useStore((s) => s.runtimeDetail);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
@@ -115,7 +125,7 @@ const ServiceDropdown = (props: IProps) => {
     const hasDeployAuth = (permMap.runtime[`${envKey}DeployOperation`] || {}).pass;
     const hasConsoleAuth = (permMap.runtime[`${envKey}Console`] || {}).pass;
     const ops = [
-      ...insertWhen(hasDeployAuth, [
+      ...insertWhen(hasDeployAuth && autoscalerEnabled !== 'Y', [
         {
           title: i18n.t('runtime:Scale out'),
           onClick: () => {
@@ -123,6 +133,12 @@ const ServiceDropdown = (props: IProps) => {
           },
         },
       ]),
+      {
+        title: '弹性伸缩',
+        onClick: () => {
+          onElasticScaling();
+        },
+      },
       {
         title: i18n.t('runtime:History'),
         onClick: () => openSlidePanel('record'),

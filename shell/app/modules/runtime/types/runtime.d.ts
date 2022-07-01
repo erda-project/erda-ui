@@ -91,6 +91,28 @@ declare namespace RUNTIME {
     operator: string;
     force: boolean;
   }
+
+  interface Metadata {
+    type: string;
+    value: string;
+  }
+
+  interface CronMetadata {
+    start: string;
+    end: string;
+    desiredReplicas: number;
+  }
+
+  interface Trigger {
+    type: string;
+    metadata: Metadata | CronMetadata;
+  }
+
+  interface ScaledConfig {
+    maxReplicaCount: number;
+    minReplicaCount: number;
+    triggers: Trigger[];
+  }
 }
 
 interface CPU_MEM_DISK {

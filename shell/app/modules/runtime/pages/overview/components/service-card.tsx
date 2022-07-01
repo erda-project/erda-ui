@@ -35,6 +35,7 @@ import runtimeStore from 'runtime/stores/runtime';
 import { usePerm } from 'user/common';
 import runtimeServiceStore from 'runtime/stores/service';
 import runtimeDomainStore from 'runtime/stores/domain';
+import ElasticScaling from './elastic-scaling';
 
 const { TabPane } = Tabs;
 
@@ -69,17 +70,30 @@ const ServiceCard = (props: IProps) => {
   const [serviceInsMap] = runtimeServiceStore.useStore((s) => [s.serviceInsMap]);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
   const permMap = usePerm((s) => s.app);
-  const [{ title, visible, instances, withTabs, content, slideVisible, isFetching, domainModalVisible }, updater] =
-    useUpdate({
-      title: '',
-      isFetching: false,
-      visible: false,
-      slideVisible: false,
-      withTabs: {},
-      content: null,
-      instances: {},
-      domainModalVisible: false,
-    });
+  const [
+    {
+      title,
+      visible,
+      instances,
+      withTabs,
+      content,
+      slideVisible,
+      isFetching,
+      domainModalVisible,
+      elasticScalingVisible,
+    },
+    updater,
+  ] = useUpdate({
+    title: '',
+    isFetching: false,
+    visible: false,
+    slideVisible: false,
+    withTabs: {},
+    content: null,
+    instances: {},
+    domainModalVisible: false,
+    elasticScalingVisible: false,
+  });
 
   React.useEffect(() => {
     if (serviceInsMap[name] !== undefined && serviceInsMap[name] !== instances) {
@@ -266,6 +280,9 @@ const ServiceCard = (props: IProps) => {
             updateServicesConfig={updateServicesConfig}
             name={name}
             deployStatus={runtimeDetail.deployStatus}
+            onElasticScaling={() => {
+              updater.elasticScalingVisible(true);
+            }}
           />
           <DomainModal
             visible={domainModalVisible}
@@ -274,6 +291,15 @@ const ServiceCard = (props: IProps) => {
               updateSearch({ serviceName: undefined, jumpFrom: undefined });
             }}
             serviceName={name}
+          />
+          <ElasticScaling
+            visible={elasticScalingVisible}
+            onClose={() => {
+              updater.elasticScalingVisible(false);
+              runtimeStore.getRuntimeDetail({ runtimeId, forceUpdate: true });
+            }}
+            serviceName={name}
+            isEnabled={service.autoscalerEnabled === 'Y'}
           />
         </span>
       </div>
