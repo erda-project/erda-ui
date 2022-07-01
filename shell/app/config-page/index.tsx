@@ -163,6 +163,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
         execOperation('', {
           key: globalOperation.__AsyncAtInit__,
           reload: true,
+          async: true, // hide loading when AsyncAtInit
           components: asyncComponents,
         });
       }
