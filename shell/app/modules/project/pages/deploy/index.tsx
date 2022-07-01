@@ -28,7 +28,7 @@ import { useEffectOnce, useUpdateEffect } from 'react-use';
 import DeployDetail from './deploy-detail';
 import { deployOrderStatusMap } from './config';
 import moment from 'moment';
-import { queryWorkflow } from 'project/services/project-workflow';
+import { getBranchPolicy } from 'project/services/project-workflow';
 import {
   getDeployOrders,
   getDeployOrderDetail,
@@ -142,8 +142,8 @@ const DeployContent = ({
   const timer = React.useRef<number>();
   const isAutoLoaing = React.useRef(false);
   const reloadRef = React.useRef<{ reload: () => void }>();
-  const [workflowData] = queryWorkflow.useState();
-  const getWorkflows = React.useCallback(() => queryWorkflow.fetch({ projectID: +projectId }), [projectId]);
+  const [workflowData] = getBranchPolicy.useState();
+  const getWorkflows = React.useCallback(() => getBranchPolicy.fetch({ projectID: projectId }), [projectId]);
 
   React.useEffect(() => {
     getWorkflows();

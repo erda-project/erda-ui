@@ -534,7 +534,6 @@
     "authorize": "授权",
     "authorize user {user}": "给用户 {user} 授权",
     "auto create": "自动创建",
-    "auto merge": "自动合并",
     "automatic authorization": "自动授权",
     "back to home": "返回首页",
     "back to repo home": "返回仓库首页",

@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import Workflow from 'project/common/components/workflow';
 import AddFlow from 'project/common/components/workflow/add-flow';
-import { getFlowList, WorkflowHint, queryWorkflow } from 'project/services/project-workflow';
+import { getFlowList, getBranchPolicy } from 'project/services/project-workflow';
 import { getProjectIterations } from 'project/services/project-iteration';
 import { FlowType } from 'project/common/config';
 import { goTo } from 'app/common/utils';
@@ -24,11 +24,10 @@ import { goTo } from 'app/common/utils';
 interface IProps {
   projectID: number;
   id: number;
-  type: WorkflowHint['place'];
   metaIssue: Obj;
 }
 
-const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => {
+const IssueWorkflow: React.FC<IProps> = ({ projectID, id, metaIssue }) => {
   const devFlowInfos = getFlowList.useData();
   const [currentIteration, setIteration] = React.useState<ITERATION.Detail>({} as any);
   const { iterationID } = metaIssue;
@@ -50,9 +49,9 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
     });
   }, []);
 
-  const [workflows] = queryWorkflow.useState();
+  const [workflows] = getBranchPolicy.useState();
 
-  const getWorkflows = React.useCallback(() => queryWorkflow.fetch({ projectID }), [projectID]);
+  const getWorkflows = React.useCallback(() => getBranchPolicy.fetch({ projectID }), [projectID]);
 
   React.useEffect(() => {
     getWorkflows();
@@ -62,7 +61,13 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
     getFlowNodeList();
   }, [getFlowNodeList]);
   const hasMultipleBranch =
-    workflows?.flows && workflows.flows.filter((item) => item.flowType !== FlowType.SINGLE_BRANCH).length;
+    workflows?.flows &&
+    workflows.flows.filter((item) => {
+      const curBranchType = (workflows?.branchPolicies || []).find(
+        (bItem) => bItem.branch === item.targetBranch,
+      )?.branchType;
+      return curBranchType !== FlowType.SINGLE_BRANCH;
+    }).length;
   return (
     <div>
       <div className="relative h-12 flex-h-center text-primary font-medium">
@@ -83,7 +88,6 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
         <span className="w-px h-3 bg-default-1 mx-4" />
         <AddFlow
           onAdd={getFlowNodeList}
-          type={type}
           metaData={{
             iteration: currentIteration,
             issue: metaIssue,

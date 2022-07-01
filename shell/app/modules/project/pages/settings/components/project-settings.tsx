@@ -26,8 +26,9 @@ import routeInfoStore from 'core/stores/route';
 import IssueWorkflow from 'project/common/components/issue-workflow';
 import { usePerm } from 'app/user/common';
 import ScanRule from 'project/common/components/scan-rule';
-import ProjectWorkflow from 'project/pages/settings/components/project-workflow';
 import { replaceWithLink } from 'app/common/utils';
+import BranchPolicy from './workflow-setting/branch-policy';
+import DevOpsWorkflow from './workflow-setting/devops-workflow';
 
 const ProjectSettings = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
@@ -114,6 +115,26 @@ const ProjectSettings = () => {
             />
           ),
         },
+        {
+          tabTitle: i18n.s('branch policy', 'dop'),
+          tabKey: 'branchPolicy',
+          content: (
+            <ConfigLayout
+              sectionList={[
+                {
+                  title: i18n.s('Branch policy', 'dop'),
+                  desc: i18n.s(
+                    'The project branch management specification mainly regulates which branch different branches are cut from and finally merged into that branch.',
+                    'dop',
+                  ),
+                  children: (
+                    <BranchPolicy projectId={projectId} editAuth={permMap.setting.customWorkflow.operation.pass} />
+                  ),
+                },
+              ]}
+            />
+          ),
+        },
       ],
     },
     {
@@ -189,10 +210,7 @@ const ProjectSettings = () => {
                     'dop:You can configure stages of the R&D process here, such as development, testing, staging and production, as well as code branches, artifact types, deployment environments and steps required for these stages.',
                   ),
                   children: (
-                    <ProjectWorkflow
-                      projectID={+projectId}
-                      canOperate={permMap.setting.customWorkflow.operation.pass}
-                    />
+                    <DevOpsWorkflow projectId={projectId} editAuth={permMap.setting.customWorkflow.operation.pass} />
                   ),
                 },
               ]}

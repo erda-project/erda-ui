@@ -534,7 +534,6 @@
     "authorize": "authorize",
     "authorize user {user}": "authorize user {user}",
     "auto create": "auto create",
-    "auto merge": "auto merge",
     "automatic authorization": "automatic authorization",
     "back to home": "back to home",
     "back to repo home": "back to repo home",
