@@ -16,7 +16,7 @@ import { AutoComplete, Button, Form, Popover } from 'antd';
 import { ErdaIcon, RenderPureForm } from 'common';
 import projectStore from 'project/stores/project';
 import { getJoinedApps } from 'user/services/user';
-import { createFlow, CreateFlowNode, getBranches, getBranchPolicy } from 'project/services/project-workflow';
+import { createFlow, getBranches, getBranchPolicy } from 'project/services/project-workflow';
 import i18n from 'i18n';
 import { FlowType } from 'project/common/config';
 
@@ -30,7 +30,7 @@ interface IProps {
 }
 
 const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
-  const [form] = Form.useForm<Omit<CreateFlowNode, 'issueID'>>();
+  const [form] = Form.useForm<Omit<DEVOPS_WORKFLOW.CreateFlowNode, 'issueID'>>();
   const allBranch = getBranches.useData();
   const { id: projectId, name: projectName } = projectStore.useStore((s) => s.info);
   const [visible, setVisible] = React.useState(false);

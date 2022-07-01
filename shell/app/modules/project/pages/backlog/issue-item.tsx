@@ -35,7 +35,6 @@ import { useDrag } from 'react-dnd';
 import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import userStore from 'user/stores';
 import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/component/table-view';
-import { FlowStatus } from 'project/services/project-workflow';
 import iterationStore from 'app/modules/project/stores/iteration';
 import './issue-item.scss';
 
@@ -94,7 +93,6 @@ export const IssueItem = (props: IIssueProps) => {
   const [nameEditing, setNameEditing] = React.useState(false);
   const [nameValue, setNameValue] = React.useState('');
   const nameRef = React.useRef<Input>(null);
-  const [flowStatus, setFlowStatus] = React.useState<FlowStatus>('none');
 
   const { updateIssue } = issueStore.effects;
 

@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DevFlowInfo, DevFlowInfos, PipelineInfo } from 'project/services/project-workflow';
 import { ErdaIcon, Ellipsis, EmptyHolder, Badge, MarkdownRender } from 'common';
 import i18n from 'i18n';
 import { ciStatusMap } from 'project/common/components/pipeline-new/config';
@@ -25,13 +24,13 @@ import { tempMerge } from 'project/services/project-workflow';
 export interface IProps {
   scope: 'ISSUE' | 'MR';
   projectID: number;
-  flowInfo: DevFlowInfos;
+  flowInfo: DEVOPS_WORKFLOW.DevFlowInfos;
   getFlowNodeList: () => void;
 }
 
 const WorkflowItem: React.FC<
   {
-    data: DevFlowInfo;
+    data: DEVOPS_WORKFLOW.DevFlowInfo;
   } & Omit<IProps, 'flowInfo'>
 > = ({ data, scope, getFlowNodeList, projectID }) => {
   const code = ({ index, className }: { index: number; className?: string }) => (
@@ -140,7 +139,7 @@ const Status = ({ status, index }: { status: string; index: number }) => {
 };
 
 interface CardProps {
-  data: DevFlowInfo;
+  data: DEVOPS_WORKFLOW.DevFlowInfo;
   className?: string;
   index: number;
   projectID: string;
