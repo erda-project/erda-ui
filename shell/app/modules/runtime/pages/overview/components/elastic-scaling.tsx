@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import cn from 'classnames';
 import { Button, Drawer, Input, InputNumber, message, Modal, Select, Tag } from 'antd';
 import { Form, ArrayFieldType, Table, Schema } from '@erda-ui/components';
 import { forEach, isNumber, map, pick } from 'lodash';
 import { toJS } from '@formily/reactive';
-import { IFormFeedback, onFieldValueChange } from '@formily/core';
+import { IFormFeedback } from '@formily/core';
 import { createScaledRules, getScaledRules, updateScaledRules, applyCancelRules } from '../../../services/runtime';
 import routeInfoStore from 'core/stores/route';
 import { useUnmount } from 'react-use';
@@ -24,7 +25,17 @@ import runtimeStore from 'runtime/stores/runtime';
 
 import './elastic-scaling.scss';
 
-const { createForm, createFields, useFieldSchema, useField, observer, RecursionField, onFieldReact, isField } = Form;
+const {
+  createForm,
+  createFields,
+  useFieldSchema,
+  useField,
+  observer,
+  RecursionField,
+  onFieldReact,
+  isField,
+  onFieldValueChange,
+} = Form;
 
 interface IProps {
   visible: boolean;
@@ -58,13 +69,9 @@ const StatusTitle = ({
       <div className="flex">
         <div>自动扩缩容</div>
         <div className="ml-4">
-          {!ruleId ? null : started ? (
-            <Tag color="#27C99A" className="border-0 bg-green-deep">
-              启动中
-            </Tag>
-          ) : (
-            <Tag color="#27C99A" className="border-0 bg-red-deep">
-              已停止
+          {!ruleId ? null : (
+            <Tag className={cn('border-0 text-white', { 'bg-green-deep': started, 'bg-red-deep': !started })}>
+              {started ? '启动中' : '已停止'}
             </Tag>
           )}
         </div>
@@ -267,7 +274,7 @@ const ElasticScaling = ({ visible, onClose, serviceName, isEnabled }: IProps) =>
           });
         },
       }),
-    [visible],
+    [],
   );
 
   React.useEffect(() => {
