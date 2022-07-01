@@ -23,6 +23,7 @@ import { branchNameValidator, branchNameWithoutWildcard } from 'project/common/c
 import { WithAuth } from 'user/common';
 import BranchPlicyCard from './branch-policy-card';
 import i18n from 'i18n';
+
 interface IProps {
   projectId: string;
   editAuth: boolean;
