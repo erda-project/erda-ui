@@ -218,7 +218,8 @@ const ErdaTable = <T extends Obj>({
         tableLayout="auto"
         locale={{
           emptyText:
-            typeof pagination !== 'boolean' && (!pagination?.current || pagination?.current === 1) ? null : (
+            (typeof pagination !== 'boolean' && (!pagination?.current || pagination?.current === 1)) ||
+            paginationProps === false ? null : (
               <span>
                 {locale.emptyText}
                 <span className="link" onClick={() => onPaginationChange({ pageNo: 1 })}>

@@ -1,0 +1,11 @@
+.replicas-count {
+  .ant-input-number {
+    border: none;
+  }
+  .ant-input-number-input-wrap {
+    @apply bg-default-06;
+  }
+  .ant-formily-item {
+    margin-bottom: 0;
+  }
+}
