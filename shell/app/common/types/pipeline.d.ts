@@ -62,6 +62,17 @@ declare namespace PIPELINE {
       uuid: string;
       allowFailure: boolean;
       taskContainers: ITaskContainers[];
+      params: {
+        name: string;
+        values: {
+          merged: string;
+        };
+      }[];
+      action: {
+        name: string;
+        version: string;
+        displayName: string;
+      };
     };
     result: {
       metadata?: MetaData[];

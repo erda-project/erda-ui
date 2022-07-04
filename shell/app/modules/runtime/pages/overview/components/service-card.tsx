@@ -299,7 +299,6 @@ const ServiceCard = (props: IProps) => {
               runtimeStore.getRuntimeDetail({ runtimeId, forceUpdate: true });
             }}
             serviceName={name}
-            isEnabled={service.autoscalerEnabled === 'Y'}
           />
         </span>
       </div>
