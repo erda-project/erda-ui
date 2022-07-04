@@ -50,6 +50,7 @@ interface ScaledRulesResp {
   rules: {
     ruleId: string;
     scaledConfig: RUNTIME.ScaledConfig;
+    isApplied: string;
   }[];
 }
 

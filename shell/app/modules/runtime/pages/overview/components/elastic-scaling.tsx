@@ -40,7 +40,6 @@ const {
 interface IProps {
   visible: boolean;
   serviceName: string;
-  isEnabled: boolean;
   onClose: () => void;
 }
 
@@ -225,10 +224,10 @@ const ReplicaCount = observer(() => {
   );
 });
 
-const ElasticScaling = ({ visible, onClose, serviceName, isEnabled }: IProps) => {
+const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
   const { runtimeId } = routeInfoStore.useStore((s) => s.params);
   const scaledRules = getScaledRules.useData();
-  const [started, setStarted] = React.useState(isEnabled);
+  const [started, setStarted] = React.useState(false);
 
   const isEditing = React.useMemo(() => !!scaledRules && !!scaledRules.rules.length, [scaledRules]);
 
@@ -238,9 +237,19 @@ const ElasticScaling = ({ visible, onClose, serviceName, isEnabled }: IProps) =>
     }
   }, [visible]);
 
-  const form = React.useMemo(
-    () =>
-      createForm({
+  React.useEffect(() => {
+    if (scaledRules && scaledRules.rules.length) {
+      setStarted(scaledRules.rules[0].isApplied === 'Y');
+    }
+  }, [scaledRules]);
+
+  React.useEffect(() => {
+    console.log('mount');
+  }, []);
+
+  const form = React.useMemo(() => {
+    if (visible) {
+      return createForm({
         effects: () => {
           onFieldReact('triggers.*.type', (field) => {
             if (isField(field)) {
@@ -273,9 +282,10 @@ const ElasticScaling = ({ visible, onClose, serviceName, isEnabled }: IProps) =>
             field.setValue(isNumber(field.value) ? `${field.value}` : field.value);
           });
         },
-      }),
-    [],
-  );
+      });
+    }
+    return createForm();
+  }, [visible]);
 
   React.useEffect(() => {
     if (scaledRules && scaledRules.rules.length) {
