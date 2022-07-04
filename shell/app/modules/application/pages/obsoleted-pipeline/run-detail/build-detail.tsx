@@ -62,6 +62,7 @@ const BuildDetail = (props: IProps) => {
     isExpand: false,
     chosenPipelineId: query.pipelineID || ('' as string | number),
     recordTableKey: 1,
+    configParams: null as null | { actionName: string; version: string; params: { name: string; value: string }[] },
   });
   const { startStatus, logProps, logVisible, selectedRowId, isHistoryBuild, isExpand } = state;
   const toggleContainer: React.RefObject<HTMLDivElement> = React.useRef(null);
@@ -270,17 +271,25 @@ const BuildDetail = (props: IProps) => {
     });
   };
 
+  const showLogDrawer = (node: BUILD.PipelineNode) => {
+    updater.logProps({
+      taskID: node.id,
+      pipelineID,
+      logId: node.extra.uuid,
+      taskContainers: node.extra.taskContainers,
+    });
+    updater.configParams({
+      actionName: node.extra.action.displayName || node.extra.action.name || node.name,
+      version: node.extra.action.version,
+      params: map(node.extra.params, (p) => ({ name: p.name, value: p.values.merged })),
+    });
+    updater.logVisible(true);
+  };
+
   const onClickNode = (node: BUILD.PipelineNode, mark: string) => {
-    const { id: taskID } = node;
     switch (mark) {
       case 'log':
-        updater.logProps({
-          taskID,
-          pipelineID,
-          logId: node.extra.uuid,
-          taskContainers: node.extra.taskContainers,
-        });
-        updater.logVisible(true);
+        showLogDrawer(node);
         break;
       case 'link': {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'runtimeID');
@@ -356,10 +365,7 @@ const BuildDetail = (props: IProps) => {
         onReject(node);
         break;
       default: {
-        const hasStarted = startStatus !== 'unstart';
-        if (!hasStarted && pipelineDetail && pipelineDetail.status === 'Analyzed' && deployAuth.hasAuth) {
-          nodeClickConfirm(node);
-        }
+        showLogDrawer(node);
       }
     }
   };
@@ -839,7 +845,13 @@ const BuildDetail = (props: IProps) => {
           ) : null}
         </div>
       </Spin>
-      <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />
+      <BuildLog
+        visible={logVisible}
+        hideLog={hideLog}
+        {...logProps}
+        configParams={state.configParams}
+        title={state.configParams?.actionName}
+      />
     </div>
   );
 };

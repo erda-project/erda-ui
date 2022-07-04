@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isEmpty, get } from 'lodash';
+import { isEmpty, get, map } from 'lodash';
 import { Spin, Modal, Tooltip, Menu, Dropdown, Input, Button } from 'antd';
 import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -36,8 +36,6 @@ import './execute.scss';
 
 const { TextArea } = Input;
 const { confirm } = Modal;
-
-const noop = () => {};
 
 interface PureExecuteProps {
   appId: string;
@@ -69,11 +67,12 @@ export const PureExecute = (props: PureExecuteProps) => {
   const [pipelineDetail, changeType] = buildStore.useStore((s) => [s.pipelineDetail, s.changeType]);
   const curStatus = (pipelineDetail && pipelineDetail.status) || '';
 
-  const [{ logVisible, logProps, rerunStartStatus, startStatus }, updater] = useUpdate({
+  const [{ logVisible, logProps, rerunStartStatus, startStatus, configParams }, updater] = useUpdate({
     logVisible: false,
     logProps: {},
     startStatus: curStatus && ciBuildStatusSet.executeStatus.includes(curStatus) ? 'start' : 'unstart', // unstart-未开始，ready-准备开始，start-已开始,end:执行完成或取消
     rerunStartStatus: 'unstart',
+    configParams: null as null | { actionName: string; version: string; params: { name: string; value: string }[] },
   });
 
   const executeRef = React.useRef<{
@@ -88,7 +87,7 @@ export const PureExecute = (props: PureExecuteProps) => {
 
   const rejectContentRef = React.useRef('');
 
-  const { getBuildRuntimeDetail, updateTaskEnv, getPipelineDetail } = buildStore.effects;
+  const { getBuildRuntimeDetail, getPipelineDetail } = buildStore.effects;
 
   const { updateApproval } = deployStore.effects;
 
@@ -142,31 +141,26 @@ export const PureExecute = (props: PureExecuteProps) => {
         });
   };
 
-  const nodeClickConfirm = (node: BUILD.PipelineNode) => {
-    const disabled = node.status === 'Disabled';
-    confirm({
-      title: i18n.t('OK'),
-      className: 'node-click-confirm',
-      content: i18n.t('dop:whether {action} task {name}', {
-        action: disabled ? i18n.t('Enable-open') : i18n.t('close'),
-        name: node.name,
-      }),
-      onOk: () => updateEnv({ taskID: node.id, taskAlias: node.name, disabled: !disabled }),
-      onCancel: noop,
+  const showLogDrawer = (node: BUILD.PipelineNode) => {
+    updater.logProps({
+      taskID: node.id,
+      pipelineID,
+      logId: node.extra.uuid,
+      taskContainers: node.extra.taskContainers,
     });
+    updater.configParams({
+      actionName: node.extra.action.displayName || node.extra.action.name || node.name,
+      version: node.extra.action.version,
+      params: map(node.extra.params, (p) => ({ name: p.name, value: p.values.merged })),
+    });
+    updater.logVisible(true);
   };
 
   const onClickNode = (node: BUILD.PipelineNode, mark: string) => {
-    const { id: taskID } = node;
+    console.log('node: ', node);
     switch (mark) {
       case 'log':
-        updater.logProps({
-          taskID,
-          pipelineID,
-          logId: node.extra.uuid,
-          taskContainers: node.extra.taskContainers,
-        });
-        updater.logVisible(true);
+        showLogDrawer(node);
         break;
       case 'link': {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'runtimeID');
@@ -240,10 +234,8 @@ export const PureExecute = (props: PureExecuteProps) => {
         onReject(node);
         break;
       default: {
-        const hasStarted = startStatus !== 'unstart';
-        if (!hasStarted && pipelineDetail && pipelineDetail.status === 'Analyzed' && deployAuth.hasAuth) {
-          nodeClickConfirm(node);
-        }
+        // open drawer
+        showLogDrawer(node);
       }
     }
   };
@@ -298,12 +290,6 @@ export const PureExecute = (props: PureExecuteProps) => {
 
   const refreshPipeline = () => {
     getPipelineDetail({ pipelineID: +chosenPipelineId });
-  };
-
-  const updateEnv = (info: Omit<BUILD.ITaskUpdatePayload, 'pipelineID'>) => {
-    updateTaskEnv({ ...info, pipelineID: pipelineDetail.id }).then(() => {
-      getPipelineDetail({ pipelineID: +pipelineID });
-    });
   };
 
   const hideLog = () => {
@@ -522,7 +508,13 @@ export const PureExecute = (props: PureExecuteProps) => {
         beforeExecute={() => updater.startStatus('pending')}
         onExecute={runBuild}
       />
-      <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />
+      <BuildLog
+        visible={logVisible}
+        hideLog={hideLog}
+        {...logProps}
+        configParams={configParams}
+        title={configParams?.actionName}
+      />
     </>
   );
 };

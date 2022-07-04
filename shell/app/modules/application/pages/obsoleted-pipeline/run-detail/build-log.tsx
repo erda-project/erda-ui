@@ -38,6 +38,7 @@ interface IProps {
   pushSlideComp: (payload: any) => void;
   popSlideComp: () => void;
   taskContainers: PIPELINE.ITaskContainers[];
+  configParams: { actionName: string; version: string; params: { name: string; value: string }[] };
 }
 
 interface IState {
@@ -129,6 +130,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
       visible,
       hideLog,
       withoutDrawer = false,
+      configParams,
     } = this.props;
     const { isStdErr } = this.state;
     const switchLog = (
@@ -171,6 +173,46 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
         logRollerFn()
       );
 
+    const detailViewer = (
+      <div>
+        <Tabs>
+          <TabPane tab={i18n.s('execution log')} key="log">
+            {logRollerComp}
+          </TabPane>
+          <TabPane tab={i18n.s('configuration info')} key="config">
+            <div>
+              <div className="grid grid-cols-12 gap-y-2">
+                <div className="text-default-6 col-span-2 flex items-center">
+                  <ErdaIcon type="diedai" className="mr-2" />
+                  {i18n.s('name')}
+                </div>
+                <div className="col-span-10">{configParams?.actionName ?? '-'}</div>
+                <div className="text-default-6 col-span-2 flex items-center">
+                  <ErdaIcon type="diedai" className="mr-2" />
+                  {i18n.s('version')}
+                </div>
+                <div className="col-span-10">{configParams?.version ?? '-'}</div>
+              </div>
+              <div className="mt-4">{i18n.s('task parameters')}</div>
+              <div className="grid grid-cols-12 gap-y-2 mt-4">
+                {map(configParams?.params, ({ name, value }) => {
+                  return (
+                    <React.Fragment key={name}>
+                      <div className="text-default-6 col-span-2 flex items-center">
+                        <ErdaIcon type="diedai" className="mr-2" />
+                        {name}
+                      </div>
+                      <div className="col-span-10">{value}</div>
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            </div>
+          </TabPane>
+        </Tabs>
+      </div>
+    );
+
     if (withoutDrawer) {
       return <CompSwitcher comps={slidePanelComps}>{logRollerComp}</CompSwitcher>;
     }
@@ -186,7 +228,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
         visible={visible}
         onClose={hideLog}
       >
-        <CompSwitcher comps={slidePanelComps}>{logRollerComp}</CompSwitcher>
+        <CompSwitcher comps={slidePanelComps}>{detailViewer}</CompSwitcher>
       </Drawer>
     );
   }

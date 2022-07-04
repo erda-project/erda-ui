@@ -358,7 +358,7 @@ const PipelineNode = (props: IProps) => {
   return (
     <Container {...renderTooltipTitle()}>
       <div onClick={() => onClickNode && onClickNode(data, 'node')} className={mergedClassNames} ref={boxRef}>
-        <div className="flex justify-between items-center p-3">
+        <div className="flex justify-between items-center p-3 cursor-pointer">
           {icon}
           <div className="yaml-editor-item-content py-0 px-1">
             <div className="flex justify-between items-center">
