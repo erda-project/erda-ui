@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isEmpty, get, map } from 'lodash';
+import { isEmpty, get, map, isNumber } from 'lodash';
 import { Spin, Modal, Tooltip, Menu, Dropdown, Input, Button } from 'antd';
 import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -31,11 +31,13 @@ import { rerunFailedPipeline, runPipeline, rerunPipeline, cancelPipeline } from 
 import Info from './info';
 import deployStore from 'application/stores/deploy';
 import InParamsForm from './in-params-form';
+import { ciNodeStatusSet } from 'application/pages/build-detail/config';
 
 import './execute.scss';
 
 const { TextArea } = Input;
 const { confirm } = Modal;
+const { executeStatus } = ciNodeStatusSet;
 
 interface PureExecuteProps {
   appId: string;
@@ -142,12 +144,18 @@ export const PureExecute = (props: PureExecuteProps) => {
   };
 
   const showLogDrawer = (node: BUILD.PipelineNode) => {
-    updater.logProps({
-      taskID: node.id,
-      pipelineID,
-      logId: node.extra.uuid,
-      taskContainers: node.extra.taskContainers,
-    });
+    const { status, costTimeSec } = node;
+    if (status === 'Running' || (executeStatus.includes(status) && isNumber(costTimeSec) && costTimeSec !== -1)) {
+      updater.logProps({
+        taskID: node.id,
+        pipelineID,
+        logId: node.extra.uuid,
+        taskContainers: node.extra.taskContainers,
+        showLog: true,
+      });
+    } else {
+      updater.logProps({ showLog: false });
+    }
     updater.configParams({
       actionName: node.extra.action.displayName || node.extra.action.name || node.name,
       version: node.extra.action.version,
@@ -157,7 +165,6 @@ export const PureExecute = (props: PureExecuteProps) => {
   };
 
   const onClickNode = (node: BUILD.PipelineNode, mark: string) => {
-    console.log('node: ', node);
     switch (mark) {
       case 'log':
         showLogDrawer(node);

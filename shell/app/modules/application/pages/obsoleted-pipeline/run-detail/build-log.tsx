@@ -37,6 +37,7 @@ interface IProps {
   clearLog: (logKey?: string) => void;
   pushSlideComp: (payload: any) => void;
   popSlideComp: () => void;
+  showLog: boolean;
   taskContainers: PIPELINE.ITaskContainers[];
   configParams: { actionName: string; version: string; params: { name: string; value: string }[] };
 }
@@ -176,9 +177,11 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
     const detailViewer = (
       <div>
         <Tabs>
-          <TabPane tab={i18n.s('execution log')} key="log">
-            {logRollerComp}
-          </TabPane>
+          {this.props.showLog && (
+            <TabPane tab={i18n.s('execution log')} key="log">
+              {logRollerComp}
+            </TabPane>
+          )}
           <TabPane tab={i18n.s('configuration info')} key="config">
             <div>
               <div className="grid grid-cols-12 gap-y-2">
