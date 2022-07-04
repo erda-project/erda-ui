@@ -105,11 +105,14 @@ const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
       d,
       (fullDataRef.current || []).filter((item) => item.id !== d.id),
     );
-    const validStrArr = compact(Object.values(validMap));
-    return validStrArr.map((item) => {
-      const [l, t] = item.split(tipSplit);
-      return { label: l, tip: t };
-    });
+    const validStrArr = Object.keys(validMap);
+    return validStrArr
+      .filter((item) => !!validMap[item])
+      .map((item) => {
+        const v = validMap[item];
+        const [l, t] = v.split(tipSplit);
+        return { label: l, tip: t, key: item };
+      });
   };
 
   const deleteCurData = (d: BranchPolicyData) => {
@@ -197,6 +200,7 @@ const getValid = (policyData: BranchPolicyData, fullData: BranchPolicyData[]) =>
       return t ? `${_label}${tipSplit} ${t}` : '';
     },
   };
+
   return {
     sourceBranch: rules.sourceBranch(
       i18n.s('source branch', 'dop'),

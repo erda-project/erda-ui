@@ -37,7 +37,7 @@ const hasNoPolicy = (
   if (!policy) return true;
   if (branchType === FlowType.MULTI_BRANCH) {
     const valueLen = compact(Object.values(policy)).length;
-    return valueLen === 0 || (valueLen === 1 && policy.currentBranch);
+    return valueLen === 0 || (valueLen === 1 && !!policy.currentBranch);
   } else {
     return !policy.sourceBranch;
   }
@@ -56,7 +56,7 @@ const BranchPolicyItem = ({
   data: BranchPolicyData;
   editId?: string;
   onEdit?: () => void;
-  validData?: (d: BranchPolicyData) => Array<{ label: string; tip: string }>;
+  validData?: (d: BranchPolicyData) => Array<{ label: string; tip: string; key: string }>;
   cancelEdit?: () => void;
   editAuth?: boolean;
   onDelete?: () => void;
@@ -66,7 +66,7 @@ const BranchPolicyItem = ({
   const [lineWidth, setLineWidth] = React.useState(138);
   const { branch, policy, branchType } = data || {};
   const [showAdd, setShowAdd] = React.useState(false);
-  const [validArr, setValidArr] = React.useState<Array<{ label: string; tip: string }>>([]);
+  const [validArr, setValidArr] = React.useState<Array<{ label: string; tip: string; key: string }>>([]);
 
   React.useEffect(() => {
     setData(propsData);
@@ -88,8 +88,10 @@ const BranchPolicyItem = ({
     setLineWidth(curW < 138 ? 138 : curW);
   }, 500);
 
-  const saveable = data.branch && !validArr.length;
+  const showEmpty = !(!noPolicy || showAdd) && !!branch;
+  const usedValid = showEmpty ? validArr.filter((item) => item.key === 'branch') : [...validArr];
 
+  const saveable = data.branch && !usedValid.length;
   return (
     <ResizeObserver onResize={onResize}>
       <div className="border-all rounded mt-2 mb-4 group">
@@ -231,9 +233,9 @@ const BranchPolicyItem = ({
             }
           />
         )}
-        <If condition={!!validArr.length}>
+        <If condition={!!usedValid.length}>
           <div className="px-4">
-            {validArr.map((item) => {
+            {usedValid.map((item) => {
               return (
                 <div key={item.label} className="mb-1 flex-h-center">
                   <span className="text-default-6 text-left mr-2">{`${item.label}: `}</span>
