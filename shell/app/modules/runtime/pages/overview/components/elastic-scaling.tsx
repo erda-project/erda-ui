@@ -243,10 +243,6 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
     }
   }, [scaledRules]);
 
-  React.useEffect(() => {
-    console.log('mount');
-  }, []);
-
   const form = React.useMemo(() => {
     if (visible) {
       return createForm({
