@@ -110,7 +110,9 @@ export const IssueActivities = (props: IProps) => {
                   <span className="text-default">{i18n.t('dop:add relation to MR')}</span>
                   <a
                     className="text-purple-deep"
-                    onClick={() => goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, jumpOut: true })}
+                    onClick={() =>
+                      goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, state: 'open', jumpOut: true })
+                    }
                   >
                     #{mrID} {mrTitle}
                   </a>

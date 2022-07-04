@@ -70,6 +70,14 @@ declare namespace DEVOPS_WORKFLOW {
     canJoin: boolean;
     commit: null | Commit;
     baseCommit: null | Commit;
+    mergeRequestInfo: null | MergeRequestInfo;
+  }
+
+  interface MergeRequestInfo {
+    id: number;
+    mergeId: number;
+    state: string;
+    title: string;
   }
 
   interface PipelineInfo {
@@ -89,6 +97,7 @@ declare namespace DEVOPS_WORKFLOW {
   interface DevFlowInfo {
     hasPermission: boolean;
     hasOnPushBranch: boolean;
+    devFlowRuleName: string;
     inode: string;
     pInode: string;
     devFlowNode: DevFlowNode;
