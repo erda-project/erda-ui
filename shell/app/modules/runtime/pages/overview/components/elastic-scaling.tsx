@@ -255,6 +255,8 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
               const startField = field.query(metadataPath.concat('start')).take();
               const endField = field.query(metadataPath.concat('end')).take();
               const desiredReplicasField = field.query(metadataPath.concat('desiredReplicas')).take();
+              const subTypePathField = field.query(metadataPath.concat('type')).take();
+              const timezoneField = field.query(metadataPath.concat('timezone')).take();
               if (!value) {
                 valueField?.setDisplay('none');
                 startField?.setDisplay('none');
@@ -265,15 +267,23 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
                 startField?.setDisplay('none');
                 endField?.setDisplay('none');
                 desiredReplicasField?.setDisplay('none');
+                subTypePathField?.setDisplay('hidden');
+                timezoneField?.setDisplay('none');
               } else {
                 valueField?.setDisplay('none');
                 startField?.setDisplay('visible');
                 endField?.setDisplay('visible');
                 desiredReplicasField?.setDisplay('visible');
+                subTypePathField?.setDisplay('none');
+                timezoneField?.setDisplay('hidden');
               }
             }
           });
           onFieldValueChange('triggers.*.*.value', (field) => {
+            // @ts-ignore TODO
+            field.setValue(isNumber(field.value) ? `${field.value}` : field.value);
+          });
+          onFieldValueChange('triggers.*.*.desiredReplicas', (field) => {
             // @ts-ignore TODO
             field.setValue(isNumber(field.value) ? `${field.value}` : field.value);
           });
@@ -329,6 +339,12 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
               component: undefined,
               display: 'hidden',
               defaultValue: 'Utilization',
+            },
+            {
+              name: 'timezone',
+              component: undefined,
+              display: 'hidden',
+              defaultValue: 'Asia/Shanghai',
             },
             {
               name: 'value',
