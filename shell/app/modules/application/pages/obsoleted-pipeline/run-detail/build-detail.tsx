@@ -278,6 +278,21 @@ const BuildDetail = (props: IProps) => {
     updater.logVisible(true);
   };
 
+  const showLogDrawer = (node: BUILD.PipelineNode) => {
+    updater.logProps({
+      taskID: node.id,
+      pipelineID,
+      logId: node.extra.uuid,
+      taskContainers: node.extra.taskContainers,
+    });
+    updater.configParams({
+      actionName: node.extra.action.displayName || node.extra.action.name || node.name,
+      version: node.extra.action.version,
+      params: map(node.extra.params, (p) => ({ name: p.name, value: p.values.merged })),
+    });
+    updater.logVisible(true);
+  };
+
   const onClickNode = (node: BUILD.PipelineNode, mark: string) => {
     switch (mark) {
       case 'log':
