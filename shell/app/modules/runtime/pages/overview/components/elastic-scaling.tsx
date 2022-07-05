@@ -15,7 +15,7 @@ import React from 'react';
 import cn from 'classnames';
 import { Button, Drawer, Input, InputNumber, message, Modal, Select, Tag } from 'antd';
 import { Form, ArrayFieldType, Table, Schema } from '@erda-ui/components';
-import { forEach, isNumber, map, pick } from 'lodash';
+import { filter, forEach, isNumber, map, pick } from 'lodash';
 import { toJS } from '@formily/reactive';
 import { IFormFeedback } from '@formily/core';
 import { createScaledRules, getScaledRules, updateScaledRules, applyCancelRules } from '../../../services/runtime';
@@ -42,6 +42,12 @@ interface IProps {
   serviceName: string;
   onClose: () => void;
 }
+
+const typeOptions = [
+  { value: 'cpu', label: 'CPU' },
+  { value: 'memory', label: '内存' },
+  { value: 'cron', label: 'Cron' },
+];
 
 const StatusTitle = ({
   started,
@@ -70,7 +76,7 @@ const StatusTitle = ({
         <div className="ml-4">
           {!ruleId ? null : (
             <Tag className={cn('border-0 text-white', { 'bg-green-deep': started, 'bg-red-deep': !started })}>
-              {started ? '启动中' : '已停止'}
+              {started ? '启用中' : '已停止'}
             </Tag>
           )}
         </div>
@@ -104,12 +110,15 @@ const TriggersConfig = observer(
     const [currentIndex, setCurrentIndex] = React.useState(0);
 
     const setDataSource = () => {
-      const data = map(toJS(props.value), (item, index) => {
+      const data = map(props.value, (item, index) => {
+        if (!item.type) {
+          return null;
+        }
         if (item.type === 'cron') {
           return { type: 'Cron', value: '', index };
         }
         return { index, type: item.type === 'cpu' ? 'CPU' : '内存', value: (item.metadata as RUNTIME.Metadata).value };
-      });
+      }).filter((item): item is { type: string; value: string; index: number } => !!item);
       setTableDataSource(data);
     };
 
@@ -122,6 +131,19 @@ const TriggersConfig = observer(
         setDataSource();
       }
     }, [visible, props.value]);
+
+    React.useEffect(() => {
+      if (visible) {
+        const currentTypes = props.value.reduce<string[]>((acc, item) => {
+          item.type && acc.push(item.type);
+          return acc;
+        }, []);
+        const currentTypeField = field.query(`triggers[${currentIndex}].type`).take();
+        currentTypeField.setComponentProps({
+          options: filter(typeOptions, ({ value }) => !currentTypes.includes(value)),
+        });
+      }
+    }, [visible, props.value, currentIndex]);
 
     const columns = [
       {
@@ -150,7 +172,8 @@ const TriggersConfig = observer(
       if (isEditing) {
         field.setValue(previousValue!);
       } else {
-        field.remove(field.indexes.length - 1);
+        setCurrentIndex(0);
+        field.remove(currentIndex);
       }
       setVisible(false);
     };
@@ -177,7 +200,6 @@ const TriggersConfig = observer(
         ];
       },
     };
-
     return (
       <div>
         <Button type="ghost" onClick={onAddRule} className="mb-4">
@@ -320,13 +342,6 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           name: 'type',
           title: '类型',
           required: true,
-          customProps: {
-            options: [
-              { value: 'cpu', label: 'CPU' },
-              { value: 'memory', label: '内存' },
-              { value: 'cron', label: 'Cron' },
-            ],
-          },
         },
         {
           type: 'object',
@@ -407,7 +422,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           ],
           customProps: {
             placeholder: '最小值',
-            min: 1,
+            min: 0,
             max: 100,
           },
         },
