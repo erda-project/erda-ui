@@ -130,7 +130,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
         },
       },
       {
-        label: i18n.t('dop:target branch'),
+        label: i18n.t('dop:source branch'),
         type: 'select',
         name: 'targetBranch',
         options: branches
