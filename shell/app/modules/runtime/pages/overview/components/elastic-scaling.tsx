@@ -200,6 +200,7 @@ const TriggersConfig = observer(
         ];
       },
     };
+
     return (
       <div>
         <Button type="ghost" onClick={onAddRule} className="mb-4">
@@ -336,6 +337,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           message: '至少有一条触发器',
         },
       ],
+      noPropertyLayoutWrapper: true,
       items: [
         {
           component: Select,
@@ -347,18 +349,18 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           type: 'object',
           name: 'metadata',
           component: undefined,
-          noPropertyLayoutWrapper: true,
+          // noPropertyLayoutWrapper: true,
           properties: [
             {
               name: 'type',
               component: undefined,
-              display: 'hidden',
+              display: 'none',
               defaultValue: 'Utilization',
             },
             {
               name: 'timezone',
               component: undefined,
-              display: 'hidden',
+              display: 'none',
               defaultValue: 'Asia/Shanghai',
             },
             {
@@ -459,6 +461,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
       return;
     }
     const values = toJS(form.values) as RUNTIME.ScaledConfig;
+    values.triggers = values.triggers.filter(({ type }) => !!type);
     if (isEditing) {
       updateScaledRules({
         runtimeId: +runtimeId,

@@ -157,27 +157,34 @@ export const transformConfigRecursively = (fieldsConfig: Field[], componentMap: 
     let _items = {}; // for array fields
     if (items) {
       const _properties = transformConfigRecursively(items, componentMap);
-      _items = {
-        type: 'object',
-        properties: {
-          layout: {
-            type: 'void',
-            'x-component': 'FormLayout',
-            'x-component-props': { ...defaultLayoutConfig, ...layoutConfig },
-            properties: {
-              grid: {
-                type: 'void',
-                'x-component': 'FormGrid',
-                'x-component-props': {
-                  maxColumns: gridConfig?.minColumns ? gridConfig.minColumns : 1,
-                  ...gridConfig,
+      if (noPropertyLayoutWrapper) {
+        _items = {
+          type: 'object',
+          properties: _properties,
+        };
+      } else {
+        _items = {
+          type: 'object',
+          properties: {
+            layout: {
+              type: 'void',
+              'x-component': 'FormLayout',
+              'x-component-props': { ...defaultLayoutConfig, ...layoutConfig },
+              properties: {
+                grid: {
+                  type: 'void',
+                  'x-component': 'FormGrid',
+                  'x-component-props': {
+                    maxColumns: gridConfig?.minColumns ? gridConfig.minColumns : 1,
+                    ...gridConfig,
+                  },
+                  properties: _properties,
                 },
-                properties: _properties,
               },
             },
           },
-        },
-      };
+        };
+      }
     }
 
     let _properties;
