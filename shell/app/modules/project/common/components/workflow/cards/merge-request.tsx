@@ -15,6 +15,7 @@ import React from 'react';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { Mr, Branch, Status } from './base';
+import classnames from 'classnames';
 
 interface CardProps {
   data: DEVOPS_WORKFLOW.DevFlowInfo;
@@ -63,7 +64,7 @@ const MergeRequestCard = (props: CardProps) => {
     curMrState?.stepStates || (data.changeBranch?.find((item) => item.commit.id === commit?.id) ? 'process' : 'wait');
 
   return (
-    <div className={`hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded ${className} `}>
+    <div className={classnames(className, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
       <Status status={stepStatus} index={index} />
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center justify-between">

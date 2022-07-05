@@ -19,6 +19,7 @@ import { Popover, Tooltip } from 'antd';
 import { goTo } from 'common/utils';
 import { Status } from './base';
 import { decode } from 'js-base64';
+import classnames from 'classnames';
 
 interface CardProps {
   data: DEVOPS_WORKFLOW.DevFlowInfo;
@@ -133,7 +134,7 @@ const PipelineCard = (props: CardProps) => {
   }
 
   return (
-    <div className={`hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded ${className}`}>
+    <div className={classnames(className, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
       <Status status={stepStatus} index={index} />
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center">

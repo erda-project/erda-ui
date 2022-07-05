@@ -18,6 +18,7 @@ import { Popover, Tooltip } from 'antd';
 import { goTo } from 'common/utils';
 import { Commit, Branch, Status } from './base';
 import { tempMerge } from 'project/services/project-workflow';
+import classnames from 'classnames';
 
 interface CardProps {
   data: DEVOPS_WORKFLOW.DevFlowInfo;
@@ -62,7 +63,7 @@ const MergeCard = (props: CardProps) => {
   );
 
   return (
-    <div className={`hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded ${className}`}>
+    <div className={classnames(className, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
       <Status index={index} status={status} />
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center justify-between">

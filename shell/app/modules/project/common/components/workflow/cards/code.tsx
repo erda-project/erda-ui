@@ -17,6 +17,7 @@ import i18n from 'i18n';
 import { Tooltip } from 'antd';
 import { tempMerge } from 'project/services/project-workflow';
 import { Commit, Branch, Status } from './base';
+import classnames from 'classnames';
 
 interface CardProps {
   data: DEVOPS_WORKFLOW.DevFlowInfo;
@@ -29,7 +30,7 @@ const CodeCard = (props: CardProps) => {
   const { data, projectID, reload, index, className } = props;
   const { canJoin, commit, sourceBranch, appID, mergeID, tempBranch } = data.devFlowNode || {};
   return (
-    <div className={`hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded ${className} `}>
+    <div className={classnames(className, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
       <Status status="success" index={index} />
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center justify-between">

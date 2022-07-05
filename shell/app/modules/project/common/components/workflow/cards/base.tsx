@@ -14,6 +14,7 @@
 import React from 'react';
 import { goTo } from 'common/utils';
 import { ErdaIcon, Ellipsis } from 'common';
+import classnames from 'classnames';
 
 export const Branch = ({
   branch,
@@ -28,7 +29,7 @@ export const Branch = ({
 }) => {
   return (
     <div
-      className={`${className} flex-h-center text-xs group cursor-pointer`}
+      className={classnames(className, 'flex-h-center text-xs group cursor-pointer')}
       onClick={() => {
         goTo(goTo.pages.repoBranch, { appId, projectId, branch, jumpOut: true });
       }}
@@ -56,7 +57,7 @@ export const Mr = ({
 }) => {
   return (
     <div
-      className={`${className} flex-h-center text-xs group cursor-pointer`}
+      className={classnames(className, 'flex-h-center text-xs group cursor-pointer')}
       onClick={() => {
         goTo(goTo.pages.appMr, { appId, projectId, mrId, state, jumpOut: true });
       }}
@@ -80,7 +81,7 @@ export const Commit = ({
 }) => {
   return (
     <div
-      className={`${className} text-xs group flex-h-center cursor-pointer`}
+      className={classnames(className, 'text-xs group flex-h-center cursor-pointer')}
       onClick={() => {
         goTo(goTo.pages.commit, {
           projectId,
