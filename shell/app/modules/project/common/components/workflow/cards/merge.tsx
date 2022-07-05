@@ -128,7 +128,10 @@ const MergeCard = (props: CardProps) => {
             <span
               className="text-purple-deep cursor-pointer"
               onClick={() => {
-                goTo(goTo.pages.projectSetting, { jumpOut: true, query: { tabKey: 'workflow' } });
+                goTo(goTo.pages.projectSetting, {
+                  jumpOut: true,
+                  query: { tabKey: 'workflow', flowName: data.devFlowRuleName },
+                });
               }}
             >
               {i18n.t('dop:R&D Workflow')}

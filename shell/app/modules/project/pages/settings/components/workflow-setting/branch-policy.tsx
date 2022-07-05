@@ -17,12 +17,12 @@ import { useMount } from 'react-use';
 import { EmptyHolder } from 'common';
 import { Button, message, Spin } from 'antd';
 import { uuid } from 'common/utils';
-import { compact } from 'lodash';
 import { FlowType } from 'project/common/config';
 import { branchNameValidator, branchNameWithoutWildcard } from 'project/common/config';
 import { WithAuth } from 'user/common';
 import BranchPlicyCard from './branch-policy-card';
 import i18n from 'i18n';
+import { compact, uniq } from 'lodash';
 
 interface IProps {
   projectId: string;
@@ -85,7 +85,17 @@ const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
     if (data) {
       const rePolicies = policies.map((item) => {
         const { id, openTempMerge, ...rest } = item;
-        return { ...rest };
+        let newData = { ...rest };
+        if (rest.policy) {
+          newData = {
+            ...rest,
+            policy: {
+              ...rest.policy,
+              tempBranch: openTempMerge ? rest.policy.tempBranch : '',
+            },
+          };
+        }
+        return newData;
       });
       updateBranchPolicy({ id: data.id, flows: data.flows, branchPolicies: rePolicies }).then(() => {
         getData().then(() => {
@@ -193,7 +203,13 @@ const getValid = (policyData: BranchPolicyData, fullData: BranchPolicyData[]) =>
     mergeRequest: normalBranch,
     cherryPick: (_label: string, _v?: string) => {
       let t = '';
-      if (_v) {
+      const _vArr = _v?.split(',') || [];
+      if (_vArr.length) {
+        if (compact(_vArr).length !== _vArr.length) t = i18n.s('can not exist a empty value', 'dop');
+        if (uniq(_vArr).length !== _vArr.length) t = i18n.s('there are duplicates', 'dop');
+      }
+
+      if (!t && _v) {
         const [pass, tips] = branchNameWithoutWildcard(_v, true);
         t = !pass ? `${tips}` : '';
       }

@@ -15,6 +15,7 @@ import React from 'react';
 import { AutoComplete, Button, Form, Popover } from 'antd';
 import { ErdaIcon, RenderPureForm } from 'common';
 import projectStore from 'project/stores/project';
+import { some } from 'lodash';
 import { getJoinedApps } from 'user/services/user';
 import { createFlow, getBranches, getBranchPolicy } from 'project/services/project-workflow';
 import i18n from 'i18n';
@@ -28,6 +29,20 @@ interface IProps {
     issue: Obj;
   };
 }
+
+// valid branch rule
+// eg:  (feature/123, feature/*,hotfix/*) => true
+const validBranchRule = (v: string, rule: string) => {
+  const rules = rule.split(',');
+  return some(rules, (r) => {
+    if (r.endsWith('/*')) {
+      const rPrefix = r.split('/*')[0];
+      return v !== `${rPrefix}/` && v.startsWith(`${rPrefix}/`);
+    } else {
+      return r === v;
+    }
+  });
+};
 
 const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
   const [form] = Form.useForm<Omit<DEVOPS_WORKFLOW.CreateFlowNode, 'issueID'>>();
@@ -77,14 +92,17 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
 
     const getBranchInfo = (flowName: string) => {
       const flow = branches.find((item) => item.name === flowName)!;
-      let sourceBranch;
-      const curPolicy = branchPolicies.find((item) => item.branch === flow.targetBranch);
+      let currentBranch;
+      let targetBranch;
+      const curPolicy = branchPolicies.find((item) => item.branch === flow?.targetBranch);
       if (flow && curPolicy?.branchType !== FlowType.SINGLE_BRANCH) {
-        sourceBranch = flow.targetBranch.replace('*', issue.id);
+        currentBranch = flow.targetBranch.replace('*', issue.id);
+        targetBranch = curPolicy?.policy?.targetBranch?.mergeRequest;
       }
       return {
-        targetBranch: curPolicy?.policy?.sourceBranch,
-        sourceBranch,
+        sourceBranch: curPolicy?.policy?.sourceBranch,
+        currentBranch,
+        targetBranch,
       };
     };
 
@@ -100,7 +118,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
             if (form.getFieldValue('appID')) {
               const result = getBranchInfo(v);
               form.setFieldsValue(result);
-              form.validateFields(['targetBranch']);
+              form.validateFields(['sourceBranch', 'targetBranch', 'currentBranch']);
             }
           },
         },
@@ -124,7 +142,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
                 appName: name,
               })
               .then(() => {
-                form.validateFields(['targetBranch']);
+                form.validateFields(['sourceBranch', 'targetBranch', 'currentBranch']);
               });
           },
         },
@@ -132,7 +150,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
       {
         label: i18n.t('dop:source branch'),
         type: 'select',
-        name: 'targetBranch',
+        name: 'sourceBranch',
         options: branches
           ?.filter((item) => item.name === flowName)
           .map((branch) => {
@@ -159,8 +177,54 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
       },
       {
         label: i18n.t('dop:Change branch'),
-        name: 'sourceBranch',
+        name: 'currentBranch',
         getComp: () => <AutoComplete options={allBranch?.map((item) => ({ value: item.name }))} />,
+        rules: [
+          {
+            validator: (_rule: any, value: string) => {
+              if (value) {
+                const _flowName = form.getFieldValue('flowName');
+                const _flow = branches.find((item) => item.name === _flowName)!;
+                const currentBranch = _flow?.targetBranch;
+                const reg = /^[a-zA-Z_]+[\\/\\.\\$@#a-zA-Z0-9_-]*$/;
+
+                if (!reg.test(value)) {
+                  return Promise.reject(
+                    new Error(i18n.t('start with letters and can contain characters that are not wildcard')),
+                  );
+                } else if (currentBranch && !validBranchRule(value, currentBranch)) {
+                  return Promise.reject(
+                    new Error(`${i18n.s('Please fill in the correct branch rule', 'dop')}, ${currentBranch}`),
+                  );
+                }
+              }
+
+              return Promise.resolve();
+            },
+          },
+        ],
+      },
+      {
+        label: i18n.t('dop:target branch'),
+        name: 'targetBranch',
+        itemProps: {
+          disabled: true,
+          className: 'bg-white text-default-8 border-0 border-transparent',
+        },
+        rules: [
+          {
+            validator: (_rule: any, value: string) => {
+              if (value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                new Error(
+                  i18n.s('The target branch is not found, please improve the workflow configuration first', 'dop'),
+                ),
+              );
+            },
+          },
+        ],
       },
     ];
     return (
