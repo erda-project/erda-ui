@@ -57,11 +57,12 @@ export default function Login() {
         .submitSelfServiceLoginFlow(String(flow?.id), undefined, values)
         // We logged in successfully! Let's bring the user home.
         .then((res) => {
-          const localRedirectUrl = window.localStorage.getItem('redirectUrl');
+          const userId = res?.data?.session?.identity?.id;
+          const localRedirectUrl = window.localStorage.getItem(`${userId}-lastPath`);
           const redirectUrl = (url as string) || localRedirectUrl;
 
           if (localRedirectUrl) {
-            window.localStorage.removeItem('redirectUrl');
+            window.localStorage.removeItem(`${userId}-lastPath`);
           }
           if (redirectUrl) {
             window.location.href = decodeURIComponent(redirectUrl);
