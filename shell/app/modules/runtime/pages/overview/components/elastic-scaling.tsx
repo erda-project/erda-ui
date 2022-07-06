@@ -140,7 +140,11 @@ const TriggersConfig = observer(
         }, []);
         const currentTypeField = field.query(`triggers[${currentIndex}].type`).take();
         currentTypeField.setComponentProps({
-          options: filter(typeOptions, ({ value }) => !currentTypes.includes(value)),
+          options: filter(
+            typeOptions,
+            ({ value }) =>
+              !currentTypes.includes(value) || (isField(currentTypeField) && currentTypeField.value === value),
+          ),
         });
       }
     }, [visible, props.value, currentIndex]);
@@ -273,7 +277,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           onFieldReact('triggers.*.type', (field) => {
             if (isField(field)) {
               const { value } = field;
-              const metadataPath = field.address.pop().concat('metadata');
+              const metadataPath = field.address.pop().concat('metadata.layout.grid');
               const valueField = field.query(metadataPath.concat('value')).take();
               const startField = field.query(metadataPath.concat('start')).take();
               const endField = field.query(metadataPath.concat('end')).take();
@@ -291,6 +295,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
                 endField?.setDisplay('none');
                 desiredReplicasField?.setDisplay('none');
                 subTypePathField?.setDisplay('hidden');
+                isField(subTypePathField) && subTypePathField?.setValue('Utilization');
                 timezoneField?.setDisplay('none');
               } else {
                 valueField?.setDisplay('none');
@@ -299,6 +304,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
                 desiredReplicasField?.setDisplay('visible');
                 subTypePathField?.setDisplay('none');
                 timezoneField?.setDisplay('hidden');
+                isField(timezoneField) && timezoneField?.setValue('Asia/Shanghai');
               }
             }
           });
@@ -337,7 +343,6 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           message: '至少有一条触发器',
         },
       ],
-      noPropertyLayoutWrapper: true,
       items: [
         {
           component: Select,
@@ -349,7 +354,6 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           type: 'object',
           name: 'metadata',
           component: undefined,
-          // noPropertyLayoutWrapper: true,
           properties: [
             {
               name: 'type',
