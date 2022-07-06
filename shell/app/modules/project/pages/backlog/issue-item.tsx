@@ -35,7 +35,6 @@ import { useDrag } from 'react-dnd';
 import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import userStore from 'user/stores';
 import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/component/table-view';
-import { FlowStatus } from 'project/services/project-workflow';
 import iterationStore from 'app/modules/project/stores/iteration';
 import './issue-item.scss';
 
@@ -94,7 +93,6 @@ export const IssueItem = (props: IIssueProps) => {
   const [nameEditing, setNameEditing] = React.useState(false);
   const [nameValue, setNameValue] = React.useState('');
   const nameRef = React.useRef<Input>(null);
-  const [flowStatus, setFlowStatus] = React.useState<FlowStatus>('none');
 
   const { updateIssue } = issueStore.effects;
 
@@ -307,6 +305,7 @@ interface IIssueFormProps {
   onCancel: () => void;
   onOk: (data: ISSUE.BacklogIssueCreateBody) => Promise<number>;
   typeDisabled?: boolean;
+  issueTypeOption?: ISSUE_OPTION[];
 }
 
 const placeholderMap = {
@@ -316,7 +315,7 @@ const placeholderMap = {
 };
 
 export const IssueForm = (props: IIssueFormProps) => {
-  const { onCancel = noop, onOk, className = '', defaultIssueType, typeDisabled } = props;
+  const { onCancel = noop, onOk, className = '', defaultIssueType, typeDisabled, issueTypeOption } = props;
   const { projectId } = routeInfoStore.getState((s) => s.params);
   const { addFieldsToIssue } = issueStore.effects;
   const [bugStageList, taskTypeList] = issueFieldStore.useStore((s) => [s.bugStageList, s.taskTypeList]);
@@ -329,7 +328,7 @@ export const IssueForm = (props: IIssueFormProps) => {
 
   const [formData, updater] = useUpdate({
     title: '',
-    type: defaultIssueType || ISSUE_OPTION.REQUIREMENT,
+    type: defaultIssueType || issueTypeOption?.[0] || ISSUE_OPTION.REQUIREMENT,
     assignee: loginUser.id,
   });
 
@@ -401,7 +400,7 @@ export const IssueForm = (props: IIssueFormProps) => {
           optionLabelProp="data-icon"
           dropdownMatchSelectWidth={false}
         >
-          {getIssueTypeOption()}
+          {getIssueTypeOption(issueTypeOption)}
         </Select>
       </div>
 

@@ -158,6 +158,7 @@ ErdaForm.connect = connect;
 ErdaForm.mapProps = mapProps;
 ErdaForm.createFields = createFields;
 ErdaForm.onFieldValueChange = onFieldValueChange;
+ErdaForm.onFieldReact = onFieldReact;
 ErdaForm.onFormValuesChange = onFormValuesChange;
 ErdaForm.onFormInitialValuesChange = onFormInitialValuesChange;
 ErdaForm.onFormMount = onFormMount;

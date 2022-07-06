@@ -147,9 +147,9 @@ const PureRepoNavOperation = () => {
               disabled={isLocked}
               onClick={() => {
                 if (inIndexPage) {
-                  goTo(`./tree/${curBranch}/pipeline.yml?editPipeline=true`, { forbidRepeat: true });
+                  goTo(`./tree/${curBranch}/pipeline.yml?editPipeline=true`, { forbidRepeat: true, encode: true });
                 } else {
-                  goTo('./pipeline.yml?editPipeline=true', { forbidRepeat: true });
+                  goTo('./pipeline.yml?editPipeline=true', { forbidRepeat: true, encode: true });
                 }
               }}
             >
@@ -238,7 +238,7 @@ export const RepoNav = React.forwardRef(({ info, tree, isFetchingInfo, appId }: 
         setLS(`tag-${appId}`, selectedBranch);
         removeLS(`branch-${appId}`);
       }
-      goTo(`${before}/${selectedBranch}${tree.path ? `/${tree.path}` : ''}`, { append: false });
+      goTo(`${before}/${selectedBranch}${tree.path ? `/${tree.path}` : ''}`, { append: false, encode: true });
     },
     [appId, before, branches, tags, tree.path],
   );

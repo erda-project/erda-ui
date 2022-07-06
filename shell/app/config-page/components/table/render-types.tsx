@@ -64,7 +64,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
 
 const dropDownHoverBgAndArrow = (
   <div className="cursor-pointer absolute top-0 left-0 bottom-0 right-0 hover:bg-default-04 opacity-0 hover:opacity-100">
-    <ErdaIcon type="caret-down" size={20} fill="black-3" className="arrow-icon absolute right-2 top-1/3" />
+    <ErdaIcon type="caret-down" size={20} fill="black-3" className="arrow-icon absolute right-2 top-0 bottom-0" />
   </div>
 );
 
@@ -284,11 +284,11 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             value={val?.value}
             resultsRender={(displayValue: Array<{ avatar: string; nick: string; name: string }>) => {
               return (
-                <div>
+                <div className="flex-h-center">
                   {displayValue.map((item) => {
                     const { avatar, nick, name, id } = item;
                     return (
-                      <div key={id}>
+                      <div key={id} className="flex-h-center pr-3">
                         <Avatar src={avatar} size="small">
                           {nick ? getAvatarChars(nick) : i18n.t('None')}
                         </Avatar>
@@ -564,7 +564,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
   const { disabled, disabledTip, operations, prefixIcon, value, status, execOperation } = props;
   const ValueRender = (
     <div
-      className="flex items-center hover-active dropdown-field-selector"
+      className="flex items-center hover-active dropdown-field-selector pr-3"
       onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => e.stopPropagation()}
     >
       <div className="flex items-center">
@@ -751,7 +751,7 @@ const DropdownMenu = (props: DropDownMenuProps) => {
   return (
     <Dropdown overlay={menu} trigger={['click']}>
       <div>
-        {ValueRender}
+        <div className="pr-3">{ValueRender}</div>
         {dropDownHoverBgAndArrow}
       </div>
     </Dropdown>

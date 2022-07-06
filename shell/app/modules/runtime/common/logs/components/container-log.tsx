@@ -13,8 +13,8 @@
 
 import { get } from 'lodash';
 import React from 'react';
-import { Switch, Tooltip, Drawer } from 'antd';
-import { SimpleLog, ErdaIcon } from 'common';
+import { Alert, Menu, Button, Tooltip, Drawer } from 'antd';
+import { SimpleLog, ErdaIcon, DropdownSelect } from 'common';
 import { LogRoller, IProps as LogProps } from 'common/components/log-roller';
 import { regLog } from 'common/components/pure-log-roller/log-util';
 import { transformLog } from 'common/utils';
@@ -25,7 +25,7 @@ import LogFilter from 'runtime/common/logs/components/log-filter';
 import { uuid } from 'common/utils';
 import './container-log.scss';
 
-const defaultLogName = 'stdout';
+const defaultLogName = 'all';
 
 const parseLinkInContent = (content: string, pushSlideComp?: (q: string) => void) => {
   if (regLog.LOGSTART.test(content)) {
@@ -151,6 +151,12 @@ interface IState {
   logUid: string;
 }
 
+const logTypes = [
+  { key: 'all', name: i18n.t('common:All') },
+  { key: 'stdout', name: i18n.t('Standard') },
+  { key: 'stderr', name: i18n.t('Error') },
+];
+
 const RuntimeContainerLog = (props: Props) => {
   const {
     instance,
@@ -173,11 +179,9 @@ const RuntimeContainerLog = (props: Props) => {
     logUid: uuid(),
   });
 
-  const [logFallbackMap] = commonStore.useStore((s) => [s.logFallbackMap]);
-
-  const toggleLogName = (_id: string) => {
+  const changeLogName = (_id: string, val: string) => {
     update({
-      logNameMap: { ...logNameMap, [_id]: logNameMap[_id] === 'stderr' ? 'stdout' : 'stderr' },
+      logNameMap: { ...logNameMap, [_id]: val },
     });
     clearLog(getLogId());
   };
@@ -232,14 +236,40 @@ const RuntimeContainerLog = (props: Props) => {
 
   const logName = logNameMap[reId] || defaultLogName;
   const logKey = getLogId();
-  const extraButton = logFallbackMap[logKey] ? null : (
+  const extraButton = (
     <>
-      <Switch
-        checkedChildren={i18n.t('Error')}
-        unCheckedChildren={i18n.t('Standard')}
-        checked={logName === 'stderr'}
-        onChange={() => toggleLogName(reId)}
-      />
+      <DropdownSelect
+        overlay={
+          <Menu
+            className="bg-log-bg"
+            onClick={(e) => {
+              changeLogName(reId, e.key);
+            }}
+          >
+            {logTypes.map((item) => {
+              const active = logName === item.key;
+              return (
+                <Menu.Item
+                  key={item.key}
+                  className={`w-[85px] hover:bg-light-pop-bg hover:text-white ${
+                    active ? 'text-white' : 'text-white-6'
+                  }`}
+                >
+                  <span className="flex-h-center justify-between">
+                    {item.name}
+                    {active ? <ErdaIcon type="check" /> : null}
+                  </span>
+                </Menu.Item>
+              );
+            })}
+          </Menu>
+        }
+      >
+        <Button className="px-4 inline-flex items-center justify-between">
+          <span>{logTypes.find((item) => item.key === logName)?.name || logName}</span>
+          <ErdaIcon type="caret-down" />
+        </Button>
+      </DropdownSelect>
       <LogFilter onChange={handleChange} />
     </>
   );
@@ -286,18 +316,42 @@ const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj; isStopped: boo
     });
     return res;
   };
+  const logFallback = logFallbackMap[props.logKey];
 
   return (
-    <LogRoller
-      {...propsRest}
-      {...rest}
-      downloadFallback={logFallbackMap[props.logKey]}
-      query={{ isFirstQuery, live: !isStopped, ...instance, ...props?.query }}
-      content={content || []}
-      fetchPeriod={fetchPeriod || 3000}
-      fetchLog={reFetchLog}
-      clearLog={clearLog}
-    />
+    <>
+      {logFallback ? (
+        <Alert
+          type="info"
+          message={
+            <div className="overflow-auto whitespace-nowrap">
+              {i18n.s(
+                'The current log has entered degraded mode (only all types will enter the degraded mode), log loading may be slow, please be patient',
+                'dop',
+              )}
+            </div>
+          }
+          className="mb-2 bg-blue-1 border-blue"
+        />
+      ) : null}
+      <LogRoller
+        {...propsRest}
+        {...rest}
+        downloadFallback={logFallback}
+        query={{
+          isFirstQuery,
+          live: !isStopped,
+          ...instance,
+          ...props?.query,
+          stream: props?.query?.stream === 'all' ? '' : props?.query?.stream,
+        }}
+        content={content || []}
+        style={logFallback ? { top: 50, height: 'calc(100% - 50px)' } : {}}
+        fetchPeriod={fetchPeriod || 3000}
+        fetchLog={reFetchLog}
+        clearLog={clearLog}
+      />
+    </>
   );
 };
 

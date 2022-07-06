@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { map, isEmpty, pick, isEqual, get } from 'lodash';
+import { map, isEmpty, pick, isEqual, get, isNumber } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import cronstrue from 'cronstrue/i18n';
@@ -22,7 +22,7 @@ import { goTo, secondsToTime, replaceEmoji, updateSearch, firstCharToUpper } fro
 import GotoCommit from 'application/common/components/goto-commit';
 import { BuildLog } from './build-log';
 import PipelineChart from './pipeline-chart';
-import { ciStatusMap, ciBuildStatusSet } from './config';
+import { ciStatusMap, ciBuildStatusSet, ciNodeStatusSet } from './config';
 import { WithAuth } from 'app/user/common';
 import i18n, { isZh } from 'i18n';
 import buildStore from 'application/stores/build';
@@ -38,7 +38,7 @@ const { TextArea } = Input;
 const { ELSE } = IF;
 const { confirm } = Modal;
 
-const noop = () => {};
+const { executeStatus } = ciNodeStatusSet;
 
 interface IProps {
   branch: string;
@@ -62,6 +62,7 @@ const BuildDetail = (props: IProps) => {
     isExpand: false,
     chosenPipelineId: query.pipelineID || ('' as string | number),
     recordTableKey: 1,
+    configParams: null as null | { actionName: string; version: string; params: { name: string; value: string }[] },
   });
   const { startStatus, logProps, logVisible, selectedRowId, isHistoryBuild, isExpand } = state;
   const toggleContainer: React.RefObject<HTMLDivElement> = React.useRef(null);
@@ -256,31 +257,31 @@ const BuildDetail = (props: IProps) => {
     });
   };
 
-  const nodeClickConfirm = (node: BUILD.PipelineNode) => {
-    const disabled = node.status === 'Disabled';
-    confirm({
-      title: i18n.t('OK'),
-      className: 'node-click-confirm',
-      content: i18n.t('dop:whether {action} task {name}', {
-        action: disabled ? i18n.t('Enable-open') : i18n.t('close'),
-        name: node.name,
-      }),
-      onOk: () => updateEnv({ taskID: node.id, taskAlias: node.name, disabled: !disabled }),
-      onCancel: noop,
+  const showLogDrawer = (node: BUILD.PipelineNode) => {
+    const { status, costTimeSec } = node;
+    if (status === 'Running' || (executeStatus.includes(status) && isNumber(costTimeSec) && costTimeSec !== -1)) {
+      updater.logProps({
+        taskID: node.id,
+        pipelineID,
+        logId: node.extra.uuid,
+        taskContainers: node.extra.taskContainers,
+        showLog: true,
+      });
+    } else {
+      updater.logProps({ showLog: false });
+    }
+    updater.configParams({
+      actionName: node.extra.action.displayName || node.extra.action.name || node.name,
+      version: node.extra.action.version,
+      params: map(node.extra.params, (p) => ({ name: p.name, value: p.values.merged })),
     });
+    updater.logVisible(true);
   };
 
   const onClickNode = (node: BUILD.PipelineNode, mark: string) => {
-    const { id: taskID } = node;
     switch (mark) {
       case 'log':
-        updater.logProps({
-          taskID,
-          pipelineID,
-          logId: node.extra.uuid,
-          taskContainers: node.extra.taskContainers,
-        });
-        updater.logVisible(true);
+        showLogDrawer(node);
         break;
       case 'link': {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'runtimeID');
@@ -356,10 +357,7 @@ const BuildDetail = (props: IProps) => {
         onReject(node);
         break;
       default: {
-        const hasStarted = startStatus !== 'unstart';
-        if (!hasStarted && pipelineDetail && pipelineDetail.status === 'Analyzed' && deployAuth.hasAuth) {
-          nodeClickConfirm(node);
-        }
+        showLogDrawer(node);
       }
     }
   };
@@ -839,7 +837,13 @@ const BuildDetail = (props: IProps) => {
           ) : null}
         </div>
       </Spin>
-      <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />
+      <BuildLog
+        visible={logVisible}
+        hideLog={hideLog}
+        {...logProps}
+        configParams={state.configParams}
+        title={state.configParams?.actionName}
+      />
     </div>
   );
 };

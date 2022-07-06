@@ -265,6 +265,7 @@ export const useAddMrRelation = ({
               onClick={() =>
                 goTo(goTo.pages.appMr, {
                   projectId,
+                  state: 'open',
                   appId: stream.mrInfo?.appID,
                   mrId: stream.mrInfo?.mrID,
                   jumpOut: true,

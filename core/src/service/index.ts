@@ -66,7 +66,6 @@ const extractPathParams = (path: string, params?: Obj<any>) => {
 interface $options {
   isDownload?: boolean; // whether its download api
   uploadFileKey?: string; // upload formData attribute
-  autoMessage?: boolean; // eject message automatically
   successMsg?: string; // eject message when success to override default message
   errorMsg?: string; // eject message when failed to override default message
 }

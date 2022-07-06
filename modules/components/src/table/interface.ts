@@ -38,7 +38,7 @@ export interface TableRowActions<T> {
    *   onClick: () => void;
    * }
    */
-  render: (record: T) => RowAction[];
+  render: (record: T, index: number) => RowAction[];
 }
 
 export type SortOrder = 'ascend' | 'descend';

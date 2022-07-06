@@ -17,6 +17,7 @@ import { qs } from './query-string';
 import { DOC_ORG_INTRO, DOC_PROJECT_INTRO } from 'common/constants';
 import routeInfoStore from 'core/stores/route';
 import { getConfig } from 'core/config';
+import { encodeNumberSign } from 'common/utils';
 
 export function resolvePath(goPath: string) {
   return path.resolve(window.location.pathname, goPath);
@@ -37,6 +38,7 @@ export interface IOptions {
   replace?: boolean;
   forbidRepeat?: boolean;
   jumpOut?: boolean;
+  encode?: boolean;
 }
 
 /**
@@ -49,7 +51,14 @@ export interface IOptions {
  */
 
 export const goTo = (pathStr: string, options?: IOptions) => {
-  const { replace = false, forbidRepeat = false, jumpOut = false, query, ...rest } = (options as IOptions) || {};
+  const {
+    replace = false,
+    forbidRepeat = false,
+    jumpOut = false,
+    query,
+    encode = false,
+    ...rest
+  } = (options as IOptions) || {};
   let _path = '';
 
   if (/^(http|https):\/\//.test(pathStr)) {
@@ -73,6 +82,9 @@ export const goTo = (pathStr: string, options?: IOptions) => {
     _path = isFunction(curPath) ? curPath(pathParams) : curPath;
   } else {
     _path = resolvePath(pathStr);
+  }
+  if (encode) {
+    _path = encodeNumberSign(_path);
   }
   if (query && !isEmpty(query)) {
     _path += `?${qs.stringify(query)}`;
@@ -195,7 +207,7 @@ export enum pages {
   app = '/{orgName}/dop/projects/{projectId}/apps/{appId}',
   repo = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo',
   repoBranch = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/tree/{branch}',
-  appMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/open/{mrId}',
+  appMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/{state}/{mrId}',
   appOpenMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/open',
   pipelineRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline/obsoleted',
   pipelineNewRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline/list',
@@ -206,7 +218,7 @@ export enum pages {
   commit = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/commit/{commitId}',
   branches = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/branches',
   commits = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/commits/{branch}/{path}',
-  pipeline = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline?caseId={caseId}&pipelineID={pipelineID}',
+  pipeline = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline/obsoleted?caseId={caseId}&pipelineID={pipelineID}',
   dataTask = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataTask/{pipelineID}',
   appDeployEnv = '/{orgName}/dop/projects/{projectId}/apps/{appId}/deploy/list/{workspace}',
   appDeployRuntime = '/{orgName}/dop/projects/{projectId}/apps/{appId}/deploy/list/{workspace}/runtime/{runtimeId}?serviceName={serviceName}&jumpFrom={jumpFrom}',

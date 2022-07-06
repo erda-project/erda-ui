@@ -96,7 +96,7 @@ const RepoCommit = () => {
       // save branch info to LS
       setLS(`tag-${appId}`, branch);
     }
-    goTo(`${before}/${branch}`, { replace: true });
+    goTo(`${before}/${branch}`, { replace: true, encode: true });
     resetCommitPaging();
     getCommitList({ branch, pageNo: 1 });
     setSearchValue('');

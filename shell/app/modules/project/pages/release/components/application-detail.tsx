@@ -293,7 +293,7 @@ const EditMd = ({ value, onChange, ...itemProps }: { value: string; onChange: (v
 
 const renderItems = (list: Array<{ label: string; value: React.ReactNode }>) => {
   return list.map((item) => (
-    <div className="mb-2">
+    <div className="mb-2" key={item.label}>
       <div className="text-black-4 mb-2">{item.label}</div>
       <div>{item.value || '-'}</div>
     </div>

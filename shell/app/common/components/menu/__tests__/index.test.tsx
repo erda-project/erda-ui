@@ -38,9 +38,9 @@ describe('Menu', () => {
     expect(goToSpy).not.toHaveBeenCalled();
     fireEvent.click(result.getByText(menus[0].name));
     await waitFor(() => expect(beforeTabChangeFn).toHaveBeenCalled());
-    expect(goToSpy).toHaveBeenLastCalledWith('/erda/dop/apps/create');
+    expect(goToSpy).toHaveBeenLastCalledWith('/erda/dop/apps/create', { encode: true });
     result.rerender(<Menu activeKey={'delete'} menus={menus} keepTabQuery={['id']} />);
     fireEvent.click(result.getByText(menus[0].name));
-    expect(goToSpy).toHaveBeenLastCalledWith('/erda/dop/apps/create?id=1');
+    expect(goToSpy).toHaveBeenLastCalledWith('/erda/dop/apps/create?id=1', { encode: true });
   });
 });

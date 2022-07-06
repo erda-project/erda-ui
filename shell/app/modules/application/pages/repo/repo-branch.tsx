@@ -44,7 +44,7 @@ const RepoBranch = () => {
     };
   }, [getListByType, clearListByType]);
   const goToCompare = (branch: string) => {
-    goTo(`./compare/${info.defaultBranch}...${encodeURIComponent(branch)}`);
+    goTo(`./compare/${info.defaultBranch}...${branch}`, { encode: true });
   };
   const getList = debounce((branch: string) => {
     getListByType({ type: 'branch', findBranch: branch });

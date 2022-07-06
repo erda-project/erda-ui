@@ -642,3 +642,8 @@ export const allWordsFirstLetterUpper = (param: string | any) => {
   }
   return param;
 };
+
+export const encodeNumberSign = (str: string) => {
+  const numberSign = '#';
+  return str.replaceAll(numberSign, encodeURIComponent(numberSign));
+};

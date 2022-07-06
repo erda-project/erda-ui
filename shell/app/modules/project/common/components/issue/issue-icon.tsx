@@ -115,8 +115,8 @@ export const IssueIcon = ({ type, iconMap = 'TYPE', withName = false, ...rest }:
   return withName ? iconLabel : React.cloneElement(icon || <></>, rest);
 };
 
-export const getIssueTypeOption = () =>
-  map(ISSUE_OPTION, (item) => {
+export const getIssueTypeOption = (options?: ISSUE_OPTION[]) =>
+  map(options || ISSUE_OPTION, (item: ISSUE_OPTION) => {
     const iconObj = ISSUE_TYPE_MAP[item];
     const { value } = iconObj;
     return (

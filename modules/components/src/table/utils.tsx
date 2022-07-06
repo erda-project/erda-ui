@@ -57,8 +57,8 @@ export function renderActions<T extends object = any>(
         width: 100,
         dataIndex: 'operation',
         fixed: 'right',
-        render: (_: unknown, record: T) => {
-          const list = render(record).filter((item) => item.show !== false);
+        render: (_: unknown, record: T, i: number) => {
+          const list = render(record, i).filter((item) => item.show !== false);
 
           const menu = (
             <Menu theme="dark">

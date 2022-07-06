@@ -36,7 +36,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel, downloadFallbac
   const handleDownload = ({ startTime, endTime }: { startTime: Moment; endTime: number }) => {
     const { taskID, downloadAPI, fetchApi, end, stream, ...rest }: any = query;
     const requestQuery = { ...rest };
-    requestQuery.stream = stream || 'stdout';
+    requestQuery.stream = stream;
     requestQuery.start = startTime.valueOf() * 1000000;
     requestQuery.isFallBack = downloadFallback;
     const now = moment().valueOf();
