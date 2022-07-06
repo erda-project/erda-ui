@@ -32,7 +32,7 @@ interface IProps {
 
 // valid branch rule
 // eg:  (feature/123, feature/*,hotfix/*) => true
-const validBranchRule = (v: string, rule: string) => {
+const validateBranchRule = (v: string, rule: string) => {
   const rules = rule.split(',');
   return some(rules, (r) => {
     if (r.endsWith('/*')) {
@@ -166,7 +166,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
         },
         rules: [
           {
-            validator: (_rule: any, value: string) => {
+            validator: (_: unknown, value: string) => {
               if (allBranch?.some((item) => item.name === value)) {
                 return Promise.resolve();
               }
@@ -192,7 +192,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
                   return Promise.reject(
                     new Error(i18n.t('start with letters and can contain characters that are not wildcard')),
                   );
-                } else if (currentBranch && !validBranchRule(value, currentBranch)) {
+                } else if (currentBranch && !validateBranchRule(value, currentBranch)) {
                   return Promise.reject(
                     new Error(`${i18n.s('Please fill in the correct branch rule', 'dop')}, ${currentBranch}`),
                   );
