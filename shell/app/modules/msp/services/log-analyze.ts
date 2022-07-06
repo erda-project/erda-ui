@@ -13,6 +13,7 @@
 
 import agent from 'agent';
 import { IUserInfo } from 'core/stores/userMap';
+import { apiCreator } from 'core/service';
 
 export const getTagsTree =
   ({ scope, scopeID }: LOG_ANALYZE.Scope) =>
@@ -146,3 +147,13 @@ export const testRule =
       .send(payload)
       .then((response: any) => response.body);
   };
+
+const apis = {
+  getRegexpParse: {
+    api: 'get@/api/log-service/action/parse-regexp',
+  },
+};
+
+export const getRegexpParse = apiCreator<
+  (payload: { pattern: string }) => { groups: Array<{ pattern: string; name: string }> }
+>(apis.getRegexpParse);
