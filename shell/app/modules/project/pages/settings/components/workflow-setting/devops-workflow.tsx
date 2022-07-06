@@ -15,8 +15,8 @@ import React from 'react';
 import { getBranchPolicy, updateBranchPolicy } from 'project/services/project-workflow';
 import { useMount } from 'react-use';
 import { Table } from 'common';
-import { Button, Modal, Popover } from 'antd';
-import { uuid } from 'common/utils';
+import { Button, Modal, Popover, message } from 'antd';
+import { uuid, notify, updateSearch } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import { IActions } from 'common/components/table/interface';
 import i18n from 'i18n';
@@ -25,6 +25,7 @@ import { convertPolicyData } from './branch-policy';
 import { WithAuth } from 'user/common';
 import BranchPolicyCard from './branch-policy-card';
 import FlowDrawer from './devops-workflow-drawer';
+import routeInfoStore from 'core/stores/route';
 
 interface IProps {
   projectId: string;
@@ -52,12 +53,28 @@ interface State {
 }
 const DevOpsWorkflow = (props: IProps) => {
   const { editAuth, projectId } = props;
+  const editFlowName = routeInfoStore.useStore((s) => s.query.flowName);
   const [data, loading] = getBranchPolicy.useState();
   const [{ useData, drawerVis, flowData }, updater, update] = useUpdate<State>({
     useData: convertData(data?.flows || []),
     drawerVis: false,
     flowData: null,
   });
+
+  React.useEffect(() => {
+    if (editAuth && editFlowName && useData.length) {
+      const curFlowData = useData.find((item) => item.name === editFlowName);
+
+      curFlowData
+        ? update({
+            drawerVis: true,
+            flowData: curFlowData,
+          })
+        : message.error(i18n.s('The workflow was not found, it may be deleted, you can add it again.', 'dop'));
+
+      updateSearch({ flowName: undefined });
+    }
+  }, [editFlowName, useData, editAuth]);
 
   const getData = () => {
     return getBranchPolicy.fetch({ projectID: projectId });
