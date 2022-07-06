@@ -24,7 +24,7 @@ export default function Login() {
   // refres: means we want to refresh the session. This is needed, for example, when we want to update the password of a user.
   const { flow: flowId, refresh } = query;
   const [flow, setFlow] = React.useState<SelfServiceLoginFlow>();
-  const [url, setUrl] = React.useState(getCookies('redirectUrl'));
+  const [url, setUrl] = React.useState(getCookies('erda_uc_redirecturl'));
 
   React.useEffect(() => {
     if (flow) {

@@ -34,7 +34,7 @@ const init = () => {
     .toSession()
     .then(({ data }) => {
       if (pathname.startsWith('/uc') && pathname !== '/uc/settings') {
-        const redirectUrl = getCookies('redirectUrl');
+        const redirectUrl = getCookies('erda_uc_redirecturl');
         window.location.href = encodeURIComponent(redirectUrl) || '/uc/settings';
       }
       startApp();

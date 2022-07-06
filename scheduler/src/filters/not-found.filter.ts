@@ -135,7 +135,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           });
           if (loginRes?.data?.url) {
             const { query } = qs.parseUrl(loginRes.data.url);
-            response.cookie('redirectUrl', query?.redirectUrl || request.url, { maxAge: 3000 }); // expired after 3s
+            response.cookie('erda_uc_redirecturl', query?.redirectUrl || request.url, { maxAge: 3000 }); // expired after 3s
             response.redirect(loginRes.data.url);
             return;
           }
