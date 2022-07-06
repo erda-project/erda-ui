@@ -21,7 +21,7 @@ import { IFormFeedback } from '@formily/core';
 import { createScaledRules, getScaledRules, updateScaledRules, applyCancelRules } from '../../../services/runtime';
 import routeInfoStore from 'core/stores/route';
 import { useUnmount } from 'react-use';
-import runtimeStore from 'runtime/stores/runtime';
+import i18n from 'i18n';
 
 import './elastic-scaling.scss';
 
@@ -45,7 +45,7 @@ interface IProps {
 
 const typeOptions = [
   { value: 'cpu', label: 'CPU' },
-  { value: 'memory', label: '内存' },
+  { value: 'memory', label: i18n.s('memory') },
   { value: 'cron', label: 'Cron' },
 ];
 
@@ -64,7 +64,7 @@ const StatusTitle = ({
     await applyCancelRules({
       runtimeId,
       actions: [{ ruleId: ruleId!, action: isCancel ? 'cancel' : 'apply' }],
-      $options: { successMsg: '操作成功' },
+      $options: { successMsg: i18n.s('operate successfully') },
     });
     toggleStatus();
   };
@@ -72,11 +72,11 @@ const StatusTitle = ({
   return (
     <div className="flex justify-between items-center">
       <div className="flex">
-        <div>自动扩缩容</div>
+        <div>{i18n.s('Automatic elastic scaling', 'dop')}</div>
         <div className="ml-4">
           {!ruleId ? null : (
             <Tag className={cn('border-0 text-white', { 'bg-green-deep': started, 'bg-red-deep': !started })}>
-              {started ? '启用中' : '已停止'}
+              {started ? i18n.s('activated') : i18n.s('stopped')}
             </Tag>
           )}
         </div>
@@ -84,11 +84,11 @@ const StatusTitle = ({
       <div className="mr-8">
         {!ruleId ? null : started ? (
           <Button type="primary" onClick={() => takeAction(true)}>
-            停止
+            {i18n.s('stop')}
           </Button>
         ) : (
           <Button type="primary" onClick={() => takeAction(false)}>
-            启用
+            {i18n.s('activate')}
           </Button>
         )}
       </div>
@@ -117,7 +117,11 @@ const TriggersConfig = observer(
         if (item.type === 'cron') {
           return { type: 'Cron', value: '', index };
         }
-        return { index, type: item.type === 'cpu' ? 'CPU' : '内存', value: (item.metadata as RUNTIME.Metadata).value };
+        return {
+          index,
+          type: item.type === 'cpu' ? 'CPU' : i18n.s('memory'),
+          value: (item.metadata as RUNTIME.Metadata).value,
+        };
       }).filter((item): item is { type: string; value: string; index: number } => !!item);
       setTableDataSource(data);
     };
@@ -152,11 +156,11 @@ const TriggersConfig = observer(
     const columns = [
       {
         dataIndex: 'type',
-        title: '类型',
+        title: i18n.s('type'),
       },
       {
         dataIndex: 'value',
-        title: '目标值',
+        title: i18n.s('target value', 'dop'),
       },
     ];
 
@@ -186,7 +190,7 @@ const TriggersConfig = observer(
       render: (_record: unknown, index: number) => {
         return [
           {
-            title: '编辑',
+            title: i18n.s('edit'),
             onClick: () => {
               setPreviousValue(toJS(field.value));
               setVisible(true);
@@ -195,7 +199,7 @@ const TriggersConfig = observer(
             },
           },
           {
-            title: '删除',
+            title: i18n.s('delete'),
             onClick: () => {
               field.remove(index);
               setDataSource();
@@ -208,7 +212,7 @@ const TriggersConfig = observer(
     return (
       <div>
         <Button type="ghost" onClick={onAddRule} className="mb-4">
-          添加触发器
+          {i18n.s('Add trigger', 'dop')}
         </Button>
         <Table
           rowKey="index"
@@ -223,7 +227,7 @@ const TriggersConfig = observer(
           onCancel={onClose}
           onOk={onOk}
           closable={false}
-          title={isEditing ? '编辑触发器' : '新建触发器'}
+          title={isEditing ? i18n.s('Edit trigger', 'dop') : i18n.s('Create trigger', 'dop')}
         >
           <RecursionField schema={schema.items as Schema} name={currentIndex} />
         </Modal>
@@ -237,12 +241,12 @@ const ReplicaCount = observer(() => {
 
   return (
     <>
-      <div className="mt-4 mb-2">服务实例数</div>
+      <div className="mt-4 mb-2">{i18n.s('Number of service instances', 'dop')}</div>
       <div className="flex items-center replicas-count mb-8">
         <div className="w-32">
           <RecursionField schema={properties?.minReplicaCount as Schema} name="minReplicaCount" />
         </div>
-        <div className="bg-default-06 leading-[30px] px-2">至</div>
+        <div className="bg-default-06 leading-[30px] px-2">{i18n.s('to')}</div>
         <div className="w-32">
           <RecursionField schema={properties?.maxReplicaCount as Schema} name="maxReplicaCount" />
         </div>
@@ -340,14 +344,14 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
       validator: [
         {
           required: true,
-          message: '至少有一条触发器',
+          message: i18n.s('At least one trigger', 'dop'),
         },
       ],
       items: [
         {
           component: Select,
           name: 'type',
-          title: '类型',
+          title: i18n.s('type'),
           required: true,
         },
         {
@@ -370,7 +374,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             {
               name: 'value',
               component: InputNumber,
-              title: '目标值',
+              title: i18n.s('target value', 'dop'),
               required: true,
               display: 'none',
               customProps: {
@@ -379,20 +383,20 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
               },
               validator: {
                 validator: (v: string) => +v > 0 && +v < 100,
-                message: '数值必须大于0小于100',
+                message: i18n.s('The value must be greater than 0 and less than 100', 'dop'),
               },
             },
             {
               name: 'start',
               component: Input,
-              title: '开始',
+              title: i18n.s('start'),
               required: true,
               display: 'none',
             },
             {
               name: 'end',
               component: Input,
-              title: '结束',
+              title: i18n.s('end'),
               required: true,
               display: 'none',
             },
@@ -411,7 +415,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
       component: ReplicaCount,
       type: 'void',
       name: 'void',
-      title: '扩缩容范围',
+      title: i18n.s('Expansion and shrinkage range', 'dop'),
       noPropertyLayoutWrapper: true,
       properties: [
         {
@@ -423,11 +427,11 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           validator: [
             {
               required: true,
-              message: '服务实例数最小值是必填项',
+              message: i18n.s('The minimum number of service instances is required', 'dop'),
             },
           ],
           customProps: {
-            placeholder: '最小值',
+            placeholder: i18n.s('minimum'),
             min: 0,
             max: 100,
           },
@@ -442,11 +446,11 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           validator: [
             {
               required: true,
-              message: '服务实例数最大值是必填项',
+              message: i18n.s('The maximum number of service instances is required', 'dop'),
             },
           ],
           customProps: {
-            placeholder: '最大值',
+            placeholder: i18n.s('maximum'),
             min: 1,
             max: 100,
           },
@@ -467,7 +471,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
     const values = toJS(form.values) as RUNTIME.ScaledConfig;
     values.triggers = values.triggers.filter(({ type }) => !!type);
     if (isEditing) {
-      updateScaledRules({
+      await updateScaledRules({
         runtimeId: +runtimeId,
         rules: [
           {
@@ -475,7 +479,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             scaledConfig: values,
           },
         ],
-        $options: { successMsg: '更新成功' },
+        $options: { successMsg: i18n.s('update successfully') },
       });
     } else {
       await createScaledRules({
@@ -486,10 +490,10 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             scaledConfig: values,
           },
         ],
-        $options: { successMsg: '创建成功' },
+        $options: { successMsg: i18n.s('create successfully') },
       });
     }
-    runtimeStore.getRuntimeDetail({ runtimeId, forceUpdate: true });
+    onClose();
   };
 
   return (
@@ -512,9 +516,9 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
         <Form form={form} fieldsConfig={fieldsConfig} />
         <div className="flex justify-end items-center">
           <Button onClick={onSubmit} className="mr-2" type="primary">
-            保存
+            {i18n.s('save')}
           </Button>
-          <Button onClick={onClose}>关闭</Button>
+          <Button onClick={onClose}>{i18n.s('close')}</Button>
         </div>
       </div>
     </Drawer>
