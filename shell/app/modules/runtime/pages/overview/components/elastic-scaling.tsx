@@ -107,7 +107,7 @@ const TriggersConfig = observer(
     const [tableDataSource, setTableDataSource] = React.useState<{ type: string; value: string }[]>([]);
     const [previousValue, setPreviousValue] = React.useState<null | RUNTIME.Trigger[]>(null);
     const [isEditing, setIsEditing] = React.useState(false);
-    const [currentIndex, setCurrentIndex] = React.useState(0);
+    const [currentIndex, setCurrentIndex] = React.useState(-1);
 
     const setDataSource = () => {
       const data = map(props.value, (item, index) => {
@@ -180,7 +180,7 @@ const TriggersConfig = observer(
       if (isEditing) {
         field.setValue(previousValue!);
       } else {
-        setCurrentIndex(0);
+        setCurrentIndex(-1);
         field.remove(currentIndex);
       }
       setVisible(false);
@@ -202,6 +202,7 @@ const TriggersConfig = observer(
             title: i18n.s('delete'),
             onClick: () => {
               field.remove(index);
+              setCurrentIndex(-1);
               setDataSource();
             },
           },
@@ -222,15 +223,17 @@ const TriggersConfig = observer(
           actions={actions}
           pagination={false}
         />
-        <Modal
-          visible={visible}
-          onCancel={onClose}
-          onOk={onOk}
-          closable={false}
-          title={isEditing ? i18n.s('Edit trigger', 'dop') : i18n.s('Create trigger', 'dop')}
-        >
-          <RecursionField schema={schema.items as Schema} name={currentIndex} />
-        </Modal>
+        {currentIndex !== -1 && (
+          <Modal
+            visible={visible}
+            onCancel={onClose}
+            onOk={onOk}
+            closable={false}
+            title={isEditing ? i18n.s('Edit trigger', 'dop') : i18n.s('Create trigger', 'dop')}
+          >
+            <RecursionField schema={schema.items as Schema} name={currentIndex} />
+          </Modal>
+        )}
       </div>
     );
   },
@@ -246,7 +249,7 @@ const ReplicaCount = observer(() => {
         <div className="w-32">
           <RecursionField schema={properties?.minReplicaCount as Schema} name="minReplicaCount" />
         </div>
-        <div className="bg-default-06 leading-[30px] px-2">{i18n.s('to')}</div>
+        <div className="leading-[30px] px-2">{i18n.s('to')}</div>
         <div className="w-32">
           <RecursionField schema={properties?.maxReplicaCount as Schema} name="maxReplicaCount" />
         </div>
@@ -461,6 +464,8 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
 
   const onSubmit = async () => {
     try {
+      console.log(2, form.query('triggers').take());
+
       await form.validate();
     } catch (errs) {
       forEach(errs as IFormFeedback[], (err) => {
