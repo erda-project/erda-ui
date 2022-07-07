@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import { parse } from 'query-string';
 
-export const keepRedirectUrlQuery = (url: string, redirectUrl?: string) => {
-  const query = parse(window.location.search);
-  const curRedirectUrl = redirectUrl || query?.redirectUrl;
-  if (curRedirectUrl && !url.includes('redirectUrl=')) {
-    return `${url}${url.includes('?') ? '&' : '?'}redirectUrl=${curRedirectUrl}`;
-  }
-  return url;
-};
+export function getCookies(key?: string) {
+  const cookies: Obj<string> = {};
+  window.document.cookie.split(';').forEach((item) => {
+    const [k, v] = item.split('=');
+    cookies[k.trim()] = v && v.trim();
+  });
+  return key ? cookies[key] : cookies;
+}

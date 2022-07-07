@@ -136,9 +136,10 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
 const init = (userData: ILoginUser) => {
   // step1: get user last path
   window.localStorage.removeItem(`lastPath`); // clear old lastPath
-  const lastPath = window.localStorage.getItem(`${userData.id}-lastPath`);
+  const curUserId = userData.kratosId || userData.id;
+  const lastPath = window.localStorage.getItem(`${curUserId}-lastPath`);
   if (lastPath) {
-    window.localStorage.removeItem(`${userData.id}-lastPath`);
+    window.localStorage.removeItem(`${curUserId}-lastPath`);
     history.replace(lastPath);
   }
 

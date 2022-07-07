@@ -50,6 +50,7 @@ interface IGetScopePermQuery {
 
 interface ILoginUser {
   id: string;
+  kratosId?: string;
   email: string;
   nick: string;
   name: string;

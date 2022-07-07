@@ -94,7 +94,7 @@ const userStore = createStore({
       const loginUser = select((s) => s.loginUser);
       if (data && data.url) {
         const lastPath = `${window.location.pathname}${window.location.search}`;
-        window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
+        window.localStorage.setItem(`${loginUser.kratosId || loginUser.id}-lastPath`, lastPath);
         window.location.href = data.url;
       }
     },
@@ -103,7 +103,7 @@ const userStore = createStore({
       let logoutUrl = '';
       if (loginUser.isNewUser) {
         await call(newUCLogout);
-        logoutUrl = `${UC_USER_LOGIN}${UC_USER_LOGIN.includes('?') ? '&' : '?'}redirectUrl=${window.location.href}`;
+        logoutUrl = UC_USER_LOGIN;
       } else {
         const data = await call(logout);
         logoutUrl = data?.url;
@@ -111,7 +111,7 @@ const userStore = createStore({
       setLS('diceLoginState', false);
       if (logoutUrl) {
         const lastPath = `${window.location.pathname}${window.location.search}`;
-        window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
+        window.localStorage.setItem(`${loginUser.kratosId || loginUser.id}-lastPath`, lastPath);
 
         for (let i = 0; i < window.localStorage.length; i++) {
           const key = window.localStorage.key(i);
