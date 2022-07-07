@@ -209,7 +209,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
         name: 'targetBranch',
         itemProps: {
           disabled: true,
-          className: 'bg-white text-default-8 border-0 border-transparent',
+          className: ' text-default-8',
         },
         rules: [
           {

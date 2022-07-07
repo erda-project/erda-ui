@@ -46,7 +46,7 @@ const PipelineCard = (props: CardProps) => {
       ? colorMap[ciStatusMap[pipelineStepInfos?.[0]?.status]?.color || 'process']
       : 'process';
   };
-  const stepStatus = data.changeBranch?.find((item) => item.commit.id === commit?.id) ? getStepStatus() : 'wait';
+  const stepStatus = data.changeBranch?.find((item) => item.commit?.id === commit?.id) ? getStepStatus() : 'wait';
 
   const pipeline = pipelineStepInfos[0];
 

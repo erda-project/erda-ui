@@ -61,7 +61,7 @@ const MergeRequestCard = (props: CardProps) => {
   const { mergeId, state, title = '' } = mergeRequestInfo || {};
   const curMrState = state && mrStatus[state];
   const stepStatus =
-    curMrState?.stepStates || (data.changeBranch?.find((item) => item.commit.id === commit?.id) ? 'process' : 'wait');
+    curMrState?.stepStates || (data.changeBranch?.find((item) => item.commit?.id === commit?.id) ? 'process' : 'wait');
 
   return (
     <div className={classnames(className, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
