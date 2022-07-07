@@ -31,7 +31,7 @@ interface CardProps {
 const MergeCard = (props: CardProps) => {
   const { data, projectID, index, className, reload } = props;
   const { isJoinTempBranch, baseCommit, tempBranch, appID, commit, mergeID } = data.devFlowNode || {};
-  const status = data.changeBranch?.find((item) => item.commit.id === commit?.id) ? 'success' : 'process';
+  const status = data.changeBranch?.find((item) => item.commit?.id === commit?.id) ? 'success' : 'process';
 
   const ChangeList = (
     <div className="w-[344px]">
@@ -45,16 +45,20 @@ const MergeCard = (props: CardProps) => {
               appId={appID}
               projectId={projectID}
             />
-            <Commit
-              className="w-[60px] mr-2  flex-shrink-0"
-              commitId={item.commit.id}
-              appId={`${appID}`}
-              projectId={projectID}
-            />
-            <div className="flex-h-center w-[140px] text-xs  flex-shrink-0">
-              <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
-              <Ellipsis className="flex-1 text-default-8" title={item.commit.commitMessage} />
-            </div>
+            {item.commit ? (
+              <>
+                <Commit
+                  className="w-[60px] mr-2  flex-shrink-0"
+                  commitId={item.commit?.id}
+                  appId={`${appID}`}
+                  projectId={projectID}
+                />
+                <div className="flex-h-center w-[140px] text-xs  flex-shrink-0">
+                  <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
+                  <Ellipsis className="flex-1 text-default-8" title={item.commit.commitMessage} />
+                </div>
+              </>
+            ) : null}
           </div>
         );
       })}
