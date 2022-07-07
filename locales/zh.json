@@ -310,6 +310,7 @@
     "Platform": "平台",
     "Please Select": "请选择",
     "Please enter": "请输入",
+    "Please enter a cron expression, e.g.": "请输入cron表达式，例如",
     "Please enter a valid version number, such as x.y.z.": "请输入有效的版本号, 如：x.y.z",
     "Please enter address started with http": "请输入以http://或https://开头的有效实例地址",
     "Please enter the IPv4 list, separated by comma.": "请输入IPv4列表，多个时以逗号分割",
