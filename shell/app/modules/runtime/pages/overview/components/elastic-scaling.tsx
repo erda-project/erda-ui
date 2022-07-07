@@ -464,8 +464,6 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
 
   const onSubmit = async () => {
     try {
-      console.log(2, form.query('triggers').take());
-
       await form.validate();
     } catch (errs) {
       forEach(errs as IFormFeedback[], (err) => {
