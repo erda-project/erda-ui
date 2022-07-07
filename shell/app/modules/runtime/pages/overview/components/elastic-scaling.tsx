@@ -13,10 +13,9 @@
 
 import React from 'react';
 import cn from 'classnames';
-import { Button, Drawer, Input, InputNumber, message, Modal, Select, Tag } from 'antd';
+import { Button, Drawer, Input, InputNumber, message, Modal, Select, Tag, Tooltip } from 'antd';
 import { Form, ArrayFieldType, Table, Schema } from '@erda-ui/components';
 import { filter, forEach, isNumber, map, pick } from 'lodash';
-import { toJS } from '@formily/reactive';
 import { IFormFeedback } from '@formily/core';
 import { createScaledRules, getScaledRules, updateScaledRules, applyCancelRules } from '../../../services/runtime';
 import routeInfoStore from 'core/stores/route';
@@ -24,6 +23,7 @@ import { useUnmount } from 'react-use';
 import i18n from 'i18n';
 
 import './elastic-scaling.scss';
+import { ErdaIcon } from 'common';
 
 const {
   createForm,
@@ -35,6 +35,7 @@ const {
   onFieldReact,
   isField,
   onFieldValueChange,
+  toJS,
 } = Form;
 
 interface IProps {
@@ -136,12 +137,15 @@ const TriggersConfig = observer(
       }
     }, [visible, props.value]);
 
+    const currentTypes = React.useMemo(() => {
+      return props.value.reduce<string[]>((acc, item) => {
+        item.type && acc.push(item.type);
+        return acc;
+      }, []);
+    }, [visible, props.value]);
+
     React.useEffect(() => {
       if (visible) {
-        const currentTypes = props.value.reduce<string[]>((acc, item) => {
-          item.type && acc.push(item.type);
-          return acc;
-        }, []);
         const currentTypeField = field.query(`triggers[${currentIndex}].type`).take();
         currentTypeField.setComponentProps({
           options: filter(
@@ -151,7 +155,7 @@ const TriggersConfig = observer(
           ),
         });
       }
-    }, [visible, props.value, currentIndex]);
+    }, [visible, currentTypes, currentIndex]);
 
     const columns = [
       {
@@ -160,7 +164,15 @@ const TriggersConfig = observer(
       },
       {
         dataIndex: 'value',
-        title: i18n.s('target value', 'dop'),
+        title: (
+          <span className="flex items-center">
+            {i18n.s('target value', 'dop')}
+            <Tooltip title={i18n.s('Target values are CPU usage, memory usage', 'dop')}>
+              <ErdaIcon type="info" className="ml-1" />
+            </Tooltip>
+          </span>
+        ),
+        render: (text: string) => (`${text}` ? `${text ?? '-'}%` : ''),
       },
     ];
 
@@ -210,11 +222,17 @@ const TriggersConfig = observer(
       },
     };
 
+    const btnDisabled = currentTypes.length === 3;
     return (
       <div>
-        <Button type="ghost" onClick={onAddRule} className="mb-4">
+        <Button type="ghost" onClick={onAddRule} className="mb-4" disabled={btnDisabled}>
           {i18n.s('Add trigger', 'dop')}
         </Button>
+        {btnDisabled && (
+          <Tooltip title={i18n.s('All trigger types are appended', 'dop')}>
+            <ErdaIcon type="info" className="ml-2" />
+          </Tooltip>
+        )}
         <Table
           rowKey="index"
           columns={columns}
@@ -395,6 +413,9 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
               title: i18n.s('start'),
               required: true,
               display: 'none',
+              customProps: {
+                placeholder: `${i18n.s('Please enter a cron expression, e.g.')} 30 * * * *`,
+              },
             },
             {
               name: 'end',
@@ -402,6 +423,9 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
               title: i18n.s('end'),
               required: true,
               display: 'none',
+              customProps: {
+                placeholder: `${i18n.s('Please enter a cron expression, e.g.')} 45 * * * *`,
+              },
             },
             {
               name: 'desiredReplicas',

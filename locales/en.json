@@ -310,6 +310,7 @@
     "Platform": "Platform",
     "Please Select": "Please Select",
     "Please enter": "Please enter",
+    "Please enter a cron expression, e.g.": "Please enter a cron expression, e.g.",
     "Please enter a valid version number, such as x.y.z.": "please enter a valid version number，such as x.y.z",
     "Please enter address started with http": "please enter a valid instance address starting with http:// or https://",
     "Please enter the IPv4 list, separated by comma.": "Please enter the IPv4 list, separated by comma.",

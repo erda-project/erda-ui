@@ -43,7 +43,7 @@ import {
   isArrayField,
   isObjectField,
 } from '@formily/core';
-import { action } from '@formily/reactive';
+import { action, toJS } from '@formily/reactive';
 import {
   Form,
   FormItem,
@@ -176,6 +176,7 @@ ErdaForm.isArrayField = isArrayField;
 ErdaForm.isObjectField = isObjectField;
 ErdaForm.ArrayTabs = ArrayTabs;
 ErdaForm.createStepField = createStepField;
+ErdaForm.toJS = toJS;
 ErdaForm.createFormStep = FormStep.createFormStep;
 
 export type {
