@@ -89,7 +89,7 @@ export const PureExecute = (props: PureExecuteProps) => {
 
   const rejectContentRef = React.useRef('');
 
-  const { getBuildRuntimeDetail, getPipelineDetail } = buildStore.effects;
+  const { getBuildRuntimeDetail, updateTaskEnv, getPipelineDetail } = buildStore.effects;
 
   const { updateApproval } = deployStore.effects;
 
@@ -162,6 +162,26 @@ export const PureExecute = (props: PureExecuteProps) => {
       params: map(node.extra.params, (p) => ({ name: p.name, value: p.values.merged })),
     });
     updater.logVisible(true);
+  };
+
+  const updateEnv = (info: Omit<BUILD.ITaskUpdatePayload, 'pipelineID'>) => {
+    updateTaskEnv({ ...info, pipelineID: pipelineDetail.id }).then(() => {
+      getPipelineDetail({ pipelineID: +pipelineID });
+    });
+  };
+
+  const nodeClickConfirm = (node: BUILD.PipelineNode) => {
+    const disabled = node.status === 'Disabled';
+    confirm({
+      title: i18n.t('OK'),
+      className: 'node-click-confirm',
+      content: i18n.t('dop:whether {action} task {name}', {
+        action: disabled ? i18n.t('Enable-open') : i18n.t('close'),
+        name: node.name,
+      }),
+      onOk: () => updateEnv({ taskID: node.id, taskAlias: node.name, disabled: !disabled }),
+      onCancel: () => {},
+    });
   };
 
   const onClickNode = (node: BUILD.PipelineNode, mark: string) => {
@@ -241,8 +261,10 @@ export const PureExecute = (props: PureExecuteProps) => {
         onReject(node);
         break;
       default: {
-        // open drawer
-        showLogDrawer(node);
+        const hasStarted = startStatus !== 'unstart';
+        if (!hasStarted && pipelineDetail && pipelineDetail.status === 'Analyzed' && deployAuth.hasAuth) {
+          nodeClickConfirm(node);
+        }
       }
     }
   };
