@@ -299,7 +299,7 @@ const StatisticsDetail = () => {
               groups={groups}
               placeholder={get(topTypeMap, `${topType}.groupPlaceholder`)}
             />
-            <TimeSelector inline disabledDate={() => false} />
+            <TimeSelector defaultTime={1} inline disabledDate={() => false} />
           </div>
         </div>
         <div>
