@@ -1171,6 +1171,7 @@
     "Number of lines not covered": "未覆盖行数",
     "Number of passed interfaces": "接口通过数",
     "Number of service instances": "服务实例数",
+    "Number of service instances expand to": "服务实例数扩容至",
     "Number of test days": "测试天数",
     "Numeric value: Please fill in according to mathematical expression standards. It supports both open and closed intervals. For examples: [-20,20] is a set, <[-200,200],-1,2>.": "数值：请按照标准的数学表达式规范填写。示例如下： 区间支持开区间和闭区间、示例闭区间：[-20,20] 表示集合：<[-200,200],-1,2>。",
     "OK": "确认",

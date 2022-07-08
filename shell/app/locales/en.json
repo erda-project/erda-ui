@@ -1171,6 +1171,7 @@
     "Number of lines not covered": "Number of lines not covered",
     "Number of passed interfaces": "Number of passed interfaces",
     "Number of service instances": "Number of service instances",
+    "Number of service instances expand to": "Number of service instances expand to",
     "Number of test days": "Number of test days",
     "Numeric value: Please fill in according to mathematical expression standards. It supports both open and closed intervals. For examples: [-20,20] is a set, <[-200,200],-1,2>.": "Numeric value: Please fill in according to mathematical expression standards. It supports both open and closed intervals. For examples: [-20,20] is a set, <[-200,200],-1,2>.",
     "OK": "OK",

@@ -367,7 +367,7 @@ const DownloadPage = ({ match }: any) => {
                 </StickyContainer>
                 <div className="button-wrap">
                   {React.Children.count(versions) ? (
-                    showDownload && client !== 'ios' ? (
+                    showDownload ? (
                       <Button
                         type="primary"
                         style={{ borderColor: 'transparent' }}

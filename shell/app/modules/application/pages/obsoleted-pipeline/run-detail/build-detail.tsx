@@ -278,6 +278,20 @@ const BuildDetail = (props: IProps) => {
     updater.logVisible(true);
   };
 
+  const nodeClickConfirm = (node: BUILD.PipelineNode) => {
+    const disabled = node.status === 'Disabled';
+    confirm({
+      title: i18n.t('OK'),
+      className: 'node-click-confirm',
+      content: i18n.t('dop:whether {action} task {name}', {
+        action: disabled ? i18n.t('Enable-open') : i18n.t('close'),
+        name: node.name,
+      }),
+      onOk: () => updateEnv({ taskID: node.id, taskAlias: node.name, disabled: !disabled }),
+      onCancel: () => {},
+    });
+  };
+
   const onClickNode = (node: BUILD.PipelineNode, mark: string) => {
     switch (mark) {
       case 'log':
@@ -357,7 +371,10 @@ const BuildDetail = (props: IProps) => {
         onReject(node);
         break;
       default: {
-        showLogDrawer(node);
+        const hasStarted = startStatus !== 'unstart';
+        if (!hasStarted && pipelineDetail && pipelineDetail.status === 'Analyzed' && deployAuth.hasAuth) {
+          nodeClickConfirm(node);
+        }
       }
     }
   };

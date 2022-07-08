@@ -430,7 +430,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             {
               name: 'desiredReplicas',
               component: InputNumber,
-              title: 'desiredReplicas',
+              title: i18n.s('Number of service instances expand to', 'dop'),
               required: true,
               display: 'none',
             },
