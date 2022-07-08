@@ -292,7 +292,7 @@ const Statistics = (props: IProps) => {
         title: () => (
           <div className="chart-title flex justify-between items-center  w-full">
             <FilterTab onChange={OnChangeLineType} />
-            <TimeSelector inline disabledDate={() => false} />
+            <TimeSelector defaultTime={1} inline disabledDate={() => false} />
           </div>
         ),
       },
