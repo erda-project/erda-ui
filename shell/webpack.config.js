@@ -150,7 +150,6 @@ module.exports = async () => {
                 sourceMap: true,
                 lessOptions: {
                   javascriptEnabled: true,
-                  modifyVars: require('./app/theme-color.js').getLessTheme(),
                 },
               },
             },

@@ -160,23 +160,4 @@ module.exports = {
   'yellow-green-deep': '#C9C400',
   'yellow-green-mid': '#ECE97D',
   'yellow-green-light': '#FAF9DC',
-
-  getLessTheme: () => {
-    return {
-      '@success-color': '#27c99a',
-      '@error-color': '#d84b65',
-      '@warning-color': '#f4b518',
-      '@progress-remaining-color': '#E1E7FF',
-      '@font-size-base': '14px',
-      '@height-base': '32px',
-      '@height-lg': '36px',
-      '@height-sm': '28px',
-      '@border-radius-base': '2px;',
-      '@font-family':
-        '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
-      '@outline-color': '#a051ff',
-      '@select-item-selected-bg': '#f7f7f8',
-      '@select-item-selected-color': '#a051ff',
-    };
-  },
 };
