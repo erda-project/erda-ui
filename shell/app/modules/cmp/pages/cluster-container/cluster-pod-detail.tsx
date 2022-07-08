@@ -165,7 +165,7 @@ export const PureClusterPodDetail = (props: IProps) => {
       </div>
       <Spin spinning={chartLoading} wrapperClassName="mt-8">
         <div className="text-xl font-medium mb-4">{i18n.t('cmp:resource monitor')}</div>
-        <TimeSelector className="mb-4" />
+        <TimeSelector defaultTime={1} className="mb-4" />
         <Holder when={isEmpty(chartLayout)}>
           <DashBoard layout={chartLayout} globalVariable={globalVariable} />
         </Holder>
