@@ -41,7 +41,7 @@ const CP_DROPDOWN = (props: CP_DROPDOWN.Props) => {
     </Menu>
   );
   return (
-    <Dropdown overlay={menuOverlay} zIndex={1000} {...rest}>
+    <Dropdown overlay={menuOverlay} {...rest}>
       <span>{children}</span>
     </Dropdown>
   );

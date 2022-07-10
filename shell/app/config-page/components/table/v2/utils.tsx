@@ -336,7 +336,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                   }}
                   key={key}
                   onCancel={(e: any) => e && e.stopPropagation()}
-                  zIndex={1100}
+                  getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
                 >
                   <span
                     className="table-operations-btn px-4 py-1 block flex-h-center text-white-9"
@@ -408,7 +408,6 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                 }
                 align={{ offset: [0, 5] }}
                 trigger={['click']}
-                overlayStyle={{ zIndex: 1040 }}
               >
                 <ErdaIcon
                   type="more"

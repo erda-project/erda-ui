@@ -637,7 +637,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             }}
             key={key}
             onCancel={(e: React.MouseEvent<HTMLElement, MouseEvent>) => e && e.stopPropagation()}
-            zIndex={1100}
+            getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
           >
             <span
               className="table-operations-btn px-4 py-1 block flex-h-center text-white-9"
