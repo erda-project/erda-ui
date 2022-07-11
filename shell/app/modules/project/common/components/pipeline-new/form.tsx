@@ -26,8 +26,6 @@ import { firstCharToUpper } from 'app/common/utils';
 import { TreeNodeNormal } from 'antd/lib/tree/Tree';
 import { commit } from 'application/services/repo';
 
-import { getAppDetail } from 'application/services/application';
-
 interface IProps {
   onOk: () => void;
   onCancel: () => void;
@@ -198,10 +196,10 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
 
   useEffectOnce(() => {
     if (editData) {
-      const { name, app, fileName, inode } = editData;
+      const { name, app, inode } = editData;
       form.setFieldsValue({ name, app, tree: inode });
       setApp({ value: app });
-      setTreeValue(fileName);
+      setTreeValue(inode);
     }
   });
 
@@ -290,7 +288,16 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
         unCheckedChildren: i18n.t('common:No'),
         disabled: disableDefault,
         className: 'ml-2',
-        onChange: (checked: boolean) => setIsDefault(checked),
+        onChange: (checked: boolean) => {
+          setIsDefault(checked);
+          if (checked) {
+            setDiableName(true);
+            pipelineFromRef.current?.setFieldsValue({ pipelineName: 'pipeline.yml' });
+          } else {
+            setDiableName(false);
+            pipelineFromRef.current?.setFieldsValue({ pipelineName: '' });
+          }
+        },
       },
     },
     {
@@ -300,6 +307,27 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
         disabled: disableName,
         addonBefore: isDefault ? '' : '.erda/pipelines',
       },
+      rules: [
+        {
+          validator: (_rule: any, value: string, callback: Function) => {
+            let errMsg;
+            if (value) {
+              if (!value.endsWith('.yml')) {
+                errMsg = i18n.s('pipeline name must end with .yml', 'dop');
+              } else if (
+                pipelineCategoryKey === 'others' &&
+                ['pipeline.yml', 'ci-artifact.yml', 'combine-artifact.yml', 'integration.yml'].includes(value)
+              ) {
+                errMsg = i18n.s(
+                  'can not be special name：pipeline.yml, ci-artifact.yml, combine-artifact.yml, integration.yml',
+                  'dop',
+                );
+              }
+            }
+            callback(errMsg);
+          },
+        },
+      ],
     },
     {
       getComp: () => (
@@ -324,11 +352,13 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
   const handleSubmit = (pipelineForm: FormInstance) => {
     pipelineForm.validateFields().then((values: PipelineData) => {
       const { branch, pipelineName, isDefault } = values;
+      let gitRepoAbbrev = fixedApp ? `${appDetail.projectName}/${appDetail.name}` : '';
+      if (!gitRepoAbbrev) {
+        const curProjectName = appList.find((item) => item.value === app?.value)?.projectName;
+        // gitRepoAbbrev后端为兼容旧的数据没有改，由前端指定
+        gitRepoAbbrev = `${curProjectName}/${app?.label}`;
+      }
 
-      const curProjectName = appList.find((item) => item.value === app?.value)?.projectName;
-
-      // gitRepoAbbrev后端为兼容旧的数据没有改，由前端指定
-      const gitRepoAbbrev = `${curProjectName}/${app?.label}`;
       commit({
         repoPrefix: gitRepoAbbrev,
         data: {
@@ -387,7 +417,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
 
     const curName = mameMap[pipelineCategoryKey || 'all'];
 
-    setDisableDefault(!!curName);
+    setDisableDefault(!!curName || pipelineCategoryKey === 'others');
     setDiableName(!!curName);
 
     const formData = {
@@ -398,7 +428,6 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
     setIsDefault(pipelineCategoryKey === 'build-deploy');
     pipelineFromRef.current?.setFieldsValue(formData);
   };
-
   return (
     <div className="flex flex-col h-full">
       <div className="header py-2.5 pl-4 bg-default-02 flex-h-center">
@@ -460,7 +489,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                 )}
               </div>
             </div>
-            <div className="flex flex-1 overflow-hidden min-h-[240px]">
+            <div className="flex flex-1 overflow-hidden">
               <div className="w-32 text-default-6">
                 <div className="flex-h-center mt-1.5">
                   <ErdaIcon type="pipeline" size={20} className="text-default-4 mr-1" />
@@ -491,8 +520,8 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                     getComp={() => {
                       const curVal = form.getFieldsValue();
                       const treePath = treeValue ? decode(treeValue) : '';
-
                       const treeTitle = treePath.split('tree/')?.[1] || '';
+                      const curApp = curVal?.app || fixedApp;
 
                       return (
                         <div className="flex flex-col h-full">
@@ -501,7 +530,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                               treeTitle ? 'text-default-8' : 'text-default-4'
                             } h-[32px] rounded bg-default-06 w-full px-3 py-[5px]`}
                           >
-                            {treeTitle || (curVal?.app ? i18n.s('Please choose a pipeline', 'dop') : '')}
+                            {treeTitle || (curApp ? i18n.s('Please choose a pipeline', 'dop') : '')}
                           </div>
                         </div>
                       );
@@ -521,6 +550,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                       checkable
                       selectable={false}
                       treeData={treeData}
+                      showLine
                       checkedKeys={[treeValue]}
                       className="w-full flex-1 overflow-auto pr-6"
                       loadData={loadTree}
@@ -532,7 +562,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                       blockNode
                       titleRender={(nodeData: TreeNodeNormal) => {
                         return (
-                          <div className="flex-h-center justify-between group">
+                          <div className="flex-h-center justify-between group" key={nodeData.key}>
                             <div> {nodeData.title}</div>
                             {!nodeData.isLeaf && !visible ? (
                               <ErdaIcon
