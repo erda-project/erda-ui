@@ -25,6 +25,7 @@ import './form.scss';
 import { firstCharToUpper } from 'app/common/utils';
 import { TreeNodeNormal } from 'antd/lib/tree/Tree';
 import { commit } from 'application/services/repo';
+import { defaultPipelineYml } from 'yml-chart/config';
 
 interface IProps {
   onOk: () => void;
@@ -369,6 +370,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
               action: 'add',
               path: `${isDefault ? '' : '.erda/pipelines/'}${pipelineName}`,
               pathType: 'blob',
+              content: defaultPipelineYml,
             },
           ],
         },
