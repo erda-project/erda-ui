@@ -672,7 +672,9 @@ export const AddIssueRelation = ({
               endCreatedAt: createdAt?.[0],
             });
           }}
-          zIndex={1060}
+          popoverProps={{
+            getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement,
+          }}
         />
       </div>
 

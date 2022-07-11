@@ -31,6 +31,7 @@ export interface IProps {
   onDeleteFilter?: (data: Obj) => void;
   onSaveFilter?: (label: string, values: Obj) => void;
   value?: Obj;
+  popoverProps?: Obj;
   onConfigChange?: (config: ConfigData) => void;
   processField?: (field: Field) => IFormItem;
   hideSave?: boolean;
@@ -182,6 +183,7 @@ const ConfigurableFilter = React.forwardRef(
       hideSave,
       onClear,
       onClose,
+      popoverProps = {},
       zIndex,
     }: IProps,
     ref: React.Ref<{ form: FormInstance }>,
@@ -447,6 +449,7 @@ const ConfigurableFilter = React.forwardRef(
                 !v && onClose?.();
               }}
               zIndex={zIndex}
+              {...popoverProps}
             >
               <div
                 className={`flex-h-center erda-configurable-filter-btn py-1 px-2 rounded-sm leading-none cursor-pointer`}

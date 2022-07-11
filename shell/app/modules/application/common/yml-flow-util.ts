@@ -668,7 +668,8 @@ export const isPipelineYml = (fileName: string) => {
   return fileName.match(/^pipeline_?\w*\.yml$/g) !== null;
 };
 export const isInDiceDirectory = (path: string) => {
-  return path.startsWith('.dice/pipelines/') || path === '.dice/pipelines';
+  const includesPaths = ['.dice/pipelines', '.erda/pipelines'];
+  return includesPaths.some((item) => path.startsWith(item)) || includesPaths.includes(path);
 };
 export const isYml = (fileName: string) => {
   return fileName.endsWith('.yml') || fileName.endsWith('.yaml');

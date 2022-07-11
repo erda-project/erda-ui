@@ -241,7 +241,9 @@ const ProjectRelease = (props: IReleaseProps) => {
             setTags([]);
           }}
           hideSave
-          zIndex={1060}
+          popoverProps={{
+            getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement,
+          }}
         />
       </div>
 
@@ -343,7 +345,9 @@ const AppRelease = (props: IReleaseProps) => {
             setTags([]);
           }}
           hideSave
-          zIndex={1060}
+          popoverProps={{
+            getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement,
+          }}
         />
       </div>
       <ReleaseList
@@ -421,7 +425,9 @@ const MarketRelease = (props: IReleaseProps) => {
             setTags([]);
           }}
           hideSave
-          zIndex={1060}
+          popoverProps={{
+            getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement,
+          }}
         />
       </div>
 

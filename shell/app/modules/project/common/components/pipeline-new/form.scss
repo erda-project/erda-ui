@@ -4,3 +4,19 @@ div.project-release-select.ant-select {
     border: none;
   }
 }
+
+.pipeline-form-add-tree {
+  .ant-tree .ant-tree-title {
+    width: 100%;
+  }
+
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+}
+
+.pipeline-add-popover {
+  .ant-popover-arrow {
+    display: none;
+  }
+}

@@ -412,7 +412,7 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
       <span className="mr-2">{`${i18n.t('{name} items selected', {
         name: selectedRowKeys?.length || 0,
       })}`}</span>
-      <Dropdown overlay={dropdownMenu} zIndex={1000}>
+      <Dropdown overlay={dropdownMenu}>
         <Button className="flex items-center">
           {i18n.t('Batch Operations')}
           <ErdaIcon size="18" type="caret-down" className="ml-1 text-default-4" />

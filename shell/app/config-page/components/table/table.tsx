@@ -319,7 +319,6 @@ const BatchOperation = (props: IBatchProps) => {
       })}`}</span>
       <Dropdown
         overlay={dropdownMenu}
-        zIndex={1000}
         overlayClassName="dice-cp-table-batch-operations"
         getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
       >

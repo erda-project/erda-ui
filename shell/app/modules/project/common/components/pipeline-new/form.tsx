@@ -12,17 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Form, Button, TreeSelect, Tooltip, Drawer } from 'antd';
+import { Form, Button, Popover, Tooltip, Tree, Drawer, FormInstance, notification } from 'antd';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
-import { ErdaIcon, RenderFormItem, ErdaAlert } from 'common';
+import { ErdaIcon, RenderFormItem, ErdaAlert, RenderForm, EmptyHolder } from 'common';
 import routeInfoStore from 'core/stores/route';
 import { getFileTree, createPipeline, getAppList, checkSource, editPipelineName } from 'project/services/pipeline';
 import appStore from 'application/stores/application';
-import { decode } from 'js-base64';
-
+import { decode, encode } from 'js-base64';
+import { groupBy, map, difference, uniqBy } from 'lodash';
 import './form.scss';
 import { firstCharToUpper } from 'app/common/utils';
+import { TreeNodeNormal } from 'antd/lib/tree/Tree';
+import { commit } from 'application/services/repo';
+
+import { getAppDetail } from 'application/services/application';
 
 interface IProps {
   onOk: () => void;
@@ -35,11 +39,10 @@ interface IProps {
   data: { id: string; name: string; fileName: string; app: number; inode: string } | null;
 }
 
-interface TreeNode extends Node {
-  id: string;
-  pId: string;
-  title: string;
-  isLeaf: boolean;
+interface TreeNode {
+  key: string;
+  title: string | JSX.Element;
+  children: TreeNode[];
 }
 
 interface Node {
@@ -75,33 +78,57 @@ const successMsgMap = {
   add: i18n.t('created successfully'),
 };
 
+interface PipelineData {
+  branch: string;
+  pipelineName: string;
+  isDefault: string;
+}
+
+const convertTreeData = (data: Node[]) => {
+  if (!data?.length) return [];
+  const dataGroup = groupBy(data, 'pinode');
+  const pids: string[] = [];
+  const ids: string[] = [];
+  data.forEach((item) => {
+    pids.push(item.pinode);
+    ids.push(item.inode);
+  });
+  const rootPid = difference(pids, ids)?.[0];
+  const getChildren = (arr: Node[], _branch?: string): TreeNode[] => {
+    return (arr || []).map((item) => {
+      const branch = _branch || item.name;
+      return {
+        title: item.name,
+        key: item.inode,
+        checkable: item.type === 'f',
+        isLeaf: item.type === 'f',
+        branch: branch,
+        children: getChildren(dataGroup[item.inode] || [], branch),
+      };
+    });
+  };
+
+  return getChildren(dataGroup[rootPid]);
+};
+
 const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedApp }: IProps) => {
   const { key: pipelineCategoryKey, rules: pipelineCategoryRules } = pipelineCategory || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
   const [appList, setAppList] = React.useState<App[]>([]);
   const [app, setApp] = React.useState<App>({} as App);
-  const [tree, setTree] = React.useState<TreeNode[]>([]);
-  const [treeVisible, setTreeVisible] = React.useState(false);
+  const [tree, setTree] = React.useState<Node[]>([]);
   const [treeValue, setTreeValue] = React.useState('');
-  const [treeExpandedKeys, setTreeExpandedKeys] = React.useState<Array<string | number>>([]);
-  const canTreeSelectClose = React.useRef(true);
   const [sourceErrorMessage, setSourceErrorMessage] = React.useState('');
   const appDetail = appStore.useStore((s) => s.detail);
+  const [visible, setVisible] = React.useState(false);
+  const [isDefault, setIsDefault] = React.useState(false);
+  const [disableDefault, setDisableDefault] = React.useState(false);
+  const [disableName, setDiableName] = React.useState(true);
+
+  const pipelineFromRef = React.useRef<FormInstance>(null);
 
   const type = editData ? 'edit' : 'add';
-
-  const convertTreeData = (data: Node[]) => {
-    return data.map((item) => ({
-      ...item,
-      key: item.inode,
-      id: item.inode,
-      pId: item.pinode,
-      title: item.name,
-      isLeaf: item.type === 'f',
-      value: item.inode,
-    }));
-  };
 
   const getTree = React.useCallback(
     async (pinode: string) => {
@@ -113,7 +140,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       });
 
       if (res.success) {
-        return convertTreeData(res.data || []);
+        return res.data || [];
       } else {
         return [];
       }
@@ -122,7 +149,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
   );
 
   const loadTree = async (node: TreeNode) => {
-    const data = await getTree(node.id);
+    const data = await getTree(node.key);
     setTree((prev) => [...prev, ...data]);
     return Promise.resolve();
   };
@@ -157,6 +184,10 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       }
     }
   }, [app.value, projectId, getTree, form, fixedApp]);
+
+  const treeData = React.useMemo(() => {
+    return convertTreeData(uniqBy(tree, 'inode'));
+  }, [tree]);
 
   React.useEffect(() => {
     if (fixedApp) {
@@ -218,9 +249,9 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
     if (value === editData?.inode) {
       return Promise.resolve();
     }
-    const node = tree.find((item) => item.id === value);
-    if (node?.isLeaf) {
-      const path = decode(node.pId);
+    const node = tree.find((item) => item.inode === value);
+    if (node?.type === 'f') {
+      const path = decode(node.pinode);
       const _appID = path.split('/')[1];
       const ref = path.split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
       const payload = {
@@ -242,8 +273,134 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
     return Promise.resolve();
   };
 
+  const fieldsList = [
+    {
+      label: i18n.t('dop:branch'),
+      name: 'branch',
+      itemProps: {
+        disabled: true,
+      },
+    },
+    {
+      label: i18n.s('default pipeline', 'dop'),
+      name: 'isDefault',
+      type: 'switch',
+      itemProps: {
+        checkedChildren: i18n.t('common:Yes'),
+        unCheckedChildren: i18n.t('common:No'),
+        disabled: disableDefault,
+        className: 'ml-2',
+        onChange: (checked: boolean) => setIsDefault(checked),
+      },
+    },
+    {
+      label: i18n.s('pipeline name', 'dop'),
+      name: 'pipelineName',
+      itemProps: {
+        disabled: disableName,
+        addonBefore: isDefault ? '' : '.erda/pipelines',
+      },
+    },
+    {
+      getComp: () => (
+        <div className="flex justify-center mt-4">
+          <Button
+            className=""
+            type="primary"
+            onClick={() => {
+              handleSubmit(pipelineFromRef.current as FormInstance);
+            }}
+          >
+            {i18n.t('Save')}
+          </Button>
+          <Button className="ml-8" onClick={() => setVisible(false)}>
+            {i18n.t('Cancel')}
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
+  const handleSubmit = (pipelineForm: FormInstance) => {
+    pipelineForm.validateFields().then((values: PipelineData) => {
+      const { branch, pipelineName, isDefault } = values;
+
+      const curProjectName = appList.find((item) => item.value === app?.value)?.projectName;
+
+      // gitRepoAbbrev后端为兼容旧的数据没有改，由前端指定
+      const gitRepoAbbrev = `${curProjectName}/${app?.label}`;
+      commit({
+        repoPrefix: gitRepoAbbrev,
+        data: {
+          message: `Add ${pipelineName}`,
+          branch,
+          actions: [
+            {
+              action: 'add',
+              path: `${isDefault ? '' : '.erda/pipelines/'}${pipelineName}`,
+              pathType: 'blob',
+            },
+          ],
+        },
+      }).then(() => {
+        const treeId = encode(
+          `${projectId}/${app.value}/tree/${branch}/${isDefault ? '' : '.erda/pipelines'}/${pipelineName}`,
+        );
+        setTreeValue(treeId);
+        form.setFieldsValue({ tree: treeId });
+        notification.success({ message: i18n.s('added successfully') });
+        setVisible(false);
+      });
+    });
+  };
+
+  const initAdd = (nodeData: TreeNodeNormal) => {
+    setVisible(true);
+    if (nodeData) {
+      const curTreeChildren = groupBy(tree, 'pinode');
+      if (!curTreeChildren[nodeData.key]?.length) {
+        getFileTree({
+          scopeID: projectId,
+          scope: 'project-app',
+          pinode: `${nodeData.key}`,
+          pipelineCategoryKey: !pipelineCategoryKey || pipelineCategoryKey === 'all' ? '' : pipelineCategoryKey,
+        }).then((res) => {
+          const hasDefault = res?.data?.find((item) => item.name === 'pipeline.yml');
+          initAddPipelineForm({ hasDefault: !!hasDefault, branch: nodeData.branch as string });
+        });
+      } else {
+        const hasDefault = (curTreeChildren[nodeData.key] || []).find((item) => item.name === 'pipeline.yml');
+        initAddPipelineForm({ hasDefault: !!hasDefault, branch: nodeData.branch as string });
+      }
+    }
+  };
+
+  const initAddPipelineForm = (_data: { branch: string; hasDefault: boolean }) => {
+    const mameMap = {
+      all: '',
+      'build-deploy': 'pipeline.yml',
+      'build-artifact': 'ci-artifact.yml',
+      'build-combine-artifact': 'combine-artifact.yml',
+      'build-integration': 'integration.yml',
+      others: '',
+    };
+
+    const curName = mameMap[pipelineCategoryKey || 'all'];
+
+    setDisableDefault(!!curName);
+    setDiableName(!!curName);
+
+    const formData = {
+      branch: _data.branch,
+      isDefault: pipelineCategoryKey === 'build-deploy',
+      pipelineName: curName,
+    };
+    setIsDefault(pipelineCategoryKey === 'build-deploy');
+    pipelineFromRef.current?.setFieldsValue(formData);
+  };
+
   return (
-    <div className="project-pipeline-form flex flex-col h-full">
+    <div className="flex flex-col h-full">
       <div className="header py-2.5 pl-4 bg-default-02 flex-h-center">
         <span className="text-base text-default">{titleMap[type]}</span>
         <ErdaIcon type="zhedie" className="ml-1" />
@@ -253,8 +410,8 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 pl-4 pt-4 w-1/2">
-        <Form form={form}>
+      <div className="flex-1 min-h-0 pt-4 pl-4 pr-[50%] overflow-auto">
+        <Form form={form} className="flex flex-col h-full">
           <RenderFormItem
             name={'name'}
             type={'input'}
@@ -278,7 +435,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
             <div className="text-default">{i18n.t('dop:Code source')}</div>
             <CodeResource />
           </div>
-          <div>
+          <div className="flex-1 flex flex-col overflow-hidden">
             <div className="text-default mb-3">{i18n.t('Configuration')}</div>
             <div className="flex-h-center">
               <div className="mb-3 w-32 text-default-6 flex-h-center">
@@ -303,76 +460,119 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                 )}
               </div>
             </div>
-            <div className="flex">
+            <div className="flex flex-1 overflow-hidden min-h-[240px]">
               <div className="w-32 text-default-6">
                 <div className="flex-h-center mt-1.5">
                   <ErdaIcon type="pipeline" size={20} className="text-default-4 mr-1" />
                   {i18n.t('dop:Pipeline file')}
                 </div>
               </div>
-              <div className="flex-1">
-                <RenderFormItem
-                  name="tree"
-                  type="custom"
-                  rules={[
-                    {
-                      validator: (_: string, value: string) => {
-                        if (!value) {
-                          return Promise.reject(
-                            new Error(i18n.t('please choose the {name}', { name: i18n.t('Pipelines').toLowerCase() })),
-                          );
-                        }
+              <div className="flex-1 flex flex-col pipeline-form-add-tree">
+                <div className="flex items-center">
+                  <RenderFormItem
+                    name="tree"
+                    className="h-full flex-1 overflow-auto "
+                    type="custom"
+                    rules={[
+                      {
+                        validator: (_: string, value: string) => {
+                          if (!value) {
+                            return Promise.reject(
+                              new Error(
+                                i18n.t('please choose the {name}', { name: i18n.t('Pipelines').toLowerCase() }),
+                              ),
+                            );
+                          }
 
-                        return sourceCheck(value);
+                          return sourceCheck(value);
+                        },
                       },
-                    },
-                  ]}
-                  getComp={() => (
-                    <div className="flex">
-                      <TreeSelect
-                        className="project-release-select"
-                        treeDataSimpleMode
-                        treeData={tree}
-                        open={treeVisible}
-                        onDropdownVisibleChange={(_visible) => {
-                          if (canTreeSelectClose.current) {
-                            setTreeVisible(_visible);
-                          } else {
-                            canTreeSelectClose.current = true;
-                          }
-                        }}
-                        value={treeValue}
-                        onSelect={(value, node) => {
-                          if (node.isLeaf === false) {
-                            canTreeSelectClose.current = false;
-                            if (treeExpandedKeys.includes(value)) {
-                              setTreeExpandedKeys((pre) => pre.filter((item) => item !== value));
-                            } else {
-                              setTreeExpandedKeys((pre) => [...pre, value]);
-                            }
-                          } else {
-                            setTreeValue(value);
-                            form.setFieldsValue({ tree: value });
-                          }
-                        }}
-                        treeExpandedKeys={treeExpandedKeys}
-                        onTreeExpand={(expandedKeys: Array<string | number>) => {
-                          setTreeExpandedKeys(expandedKeys);
-                        }}
-                        loadData={loadTree}
-                      />
-                      {pipelineCategoryRules ? (
-                        <Tooltip title={pipelineCategoryRules?.join(', ')}>
-                          <ErdaIcon type="help" className="text-default-6 ml-2" size="16" />
-                        </Tooltip>
-                      ) : (
-                        <div className="w-6" />
-                      )}
-                    </div>
+                    ]}
+                    getComp={() => {
+                      const curVal = form.getFieldsValue();
+                      const treePath = treeValue ? decode(treeValue) : '';
+
+                      const treeTitle = treePath.split('tree/')?.[1] || '';
+
+                      return (
+                        <div className="flex flex-col h-full">
+                          <div
+                            className={`${
+                              treeTitle ? 'text-default-8' : 'text-default-4'
+                            } h-[32px] rounded bg-default-06 w-full px-3 py-[5px]`}
+                          >
+                            {treeTitle || (curVal?.app ? i18n.s('Please choose a pipeline', 'dop') : '')}
+                          </div>
+                        </div>
+                      );
+                    }}
+                  />
+                  {pipelineCategoryRules ? (
+                    <Tooltip title={pipelineCategoryRules?.join(', ')}>
+                      <ErdaIcon type="help" className="text-default-6 ml-2" size="16" />
+                    </Tooltip>
+                  ) : (
+                    <div className="w-6" />
                   )}
-                />
+                </div>
+                {treeData.length ? (
+                  <div className={'w-full flex-1 overflow-auto relative'}>
+                    <Tree
+                      checkable
+                      selectable={false}
+                      treeData={treeData}
+                      checkedKeys={[treeValue]}
+                      className="w-full flex-1 overflow-auto pr-6"
+                      loadData={loadTree}
+                      onCheck={(_, e) => {
+                        const v = treeValue === e.node.key ? '' : `${e.node.key}`;
+                        setTreeValue(v);
+                        form.setFieldsValue({ tree: v });
+                      }}
+                      blockNode
+                      titleRender={(nodeData: TreeNodeNormal) => {
+                        return (
+                          <div className="flex-h-center justify-between group">
+                            <div> {nodeData.title}</div>
+                            {!nodeData.isLeaf && !visible ? (
+                              <ErdaIcon
+                                type="plus"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+
+                                  initAdd(nodeData);
+                                }}
+                                size={14}
+                                className="px-1 font-medium invisible group-hover:visible text-purple-deep"
+                              />
+                            ) : null}
+                          </div>
+                        );
+                      }}
+                    />
+                    <Popover
+                      trigger={['click']}
+                      placement="right"
+                      overlayClassName="pipeline-add-popover"
+                      visible={visible}
+                      content={
+                        <div className="w-[400px] px-2">
+                          <div className="font-medium pb-3 text-base">
+                            {i18n.t('Add {name}', { name: i18n.t('Pipeline') })}
+                          </div>
+                          <RenderForm ref={pipelineFromRef} className="w-full" list={fieldsList} />
+                        </div>
+                      }
+                    >
+                      <div className="absolute top-0 right-0 w-2 h-2 invisible" />
+                    </Popover>
+                  </div>
+                ) : (
+                  <EmptyHolder className="w-full flex-1" relative />
+                )}
               </div>
             </div>
+
             {sourceErrorMessage ? (
               <ErdaAlert message={sourceErrorMessage} type="error" closeable={false} className="py-1.5" />
             ) : null}
@@ -380,7 +580,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
         </Form>
       </div>
 
-      <div className="py-3 px-4">
+      <div className="py-3 px-4 bg-white shadow">
         <Button type="primary" className="mr-2" onClick={submit}>
           {btnMap[type]}
         </Button>
@@ -423,7 +623,7 @@ const PipelineFormDrawer = ({ onCancel, visible, ...rest }: Merge<IProps, { visi
       bodyStyle={{ padding: 0 }}
       destroyOnClose
       closable={false}
-      zIndex={1045}
+      zIndex={1009}
     >
       <PipelineForm {...rest} onCancel={onCancel} />
     </Drawer>
