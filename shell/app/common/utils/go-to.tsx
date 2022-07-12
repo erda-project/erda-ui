@@ -32,6 +32,11 @@ const changeBrowserHistory = throttle(
   { trailing: false },
 );
 
+export const changeHistoryImmediately = (action: string, _path: string) => {
+  const history = getConfig('history');
+  action === 'replace' ? history.replace(_path) : history.push(_path);
+};
+
 export interface IOptions {
   [pathName: string]: any;
   append?: boolean;
@@ -225,7 +230,7 @@ export enum pages {
   dataTaskRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataTask',
   appDataModel = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataModel',
   appDataMarket = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataMarket',
-  appCodeQuality = '/{orgName}/dop/projects/{projectId}/apps/{appId}/quality?tabKey={tabKey}&type={type}',
+  appCodeQuality = '/{orgName}/dop/projects/{projectId}/apps/{appId}/quality',
   appSetting = '/{orgName}/dop/projects/{projectId}/apps/{appId}/setting',
 
   // 中间件平台首页 /addonPlatform/addonsManage 去掉了。详情页保留，暂时挂在DevOps平台下面。

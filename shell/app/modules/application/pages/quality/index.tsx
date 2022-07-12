@@ -25,7 +25,6 @@ import { Icon as CustomIcon, EmptyHolder, IF, FileEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { firstCharToUpper, goTo } from 'common/utils';
 import { useEffectOnce } from 'react-use';
-import layoutStore from 'layout/stores/layout';
 import i18n from 'i18n';
 import codeQualityStore from 'application/stores/quality';
 import routeInfoStore from 'core/stores/route';
@@ -69,7 +68,6 @@ const QUALITY_DATAS = [
 const CodeQuality = () => {
   const [visible, setVisible] = React.useState(false);
   const [curSonarInfo, setCurSonarInfo] = React.useState({ name: '', path: '', language: '', lines: [] });
-  // const appDetail = appStore.useStore(s => s.detail);
   const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
   const { getSonarResults, getRepoBlob, getLatestSonarStatistics } = codeQualityStore.effects;
   const { clearSonarResults, clearRepoBlob } = codeQualityStore.reducers;
@@ -122,17 +120,7 @@ const CodeQuality = () => {
       <Row gutter={24}>
         {QUALITY_DATAS.map(({ key, name, icon, query }) => (
           <Col span={24 / QUALITY_DATAS.length} key={key}>
-            <div
-              className="quality-data flex justify-between items-center"
-              onClick={() => {
-                goTo(goTo.pages.appCodeQuality, {
-                  projectId,
-                  appId,
-                  type: query,
-                  tabKey: 'issues',
-                });
-              }}
-            >
+            <div className="quality-data flex justify-between items-center">
               <span className="desc flex justify-between items-center mr-4">
                 <CustomIcon type={icon} />
                 {name}

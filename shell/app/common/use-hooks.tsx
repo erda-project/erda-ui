@@ -21,10 +21,13 @@ import { FilterBarHandle } from 'common/components/filter-group';
 import { setSearch, updateSearch } from './utils';
 import { debounce, every, forIn, get, isEmpty, isEqual, isFunction, mapValues, omit, set, some, sortBy } from 'lodash';
 import moment, { Moment } from 'moment';
+import { useLocation } from 'react-router-dom';
+import { exclude, parse, stringify } from 'query-string';
 import routeInfoStore from 'core/stores/route';
 import { IUseFilterProps, IUseMultiFilterProps } from 'app/interface/common';
 import { PAGINATION } from 'app/constants';
 import screenfull from 'screenfull';
+import { changeHistoryImmediately } from './utils/go-to';
 
 export enum ScreenSize {
   xs = 768,
@@ -993,7 +996,7 @@ React.useEffect(()=> {
   setUrlQuery(filterState);
 },[filterState])
 
-  params: 
+  params:
     convertQuery: 路由query转换方法
     reload: 路由变化后重新调用数据方法
 
@@ -1043,4 +1046,69 @@ export const useUpdateSearch = (props?: IUseUpdateSearchProps): [setQuery: (q: O
   }, []);
 
   return [_setQuery, query];
+};
+
+/**
+ * to use pop component like drawer/modal and keep status in url, every open pop component should have a key
+ * @param key id value
+ * @returns
+ */
+export const usePopComponent = (key: string) => {
+  const { search, pathname } = useLocation();
+  const query = React.useMemo(() => parse(search), [search]);
+
+  const mounted = React.useRef(false);
+  const [visibleId, setVisibleId] = React.useState<string | number | undefined>();
+
+  React.useEffect(() => {
+    if (Reflect.has(query, key)) {
+      setVisibleId(Reflect.get(query, key));
+    }
+    mounted.current = true;
+  }, []);
+
+  const changeVisible = React.useCallback(
+    (v: boolean, id?: string | number) => {
+      setVisibleId(id);
+      if (v && `${id}`.length && !Reflect.has(query, key)) {
+        changeHistoryImmediately('replace', `${pathname}?${stringify({ ...query, [key]: id })}`);
+      } else {
+        changeHistoryImmediately('replace', `${pathname}${exclude(search, [key])}`);
+      }
+    },
+    [query, search],
+  );
+
+  return [visibleId, changeVisible] as [string | number | undefined, (v: boolean, id?: string | number) => void];
+};
+
+/**
+ * to keep tab info in url
+ * @param tabKey
+ * @param defaultValue default tab value
+ * @returns
+ */
+export const useTabLocation = (tabKey?: string, defaultValue?: string) => {
+  const key = tabKey ?? 'tab';
+  const { search, pathname } = useLocation();
+  const query = React.useMemo(() => parse(search), [search]);
+  const [value, setValue] = React.useState<string | string[] | undefined>(() => {
+    if (Reflect.has(query, key)) {
+      return query[key] ?? undefined;
+    } else {
+      return defaultValue ?? undefined;
+    }
+  });
+
+  React.useEffect(() => {
+    if (Reflect.has(query, key)) {
+      if (query[key] !== value) {
+        changeHistoryImmediately('push', `${pathname}?${stringify({ ...query, [key]: value })}`);
+      }
+    } else {
+      changeHistoryImmediately('replace', `${pathname}?${stringify({ ...query, [key]: value })}`);
+    }
+  }, [key, value]);
+
+  return [value, setValue] as [string | string[], React.Dispatch<React.SetStateAction<string | string[] | undefined>>];
 };
