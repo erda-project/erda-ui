@@ -20,6 +20,8 @@ import './source-target-select.scss';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'core/stores/route';
+import projectStore from 'project/stores/project';
+import { getBranchPolicy } from 'project/services/project-workflow';
 
 const noop = () => {};
 
@@ -101,6 +103,7 @@ interface IProps {
   defaultTargetBranch?: string;
   defaultRemoveSourceBranch?: boolean;
   onCompare: Function | null;
+  branchPolicies: DEVOPS_WORKFLOW.BranchPolicy[];
   onChange: (obj: object, isBranchChange: boolean) => void;
   moveToDiff: () => void;
 }
@@ -165,6 +168,22 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
     // Should provide an event to pass value to Form.
     const { onChange } = this.props;
     const newValue = { ...this.state, ...changedValue };
+    if (Reflect.has(changedValue, 'sourceBranch')) {
+      const sourceBranch = changedValue['sourceBranch'];
+      const targetPolicy = this.props.branchPolicies.find(({ branch }) => {
+        if (branch.includes('*')) {
+          const branchRegex = new RegExp(branch.replaceAll('*', '(.+)'));
+          return branchRegex.test(sourceBranch);
+        } else if (branch === sourceBranch) {
+          return true;
+        }
+        return false;
+      });
+      if (targetPolicy) {
+        const { policy } = targetPolicy;
+        newValue['targetBranch'] = policy?.targetBranch?.mergeRequest ?? newValue['targetBranch'];
+      }
+    }
     (onChange || noop)(newValue, isBranchChange);
   };
 
@@ -276,6 +295,16 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
 
 export default (p: IProps) => {
   const defaultBranch = repoStore.useStore((s) => s.info.defaultBranch);
+  const metaWorkflow = getBranchPolicy.useData();
+  const branchPolicies = metaWorkflow?.branchPolicies ?? [];
 
-  return <SourceTargetSelect {...p} defaultBranch={defaultBranch} />;
+  const { id: projectId } = projectStore.useStore((s) => s.info);
+
+  React.useEffect(() => {
+    if (projectId) {
+      getBranchPolicy.fetch({ projectID: `${projectId}` });
+    }
+  }, [projectId]);
+
+  return <SourceTargetSelect {...p} defaultBranch={defaultBranch} branchPolicies={branchPolicies} />;
 };
