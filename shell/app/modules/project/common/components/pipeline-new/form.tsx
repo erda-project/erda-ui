@@ -122,8 +122,8 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
   const appDetail = appStore.useStore((s) => s.detail);
   const [visible, setVisible] = React.useState(false);
   const [isDefault, setIsDefault] = React.useState(false);
-  const [disableDefault, setDisableDefault] = React.useState(false);
-  const [disableName, setDiableName] = React.useState(true);
+  const [disabledDefault, setDisabledDefault] = React.useState(false);
+  const [disabledName, setDiabledName] = React.useState(true);
 
   const pipelineFromRef = React.useRef<FormInstance>(null);
 
@@ -287,15 +287,15 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       itemProps: {
         checkedChildren: i18n.t('common:Yes'),
         unCheckedChildren: i18n.t('common:No'),
-        disabled: disableDefault,
+        disabled: disabledDefault,
         className: 'ml-2',
         onChange: (checked: boolean) => {
           setIsDefault(checked);
           if (checked) {
-            setDiableName(true);
+            setDiabledName(true);
             pipelineFromRef.current?.setFieldsValue({ pipelineName: 'pipeline.yml' });
           } else {
-            setDiableName(false);
+            setDiabledName(false);
             pipelineFromRef.current?.setFieldsValue({ pipelineName: '' });
           }
         },
@@ -305,7 +305,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       label: i18n.s('pipeline name', 'dop'),
       name: 'pipelineName',
       itemProps: {
-        disabled: disableName,
+        disabled: disabledName,
         addonBefore: isDefault ? '' : '.erda/pipelines',
       },
       rules: [
@@ -419,8 +419,8 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
 
     const curName = mameMap[pipelineCategoryKey || 'all'];
 
-    setDisableDefault(!!curName || pipelineCategoryKey === 'others');
-    setDiableName(!!curName);
+    setDisabledDefault(!!curName || pipelineCategoryKey === 'others');
+    setDiabledName(!!curName);
 
     const formData = {
       branch: _data.branch,
