@@ -17,7 +17,6 @@
     font-size: 24px;
     background: $white;
     border-radius: $radius;
-    cursor: pointer;
     @extend %shallow-shadow;
 
     &:hover {

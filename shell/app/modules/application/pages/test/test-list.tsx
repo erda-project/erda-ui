@@ -24,6 +24,7 @@ import { useLoading } from 'core/stores/loading';
 import TestDetailContainer from './test-detail-container';
 import { ColumnProps } from 'antd/lib/table';
 import CoverageReport from './coverage-report';
+import { usePopComponent } from 'app/common/use-hooks';
 
 const getTestDuration = (duration: any) => {
   const seconds = floor(parseInt(duration, 10) / 10 ** 9, 3); // 时间为纳秒
@@ -155,12 +156,11 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
 ];
 
 const TestList = () => {
-  const [activeId, setActiveId] = React.useState(0);
-  const [visible, setVisible] = React.useState(false);
-  const [reportId, setReportId] = React.useState<number>(null);
   const [list, testListPaging] = applicationTestStore.useStore((s) => [s.list, s.testListPaging]);
   const [isFetching] = useLoading(applicationTestStore, ['getTestList']);
   const { getTestTypes, getTestList } = applicationTestStore.effects;
+  const [reportId, setReportId] = usePopComponent('reportId');
+  const [activeId, setActiveId] = usePopComponent('activeId');
   const { clearTestList } = applicationTestStore.reducers;
   React.useEffect(() => {
     getTestTypes();
@@ -178,8 +178,7 @@ const TestList = () => {
       {
         title: i18n.t('view {name}', { name: i18n.t('dop:Coverage') }),
         onClick: () => {
-          setReportId(record.id);
-          setVisible(true);
+          setReportId(true, record.id);
         },
       },
     ],
@@ -195,7 +194,7 @@ const TestList = () => {
           onRow={({ id }: TEST.RunTestItem) => {
             return {
               onClick: () => {
-                setActiveId(id);
+                setActiveId(true, id);
               },
             };
           }}
@@ -208,8 +207,8 @@ const TestList = () => {
         />
       </Spin>
 
-      <TestDetailContainer key={activeId} testId={activeId} onClose={() => setActiveId(0)} />
-      <CoverageReport visible={visible} id={reportId} onClose={() => setVisible(false)} />
+      <TestDetailContainer key={activeId} testId={+(activeId || 0)} onClose={() => setActiveId(false)} />
+      <CoverageReport visible={!!reportId} id={+(reportId ?? 0)} onClose={() => setReportId(false)} />
     </div>
   );
 };

@@ -17,34 +17,23 @@ import React from 'react';
 import CodeQuality from '.';
 import TestList from '../test/test-list';
 import { ProblemList } from '../problem/problem-list';
-import routeInfoStore from 'core/stores/route';
-import { updateSearch } from 'app/common/utils';
+import { useTabLocation } from 'app/common/use-hooks';
 
 const AppQuality = () => {
-  const { tabKey } = routeInfoStore.useStore((s) => s.query);
   const tabs = [
     { value: 'quality', label: i18n.t('dop:Reports') },
     { value: 'issues', label: i18n.t('dop:Issues') },
     { value: 'test', label: i18n.t('dop:Runs') },
   ];
-  const [tab, setTab] = React.useState(tabs[0].value);
-
-  React.useEffect(() => {
-    if (tabKey) {
-      setTab(tabKey);
-    }
-  }, [tabKey]);
+  const [tab, setTab] = useTabLocation('tab', tabs[0].value);
 
   return (
     <>
       <RadioTabs
         options={tabs}
-        value={tab}
-        onChange={(v?: string | number) => {
+        value={tab as string}
+        onChange={(v?: string) => {
           setTab(v);
-          if (v !== 'issues') {
-            updateSearch({ tabKey: undefined, type: undefined });
-          }
         }}
         className="mb-2"
       />

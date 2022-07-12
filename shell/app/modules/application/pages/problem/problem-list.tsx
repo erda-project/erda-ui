@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Button, Spin } from 'antd';
-import { useSwitch, useUpdate } from 'app/common/use-hooks';
+import { usePopComponent, useSwitch, useUpdate } from 'app/common/use-hooks';
 import { ProblemForm, ProblemPriority, ProblemTypeOptions } from 'application/pages/problem/problem-form';
 import TicketDetail from './problem-detail';
 import { addTicket, getTicketList } from 'application/services/problem';
@@ -42,8 +42,8 @@ export const ProblemList = () => {
   const [visible, openModal, closeModal] = useSwitch(false);
   const appId = routeInfoStore.useStore((s) => s.params.appId);
   const loginUser = userStore.getState((s) => s.loginUser);
-  const [state, updater, update] = useUpdate({
-    detailVisibleId: 0,
+  const [detailVisibleId, setDetailVisible] = usePopComponent('issueId');
+  const [state, _, update] = useUpdate({
     ...getDefaultPaging(),
     list: [],
     hasMore: undefined,
@@ -226,7 +226,7 @@ export const ProblemList = () => {
           onRow={(record: PROBLEM.Ticket) => {
             return {
               onClick: () => {
-                updater.detailVisibleId(record.id);
+                setDetailVisible(true, record.id);
               },
             };
           }}
@@ -246,11 +246,11 @@ export const ProblemList = () => {
         </Button>
         <ProblemForm visible={visible} onOk={onOk} onCancel={closeModal} />
         <TicketDetail
-          id={state.detailVisibleId}
-          onClose={() => updater.detailVisibleId(0)}
+          id={detailVisibleId as number}
+          onClose={() => setDetailVisible(false)}
           onCloseIssue={() => {
             filterFn({ pageNo: 1 });
-            updater.detailVisibleId(0);
+            setDetailVisible(false);
           }}
         />
       </TopButtonGroup>
