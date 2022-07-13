@@ -51,15 +51,19 @@ const BranchPolicyItem = ({
   cancelEdit,
   onSave,
   onDelete,
+  updateMode = false,
   editAuth = false,
+  onChange,
 }: {
   data: BranchPolicyData;
   editId?: string;
+  updateMode?: boolean;
   onEdit?: () => void;
   validData?: (d: BranchPolicyData) => Array<{ label: string; tip: string; key: string }>;
   cancelEdit?: () => void;
   editAuth?: boolean;
   onDelete?: () => void;
+  onChange?: (v: BranchPolicyData, saveable: boolean) => void;
   onSave?: (d: BranchPolicyData) => void;
 }) => {
   const [data, setData] = React.useState(propsData);
@@ -75,7 +79,9 @@ const BranchPolicyItem = ({
   const setDataValue = (val: Obj) => {
     setData((prev) => {
       const _curData = { ...prev, ...val };
-      validData && setValidArr(validData(_curData));
+      const curValidArr = validData ? validData(_curData) : [];
+      setValidArr(curValidArr);
+      onChange?.(_curData, !!getIsSaveable(curValidArr).saveable);
       return _curData;
     });
   };
@@ -88,17 +94,21 @@ const BranchPolicyItem = ({
     setLineWidth(curW < 138 ? 138 : curW);
   }, 500);
 
-  const showEmpty = !(!noPolicy || showAdd) && !!branch;
-  const usedValid = showEmpty ? validArr.filter((item) => item.key === 'branch') : [...validArr];
+  const getIsSaveable = (_validArr?: Array<{ label: string; tip: string; key: string }>) => {
+    const showEmpty = !(!noPolicy || showAdd) && !!branch;
+    const curValidArr = _validArr || validArr;
+    const usedValid = showEmpty ? curValidArr.filter((item) => item.key === 'branch') : [...curValidArr];
+    return { saveable: data.branch && !usedValid.length, usedValid };
+  };
 
-  const saveable = data.branch && !usedValid.length;
+  const { saveable, usedValid } = getIsSaveable();
   return (
     <ResizeObserver onResize={onResize}>
       <div className="border-all rounded mt-2 mb-4 group">
         <div className="px-4 py-2 flex-h-center border-bottom bg-default-02 justify-between ">
           <div className="flex-h-center">
             <ErdaIcon size={16} className="text-default-4" type="daimafenzhi" />
-            {isCreate && noPolicy && !showAdd ? (
+            {isCreate && noPolicy && !showAdd && !updateMode ? (
               <div>
                 <Input
                   className="bg-default-06 border-none rounded py-0"
@@ -123,7 +133,7 @@ const BranchPolicyItem = ({
               <span className="ml-2 font-medium text-default">{branch}</span>
             )}
           </div>
-          <If condition={editAuth}>
+          <If condition={editAuth && !updateMode}>
             {data.id === editId ? (
               <div>
                 <span
@@ -157,6 +167,7 @@ const BranchPolicyItem = ({
                     editId ? 'text-default-3 cursor-not-allowed' : 'text-default-6 cursor-pointer hover:text-default-8'
                   }`}
                 />
+
                 <Popconfirm
                   title={i18n.t('is it confirmed {action}?', { action: i18n.t('Delete') })}
                   disabled={!!editId}
@@ -189,6 +200,7 @@ const BranchPolicyItem = ({
               <CurrentBranchCard
                 setData={setDataValue}
                 editing={editId === data.id}
+                disabledName={updateMode}
                 data={data}
                 className="flex-shrink-0"
               />
@@ -255,6 +267,7 @@ interface CardProps {
   data: BranchPolicyData;
   className?: string;
   editing: boolean;
+  disabledName?: boolean;
   setData: (v: BranchPolicyData) => void;
 }
 const SourceBranchCard = (props: CardProps) => {
@@ -318,7 +331,7 @@ const BranchInput = ({ value, type, onChange }: { value: string; type: string; o
 };
 
 const CurrentBranchCard = (props: CardProps) => {
-  const { data, className, editing, setData } = props;
+  const { data, className, editing, setData, disabledName } = props;
 
   return (
     <div className={`flex-col w-[180px] ${className}`}>
@@ -343,7 +356,7 @@ const CurrentBranchCard = (props: CardProps) => {
           <ErdaIcon type="help" className="ml-1 cursor-pointer" />
         </Tooltip>
       </div>
-      {editing ? (
+      {editing && !disabledName ? (
         <BranchInput
           value={data?.policy?.currentBranch || ''}
           type={data?.branchType}

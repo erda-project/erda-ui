@@ -110,21 +110,6 @@ const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
     setUseData(convertPolicyData(data?.branchPolicies || []));
   }, [data]);
 
-  const validData = (d: BranchPolicyData) => {
-    const validMap = getValid(
-      d,
-      (fullDataRef.current || []).filter((item) => item.id !== d.id),
-    );
-    const validStrArr = Object.keys(validMap);
-    return validStrArr
-      .filter((item) => !!validMap[item])
-      .map((item) => {
-        const v = validMap[item];
-        const [l, t] = v.split(tipSplit);
-        return { label: l, tip: t, key: item };
-      });
-  };
-
   const deleteCurData = (d: BranchPolicyData) => {
     setUseData((prev) => prev.filter((pItem) => pItem.id !== d.id));
   };
@@ -153,7 +138,7 @@ const BranchPolicyList = ({ projectId, editAuth }: IProps) => {
           <BranchPlicyCard
             key={item.id}
             editAuth={editAuth}
-            validData={validData}
+            validData={(d) => getValidResult(d, fullDataRef.current)}
             data={item}
             editId={editData?.id || ''}
             onEdit={() => setEditData({ ...item })}
@@ -235,6 +220,21 @@ const getValid = (policyData: BranchPolicyData, fullData: BranchPolicyData[]) =>
     ),
     cherryPick: rules.cherryPick(`pick ${i18n.t('dop:branch')}`, policyData?.policy?.targetBranch?.cherryPick),
   };
+};
+
+export const getValidResult = (d: BranchPolicyData, fullData: BranchPolicyData[]) => {
+  const validMap = getValid(
+    d,
+    (fullData || []).filter((item) => item.id !== d.id),
+  );
+  const validStrArr = Object.keys(validMap);
+  return validStrArr
+    .filter((item) => !!validMap[item])
+    .map((item) => {
+      const v = validMap[item];
+      const [l, t] = v.split(tipSplit);
+      return { label: l, tip: t, key: item };
+    });
 };
 
 export default BranchPolicyList;

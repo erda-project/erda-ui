@@ -21,6 +21,7 @@ import i18n from 'i18n';
 import { ENV_MAP } from 'project/common/config';
 import { convertPolicyData } from './branch-policy';
 import BranchPolicyCard from './branch-policy-card';
+import { getValidResult } from './branch-policy';
 import { Link } from 'react-router-dom';
 
 interface BranchFlowsData extends DEVOPS_WORKFLOW.BranchFlows {
@@ -38,6 +39,45 @@ interface FlowDrawerProps {
   onSubmit: (val: BranchFlowsData, branchData: DEVOPS_WORKFLOW.BranchPolicy[]) => void;
   onClose: () => void;
 }
+
+interface BranchPolicyData extends DEVOPS_WORKFLOW.BranchPolicy {
+  id: string;
+  openTempMerge: boolean;
+}
+
+const BranchPolicy = (props: {
+  data: DEVOPS_WORKFLOW.BranchPolicy;
+  fullData: DEVOPS_WORKFLOW.BranchPolicy[];
+  onChange: (v: BranchPolicyData, saveable: boolean) => void;
+}) => {
+  const { data, onChange, fullData } = props;
+  const [editData, setEditData] = React.useState<BranchPolicyData>({
+    ...data,
+    id: data.branch,
+    openTempMerge: !!data?.policy?.tempBranch,
+  });
+
+  return (
+    <BranchPolicyCard
+      updateMode
+      data={editData}
+      validData={(d) =>
+        getValidResult(
+          d,
+          fullData.map((item) => ({
+            ...item,
+            id: item.branch,
+            openTempMerge: !!data?.policy?.tempBranch,
+          })),
+        )
+      }
+      editId={editData?.id}
+      editAuth
+      onChange={onChange}
+    />
+  );
+};
+
 const FlowDrawer = ({
   visible,
   flowData,
@@ -47,14 +87,16 @@ const FlowDrawer = ({
   projectId,
   branchData: propsBranchData,
 }: FlowDrawerProps) => {
-  const [{ editData, nameValid, branchData }, updater, update] = useUpdate<{
+  const [{ editData, nameValid, branchData, policySaveable }, updater, update] = useUpdate<{
     editData: BranchFlowsData | null;
     nameValid: string;
     branchData: DEVOPS_WORKFLOW.BranchPolicy[];
+    policySaveable: boolean;
   }>({
     editData: flowData,
     nameValid: '',
     branchData: propsBranchData || [],
+    policySaveable: true,
   });
 
   React.useEffect(() => {
@@ -83,13 +125,27 @@ const FlowDrawer = ({
   const curPolicy = branchData.find((item) => item.branch === editData?.targetBranch);
   const policyObj = (curPolicy ? convertPolicyData([curPolicy]) : [])[0];
   const policyComp = editData?.targetBranch ? (
-    <div className="ml-[116px] mt-2">
+    <div className="mt-6 flex items-start">
+      <div className="flex-h-center w-[120px]">
+        <ErdaIcon type="setting-config" className="text-default-4 mr-1" />
+        <span className="text-default-6">{i18n.s('policy config', 'dop')}</span>
+      </div>
+
       {curPolicy ? (
-        <div>
-          <div className="flex-h-center">
-            <span className="text-default-6">{i18n.s('Branch policy', 'dop')}</span>
-          </div>
-          <BranchPolicyCard data={policyObj} />
+        <div className="-mt-2">
+          <BranchPolicy
+            data={policyObj}
+            key={policyObj.branch}
+            fullData={branchData}
+            onChange={(v, saveable) => {
+              updater.policySaveable(saveable);
+              updater.branchData((prev: DEVOPS_WORKFLOW.BranchPolicy[]) =>
+                prev.map((item) => {
+                  return item.branch === v.branch ? { ...v } : item;
+                }),
+              );
+            }}
+          />
         </div>
       ) : (
         <span className="text-default-6">
@@ -182,10 +238,11 @@ const FlowDrawer = ({
               bordered={false}
               className="bg-default-06 w-[300px]"
               value={value}
-              placeholder={i18n.t('please select the {name}', { name: '分支' })}
+              placeholder={i18n.t('please select the {name}', { name: i18n.t('dop:branch') })}
               suffixIcon={<ErdaIcon type="caret-down" className="text-default-3" />}
               onChange={(v) => {
                 updater.editData((prev: DEVOPS_WORKFLOW.BranchFlows) => ({ ...prev, targetBranch: v }));
+                updater.policySaveable(true);
               }}
               onDropdownVisibleChange={(vis: boolean) => {
                 if (vis) {
@@ -226,7 +283,12 @@ const FlowDrawer = ({
   ];
 
   const submitAble =
-    !nameValid && editData?.name && editData?.targetBranch && editData?.artifact && editData?.environment;
+    !nameValid &&
+    editData?.name &&
+    editData?.targetBranch &&
+    editData?.artifact &&
+    editData?.environment &&
+    policySaveable;
 
   return (
     <Drawer

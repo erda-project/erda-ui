@@ -96,13 +96,17 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
       let targetBranch;
       const curPolicy = branchPolicies.find((item) => item.branch === flow?.targetBranch);
       if (flow && curPolicy?.branchType !== FlowType.SINGLE_BRANCH) {
-        currentBranch = flow.targetBranch.replace('*', issue.id);
+        currentBranch = flow.targetBranch.replaceAll('*', issue.id);
         targetBranch = curPolicy?.policy?.targetBranch?.mergeRequest;
       }
+      const currentBranchOption = currentBranch ? currentBranch.split(',') : [];
       return {
-        sourceBranch: curPolicy?.policy?.sourceBranch,
-        currentBranch,
-        targetBranch,
+        values: {
+          sourceBranch: curPolicy?.policy?.sourceBranch,
+          currentBranch: currentBranchOption[0],
+          targetBranch,
+        },
+        currentBranchOption,
       };
     };
 
@@ -116,7 +120,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
           onChange: (v: string) => {
             setFlowName(v);
             if (form.getFieldValue('appID')) {
-              const result = getBranchInfo(v);
+              const result = getBranchInfo(v)?.values;
               form.setFieldsValue(result);
               form.validateFields(['sourceBranch', 'targetBranch', 'currentBranch']);
             }
@@ -134,7 +138,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
           showSearch: true,
           onChange: (v: number) => {
             const { name } = apps?.list?.find((item) => item.id === v)!;
-            const result = getBranchInfo(form.getFieldValue('flowName'));
+            const result = getBranchInfo(form.getFieldValue('flowName'))?.values;
             form.setFieldsValue(result);
             getBranches
               .fetch({
@@ -160,7 +164,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
         itemProps: {
           onChange: (v: string) => {
             const { name } = branches.find((item) => item.targetBranch === v)!;
-            const { sourceBranch } = getBranchInfo(name);
+            const { sourceBranch } = getBranchInfo(name)?.values;
             form.setFieldsValue({ sourceBranch });
           },
         },
@@ -178,7 +182,10 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
       {
         label: i18n.t('dop:Change branch'),
         name: 'currentBranch',
-        getComp: () => <AutoComplete options={allBranch?.map((item) => ({ value: item.name }))} />,
+        getComp: () => {
+          const ops = getBranchInfo(form.getFieldValue('flowName'))?.currentBranchOption;
+          return <AutoComplete options={ops?.map((item) => ({ value: item }))} />;
+        },
         rules: [
           {
             validator: (_rule: any, value: string) => {

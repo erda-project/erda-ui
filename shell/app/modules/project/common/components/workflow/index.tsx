@@ -19,6 +19,8 @@ import MergeCard from './cards/merge';
 import PipelineCard from './cards/pipeline';
 import MergeRequestCard from './cards/merge-request';
 
+import './index.scss';
+
 export interface IProps {
   scope: 'ISSUE' | 'MR';
   projectID: number;
@@ -56,7 +58,7 @@ const WorkflowItem: React.FC<
   const content = cardMap[scope];
 
   return (
-    <div className="flex overflow-x-auto p-2">
+    <div className="flex overflow-x-auto p-2 devops-workflow-steps">
       {content.map((Item, idx) => (
         <Item key={`${idx}`} index={idx / 2 + 1} className="flex-shrink-0" />
       ))}
