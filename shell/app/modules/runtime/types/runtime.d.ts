@@ -101,6 +101,21 @@ declare namespace RUNTIME {
     start: string;
     end: string;
     desiredReplicas: number;
+    timezone: string;
+  }
+
+  interface CronMetadataFormData {
+    startTime: unknown;
+    endTime: unknown;
+    cycleStart: string;
+    cycleEnd: string;
+    dayOfWeekStart?: string[];
+    dayOfWeekEnd?: string[];
+    dayOfMonthStart?: string[];
+    dayOfMonthEnd?: string[];
+    monthOfYearStart?: string[];
+    monthOfYearEnd?: string[];
+    desiredReplicas: number;
   }
 
   interface Trigger {
@@ -112,6 +127,15 @@ declare namespace RUNTIME {
     maxReplicaCount: number;
     minReplicaCount: number;
     triggers: Trigger[];
+  }
+
+  interface ScaledConfigFormData {
+    maxReplicaCount: number;
+    minReplicaCount: number;
+    triggers: {
+      type: string;
+      metadata: Metadata | CronMetadataFormData;
+    }[];
   }
 }
 

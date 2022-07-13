@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { IFormGridProps, IFormItemProps, IFormLayoutProps } from '@formily/antd';
-import { FieldValidator } from '@formily/core';
+import { FieldValidator, Field as CoreField } from '@formily/core';
 
 export type CT =
   | React.ComponentClass
@@ -40,6 +40,7 @@ export interface Field<T extends CT = any> {
   display?: 'none' | 'visible' | 'hidden';
   valuePropName?: string;
   noPropertyLayoutWrapper?: boolean;
+  reactions?: (field: CoreField) => void;
 }
 
 export interface CheckType {
