@@ -649,7 +649,7 @@ export const encodeNumberSign = (str: string) => {
 };
 
 // auto format string with some RegExp or specific type, like time
-export const stringAutoFormater = (v: string) => {
+export const stringAutoFormatter = (v: string) => {
   if (v && moment(v).isValid()) {
     return moment(v).format('YYYY/DD/MM HH:mm:ss');
   }
