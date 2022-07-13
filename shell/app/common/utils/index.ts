@@ -647,3 +647,11 @@ export const encodeNumberSign = (str: string) => {
   const numberSign = '#';
   return str.replaceAll(numberSign, encodeURIComponent(numberSign));
 };
+
+// auto format string with some RegExp or specific type, like time
+export const stringAutoFormatter = (v: string) => {
+  if (v && moment(v).isValid()) {
+    return moment(v).format('YYYY/DD/MM HH:mm:ss');
+  }
+  return v;
+};

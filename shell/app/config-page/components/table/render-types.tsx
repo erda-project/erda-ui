@@ -24,7 +24,7 @@ import { statusColorMap, colorMap } from 'app/config-page/utils';
 
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
-import { getAvatarChars } from 'app/common/utils';
+import { getAvatarChars, stringAutoFormatter } from 'app/common/utils';
 
 const alignMap = {
   center: 'justify-center',
@@ -527,7 +527,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       }
       break;
     default:
-      Comp = val || val === 0 ? <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis> : null;
+      Comp = val || val === 0 ? <Ellipsis title={`${stringAutoFormatter(val)}`} /> : null;
       break;
   }
   return Comp;
