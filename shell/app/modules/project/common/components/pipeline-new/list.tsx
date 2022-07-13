@@ -250,9 +250,7 @@ const PipelineProtocol = React.forwardRef(
                       projectID: projectId,
                       pageNo: 1,
                       pageSize: 20,
-                      name: pipelineName,
-                      appNames: appName,
-                      branches: [branchName],
+                      definitionID: id,
                     }).then((res) => {
                       setRecord(res?.data || emptyHistory);
                     });

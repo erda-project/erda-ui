@@ -196,14 +196,7 @@ export const getGuidesList = apiCreator<(payload: { kind: string; projectID: str
 export const cancelGuide = apiCreator<(payload: { id: string }) => RAW_RESPONSE>(apis.cancelGuide);
 
 export const getPipelineRecord = apiCreator<
-  (payload: {
-    projectID: string;
-    pageNo: number;
-    pageSize: number;
-    name: string;
-    appNames: string;
-    branches: string[];
-  }) => {
+  (payload: { projectID: string; pageNo: number; pageSize: number; definitionID: string }) => {
     execHistories: PipelineRecord[];
     total: number;
   }
