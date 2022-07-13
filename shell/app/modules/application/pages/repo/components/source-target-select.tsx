@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Button, Checkbox } from 'antd';
+import { some } from 'lodash';
 import { IF, Icon as CustomIcon, ErdaIcon, ErdaAlert } from 'common';
 import { goTo } from 'common/utils';
 import React from 'react';
@@ -171,13 +172,16 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
     if (Reflect.has(changedValue, 'sourceBranch')) {
       const sourceBranch = changedValue['sourceBranch'];
       const targetPolicy = this.props.branchPolicies.find(({ branch }) => {
-        if (branch.includes('*')) {
-          const branchRegex = new RegExp(branch.replaceAll('*', '(.+)'));
-          return branchRegex.test(sourceBranch);
-        } else if (branch === sourceBranch) {
-          return true;
-        }
-        return false;
+        const branches = branch.split(',');
+        return some(branches, (b) => {
+          if (b.includes('*')) {
+            const branchRegex = new RegExp(b.replaceAll('*', '(.+)'));
+            return branchRegex.test(sourceBranch);
+          } else if (b === sourceBranch) {
+            return true;
+          }
+          return false;
+        });
       });
       if (targetPolicy) {
         const { policy } = targetPolicy;
