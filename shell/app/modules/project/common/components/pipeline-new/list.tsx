@@ -43,6 +43,7 @@ interface Detail {
   projectId: string;
   pipelineDefinitionID: string;
   appId: string;
+  definitionID: string;
   pipelineId: string;
   branchExist: boolean;
   pipelineName: string;
@@ -261,6 +262,7 @@ const PipelineProtocol = React.forwardRef(
                       nodeId: inode,
                       appId: _appId,
                       pipelineId,
+                      definitionID: id,
                       pipelineDefinitionID: id,
                       branchExist,
                       pipelineName,
@@ -364,7 +366,7 @@ const PipelineProtocol = React.forwardRef(
                     <div className="w-[1px] h-[18px] bg-default-3 mx-8" />
                     <Popover
                       content={
-                        <div className="w-[680px]">
+                        <div className="w-[800px]">
                           <Table
                             pagination={false}
                             wrapperClassName="max-h-80"
@@ -379,8 +381,7 @@ const PipelineProtocol = React.forwardRef(
                                   projectID: projectId,
                                   pageNo: 1,
                                   pageSize: 20,
-                                  appNames: detail.appName,
-                                  name: detail.pipelineName,
+                                  definitionID: detail.definitionID,
                                 }).then((res) => {
                                   setRecord(res?.data || emptyHistory);
                                 });
