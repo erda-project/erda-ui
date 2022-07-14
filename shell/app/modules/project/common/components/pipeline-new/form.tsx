@@ -306,7 +306,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       name: 'pipelineName',
       itemProps: {
         disabled: disabledName,
-        addonBefore: isDefault ? '' : '.erda/pipelines',
+        addonBefore: isDefault ? '' : '.erda/pipelines/',
       },
       rules: [
         {
@@ -428,7 +428,10 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       pipelineName: curName,
     };
     setIsDefault(pipelineCategoryKey === 'build-deploy');
-    pipelineFromRef.current?.setFieldsValue(formData);
+    // make the element render before use.
+    setTimeout(() => {
+      pipelineFromRef.current?.setFieldsValue(formData);
+    }, 0);
   };
   return (
     <div className="flex flex-col h-full">
