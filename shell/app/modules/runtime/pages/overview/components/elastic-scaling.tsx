@@ -94,6 +94,7 @@ const cycleField = (name: string) => ({
       { label: i18n.s('Every Month'), value: 'month' },
       { label: i18n.s('Every Year'), value: 'year' },
     ],
+    disabled: name.endsWith('End'),
   },
   reactions: (field: Field) => {
     const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
@@ -102,6 +103,12 @@ const cycleField = (name: string) => ({
         field.display = 'visible';
       } else {
         field.display = 'none';
+      }
+    }
+    if (name.endsWith('End')) {
+      const cycleStartField = field.query(field.address.pop().concat('cycleStart')).take();
+      if (isField(cycleStartField)) {
+        field.value = cycleStartField.value;
       }
     }
   },
@@ -591,7 +598,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             dayOfMonthField('dayOfMonthEnd'),
             {
               name: 'endTime',
-              title: i18n.s('End time'),
+              title: i18n.s('End time', 'common'),
               component: TimePicker,
               required: true,
               customProps: {
