@@ -136,7 +136,7 @@ const DevOpsWorkflow = (props: IProps) => {
         return (
           <Popover
             content={
-              <div className="mt-2">
+              <div className="mt-2 max-w-[900px]">
                 {curPolicy ? (
                   <div>
                     <div className="flex-h-center">
