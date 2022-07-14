@@ -306,7 +306,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       name: 'pipelineName',
       itemProps: {
         disabled: disabledName,
-        addonBefore: isDefault ? '' : '.erda/pipelines',
+        addonBefore: isDefault ? '' : '.erda/pipelines/',
       },
       rules: [
         {
