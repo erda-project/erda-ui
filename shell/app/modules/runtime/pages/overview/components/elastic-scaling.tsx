@@ -13,17 +13,19 @@
 
 import React from 'react';
 import cn from 'classnames';
-import { Button, Drawer, Input, InputNumber, message, Modal, Select, Tag, Tooltip } from 'antd';
-import { Form, ArrayFieldType, Table, Schema } from '@erda-ui/components';
+import { Button, Drawer, TimePicker, InputNumber, message, Modal, Select, Tag, Tooltip } from 'antd';
+import { Form, ArrayFieldType, Table, Schema, Field } from '@erda-ui/components';
 import { filter, forEach, isNumber, map, pick } from 'lodash';
 import { IFormFeedback } from '@formily/core';
 import { createScaledRules, getScaledRules, updateScaledRules, applyCancelRules } from '../../../services/runtime';
 import routeInfoStore from 'core/stores/route';
 import { useUnmount } from 'react-use';
 import i18n from 'i18n';
+import { ErdaIcon } from 'common';
+import { Moment } from 'moment';
+import moment from 'moment';
 
 import './elastic-scaling.scss';
-import { ErdaIcon } from 'common';
 
 const {
   createForm,
@@ -32,7 +34,6 @@ const {
   useField,
   observer,
   RecursionField,
-  onFieldReact,
   isField,
   onFieldValueChange,
   toJS,
@@ -49,6 +50,142 @@ const typeOptions = [
   { value: 'memory', label: i18n.s('memory') },
   { value: 'cron', label: 'Cron' },
 ];
+
+const dayOfMonthOptions = new Array(31).fill(0).map((_, index) => ({ label: index + 1, value: index + 1 }));
+
+const getCronValue = (str: string | string[] | undefined) => {
+  return !str ? '*' : Array.isArray(str) ? str.join(',') : str;
+};
+
+const getCycleType = (cronConfig: string[]) => {
+  return cronConfig[3] !== '*' && cronConfig[2] !== '*'
+    ? 'year'
+    : cronConfig[2] !== '*'
+    ? 'month'
+    : cronConfig[4] !== '*'
+    ? 'week'
+    : 'day';
+};
+
+const monthOfYearOptions = [
+  { label: i18n.s('January'), value: '1' },
+  { label: i18n.s('February'), value: '2' },
+  { label: i18n.s('March'), value: '3' },
+  { label: i18n.s('April'), value: '4' },
+  { label: i18n.s('May'), value: '5' },
+  { label: i18n.s('June'), value: '6' },
+  { label: i18n.s('July'), value: '7' },
+  { label: i18n.s('August'), value: '8' },
+  { label: i18n.s('September'), value: '9' },
+  { label: i18n.s('October'), value: '10' },
+  { label: i18n.s('November'), value: '11' },
+  { label: i18n.s('December'), value: '12' },
+];
+
+const cycleField = (name: string) => ({
+  name,
+  title: name.endsWith('Start') ? i18n.s('Cycle for start', 'dop') : i18n.s('Cycle for end', 'dop'),
+  component: Select,
+  required: true,
+  customProps: {
+    options: [
+      { label: i18n.s('Every Day'), value: 'day' },
+      { label: i18n.s('Every Week'), value: 'week' },
+      { label: i18n.s('Every Month'), value: 'month' },
+      { label: i18n.s('Every Year'), value: 'year' },
+    ],
+  },
+  reactions: (field: Field) => {
+    const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
+    if (isField(typeField)) {
+      if (typeField.value === 'cron') {
+        field.display = 'visible';
+      } else {
+        field.display = 'none';
+      }
+    }
+  },
+});
+
+const dayOfWeekField = (name: string) => ({
+  name,
+  title: i18n.s('Date'),
+  component: Select,
+  required: true,
+  customProps: {
+    options: [
+      { label: i18n.s('Monday'), value: '0' },
+      { label: i18n.s('Tuesday'), value: '1' },
+      { label: i18n.s('Wednesday'), value: '2' },
+      { label: i18n.s('Thursday'), value: '3' },
+      { label: i18n.s('Friday'), value: '4' },
+      { label: i18n.s('Saturday'), value: '5' },
+      { label: i18n.s('Sunday'), value: '6' },
+    ],
+    mode: 'multiple',
+  },
+  reactions: (field: Field) => {
+    const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
+    const cycleField = field
+      .query(field.address.pop().concat(name.endsWith('Start') ? 'cycleStart' : 'cycleEnd'))
+      .take();
+    if (isField(typeField) && isField(cycleField)) {
+      if (typeField.value === 'cron' && 'week' === cycleField.value) {
+        field.display = 'visible';
+      } else {
+        field.display = 'none';
+      }
+    }
+  },
+});
+
+const monthOfYearField = (name: string) => ({
+  name,
+  title: i18n.s('Month of year'),
+  component: Select,
+  required: true,
+  customProps: {
+    options: monthOfYearOptions,
+    mode: 'multiple',
+  },
+  reactions: (field: Field) => {
+    const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
+    const cycleField = field
+      .query(field.address.pop().concat(name.endsWith('Start') ? 'cycleStart' : 'cycleEnd'))
+      .take();
+    if (isField(typeField) && isField(cycleField)) {
+      if (typeField.value === 'cron' && 'year' === cycleField.value) {
+        field.display = 'visible';
+      } else {
+        field.display = 'none';
+      }
+    }
+  },
+});
+
+const dayOfMonthField = (name: string) => ({
+  name,
+  title: i18n.s('Date'),
+  component: Select,
+  required: true,
+  customProps: {
+    options: dayOfMonthOptions,
+    mode: 'multiple',
+  },
+  reactions: (field: Field) => {
+    const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
+    const cycleField = field
+      .query(field.address.pop().concat(name.endsWith('Start') ? 'cycleStart' : 'cycleEnd'))
+      .take();
+    if (isField(typeField) && isField(cycleField)) {
+      if (typeField.value === 'cron' && ['year', 'month'].includes(cycleField.value)) {
+        field.display = 'visible';
+      } else {
+        field.display = 'none';
+      }
+    }
+  },
+});
 
 const StatusTitle = ({
   started,
@@ -299,39 +436,14 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
     if (visible) {
       return createForm({
         effects: () => {
-          onFieldReact('triggers.*.type', (field) => {
-            if (isField(field)) {
-              const { value } = field;
-              const metadataPath = field.address.pop().concat('metadata.layout.grid');
-              const valueField = field.query(metadataPath.concat('value')).take();
-              const startField = field.query(metadataPath.concat('start')).take();
-              const endField = field.query(metadataPath.concat('end')).take();
-              const desiredReplicasField = field.query(metadataPath.concat('desiredReplicas')).take();
-              const subTypePathField = field.query(metadataPath.concat('type')).take();
-              const timezoneField = field.query(metadataPath.concat('timezone')).take();
-              if (!value) {
-                valueField?.setDisplay('none');
-                startField?.setDisplay('none');
-                endField?.setDisplay('none');
-                desiredReplicasField?.setDisplay('none');
-              } else if (value !== 'cron') {
-                valueField?.setDisplay('visible');
-                startField?.setDisplay('none');
-                endField?.setDisplay('none');
-                desiredReplicasField?.setDisplay('none');
-                subTypePathField?.setDisplay('hidden');
-                isField(subTypePathField) && subTypePathField?.setValue('Utilization');
-                timezoneField?.setDisplay('none');
-              } else {
-                valueField?.setDisplay('none');
-                startField?.setDisplay('visible');
-                endField?.setDisplay('visible');
-                desiredReplicasField?.setDisplay('visible');
-                subTypePathField?.setDisplay('none');
-                timezoneField?.setDisplay('hidden');
-                isField(timezoneField) && timezoneField?.setValue('Asia/Shanghai');
-              }
-            }
+          onFieldValueChange('triggers.*.*.dayOfWeek~', (field) => {
+            field.setValue(field.value?.sort());
+          });
+          onFieldValueChange('triggers.*.*.monthOfYear~', (field) => {
+            field.setValue(field.value?.sort((a: number, b: number) => a - b));
+          });
+          onFieldValueChange('triggers.*.*.dayOfMonth~', (field) => {
+            field.setValue(field.value?.sort((a: number, b: number) => a - b));
           });
           onFieldValueChange('triggers.*.*.value', (field) => {
             // @ts-ignore TODO
@@ -352,8 +464,39 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
       const { rules } = scaledRules;
       const { scaledConfig } = rules[0];
       const values = pick(scaledConfig, ['maxReplicaCount', 'minReplicaCount', 'triggers']);
-      values.triggers = map(values.triggers, (trigger) => pick(trigger, ['metadata', 'type']));
-      form.setValues(values);
+      const formValue: RUNTIME.ScaledConfigFormData = {
+        maxReplicaCount: values.maxReplicaCount,
+        minReplicaCount: values.minReplicaCount,
+        triggers: map(values.triggers, (trigger) => {
+          const { type, metadata } = trigger;
+          if (type === 'cron') {
+            const { desiredReplicas, start, end } = metadata as RUNTIME.CronMetadata;
+            const startConfig = start.split(' ');
+            const endConfig = end.split(' ');
+            const cycleStart = getCycleType(startConfig);
+            const cycleEnd = getCycleType(endConfig);
+
+            return {
+              type,
+              metadata: {
+                cycleStart,
+                cycleEnd,
+                desiredReplicas,
+                startTime: moment(`${startConfig[1]}:${startConfig[0]}`, 'HH:mm'),
+                endTime: moment(`${endConfig[1]}:${endConfig[0]}`, 'HH:mm'),
+                dayOfMonthStart: startConfig[2] !== '*' ? startConfig[2].split(',') : undefined,
+                dayOfMonthEnd: endConfig[2] !== '*' ? endConfig[2].split(',') : undefined,
+                monthOfYearStart: startConfig[3] !== '*' ? startConfig[3].split(',') : undefined,
+                monthOfYearEnd: endConfig[3] !== '*' ? endConfig[3].split(',') : undefined,
+                dayOfWeekStart: startConfig[4] !== '*' ? startConfig[4].split(',') : undefined,
+                dayOfWeekEnd: endConfig[4] !== '*' ? endConfig[4].split(',') : undefined,
+              },
+            };
+          }
+          return { type, metadata: metadata as RUNTIME.Metadata };
+        }),
+      };
+      form.setValues(formValue);
     }
   }, [scaledRules]);
 
@@ -383,21 +526,23 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             {
               name: 'type',
               component: undefined,
-              display: 'none',
-              defaultValue: 'Utilization',
-            },
-            {
-              name: 'timezone',
-              component: undefined,
-              display: 'none',
-              defaultValue: 'Asia/Shanghai',
+              reactions: (field: Field) => {
+                const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
+                if (isField(typeField)) {
+                  if (['cpu', 'memory'].includes(typeField.value ?? '')) {
+                    field.display = 'hidden';
+                    field.value = 'Utilization';
+                  } else {
+                    field.display = 'none';
+                  }
+                }
+              },
             },
             {
               name: 'value',
               component: InputNumber,
               title: i18n.s('target value', 'dop'),
               required: true,
-              display: 'none',
               customProps: {
                 min: 0,
                 max: 100,
@@ -406,25 +551,61 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
                 validator: (v: string) => +v > 0 && +v < 100,
                 message: i18n.s('The value must be greater than 0 and less than 100', 'dop'),
               },
-            },
-            {
-              name: 'start',
-              component: Input,
-              title: i18n.s('start'),
-              required: true,
-              display: 'none',
-              customProps: {
-                placeholder: `${i18n.s('Please enter a cron expression, e.g.')} 30 * * * *`,
+              reactions: (field: Field) => {
+                const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
+                if (isField(typeField)) {
+                  if (['cpu', 'memory'].includes(typeField.value ?? '')) {
+                    field.display = 'visible';
+                  } else {
+                    field.display = 'none';
+                  }
+                }
               },
             },
+            cycleField('cycleStart'),
+            dayOfWeekField('dayOfWeekStart'),
+            monthOfYearField('monthOfYearStart'),
+            dayOfMonthField('dayOfMonthStart'),
             {
-              name: 'end',
-              component: Input,
-              title: i18n.s('end'),
+              name: 'startTime',
+              title: i18n.s('Start time'),
+              component: TimePicker,
               required: true,
-              display: 'none',
               customProps: {
-                placeholder: `${i18n.s('Please enter a cron expression, e.g.')} 45 * * * *`,
+                format: 'HH:mm',
+              },
+              reactions: (field: Field) => {
+                const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
+                if (isField(typeField)) {
+                  if (typeField.value === 'cron') {
+                    field.display = 'visible';
+                  } else {
+                    field.display = 'none';
+                  }
+                }
+              },
+            },
+            cycleField('cycleEnd'),
+            dayOfWeekField('dayOfWeekEnd'),
+            monthOfYearField('monthOfYearEnd'),
+            dayOfMonthField('dayOfMonthEnd'),
+            {
+              name: 'endTime',
+              title: i18n.s('End time'),
+              component: TimePicker,
+              required: true,
+              customProps: {
+                format: 'HH:mm',
+              },
+              reactions: (field: Field) => {
+                const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
+                if (isField(typeField)) {
+                  if (typeField.value === 'cron') {
+                    field.display = 'visible';
+                  } else {
+                    field.display = 'none';
+                  }
+                }
               },
             },
             {
@@ -432,7 +613,16 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
               component: InputNumber,
               title: i18n.s('Number of service instances expand to', 'dop'),
               required: true,
-              display: 'none',
+              reactions: (field: Field) => {
+                const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
+                if (isField(typeField)) {
+                  if (typeField.value === 'cron') {
+                    field.display = 'visible';
+                  } else {
+                    field.display = 'none';
+                  }
+                }
+              },
             },
           ],
         },
@@ -495,15 +685,50 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
       });
       return;
     }
-    const values = toJS(form.values) as RUNTIME.ScaledConfig;
-    values.triggers = values.triggers.filter(({ type }) => !!type);
+    const values = toJS(form.values) as RUNTIME.ScaledConfigFormData;
+    const formData: RUNTIME.ScaledConfig = {
+      maxReplicaCount: values.maxReplicaCount,
+      minReplicaCount: values.minReplicaCount,
+      triggers: values.triggers.map(({ type, metadata }) => {
+        if (type === 'cron') {
+          const {
+            startTime,
+            endTime,
+            dayOfMonthStart,
+            dayOfWeekStart,
+            monthOfYearStart,
+            desiredReplicas,
+            dayOfMonthEnd,
+            dayOfWeekEnd,
+            monthOfYearEnd,
+          } = metadata as RUNTIME.CronMetadataFormData;
+          const cronStartStr = `${(startTime as Moment).minute()} ${(startTime as Moment).hour()} ${getCronValue(
+            dayOfMonthStart,
+          )} ${getCronValue(monthOfYearStart)} ${getCronValue(dayOfWeekStart)}`;
+          const cronEndStr = `${(endTime as Moment).minute()} ${(endTime as Moment).hour()} ${getCronValue(
+            dayOfMonthEnd,
+          )} ${getCronValue(monthOfYearEnd)} ${getCronValue(dayOfWeekEnd)}`;
+          return {
+            type,
+            metadata: {
+              start: cronStartStr,
+              end: cronEndStr,
+              desiredReplicas,
+              timezone: 'Asia/Shanghai',
+            },
+          };
+        }
+        return { type, metadata: metadata as RUNTIME.Metadata };
+      }),
+    };
+
     if (isEditing) {
       await updateScaledRules({
         runtimeId: +runtimeId,
         rules: [
           {
             ruleId: scaledRules?.rules[0].ruleId!,
-            scaledConfig: values,
+            scaledConfig: formData,
           },
         ],
         $options: { successMsg: i18n.s('update successfully') },
@@ -514,7 +739,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
         services: [
           {
             serviceName,
-            scaledConfig: values,
+            scaledConfig: formData,
           },
         ],
         $options: { successMsg: i18n.s('create successfully') },

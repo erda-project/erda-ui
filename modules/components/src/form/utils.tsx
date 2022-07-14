@@ -140,6 +140,7 @@ export const transformConfigRecursively = (fieldsConfig: Field[], componentMap: 
       noPropertyLayoutWrapper = false,
       componentName: _componentName,
       properties: fieldProperties,
+      reactions,
     } = item;
 
     let componentName: string | undefined = undefined;
@@ -219,12 +220,13 @@ export const transformConfigRecursively = (fieldsConfig: Field[], componentMap: 
       items: _properties ? undefined : _items,
       default: defaultValue,
       'x-validator': validator,
-      'x-decorator': _properties ? undefined : 'FormItem',
+      'x-decorator': _properties || ['hidden', 'none'].includes(display || '') ? undefined : 'FormItem',
       'x-component': componentName,
       'x-component-props': customProps,
       'x-display': display,
       'x-decorator-props': _properties ? { ...wrapperProps } : { colon: false, ...wrapperProps },
       properties: _properties,
+      'x-reactions': reactions,
     };
   });
 
