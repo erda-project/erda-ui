@@ -229,7 +229,7 @@ describe('utils', () => {
   });
   it('getOrgFromPath should work well', () => {
     window.location.pathname = '/';
-    expect(getOrgFromPath()).toBe('org');
+    expect(getOrgFromPath()).toBe('-');
     window.location.pathname = process.env.mock_pathname!;
     expect(getOrgFromPath()).toBe(process.env.mock_pathname?.split('/')[1]);
   });
