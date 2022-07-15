@@ -175,7 +175,7 @@ const org = createStore({
         }
       }
     },
-    async getJoinedOrgs({ call, select, update }, payload?: { force?: boolean; q?: string }) {
+    async getJoinedOrgs({ call, select, update }, payload?: { force?: boolean; q?: string; joined?: boolean }) {
       const orgs = select((state) => state.orgs);
       const { force, ...rest } = payload || {};
       if (!orgs.length || force) {

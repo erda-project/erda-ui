@@ -43,7 +43,7 @@ const LandPage = () => {
   });
 
   React.useEffect(() => {
-    debouncedChange.current({ q: filterKey, force: true });
+    debouncedChange.current({ q: filterKey, force: true, joined: true });
   }, [filterKey]);
 
   const getFieldsList = (form: WrappedFormUtils) => {

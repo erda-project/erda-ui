@@ -404,7 +404,7 @@ export const isValidJsonStr = (_jsonStr = '') => {
 };
 
 export const getOrgFromPath = () => {
-  return get(location.pathname.split('/'), '[1]') || 'org';
+  return get(location.pathname.split('/'), '[1]') || '-';
 };
 
 export const setApiWithOrg = (api: string) => {
