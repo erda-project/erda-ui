@@ -164,7 +164,7 @@ const init = (userData: ILoginUser) => {
     .then((user: ILoginUser) => {
       // step3: get user joined orgs
       // TODO check if admin has org permissions
-      getJoinedOrgs().then((orgResult) => {
+      getJoinedOrgs({ joined: true }).then((orgResult) => {
         const orgs = orgResult.data?.list || [];
         start(user, orgs);
       });
