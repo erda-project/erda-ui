@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Controller, Get, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Req, Res } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { logger } from 'src/util';
 import axios from 'axios';
 import md5 from 'md5';
@@ -20,8 +20,11 @@ import md5 from 'md5';
 @Controller('getLinksToken')
 export class LinksTokenController {
   @Get()
-  async getToken(@Res() response: Response) {
+  async getToken(@Res() response: Response, @Req() request: Request) {
     try {
+      if (!request.query.orgName || !request.query.userName || !request.query.userId) {
+        throw new Error('no org or no userName for Links Token');
+      }
       const linksAuthToken = this.buildLinksAuthToken();
       if (!linksAuthToken) {
         throw new Error('ak or sk not provided');
@@ -30,8 +33,8 @@ export class LinksTokenController {
         `https://links-openapi.alipay.com/openapi/room/6295896f51a53d0479bd6528/token/create`,
         {
           roomId: '6295896f51a53d0479bd6528',
-          userId: 'erda',
-          userName: 'erda',
+          userId: `${request.query.orgName}-${request.query.userId}`,
+          userName: `${request.query.orgName}-${request.query.userName}`,
           accountSystem: 'Terminus',
           permission: 'ROOM',
         },

@@ -21,7 +21,7 @@ import qs from 'query-string';
 
 const { staticDir, envConfig } = getEnv();
 const { BACKEND_URL } = envConfig;
-const isLocal = BACKEND_URL.startsWith('https'); // online addr is openapi:9529, without protocol
+const isLocal = process.env.DEV === 'true'; // online addr is openapi:9529, without protocol
 const API_URL = getHttpUrl(BACKEND_URL);
 
 const indexHtmlPath = path.join(staticDir, 'shell', 'index.html');

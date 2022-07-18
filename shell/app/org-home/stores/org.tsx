@@ -21,6 +21,8 @@ import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { intersection, map } from 'lodash';
 import announcementStore from 'org/stores/announcement';
+import { initLinkS } from 'app/links-service';
+import userStore from '../../user/stores';
 interface IState {
   currentOrg: ORG.IOrg;
   curPathOrg: string;
@@ -61,6 +63,8 @@ const org = createStore({
           const curOrg = orgs.find((item) => item.name === orgName);
           if (currentOrg.name !== orgName && curOrg) {
             org.reducers.updateCurrentOrg(curOrg);
+            const user = userStore.getState((s) => s.loginUser);
+            initLinkS(user.id, user.nick || user.name, curOrg.name);
             getResourcePermissions({ scope: 'org', scopeID: `${curOrg.id}` }).then((result) => {
               permStore.reducers.updatePerm('org', result.data);
               org.effects.getOrgByDomain({ orgName });
@@ -90,7 +94,7 @@ const org = createStore({
       await org.effects.getJoinedOrgs({ force: true });
       update({ currentOrg });
     },
-    async getOrgByDomain({ call, update, select }, payload: { orgName: string; userData?: ILoginUser }) {
+    async getOrgByDomain({ update, select }, payload: { orgName: string; userData?: ILoginUser }) {
       const { orgName, userData } = payload;
       if (isAdminRoute()) {
         if (userData && !userData.isSysAdmin) {
