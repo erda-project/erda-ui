@@ -44,8 +44,8 @@ import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
 import 'tailwindcss/tailwind.css';
-import axios from 'axios';
 import ReactGA from 'react-ga4';
+import { initLinkS } from './links-service';
 
 if (process.env.GA_ID) {
   ReactGA.initialize(process.env.GA_ID);
@@ -84,7 +84,10 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
   moment.locale(momentLangMap[locale]);
   orgStore.reducers.updateJoinedOrg(orgs);
   if (curOrg) {
+    initAxios();
     orgStore.reducers.updateCurrentOrg(curOrg);
+    const { user } = getGlobal('initData') || {};
+    initLinkS(user.id, user.nick || user.name, curOrg.name);
     if (orgAccess && curOrg) {
       permStore.reducers.updatePerm('org', orgAccess);
       if (orgAccess.access) {
@@ -94,7 +97,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
       }
     }
   }
-  initAxios();
+
   startApp().then(async (App) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
     const orgName = get(location.pathname.split('/'), '[1]');
@@ -140,7 +143,6 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
     ReactDOM.render(<Wrap />, document.getElementById('erda-content'));
     // delete window._userData;
     registChartControl();
-    // initLinkS();
   });
 };
 
@@ -156,24 +158,4 @@ if (user) {
     history.replace(lastPath);
   }
   start(user, orgs, currentOrg, orgAccess);
-}
-
-function initLinkS() {
-  axios
-    .get('/getLinksToken')
-    .then((res) => {
-      const element = document.createElement('script');
-      element.src = `https://links-tp.alipay.com/widgetInit/6295896f51a53d0479bd6528/?links_auth_token=${res.data}`;
-      element.type = 'text/javascript';
-      element.async = true;
-
-      element.onerror = (e) => {
-        console.error('Failed to load LinkS:', e);
-      };
-
-      document.head.appendChild(element);
-    })
-    .catch((e) => {
-      console.error('get Links Token failed', e);
-    });
 }
