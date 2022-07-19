@@ -118,12 +118,18 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
       const domain = request.hostname.replace('local.', '');
       try {
         const callList = [
-          callApi('/api/users/me'),
-          callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100 }, headers: { org: '-' } }), // pass header org={notEmpty} to get joined orgs for system admin user
-          callApi('/api/permissions/actions/access', { method: 'POST', data: { scope: { type: 'sys', id: '0' } } }),
+          callApi('/api/users/me', { headers: { domain } }),
+          callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100 }, headers: { org: '-', domain } }), // pass header org={notEmpty} to get joined orgs for system admin user
+          callApi('/api/permissions/actions/access', {
+            method: 'POST',
+            data: { scope: { type: 'sys', id: '0' } },
+            headers: { domain },
+          }),
         ];
         if (orgName && orgName !== '-') {
-          callList.push(callApi('/api/orgs/actions/get-by-domain', { params: { orgName, domain } }));
+          callList.push(
+            callApi('/api/orgs/actions/get-by-domain', { params: { orgName, domain }, headers: { domain } }),
+          );
         }
         const respList = await Promise.allSettled(callList);
         const [userRes, orgListRes, sysAccessRes, orgRes] = respList.map((res) =>
@@ -163,6 +169,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
             const orgAccessRes = await callApi(`/api/permissions/actions/access`, {
               method: 'POST',
               data: { scope: { type: 'org', id: `${initData.currentOrg.id}` } },
+              headers: { domain },
             });
             if (orgAccessRes?.data) {
               let { permissionList = [], resourceRoleList = [] } = orgAccessRes.data.data;
