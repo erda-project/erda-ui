@@ -565,7 +565,7 @@ interface IProps {
 }
 
 const Execute = (props: IProps) => {
-  const { pipelineId, pipelineFileDetail, switchToEditor, fileChanged = false, extraTitle } = props;
+  const { pipelineId, pipelineFileDetail, pipelineDetail, switchToEditor, fileChanged = false, extraTitle } = props;
   return (
     <div className="pipeline-execute">
       {fileChanged ? (
@@ -591,6 +591,7 @@ const Execute = (props: IProps) => {
             <Info
               info={pipelineFileDetail}
               className="mb-2"
+              pipelineDetail={pipelineDetail}
               operations={
                 <div className="flex-h-center">
                   {extraComp}

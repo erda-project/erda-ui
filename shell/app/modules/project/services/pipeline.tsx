@@ -58,6 +58,8 @@ export interface PipelineRecord {
   executor: string;
   timeBegin: string;
   pipelineID: number;
+  triggerMode: string;
+  owner: string;
 }
 
 interface Guide {

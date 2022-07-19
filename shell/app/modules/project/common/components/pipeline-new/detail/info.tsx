@@ -29,12 +29,13 @@ interface IProps {
   operations?: React.ReactNode;
   info?: InfoData;
   className?: string;
+  pipelineDetail?: BUILD.IPipelineDetail;
 }
 
 const Info = (props: IProps) => {
-  const { operations = null, info, className } = props;
-
+  const { operations = null, info, className, pipelineDetail } = props;
   const userMap = useUserMap();
+  const owner = pipelineDetail?.extra?.ownerUser?.id;
 
   const fields = [
     {
@@ -69,6 +70,14 @@ const Info = (props: IProps) => {
       },
     },
     {
+      label: i18n.s('Owner', 'dop'),
+      valueKey: 'owner',
+      valueItem: ({ value: val }: { value: string }) => {
+        const curUser = userMap[val];
+        return curUser ? curUser.nick || curUser.name : val || '-';
+      },
+    },
+    {
       label: i18n.t('Update time'),
       valueKey: 'updatedAt',
       valueItem: ({ value: val }: any) => {
@@ -83,7 +92,7 @@ const Info = (props: IProps) => {
         <div className="font-medium mb-2">{i18n.t('dop:basic information')}</div>
         <div>{operations}</div>
       </div>
-      <Panel fields={fields} data={info} />
+      <Panel fields={fields} data={{ ...info, owner }} />
     </div>
   );
 };

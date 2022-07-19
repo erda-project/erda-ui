@@ -23,6 +23,7 @@ import cronstrue from 'cronstrue/i18n';
 import GotoCommit from 'application/common/components/goto-commit';
 import i18n, { isZh } from 'i18n';
 import { useUnmount } from 'react-use';
+import { useUserMap } from 'core/stores/userMap';
 import moment from 'moment';
 
 import './record-detail.scss';
@@ -46,12 +47,14 @@ const Info = ({ appId }: { appId: string }) => {
 
   const [pipelineDetail] = buildStore.useStore((s) => [s.pipelineDetail]);
 
+  const userMap = useUserMap();
+
   useClickAway(toggleContainer, () => {
     updater.isExpand(false);
   });
 
   if (!pipelineDetail) return null;
-  const { id: pipelineID, pipelineCron, costTimeSec = -1, commit, commitDetail } = pipelineDetail;
+  const { id: pipelineID, pipelineCron, costTimeSec = -1, commit, commitDetail, extra } = pipelineDetail;
 
   const { cronExpr } = pipelineCron;
   const cronMsg = cronExpr && cronstrue.toString(cronExpr, { locale: isZh() ? 'zh_CN' : 'en' });
@@ -69,6 +72,9 @@ const Info = ({ appId }: { appId: string }) => {
     event.stopPropagation();
     updater.isExpand(!isExpand);
   };
+
+  const ownerObj = extra?.ownerUser?.id ? userMap[extra.ownerUser.id] : null;
+  const ownerName = ownerObj?.nick || ownerObj?.name || '';
 
   return pipelineDetail ? (
     <div className="main-info-parent">
@@ -114,6 +120,10 @@ const Info = ({ appId }: { appId: string }) => {
               <div className="info-label">{i18n.t('timing time')}：</div>
             </Col>
           )}
+          <Col span={12}>
+            {ownerName ? <Avatar name={ownerName} showName className="mb-1" size={20} /> : '-'}
+            <div className="info-label">{i18n.s('Owner', 'dop')}：</div>
+          </Col>
         </Row>
         <div className="trigger-btn" onClick={toggleExpandInfo}>
           {!isExpand ? (
