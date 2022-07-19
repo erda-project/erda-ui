@@ -21,7 +21,7 @@ import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { intersection, map } from 'lodash';
 import announcementStore from 'org/stores/announcement';
-import { initLinkS } from 'app/links-service';
+import { initLinkS } from '../../links-service';
 import userStore from '../../user/stores';
 interface IState {
   currentOrg: ORG.IOrg;
