@@ -66,6 +66,12 @@ export const createProxyService = (app: INestApplication) => {
         if (isProd) {
           const { query } = qs.parseUrl(req.url);
           proxyReq.setHeader('org', query?.wsOrg);
+
+          const host = req.headers.host || '';
+          const domain = host.replace('local.', '');
+          if (domain) {
+            proxyReq.setHeader('domain', domain);
+          }
         }
         socket.on('error', (error) => {
           logger.warn('Websocket error:', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
@@ -133,9 +139,15 @@ export const createProxyService = (app: INestApplication) => {
           if (!isProd) {
             proxyReq.setHeader('referer', API_URL);
           } else {
+            const host = req.headers.host || '';
+            const domain = host.replace('local.', '');
             const org = extractOrg(req.originalUrl); // api/files not append org to path,org not exist in this condition
+
             if (org) {
               proxyReq.setHeader('org', org);
+            }
+            if (domain) {
+              proxyReq.setHeader('domain', domain);
             }
           }
         },
