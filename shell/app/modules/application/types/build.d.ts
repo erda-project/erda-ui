@@ -46,6 +46,7 @@ declare namespace BUILD {
         stacks: string[];
         abortRun?: boolean;
       };
+      ownerUser?: { id: string };
     };
     id: number;
     status: string;

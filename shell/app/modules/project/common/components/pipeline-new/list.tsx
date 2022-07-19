@@ -169,11 +169,16 @@ const PipelineProtocol = React.forwardRef(
       },
       { title: i18n.t('dop:branch'), dataIndex: 'branch' },
       {
-        title: i18n.t('dop:Executor'),
+        title: i18n.s('Trigger infor', 'dop'),
         dataIndex: 'executor',
-        render: (val: string) => {
+        render: (val: string, record: PipelineRecord) => {
+          const { triggerMode } = record;
           const { nick, name } = userMap[val] || {};
-          return nick || name || i18n.t('common:None');
+          const text =
+            triggerMode === 'cron'
+              ? i18n.s('automatic execution', 'dop')
+              : `${nick || name || i18n.t('common:None')} ${i18n.s('manually execution', 'dop')}`;
+          return text;
         },
       },
       {
