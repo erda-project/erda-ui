@@ -18,6 +18,8 @@ import LogContent from './log-content';
 import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import { firstCharToUpper } from 'app/common/utils';
+import { useThrottleFn } from 'react-use';
+
 import './log-roller.scss';
 
 export interface IProps {
@@ -36,10 +38,14 @@ export interface IProps {
   transformContent?: () => string;
 }
 
-const LogRoller = (props: IProps) => {
+const LogRoller = React.forwardRef((props: IProps, ref) => {
   const prevDistanceToTop = React.useRef(0);
   const preElm = React.useRef<HTMLDivElement>(null);
   const [fullScreen, setFullScreen] = React.useState(false);
+
+  React.useImperativeHandle(ref, () => ({
+    preElm: preElm.current,
+  }));
 
   const onScroll = () => {
     const { rolling, onCancelRolling, onGoToTop } = props;
@@ -71,9 +77,10 @@ const LogRoller = (props: IProps) => {
     setFullScreen(!fullScreen);
   };
 
-  const throttleScroll = React.useCallback(() => {
-    throttle(() => onScroll(), 100);
-  }, []);
+  const throttleScroll = React.useCallback(
+    throttle(() => onScroll(), 100),
+    [],
+  );
 
   const {
     content,
@@ -141,6 +148,6 @@ const LogRoller = (props: IProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default LogRoller;
