@@ -60,6 +60,16 @@ function getProjectRouter(): RouteConfigItem[] {
           ],
         },
         {
+          path: 'flow',
+          routes: [
+            {
+              path: 'records',
+              breadcrumbName: i18n.s('Workflow Records', 'dop'),
+              getComp: (cb) => cb(import('project/pages/flow/records')),
+            },
+          ],
+        },
+        {
           path: 'issues',
           mark: 'issues',
           breadcrumbName: i18n.t('dop:Collaboration'),
