@@ -25,7 +25,7 @@ import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
 import { IssueItem, BACKLOG_ISSUE_TYPE } from './issue-item';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { mergeSearch } from 'common/utils';
+import { stringify } from 'query-string';
 import { ISSUE_ICON } from 'project/common/components/issue/issue-config';
 import './iteration-item.scss';
 
@@ -155,10 +155,10 @@ export const IterationItem = (props: IProps) => {
         <EditIssueDrawer
           iterationID={data.id}
           id={curIssueDetail.id}
-          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: curIssueDetail.id, type: curIssueDetail.type },
-            true,
-          )}`}
+          shareLink={`${location.href.split('?')[0]}?${stringify({
+            id: curIssueDetail.id,
+            type: curIssueDetail.type,
+          })}`}
           issueType={curIssueDetail.type}
           visible={drawerVisible}
           closeDrawer={closeDrawer}

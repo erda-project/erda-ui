@@ -14,7 +14,8 @@
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
-import { getAvatarChars, mergeSearch } from 'common/utils';
+import { getAvatarChars } from 'common/utils';
+import { stringify } from 'query-string';
 import { Badge, Ellipsis } from 'common';
 import { useUserMap } from 'core/stores/userMap';
 import ImportExport from '../import-export';
@@ -379,10 +380,12 @@ const IssuePlan = () => {
           visible={drawerVisible}
           closeDrawer={onCloseDrawer}
           id={chosenIssueId}
-          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: chosenIssueId, pId: chosenParentId, iterationID: chosenIteration, type: chosenIssueType },
-            true,
-          )}`}
+          shareLink={`${location.href.split('?')[0]}?${stringify({
+            id: chosenIssueId,
+            pId: chosenParentId,
+            iterationID: chosenIteration,
+            type: chosenIssueType,
+          })}`}
         />
       ) : null}
     </div>
