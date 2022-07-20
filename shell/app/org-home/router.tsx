@@ -37,18 +37,7 @@ export default function getOrgRouter(): RouteConfigItem[] {
         }
         return route.component(props);
       },
-      routes: [
-        // {
-        //   path: 'org-list',
-        //   getComp: (cb) => cb(import('app/org-home/pages/org-list')),
-        //   layout: {
-        //     hideHeader: true,
-        //     hideSidebar: true,
-        //     fullHeight: true,
-        //     noWrapper: true,
-        //   },
-        // },
-      ],
+      routes: [],
     },
   ];
 }

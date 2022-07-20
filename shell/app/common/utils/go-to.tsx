@@ -148,8 +148,6 @@ export enum pages {
 
   // dop
   orgRoot = '/{orgName}',
-  // TODO: remove orgList
-  orgList = '/{orgName}/org-list',
   dopRoot = '/{orgName}/dop/projects',
   dopApps = '/{orgName}/dop/apps',
   dopService = '/{orgName}/dop/service',
