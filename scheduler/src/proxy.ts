@@ -68,7 +68,7 @@ export const createProxyService = (app: INestApplication) => {
           proxyReq.setHeader('org', query?.wsOrg);
 
           const host = req.headers.host || '';
-          const domain = host.replace('local.', '');
+          const domain = host.replace('local.', '').split(':')[0];
           if (domain) {
             proxyReq.setHeader('domain', domain);
           }
@@ -140,7 +140,7 @@ export const createProxyService = (app: INestApplication) => {
             proxyReq.setHeader('referer', API_URL);
           } else {
             const host = req.headers.host || '';
-            const domain = host.replace('local.', '');
+            const domain = host.replace('local.', '').split(':')[0];
             const org = extractOrg(req.originalUrl); // api/files not append org to path,org not exist in this condition
 
             if (org) {
