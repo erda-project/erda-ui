@@ -166,8 +166,22 @@ const ProjectSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('dop:Manage all project labels'),
-                  desc: i18n.t(
-                    'dop:Labels can be used in issue management and test management, to quickly locate and filter related content.',
+
+                  desc: (
+                    <div>
+                      <div>
+                        {i18n.t(
+                          'dop:Labels can be used in issue management and test management, to quickly locate and filter related content.',
+                        )}
+                      </div>
+
+                      <div>
+                        {i18n.s(
+                          'It is recommended to use the form of type/scope. For example, type is kind: indicates the item type team: indicates the team, src: indicates the source, area: indicates the field or module, and highlight: indicates the focus. Combinations such as: kind/security; team/test; src/customer appeal; area/unified authentication; highlight/delay risk',
+                          'dop',
+                        )}
+                      </div>
+                    </div>
                   ),
                   children: <ProjectLabel />,
                 },

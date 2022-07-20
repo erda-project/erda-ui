@@ -18,6 +18,7 @@ import { Modal, FormInstance } from 'antd';
 import projectLabel from 'project/stores/label';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
+import { sortBy } from 'lodash';
 import routeInfoStore from 'core/stores/route';
 import './project-label.scss';
 import themeColor from 'app/theme-color.mjs';
@@ -159,7 +160,7 @@ const ProjectLabel = () => {
           <ErdaIcon type="plus" className="mr-1" size="14px" />
           {i18n.t('dop:Add-label')}
         </span>
-        {list.map((label) => {
+        {sortBy(list, 'name').map((label) => {
           const color = label.color === 'gray' ? 'water-blue' : label.color;
           return (
             <span
