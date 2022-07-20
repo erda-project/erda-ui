@@ -435,6 +435,9 @@ const ServiceCard = (props: IProps) => {
               </IF>
               <span className="name text-base">{name}</span>
               {resourceInfo}
+              {runtimeDetail.services[name].autoscalerEnabled === 'Y' && (
+                <span className="mr-4">{i18n.s('Elastic scaling policy is enabled', 'dop')}</span>
+              )}
             </div>
             <div className="error-msg text-xs nowrap">{errorMsg}</div>
           </div>

@@ -21,7 +21,8 @@ import React from 'react';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
 import issueStore from 'project/stores/issues';
 import routeInfoStore from 'core/stores/route';
-import { mergeSearch, updateSearch } from 'common/utils';
+import { updateSearch } from 'common/utils';
+import { stringify } from 'query-string';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { usePerm, WithAuth } from 'user/common';
 import labelStore from 'project/stores/label';
@@ -186,7 +187,7 @@ export const Milestone = () => {
         issueType={ISSUE_TYPE.EPIC}
         shareLink={
           stateMap.epicDetail
-            ? `${location.href.split('?')[0]}?${mergeSearch({ id: stateMap.epicDetail?.id }, true)}`
+            ? `${location.href.split('?')[0]}?${stringify({ id: stateMap.epicDetail?.id })}`
             : undefined
         }
         visible={stateMap.modalVisible}

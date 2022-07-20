@@ -26,6 +26,7 @@ import issueFieldStore from 'org/stores/issue-field';
 import ImportExport from './import-export';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
+import { stringify } from 'query-string';
 
 interface IProps {
   issueType: ISSUE_TYPE;
@@ -232,10 +233,12 @@ const IssueProtocol = ({ issueType, hideImport }: IProps) => {
           iterationID={chosenIteration}
           id={chosenIssueId}
           issueType={chosenIssueType as ISSUE_TYPE}
-          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: chosenIssueId, iterationID: chosenIteration, tab, type: chosenIssueType },
-            true,
-          )}`}
+          shareLink={`${location.href.split('?')[0]}?${stringify({
+            id: chosenIssueId,
+            iterationID: chosenIteration,
+            tab,
+            type: chosenIssueType,
+          })}`}
           visible={drawerVisible}
           closeDrawer={onCloseDrawer}
         />

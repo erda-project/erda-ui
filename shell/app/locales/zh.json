@@ -1010,6 +1010,8 @@
     "Edit cluster configuration": "修改集群配置",
     "Edit trigger": "编辑触发器",
     "Efficiency": "效能度量",
+    "Elastic scaling": "弹性伸缩",
+    "Elastic scaling policy is enabled": "弹性伸缩策略已开启",
     "Email": "邮箱",
     "Enable": "待处理",
     "Encrypt": "是否加密",

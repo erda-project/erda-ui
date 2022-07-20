@@ -25,7 +25,8 @@ import { useEffectOnce } from 'react-use';
 import issueStore from 'project/stores/issues';
 import { BACKLOG_ISSUE_TYPE, IssueForm, IssueItem } from './issue-item';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { mergeSearch, updateSearch } from 'common/utils';
+import { updateSearch } from 'common/utils';
+import { stringify } from 'query-string';
 import routeInfoStore from 'core/stores/route';
 import { ISSUE_OPTION, ISSUE_PRIORITY_MAP, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
 import { ISSUE_TYPE_ICON_MAP } from 'project/common/components/issue/issue-icon';
@@ -382,10 +383,10 @@ const Backlog = () => {
         <EditIssueDrawer
           iterationID={-1}
           id={curIssueDetail.id}
-          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: curIssueDetail.id, type: curIssueDetail.type },
-            true,
-          )}`}
+          shareLink={`${location.href.split('?')[0]}?${stringify({
+            id: curIssueDetail.id,
+            type: curIssueDetail.type,
+          })}`}
           issueType={curIssueDetail.type}
           visible={drawerVisible}
           closeDrawer={closeDrawer}

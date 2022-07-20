@@ -12,9 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ISSUE_TYPE, ISSUE_PRIORITY_MAP, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
+import DiceConfigPage from 'app/config-page';
 import { useSwitch, useUpdate } from 'common/use-hooks';
+import { stringify } from 'query-string';
 import { mergeSearch, updateSearch, ossImg, getAvatarChars } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
@@ -197,6 +198,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
       disabled: false,
     },
   ];
+
   return (
     <>
       <TopButtonGroup>
@@ -295,10 +297,11 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
           iterationID={chosenIteration}
           id={chosenIssueId}
           issueType={chosenIssueType as ISSUE_TYPE}
-          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: chosenIssueId, iterationID: chosenIteration, type: chosenIssueType },
-            true,
-          )}`}
+          shareLink={`${location.href.split('?')[0]}?${stringify({
+            id: chosenIssueId,
+            iterationID: chosenIteration,
+            type: chosenIssueType,
+          })}`}
           visible={drawerVisible}
           closeDrawer={onCloseDrawer}
         />

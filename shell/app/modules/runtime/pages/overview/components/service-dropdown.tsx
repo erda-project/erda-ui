@@ -134,7 +134,7 @@ const ServiceDropdown = (props: IProps) => {
         },
       ]),
       {
-        title: '弹性伸缩',
+        title: i18n.s('Elastic scaling', 'dop'),
         onClick: () => {
           onElasticScaling();
         },
