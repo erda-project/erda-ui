@@ -50,7 +50,7 @@ interface SwaggerData {
 
 const NUMBER_TYPES = ['integer', 'float', 'double', 'number', 'long'];
 
-const REG_SEARCH = /(AUTO\s*GENERATED)/g;
+const REG_SEARCH = /(\/\/\s>\sAUTO\s*GENERATED)/g;
 
 /*
 to regex the case of:
@@ -59,7 +59,7 @@ to regex the case of:
   },
 find the apiName, apiPath and method
 */
-const REG_API = /([a-zA-Z]+):\s*{\n\s*api:\s*'(get|post|put|delete)@(\/api(\/:?[a-zA-Z-]+)+)'/g;
+const REG_API = /([a-zA-Z]+):\s*{\n\s*api:\s*'(get|post|put|delete)@(\/api(\/:?[a-zA-Z-]+)+)',(\s\/\/\sAUTO)/g;
 
 const formatJson = (data: string | object) => {
   const jsonData = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
@@ -82,7 +82,10 @@ const formatApiPath = (apiPath: string) => {
 const getSteadyContent = (filePath: string, content?: string) => {
   if (!fs.existsSync(filePath) || !content) {
     return `
-${license.GPLV3}`;
+${license.GPLV3}
+
+// > AUTO GENERATED
+`;
   } else if (!content.includes('GENERATED')) {
     return `${content}
 // > AUTO GENERATED  
@@ -142,6 +145,7 @@ const getResponseType = (schemaData: JSONSchema, swaggerData: SwaggerData) => {
   if ($ref) {
     const quoteList = $ref.split('/').slice(1);
     const _data = get(swaggerData, [...quoteList, 'properties', 'data']) || {};
+
     if (_data.type === 'object' && _data.properties?.total && _data.properties?.list) {
       return 'pagingList';
     } else {
@@ -215,9 +219,12 @@ const autoGenerateService = (
       const _schemaData = get(swaggerData, ['paths', apiPath, method, 'responses', '200', 'schema']);
 
       const resType = getResponseType(_schemaData, swaggerData);
-      const fullData = getSchemaData(_schemaData) || {};
+      const fullData = getSchemaData(_schemaData, swaggerData) || {};
 
-      const responseData = (resType === 'pagingList' ? fullData.data?.list : fullData.data || fullData['data?']) || {};
+      const responseData =
+        resType === 'pagingList'
+          ? fullData.data?.list || get(fullData, ['data?', 'list?'])
+          : fullData.data || fullData['data?'] || {};
 
       const _resData: string = JSON.stringify(responseData, null, 2);
       let resData = formatJson(_resData);
