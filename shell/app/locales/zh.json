@@ -1396,6 +1396,7 @@
     "When enabled, application deployment needs to be reviewed and approved by the project administrator.": "开启后，相关应用部署需要项目管理员审核同意后才能继续进行",
     "When enabled, only the app owner and leader can perform operations, and other members can only submit code through MR.": "分支保护开启后，只有应用所有者、应用研发主管才能操作，其他成员只能通过mr提交代码",
     "Work description": "工作内容",
+    "Workflow Records": "工作流记录",
     "You can configure stages of the R&D process here, such as development, testing, staging and production, as well as code branches, artifact types, deployment environments and steps required for these stages.": "研发过程所有经历阶段的配置，如开发阶段、测试阶段、预发阶段和生产阶段，这些阶段中涉及的代码分支、制品类型、部署环境以及阶段所需步骤，都在此配置。",
     "abandoned": "废弃",
     "ability app": "能力应用",

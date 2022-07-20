@@ -1396,6 +1396,7 @@
     "When enabled, application deployment needs to be reviewed and approved by the project administrator.": "When enabled, application deployment needs to be reviewed and approved by the project administrator.",
     "When enabled, only the app owner and leader can perform operations, and other members can only submit code through MR.": "When enabled, only the app owner and leader can perform operations, and other members can only submit code through MR.",
     "Work description": "Work description",
+    "Workflow Records": "Workflow Records",
     "You can configure stages of the R&D process here, such as development, testing, staging and production, as well as code branches, artifact types, deployment environments and steps required for these stages.": "You can configure stages of the R&D process here, such as development, testing, staging and production, as well as code branches, artifact types, deployment environments and steps required for these stages.",
     "abandoned": "abandoned",
     "ability app": "ability app",
