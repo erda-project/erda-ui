@@ -9,6 +9,7 @@ values:
 envs:
   FDP_UI_ADDR: "fdp-ui:80"
   ENTERPRISE_UI_ADDR: "enterprise-ui:80"
+  OPENAPI_ADDR: "erda-server:9529"
 services:
   ui:
     ports:
@@ -19,7 +20,6 @@ services:
       ENABLE_EDGE: "false"
       TERMINUS_KEY: "c891011d-6115-11e9-9fe6-6c92bf3144c3"
       KRATOS_ADDR: "kratos-public"
-      OPENAPI_ADDR: "openapi:9529"
       GITTAR_ADDR: "gittar:5566"
       COLLECTOR_ADDR: "collector:7076"
       COLLECTOR_PUBLIC_ADDR: "collector:7076"
