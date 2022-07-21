@@ -34,7 +34,7 @@ export function initLinkS(userId: string, userName: string, orgName: string) {
       }
 
       const element = document.createElement('script');
-      element.src = `https://links.alipay.com/widgetInit/6295896f51a53d0479bd6528/?links_auth_token=${res.data}`;
+      element.src = `https://links-tp.alipay.com/widgetInit/6295896f51a53d0479bd6528/?links_auth_token=${res.data}`;
       element.type = 'text/javascript';
       element.async = true;
       element.id = 'last-links';
