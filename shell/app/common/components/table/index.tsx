@@ -369,8 +369,7 @@ function WrappedTable<T extends object = any>({
 
   const getRowClassName = (_record: T, _index: number) => {
     const curCls = typeof rowClassName === 'function' ? rowClassName(_record, _index) : rowClassName || '';
-
-    return onRow ? `cursor-pointer ${curCls || ''}` : rowClassName;
+    return onRow ? `cursor-pointer ${curCls || ''}` : curCls;
   };
 
   return (

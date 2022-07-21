@@ -38,9 +38,10 @@ const IssueProtocol = ({ issueType, hideImport }: IProps) => {
   const { id: queryId, iterationID: queryIterationID, type: _queryType, tab } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const queryType = _queryType && _queryType.toUpperCase();
-  const [{ filterObj, chosenIssueType, chosenIssueId, chosenIteration }, updater, update] = useUpdate({
+  const [{ filterObj, chosenIssueType, highlightId, chosenIssueId, chosenIteration }, updater, update] = useUpdate({
     filterObj: {},
     chosenIssueId: queryId,
+    highlightId: '',
     chosenIteration: +queryIterationID || 0,
     chosenIssueType: queryType as undefined | ISSUE_TYPE,
     pageNo: 1,
@@ -89,6 +90,7 @@ const IssueProtocol = ({ issueType, hideImport }: IProps) => {
   const onCloseDrawer = ({ hasEdited, isCreate, isDelete }: CloseDrawerParam) => {
     closeDrawer();
     update({
+      highlightId: chosenIssueId,
       chosenIssueId: 0,
       chosenIteration: 0,
       chosenIssueType: undefined,
@@ -147,6 +149,66 @@ const IssueProtocol = ({ issueType, hideImport }: IProps) => {
     },
   ];
 
+  const customProps = React.useMemo(() => {
+    return {
+      issueManage: {
+        props: { spaceSize: 'none' },
+      },
+      issueFilter: {
+        op: {
+          // filter: 改变url
+          onFilterChange: (val: Obj) => {
+            updater.filterObj(val);
+          },
+        },
+        props: {
+          processField: (field: CP_CONFIGURABLE_FILTER.Condition) => {
+            if (field.key === 'priorities') {
+              return {
+                ...field,
+                options: field.options?.map((item) => ({
+                  ...item,
+                  icon: `ISSUE_ICON.priority.${item.value}`,
+                })),
+              };
+            } else if (field.key === 'severities') {
+              return {
+                ...field,
+                options: field.options?.map((item) => ({
+                  ...item,
+                  icon: `ISSUE_ICON.severity.${item.value}`,
+                })),
+              };
+            } else {
+              return field;
+            }
+          },
+        },
+      },
+      issueTable: {
+        props: {
+          tableKey: 'issue-table',
+          menuItemRender: (item: { text: string; status: string }) => (
+            <Badge text={item.text} status={item.status} showDot={false} />
+          ),
+          rowClassName: (record: Obj) => {
+            if (`${record.id}` === `${highlightId}`) {
+              return 'bg-default-1';
+            }
+            return '';
+          },
+        },
+        op: {
+          clickTableItem: (_data: ISSUE.Issue) => {
+            onChosenIssue(_data);
+          },
+        },
+      },
+      issueImport: () => null,
+      issueExport: () => null,
+    };
+  }, [highlightId]);
+
   return (
     <div className="pb-4">
       <TopButtonGroup className="flex">
@@ -172,60 +234,10 @@ const IssueProtocol = ({ issueType, hideImport }: IProps) => {
         scenarioType="issue-manage"
         showLoading
         inParams={inParams}
-        forceUpdateKey={['inParams']}
+        forceUpdateKey={['inParams', 'customProps']}
         fullHeight={false}
         ref={reloadRef}
-        customProps={{
-          issueManage: {
-            props: { spaceSize: 'none' },
-          },
-          issueFilter: {
-            op: {
-              // filter: 改变url
-              onFilterChange: (val: Obj) => {
-                updater.filterObj(val);
-              },
-            },
-            props: {
-              processField: (field: CP_CONFIGURABLE_FILTER.Condition) => {
-                if (field.key === 'priorities') {
-                  return {
-                    ...field,
-                    options: field.options?.map((item) => ({
-                      ...item,
-                      icon: `ISSUE_ICON.priority.${item.value}`,
-                    })),
-                  };
-                } else if (field.key === 'severities') {
-                  return {
-                    ...field,
-                    options: field.options?.map((item) => ({
-                      ...item,
-                      icon: `ISSUE_ICON.severity.${item.value}`,
-                    })),
-                  };
-                } else {
-                  return field;
-                }
-              },
-            },
-          },
-          issueTable: {
-            props: {
-              tableKey: 'issue-table',
-              menuItemRender: (item: { text: string; status: string }) => (
-                <Badge text={item.text} status={item.status} showDot={false} />
-              ),
-            },
-            op: {
-              clickTableItem: (_data: ISSUE.Issue) => {
-                onChosenIssue(_data);
-              },
-            },
-          },
-          issueImport: () => null,
-          issueExport: () => null,
-        }}
+        customProps={customProps}
       />
 
       {chosenIssueType ? (
