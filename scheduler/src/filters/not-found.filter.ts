@@ -119,7 +119,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
       try {
         const callList = [
           callApi('/api/users/me', { headers: { domain } }),
-          callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100 }, headers: { org: '-', domain } }), // pass header org={notEmpty} to get joined orgs for system admin user
+          callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100, joined: true }, headers: { org: '-', domain } }), // pass header org={notEmpty} to get joined orgs for system admin user
           callApi('/api/permissions/actions/access', {
             method: 'POST',
             data: { scope: { type: 'sys', id: '0' } },
