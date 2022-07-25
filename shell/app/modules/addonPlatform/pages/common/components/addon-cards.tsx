@@ -303,14 +303,13 @@ export const AddonCards = (props: IProps) => {
       </div>
     );
   };
-
   return (
     <>
       <Holder when={isEmpty(dataSource)}>
         {!isEmpty(categoryRefs) ? (
           <ul className="addon-list" ref={props.forwardedRef}>
             {dataSource &&
-              dataSource.map((category: [string, any[]]) => {
+              dataSource.map((category: [string, any[]], idx) => {
                 const [title, contents] = category;
                 const liRef = categoryRefs && categoryRefs.find((x) => x[title]);
                 let extra = null;
@@ -322,7 +321,7 @@ export const AddonCards = (props: IProps) => {
                   );
                 }
                 return (
-                  <li className="addon-category-section" key={title} ref={liRef[title]}>
+                  <li className="addon-category-section" key={`${idx}-${title}`} ref={liRef[title]}>
                     <span className="content-title font-medium">
                       {allWordsFirstLetterUpper(title)}
                       {extra}
