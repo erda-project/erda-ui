@@ -61,7 +61,7 @@ const ServiceDropdown = (props: IProps) => {
   const runtimeDetail = runtimeStore.useStore((s) => s.runtimeDetail);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
 
-  const { id: runtimeId, extra } = runtimeDetail;
+  const { id: runtimeId, extra, clusterType } = runtimeDetail;
   const env = extra.workspace;
 
   const [state, updater] = useUpdate({
@@ -133,12 +133,14 @@ const ServiceDropdown = (props: IProps) => {
           },
         },
       ]),
-      {
-        title: i18n.s('Elastic scaling', 'dop'),
-        onClick: () => {
-          onElasticScaling();
+      ...insertWhen(clusterType === 'k8s', [
+        {
+          title: i18n.s('Elastic scaling', 'dop'),
+          onClick: () => {
+            onElasticScaling();
+          },
         },
-      },
+      ]),
       {
         title: i18n.t('runtime:History'),
         onClick: () => openSlidePanel('record'),
