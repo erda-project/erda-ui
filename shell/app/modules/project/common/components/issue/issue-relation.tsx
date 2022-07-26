@@ -150,10 +150,13 @@ const useIssueRelation = (props: IProps) => {
       />
       <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT' && !!list?.length}>
         <div className="rounded-sm border border-solid border-default-1">
-          {list?.map((item) => (
+          {list?.map((item, index) => (
             <IssueItem
               data={item}
               editable
+              nameEditable
+              showFlow
+              defaultExpandFlow={index === 0}
               key={item.id}
               showIteration
               afterUpdate={() => onRelationChange?.()}
@@ -184,6 +187,7 @@ const useIssueRelation = (props: IProps) => {
               data={item}
               key={item.id}
               editable
+              nameEditable
               showIteration
               afterUpdate={() => onRelationChange?.()}
               onClickIssue={(record) => {
