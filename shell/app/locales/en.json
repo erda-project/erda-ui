@@ -1315,6 +1315,7 @@
     "The current log has entered degraded mode (only all types will enter the degraded mode), log loading may be slow, please be patient": "The current log has entered degraded mode (only all types will enter the degraded mode), log loading may be slow, please be patient",
     "The default branch cannot be deleted.": "The default branch cannot be deleted.",
     "The deployment time should not be longer than 7 days.": "The deployment time should not be longer than 7 days.",
+    "The edit data will be lost if closed. Continue?": "The edit data will be lost if closed. Continue?",
     "The export task has been created, please check the progress in the record": "The export task has been created, please check the progress in the record",
     "The file will be imported based on the currently selected test set.": "The file will be imported based on the currently selected test set.",
     "The import and export tasks you submitted have status updates, please check the records": "The import and export tasks you submitted have status updates, please check the records",
