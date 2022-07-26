@@ -15,13 +15,14 @@
 import { Button, Dropdown, Input, Menu, Modal, Select } from 'antd';
 import { useUpdate } from 'app/common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
-import { Ellipsis, ErdaIcon, Icon as CustomIcon, MemberSelector } from 'common';
+import { Ellipsis, ErdaIcon, Icon as CustomIcon, MemberSelector, EmptyHolder } from 'common';
 import UserInfo from 'common/components/user-info';
 import { getBrowserInfo, isPromise } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { compact, map } from 'lodash';
 import moment from 'moment';
+import { getFlowList, getBranchPolicy } from 'project/services/project-workflow';
 import issueFieldStore from 'org/stores/issue-field';
 import { ISSUE_OPTION } from 'project/common/components/issue/issue-config';
 import { getIssueTypeOption, IssueIcon } from 'project/common/components/issue/issue-icon';
@@ -35,6 +36,7 @@ import { useDrag } from 'react-dnd';
 import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import userStore from 'user/stores';
 import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/component/table-view';
+import Workflow from 'project/common/components/workflow';
 import iterationStore from 'app/modules/project/stores/iteration';
 import './issue-item.scss';
 
@@ -53,11 +55,14 @@ interface IIssueProps {
   onDragDelete?: () => void;
   onDelete?: (data: ISSUE.Issue) => void;
   deleteConfirmText?: string | React.ReactNode | ((name: string) => string | React.ReactNode);
-  deleteText: string | React.ReactNode;
+  deleteText?: string | React.ReactNode;
   undraggable?: boolean;
   showStatus?: boolean;
   showIteration?: boolean;
   afterUpdate?: () => void;
+  nameEditable?: boolean;
+  showFlow?: boolean;
+  defaultExpandFlow?: boolean;
 }
 
 const noop = () => Promise.resolve();
@@ -74,6 +79,9 @@ export const IssueItem = (props: IIssueProps) => {
     undraggable = false,
     showStatus = false,
     showIteration = false,
+    nameEditable = false,
+    showFlow = false,
+    defaultExpandFlow = false,
     editable = false,
   } = props;
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
@@ -91,6 +99,7 @@ export const IssueItem = (props: IIssueProps) => {
   const deleteAuth = getAuth(permObj.delete, checkRole);
   const editAuth = getAuth(permObj.edit, checkRole);
   const [nameEditing, setNameEditing] = React.useState(false);
+  const [flowExpand, setFlowExpand] = React.useState(defaultExpandFlow);
   const [nameValue, setNameValue] = React.useState('');
   const nameRef = React.useRef<Input>(null);
 
@@ -255,48 +264,89 @@ export const IssueItem = (props: IIssueProps) => {
       }`}
       ref={drag}
     >
-      <div className="issue-info h-full">
-        <div
-          className={`backlog-item-content flex-h-center mr-6 ${editable ? 'item-name-edit' : ''} cursor-pointer`}
-          onClick={() => !nameEditing && onClickIssue(data)}
-        >
-          <div className="flex-1 flex-h-center overflow-hidden cursor-pointer">
-            <IssueIcon type={type as ISSUE_TYPE} size={28} />
-            <span className="mr-1">#{id}-</span>
-            {nameEditing ? (
-              <Input
-                ref={nameRef}
-                bordered={false}
-                className="rounded bg-default-06"
-                value={nameValue}
-                onChange={(e) => setNameValue(e.target.value)}
-                onBlur={saveName}
-                onPressEnter={saveName}
+      <div className="flex-h-center w-full py-1.5">
+        {showFlow ? (
+          <ErdaIcon
+            className="hover:bg-default-1 text-default-6 hover:text-default-8 p-0.5 -ml-1 cursor-pointer"
+            size={20}
+            onClick={() => setFlowExpand((prev) => !prev)}
+            type={`${flowExpand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`}
+          />
+        ) : null}
+        <div className="issue-info h-full">
+          <div
+            className={`backlog-item-content flex-h-center mr-6 ${editable ? 'item-name-edit' : ''} cursor-pointer`}
+            onClick={() => !nameEditing && onClickIssue(data)}
+          >
+            <div className="flex-1 flex-h-center overflow-hidden cursor-pointer">
+              <IssueIcon type={type as ISSUE_TYPE} size={28} />
+              <span className="mr-1">#{id}-</span>
+              {nameEditing ? (
+                <Input
+                  ref={nameRef}
+                  bordered={false}
+                  className="rounded bg-default-06"
+                  value={nameValue}
+                  onChange={(e) => setNameValue(e.target.value)}
+                  onBlur={saveName}
+                  onPressEnter={saveName}
+                />
+              ) : (
+                <Ellipsis title={name} />
+              )}
+            </div>
+            {nameEditable && !nameEditing ? (
+              <ErdaIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setNameValue(name);
+                  setNameEditing(true);
+                  setTimeout(() => {
+                    nameRef?.current?.focus();
+                  });
+                }}
+                type="edit"
+                className="item-name-edit-icon ml-2 hover:text-blue-deep"
+                size={18}
               />
-            ) : (
-              <Ellipsis title={name} />
-            )}
+            ) : null}
           </div>
-          {!nameEditing ? (
-            <ErdaIcon
-              onClick={(e) => {
-                e.stopPropagation();
-                setNameValue(name);
-                setNameEditing(true);
-                setTimeout(() => {
-                  nameRef?.current?.focus();
-                });
-              }}
-              type="edit"
-              className="item-name-edit-icon ml-2 hover:text-blue-deep"
-              size={18}
-            />
-          ) : null}
+          <div className="text-sub flex items-center flex-wrap justify-end">{fields}</div>
         </div>
-        <div className="text-sub flex items-center flex-wrap justify-end">{fields}</div>
       </div>
+      <FlowList key={id} projectId={projectId} issueId={id} visible={flowExpand} />
     </div>
   );
+};
+
+const FlowList = ({ projectId, issueId, visible }: { projectId: string; issueId: number; visible: boolean }) => {
+  const [flowData, setFlowData] = React.useState<DEVOPS_WORKFLOW.DevFlowInfos | null>(null);
+  const getFlowNodeList = React.useCallback(() => {
+    getFlowList({
+      issueID: issueId,
+      projectID: +projectId,
+    }).then((res) => {
+      setFlowData(res?.data);
+    });
+  }, [projectId, issueId]);
+
+  React.useEffect(() => {
+    if (visible && !flowData?.devFlowInfos.length) getFlowNodeList();
+  }, [getFlowNodeList, visible, flowData]);
+
+  return visible ? (
+    <div className="w-full overflow-hidden px-6">
+      {flowData?.devFlowInfos.length ? (
+        <Workflow flowInfo={flowData} scope="ISSUE" projectID={+projectId} getFlowNodeList={getFlowNodeList} />
+      ) : (
+        <EmptyHolder
+          relative
+          style={{ height: 120 }}
+          tip={i18n.t('no available {item}', { item: i18n.t('dop:workflow') })}
+        />
+      )}
+    </div>
+  ) : null;
 };
 
 interface IIssueFormProps {
