@@ -166,7 +166,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const isBacklog = iterationID === -1;
   const isMonitorTicket = ticketType === 'monitor';
 
-  const { creator, assignee, testPlanCaseRels } = issueDetail || {};
+  const { creator, assignee } = issueDetail || {};
   const specialProps = EDIT_PROPS[issueType];
   const projectPerm = usePerm((s) => s.project);
   const permObjMap = {
@@ -189,6 +189,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
   const metaFieldsRef: React.RefObject<unknown> = React.useRef(null);
   const [tempStateData, setTempStateData] = React.useState('');
+  const [isContentChanged, setIsContentChanged] = React.useState(false);
 
   React.useEffect(() => {
     setFormData((prev: any) => ({ ...prev, iterationID }));
@@ -697,9 +698,15 @@ export const EditIssueDrawer = (props: IProps) => {
       shareLink={shareLink}
       canDelete={deleteAuth && !isMonitorTicket}
       canCreate={createAuth}
-      confirmCloseTip={isEditMode ? undefined : i18n.t('dop:The new data will be lost if closed. Continue?')}
+      confirmCloseTip={
+        isEditMode
+          ? isContentChanged
+            ? i18n.s('The edit data will be lost if closed. Continue?', 'dop')
+            : undefined
+          : i18n.t('dop:The new data will be lost if closed. Continue?')
+      }
       handleCopy={handleSubmit}
-      maskClosable={isEditMode}
+      maskClosable={isContentChanged ? false : isEditMode}
       data={formData}
       projectId={projectId}
       issueType={issueType}
@@ -805,6 +812,7 @@ export const EditIssueDrawer = (props: IProps) => {
         disabled={!editAuth}
         type="markdown"
         onChangeCb={setFieldCb}
+        setDirty={(bool: boolean) => setIsContentChanged(bool)}
         itemProps={{
           placeHolder: i18n.t('dop:No content'),
           className: 'w-full',

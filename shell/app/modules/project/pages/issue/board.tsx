@@ -16,7 +16,7 @@ import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/
 import DiceConfigPage from 'app/config-page';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { stringify } from 'query-string';
-import { mergeSearch, updateSearch, ossImg, getAvatarChars } from 'common/utils';
+import { updateSearch, ossImg, getAvatarChars } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import { usePerm } from 'app/user/common';

@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Badge, Button, Tooltip } from 'antd';
-import { get, isEmpty, map } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import { CardsLayout, ErdaIcon, Holder, Icon as CustomIcon, IF } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { allWordsFirstLetterUpper, goTo, ossImg } from 'common/utils';
@@ -320,10 +320,6 @@ export const AddonCards = (props: IProps) => {
                     </Button>
                   );
                 }
-                const contentsWithId = map(contents, (content) => ({
-                  ...content,
-                  id: `${content.instanceId || content.realInstanceId}-${content.projectId}-${content.workspace}`,
-                }));
                 return (
                   <li className="addon-category-section" key={`${idx}-${title}`} ref={liRef[title]}>
                     <span className="content-title font-medium">
@@ -331,7 +327,7 @@ export const AddonCards = (props: IProps) => {
                       {extra}
                     </span>
                     <div className="addons-container">
-                      <CardsLayout dataList={contentsWithId} contentRender={CardRender} />
+                      <CardsLayout dataList={contents} contentRender={CardRender} />
                     </div>
                   </li>
                 );

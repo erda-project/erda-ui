@@ -1315,6 +1315,7 @@
     "The current log has entered degraded mode (only all types will enter the degraded mode), log loading may be slow, please be patient": "当前日志已进入降级模式（只有全部类型下才会进入降级模式），日志加载可能很慢，请耐心等待。",
     "The default branch cannot be deleted.": "默认分支不可删除",
     "The deployment time should not be longer than 7 days.": "部署时间不得大于7天",
+    "The edit data will be lost if closed. Continue?": "如果关闭编辑数据将丢失，是否继续?",
     "The export task has been created, please check the progress in the record": "导出任务已创建，请在记录中查看进度",
     "The file will be imported based on the currently selected test set.": "文件将以当前选中的测试集为根导入。",
     "The import and export tasks you submitted have status updates, please check the records": "你提交的导入导出任务有状态更新，请查看记录",

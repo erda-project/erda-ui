@@ -30,10 +30,20 @@ interface IMdProps {
   hasEdited?: boolean;
   maxHeight: number;
   onChange: (v: string) => void;
-  onSave: (v?: string, fieldType?: string) => void;
+  onSave: (isBlur: boolean, v?: string, fieldType?: string) => void;
+  onCancel?: () => void;
 }
 
-export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHeight, ...rest }: IMdProps) => {
+export const EditMd = ({
+  value,
+  onChange,
+  onSave,
+  disabled,
+  originalValue,
+  maxHeight,
+  onCancel,
+  ...rest
+}: IMdProps) => {
   const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
     v: value,
     isEditing: false,
@@ -93,7 +103,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           text: i18n.t('Save'),
           type: 'primary' as const,
           onClick: (_v: string) => {
-            onSave(_v);
+            onSave(false, _v);
             updater.isEditing(false);
           },
         },
@@ -101,6 +111,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           size: 'small' as const,
           text: i18n.t('Cancel'),
           onClick: () => {
+            onCancel?.();
             update({ v: originalValue, isEditing: false });
           },
         },
@@ -112,7 +123,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       {...rest}
       value={v}
       onChange={onChange}
-      onBlur={(_v: string) => onSave(_v, 'markdown')}
+      onBlur={(_v: string) => onSave(true, _v, 'markdown')}
       defaultMode="md"
       defaultHeight={maxHeight + 200}
       operationBtns={operationBtns}
@@ -206,6 +217,7 @@ interface IProps {
   showRequiredMark?: boolean;
   refMap?: Obj<React.RefObject<unknown>>;
   valueRender?: (value: any) => React.ReactNode;
+  setDirty?: (bool: boolean) => void;
 }
 
 const EditField = React.forwardRef((props: IProps, _compRef) => {
@@ -215,7 +227,6 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     placeHolder,
     className = '',
     label,
-    labelStyle,
     itemProps,
     disabled = false,
     onChangeCb,
@@ -227,6 +238,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     valueRender,
     getComp,
     refMap,
+    setDirty,
   } = props;
   const originalValue = get(data, name);
   const compRef = React.useRef<HTMLElement>(null);
@@ -250,12 +262,17 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
 
   let Comp: React.ReactNode = <div />;
 
+  const updateValue = (v: any) => {
+    updater.editValue(v);
+    setDirty?.(true);
+  };
+
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 如果有，调用原来的onChange
     if (get(itemProps, 'onChange')) {
       itemProps.onChange(e);
     }
-    updater.editValue(e.target.value);
+    updateValue(e.target.value);
   };
 
   const onSelectChange = (_v: string | moment.Moment | null) => {
@@ -315,11 +332,12 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           maxHeight={230}
           defaultHeight={200}
           value={editValue}
-          onChange={updater.editValue}
-          onSave={(v, fieldType) => {
-            console.log(v, fieldType);
+          onChange={updateValue}
+          onSave={(isBlur, v, fieldType) => {
             onChangeCb?.({ [name]: v }, fieldType);
+            !isBlur && setDirty?.(false);
           }}
+          onCancel={() => setDirty?.(false)}
           originalValue={originalValue}
           disabled={disabled}
         />
@@ -348,7 +366,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     case 'custom': {
       // onChange用于改变内部状态，确保组件不重渲染，避免输入框重渲染后光标位置重置。onSave用于保存，比如在onBlur时才保存
       Comp = getComp?.({
-        onChange: updater.editValue,
+        onChange: updateValue,
         onSave: onSelectChange,
         value: editValue,
         disabled,
