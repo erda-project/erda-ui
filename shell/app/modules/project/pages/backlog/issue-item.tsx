@@ -35,6 +35,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import userStore from 'user/stores';
+import { useUpdateEffect, useMount } from 'react-use';
 import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/component/table-view';
 import Workflow from 'project/common/components/workflow';
 import iterationStore from 'app/modules/project/stores/iteration';
@@ -156,7 +157,7 @@ export const IssueItem = (props: IIssueProps) => {
   const fieldsMap = {
     iteration: {
       Comp: (
-        <div className="w-20 mr-2 truncate">
+        <div className="w-20 mr-2 truncate" key="iteration">
           {iterationID === -1 ? i18n.t('dop:Backlog') : iterationList?.find((item) => item.id === iterationID)?.title}
         </div>
       ),
@@ -167,6 +168,7 @@ export const IssueItem = (props: IIssueProps) => {
         editable ? (
           <FieldSelector
             field="state"
+            key="state"
             className="w-24 mr-6"
             hasAuth={editAuth}
             value={`${state.stateID}`}
@@ -186,7 +188,7 @@ export const IssueItem = (props: IIssueProps) => {
     },
     assignee: {
       Comp: editable ? (
-        <WithAuth pass={editAuth}>
+        <WithAuth pass={editAuth} key="assignee">
           <MemberSelector
             scopeType="project"
             scopeId={projectId}
@@ -330,9 +332,13 @@ const FlowList = ({ projectId, issueId, visible }: { projectId: string; issueId:
     });
   }, [projectId, issueId]);
 
-  React.useEffect(() => {
+  useMount(() => {
+    if (visible) getFlowNodeList();
+  });
+
+  useUpdateEffect(() => {
     if (visible && !flowData?.devFlowInfos.length) getFlowNodeList();
-  }, [getFlowNodeList, visible, flowData]);
+  }, [visible]);
 
   return visible ? (
     <div className="w-full overflow-hidden px-6">
