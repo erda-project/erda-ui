@@ -33,7 +33,9 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
   constructor(props: IVariableInputGroupProps) {
     super(props);
     const ids: string[] = [];
-    const _values = map(props.value || [], (item) => {
+
+    const curValue = typeof props.value === 'string' ? [props.value] : props.value;
+    const _values = map(curValue || [], (item) => {
       let id: string = uuid();
       while (ids.includes(id)) {
         id = uuid();
@@ -54,7 +56,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
   triggerChange = (changedValue: any) => {
     const { onChange } = this.props;
     if (onChange) {
-      onChange(changedValue);
+      onChange(changedValue.map((item: string) => item.replace(/(^\s*)|(\s*$)/g, '')));
     }
     this.setState({
       value: changedValue,
@@ -91,7 +93,11 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         <div key={id} className="list-full-input-group">
           {inputField}
           {disabled ? null : (
-            <ErdaIcon type="delete1" className="align-middle variable-icon ml-3 cursor-pointer" onClick={() => this.onDelete(index)} />
+            <ErdaIcon
+              type="delete1"
+              className="align-middle variable-icon ml-3 cursor-pointer"
+              onClick={() => this.onDelete(index)}
+            />
           )}
         </div>
       );
