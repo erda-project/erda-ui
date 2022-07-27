@@ -197,7 +197,9 @@ const PipelineProtocol = React.forwardRef(
       ? record?.execHistories?.find((item) => `${item.pipelineID}` === `${chosenPipelineId}`)
       : null;
     const curUser = curRecord ? userMap[curRecord.executor] : null;
-    const isLatestPipeline = `${chosenPipelineId}` === `${detail?.pipelineId}`;
+    const isLatestPipeline =
+      !record?.execHistories?.length || `${record.execHistories[0]?.pipelineID}` === `${chosenPipelineId}`;
+
     const isInApp = getIsInApp();
     return (
       <>
