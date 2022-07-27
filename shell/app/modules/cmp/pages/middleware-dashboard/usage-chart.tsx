@@ -57,10 +57,10 @@ export const AddonUsageChart = () => {
 
   const dailyUsage = React.useMemo(() => {
     const data = {
-      xData: addonDailyUsage.abscissa,
+      xData: addonDailyUsage?.abscissa || [],
       metricData: [] as any[],
     };
-    if (addonDailyUsage.abscissa && addonDailyUsage.abscissa.length) {
+    if (addonDailyUsage?.abscissa && addonDailyUsage?.abscissa.length) {
       ['cpu', 'mem'].forEach((type, i) => {
         data.metricData.push({
           name: type,
