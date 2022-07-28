@@ -53,10 +53,10 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     };
   }
 
-  triggerChange = (changedValue: any) => {
+  triggerChange = (changedValue: Array<{ value: string; id: string }>) => {
     const { onChange } = this.props;
     if (onChange) {
-      onChange(changedValue.map((item: string) => item.replace(/(^\s*)|(\s*$)/g, '')));
+      onChange(changedValue.map((item) => ({ ...item, value: item?.value?.replace(/(^\s*)|(\s*$)/g, '') })));
     }
     this.setState({
       value: changedValue,
