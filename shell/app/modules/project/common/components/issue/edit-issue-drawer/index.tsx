@@ -111,10 +111,10 @@ export const EditIssueDrawer = (props: IProps) => {
     map(fieldList, (item) => {
       if (item && item.required) {
         if (item.propertyType === 'Select') {
-          customFieldDefaultValues[item.propertyName] = item.enumeratedValues?.[0].id;
+          customFieldDefaultValues[item.propertyName] = item.enumeratedValues?.[0]?.id;
         }
         if (item.propertyType === 'MultiSelect') {
-          customFieldDefaultValues[item.propertyName] = [item.enumeratedValues?.[0].id];
+          customFieldDefaultValues[item.propertyName] = [item.enumeratedValues?.[0]?.id];
         }
       }
     });
