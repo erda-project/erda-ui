@@ -345,7 +345,7 @@ const DownloadPage = ({ match }: any) => {
                     <TabPane tab="评论" key="2">
                       暂未开放，敬请期待
                     </TabPane>
-                    <TabPane tab="精选" key="3" forceRender>
+                    {/* <TabPane tab="精选" key="3" forceRender>
                       <Row gutter={12} className="recommend-list">
                         {recommend.map((item) => {
                           const logoUrl = replaceHost(item.logo); // 兖矿Dice上传图片为http的，市场为https的，看不到，临时替换为当前域名
@@ -362,7 +362,7 @@ const DownloadPage = ({ match }: any) => {
                           );
                         })}
                       </Row>
-                    </TabPane>
+                    </TabPane> */}
                   </Tabs>
                 </StickyContainer>
                 <div className="button-wrap">
