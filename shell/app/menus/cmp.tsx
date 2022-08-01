@@ -110,13 +110,13 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
           ]),
         ],
       },
-      {
-        key: 'cmpReport',
-        href: goTo.resolve.cmpReport(), // '/cmp/report',
-        icon: <ErdaIcon type="yunweibaogao" />,
-        text: i18n.t('O&M Report'),
-        subtitle: i18n.t('Report'),
-      },
+      // { // TODO: hide[330648-22.8.1]
+      //   key: 'cmpReport',
+      //   href: goTo.resolve.cmpReport(), // '/cmp/report',
+      //   icon: <ErdaIcon type="yunweibaogao" />,
+      //   text: i18n.t('O&M Report'),
+      //   subtitle: i18n.t('Report'),
+      // },
       {
         key: 'cmpAlarm',
         href: goTo.resolve.cmpAlarm(), // '/cmp/alarm',

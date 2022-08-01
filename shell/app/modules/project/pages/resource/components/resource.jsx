@@ -103,12 +103,16 @@ class ProjectResource extends React.PureComponent {
             );
           })}
         </Breadcrumb>
+
         <IF check={!isEmpty(paths)}>
           <ServiceList into={this.into} paths={paths} startLevel={startLevel} />
-          <div className="project-resource-time">
-            <TimeSelector defaultTime={24} />
-          </div>
-          <ChartList paths={paths} startLevel={startLevel} timeSpan={timeSpan} />
+          {
+            // TODO: hide[330648-22.8.1]
+            //   <div className="project-resource-time">
+            //   <TimeSelector defaultTime={24} />
+            // </div>
+            // <ChartList paths={paths} startLevel={startLevel} timeSpan={timeSpan} />
+          }
         </IF>
       </div>
     );

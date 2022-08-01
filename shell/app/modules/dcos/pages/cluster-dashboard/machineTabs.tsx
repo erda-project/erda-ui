@@ -46,9 +46,10 @@ const MachineTabs = ({ activeMachine, activeMachineTab }: IProps) => {
       <TabPane tab={firstCharToUpper(i18n.t('service-menu'))} key="service">
         <InstanceList instanceType="service" clusters={clusters.current} />
       </TabPane>
-      <TabPane tab={i18n.t('Task-list')} key="job">
+      {/* TODO: hide[330648-22.8.1]**/}
+      {/* <TabPane tab={i18n.t('Task-list')} key="job">
         <InstanceList instanceType="job" clusters={clusters.current} />
-      </TabPane>
+      </TabPane> */}
       <TabPane tab={i18n.t('cmp:Machine Details')} key="info">
         <MachineDetail type="info" machineDetail={activeMachine} />
       </TabPane>
