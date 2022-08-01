@@ -23,3 +23,7 @@ Online documents & demos: [Official Site](https://mcdaddy.github.io/erda-ui-comp
 - run `npm run test` to mark sure no breaking change or bugs
 - commit code with command `git cz` in order to generate formatted commit information
 - raise a pull request
+
+## How to release version
+
+Since some pnpm issue, maintainers should use ` pnpm i --shamefully-hoist` to install packages again. Then run the build script
