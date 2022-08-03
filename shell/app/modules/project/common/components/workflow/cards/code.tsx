@@ -23,14 +23,19 @@ interface CardProps {
   data: DEVOPS_WORKFLOW.DevFlowInfo;
   className?: string;
   index: number;
+  disabled: boolean;
   projectID: string;
   reload?: () => void;
 }
 const CodeCard = (props: CardProps) => {
-  const { data, projectID, reload, index, className } = props;
-  const { canJoin, commit, sourceBranch, appID, mergeID, tempBranch } = data.devFlowNode || {};
+  const { data, projectID, reload, index, className, disabled } = props;
+  const { canJoin, commit, currentBranch, exist } = data.codeNode || {};
+  const { appID, id } = data.devFlow;
+  const cls = {
+    'bg-default-04': disabled,
+  };
   return (
-    <div className={classnames(className, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
+    <div className={classnames(className, cls, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
       <Status status="success" index={index} />
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center justify-between">
@@ -41,34 +46,37 @@ const CodeCard = (props: CardProps) => {
             </Tooltip>
           </div>
           <Tooltip
-            title={!tempBranch ? i18n.s('The temporary merge is not enabled, please set it before merging', 'dop') : ''}
+            title={!canJoin ? i18n.s('The temporary merge is not enabled, please set it before merging', 'dop') : ''}
           >
             <div
               onClick={() => {
-                tempBranch &&
-                  canJoin &&
-                  tempMerge({ mergeId: mergeID, enable: true }).then(() => {
+                canJoin &&
+                  tempMerge({ devFlowID: id, enable: true }).then(() => {
                     reload?.();
                   });
               }}
               className={`px-3 rounded cursor-pointer ${
-                canJoin && tempBranch ? ' bg-purple-deep text-white' : 'bg-default-08 text-default-4'
+                canJoin ? ' bg-purple-deep text-white' : 'bg-default-08 text-default-4'
               }`}
             >
               {canJoin ? i18n.s('Merge into temporary branch', 'dop') : i18n.s('Merged into temporary branch', 'dop')}
             </div>
           </Tooltip>
         </div>
-        <Branch className="mb-2" appId={appID} projectId={projectID} branch={sourceBranch} />
-        <div className="flex-h-center text-xs">
-          {commit ? (
-            <>
-              <Commit commitId={commit.id} appId={appID} projectId={projectID} />
-              <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
-              <Ellipsis className="flex-1 text-default-8" title={commit.commitMessage} />
-            </>
-          ) : null}
-        </div>
+        <Branch className="mb-2" appId={appID} projectId={projectID} branch={currentBranch} />
+        {exist ? (
+          <div className="flex-h-center text-xs">
+            {commit ? (
+              <>
+                <Commit commitId={commit.id} appId={appID} projectId={projectID} />
+                <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
+                <Ellipsis className="flex-1 text-default-8" title={commit.commitMessage} />
+              </>
+            ) : null}
+          </div>
+        ) : (
+          <div className="text-danger text-xs">{i18n.s('Branch does not exist or has been deleted', 'dop')}</div>
+        )}
       </div>
     </div>
   );

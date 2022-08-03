@@ -18,8 +18,8 @@ import Workflow from 'project/common/components/workflow';
 import AddFlow from 'project/common/components/workflow/add-flow';
 import { getFlowList, getBranchPolicy } from 'project/services/project-workflow';
 import { getProjectIterations } from 'project/services/project-iteration';
-import { FlowType } from 'project/common/config';
 import { goTo } from 'app/common/utils';
+import { TASK_FLOW } from './config';
 
 interface IProps {
   projectID: number;
@@ -60,14 +60,11 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, metaIssue }) => {
   React.useEffect(() => {
     getFlowNodeList();
   }, [getFlowNodeList]);
+
+  const curFlow = workflows?.flows && workflows.flows.find((item) => item.name === TASK_FLOW);
+
   const hasMultipleBranch =
-    workflows?.flows &&
-    workflows.flows.filter((item) => {
-      const curBranchType = (workflows?.branchPolicies || []).find(
-        (bItem) => bItem.branch === item.targetBranch,
-      )?.branchType;
-      return curBranchType !== FlowType.SINGLE_BRANCH;
-    }).length;
+    curFlow && (workflows?.branchPolicies || []).find((bItem) => bItem.branch === curFlow.targetBranch)?.branchType;
   return (
     <div>
       <div className="relative h-12 flex-h-center text-primary font-medium">
@@ -88,6 +85,8 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, metaIssue }) => {
         <span className="w-px h-3 bg-default-1 mx-4" />
         <AddFlow
           onAdd={getFlowNodeList}
+          flow={curFlow}
+          enable={!!curFlow}
           metaData={{
             iteration: currentIteration,
             issue: metaIssue,
@@ -104,13 +103,8 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, metaIssue }) => {
         </div>
       ) : (
         <div className="py-4 px-8  text-default-6">
-          <div>
-            {i18n.s(
-              'There is no multi-branch configuration for R&D workflow, and workflow display is not currently supported.',
-              'dop',
-            )}
-          </div>
-          <div>
+          <span>{i18n.s('Workflow {name} not exist', 'dop', { name: TASK_FLOW })}</span>
+          <span>
             <span>{i18n.s('Please contact the project administrator, go to', 'dop')}</span> &nbsp;
             <span
               className="text-purple-deep cursor-pointer"
@@ -122,7 +116,7 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, metaIssue }) => {
             </span>
             &nbsp;
             <span>{i18n.s('to set', 'dop')}</span>
-          </div>
+          </span>
         </div>
       )}
     </div>

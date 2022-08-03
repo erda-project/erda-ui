@@ -25,14 +25,17 @@ interface CardProps {
   data: DEVOPS_WORKFLOW.DevFlowInfo;
   className?: string;
   index: number;
+  disabled: boolean;
   projectID: string;
   reload?: () => void;
 }
 
 const PipelineCard = (props: CardProps) => {
-  const { data, projectID, className, index } = props;
-  const { pipelineStepInfos, devFlowNode, inode, hasOnPushBranch } = data;
-  const { commit, tempBranch } = data.devFlowNode || {};
+  const { data, projectID, className, index, disabled } = props;
+  const { pipelineStepInfos } = data?.pipelineNode || {};
+  const { tempBranch, changeBranch } = data?.tempMergeNode || {};
+  const { commit } = data?.codeNode || {};
+  const { appID } = data.devFlow || {};
 
   const getStepStatus = () => {
     const colorMap = {
@@ -46,9 +49,10 @@ const PipelineCard = (props: CardProps) => {
       ? colorMap[ciStatusMap[pipelineStepInfos?.[0]?.status]?.color || 'process']
       : 'process';
   };
-  const stepStatus = data.changeBranch?.find((item) => item.commit?.id === commit?.id) ? getStepStatus() : 'wait';
+  const stepStatus = changeBranch?.find((item) => item.commit?.id === commit?.id) ? getStepStatus() : 'wait';
 
-  const pipeline = pipelineStepInfos[0];
+  const pipeline = pipelineStepInfos[0] || {};
+  const { inode, hasOnPushBranch } = pipeline;
 
   const genGuideCode = `
   \`\`\`yml
@@ -84,7 +88,7 @@ const PipelineCard = (props: CardProps) => {
             goTo(goTo.pages.pipelineRoot, {
               jumpOut: true,
               projectId: projectID,
-              appId: devFlowNode.appID,
+              appId: appID,
               query: { nodeId: inode },
             });
           }}
@@ -118,7 +122,7 @@ const PipelineCard = (props: CardProps) => {
             goTo(goTo.pages.pipelineRoot, {
               jumpOut: true,
               projectId: projectID,
-              appId: devFlowNode.appID,
+              appId: appID,
               query: { pipelineID: pipeline.pipelineID },
             });
           }}
@@ -132,9 +136,11 @@ const PipelineCard = (props: CardProps) => {
       </>
     );
   }
-
+  const cls = {
+    'bg-default-04': disabled,
+  };
   return (
-    <div className={classnames(className, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
+    <div className={classnames(className, cls, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
       <Status status={stepStatus} index={index} />
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center">

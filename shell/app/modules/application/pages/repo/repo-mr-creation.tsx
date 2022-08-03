@@ -15,6 +15,7 @@ import React from 'react';
 import { goTo } from 'common/utils';
 import RepoMRForm from './components/repo-mr-form';
 import RepoCompareDetail from './components/compare-detail';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 
 import './repo-mr-creation.scss';
@@ -22,6 +23,18 @@ import './repo-mr-creation.scss';
 const RepoMRCreation = () => {
   const [showDiff, toggleDiff] = React.useState(false);
   const diffRef = React.useRef(null) as any;
+  const query = routeInfoStore.useStore((s) => s.query);
+
+  const [initData, setInitData] = React.useState(
+    query
+      ? {
+          description: decodeURIComponent(query.desc || ''),
+          sourceBranch: decodeURIComponent(query.sourceBranch || ''),
+          targetBranch: decodeURIComponent(query.targetBranch || ''),
+          title: decodeURIComponent(query.title || ''),
+        }
+      : undefined,
+  );
 
   const moveToDiff = () => {
     diffRef && diffRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -32,6 +45,7 @@ const RepoMRCreation = () => {
       <RepoMRForm
         onOk={() => goTo('../../open')}
         onCancel={() => goTo('../')}
+        formData={initData}
         onBranchChange={() => toggleDiff(false)}
         onShowComparison={() => toggleDiff(true)}
         moveToDiff={moveToDiff}

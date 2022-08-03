@@ -13,16 +13,17 @@
 
 import React from 'react';
 import { AutoComplete, Button, Form, Popover } from 'antd';
-import { ErdaIcon, RenderPureForm } from 'common';
+import { ErdaIcon, RenderPureForm, ErdaAlert } from 'common';
 import projectStore from 'project/stores/project';
 import { some } from 'lodash';
+import { useMount } from 'react-use';
 import { getJoinedApps } from 'user/services/user';
 import { createFlow, getBranches, getBranchPolicy } from 'project/services/project-workflow';
 import i18n from 'i18n';
-import { FlowType } from 'project/common/config';
 
 interface IProps {
   enable?: boolean;
+  flow: DEVOPS_WORKFLOW.BranchFlows;
   onAdd: () => void;
   metaData: {
     iteration: ITERATION.Detail;
@@ -44,21 +45,43 @@ const validateBranchRule = (v: string, rule: string) => {
   });
 };
 
-const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
+const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
   const [form] = Form.useForm<Omit<DEVOPS_WORKFLOW.CreateFlowNode, 'issueID'>>();
   const allBranch = getBranches.useData();
   const { id: projectId, name: projectName } = projectStore.useStore((s) => s.info);
   const [visible, setVisible] = React.useState(false);
-  const [flowName, setFlowName] = React.useState('');
   const apps = getJoinedApps.useData();
   const metaWorkflow = getBranchPolicy.useData();
-  const workflow = metaWorkflow?.flows ?? [];
   const branchPolicies = metaWorkflow?.branchPolicies ?? [];
-  const branches = workflow.filter((item) => {
-    const curBranchType = branchPolicies.find((bItem) => bItem.branch === item.targetBranch)?.branchType;
-    return curBranchType !== FlowType.SINGLE_BRANCH;
-  });
+
+  const curPolicy = branchPolicies.find((item) => item.branch === flow.targetBranch);
+  const { currentBranch: currentBranchRule, sourceBranch, targetBranch } = curPolicy?.policy || {};
+
   const { iteration, issue } = metaData;
+
+  const allBranchRef = React.useRef<REPOSITORY.IBranch[] | null>(null);
+
+  React.useImperativeHandle(allBranchRef, () => allBranch);
+
+  const getBranchInfo = () => {
+    if (curPolicy) {
+      let _currentBranch = currentBranchRule?.replaceAll('*', issue.id);
+      const currentBranchOption = _currentBranch ? _currentBranch.split(',') : [];
+      return {
+        values: {
+          currentBranch: currentBranchOption[0],
+        },
+        currentBranchOption,
+      };
+    }
+    return {};
+  };
+
+  useMount(() => {
+    if (flow) {
+      form.setFieldsValue({ flowRuleName: flow.name });
+    }
+  });
 
   React.useEffect(() => {
     if (projectId) {
@@ -70,11 +93,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
       getBranchPolicy.fetch({ projectID: `${projectId}` });
     }
   }, [projectId]);
-  React.useEffect(() => {
-    if (!visible) {
-      setFlowName('');
-    }
-  }, [visible]);
+
   const content = React.useMemo(() => {
     const handleCancel = () => {
       setVisible(false);
@@ -85,48 +104,28 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
       await createFlow.fetch({
         issueID: issue.id,
         ...formData,
+        flowRuleName: flow.name,
       });
       handleCancel();
       onAdd();
     };
 
-    const getBranchInfo = (flowName: string) => {
-      const flow = branches.find((item) => item.name === flowName)!;
-      let currentBranch;
-      let targetBranch;
-      const curPolicy = branchPolicies.find((item) => item.branch === flow?.targetBranch);
-      if (flow && curPolicy?.branchType !== FlowType.SINGLE_BRANCH) {
-        currentBranch = flow.targetBranch.replaceAll('*', issue.id);
-        targetBranch = curPolicy?.policy?.targetBranch?.mergeRequest;
-      }
-      const currentBranchOption = currentBranch ? currentBranch.split(',') : [];
-      return {
-        values: {
-          sourceBranch: curPolicy?.policy?.sourceBranch,
-          currentBranch: currentBranchOption[0],
-          targetBranch,
-        },
-        currentBranchOption,
-      };
-    };
-
     const list = [
       {
-        label: i18n.t('dop:R&D Workflow'),
-        type: 'select',
         name: 'flowName',
-        options: branches?.map((branch) => ({ name: branch.name, value: branch.name })),
-        itemProps: {
-          onChange: (v: string) => {
-            setFlowName(v);
-            if (form.getFieldValue('appID')) {
-              const result = getBranchInfo(v)?.values;
-              form.setFieldsValue(result);
-              form.validateFields(['sourceBranch', 'targetBranch', 'currentBranch']);
-            }
-          },
+        getComp: () => {
+          return (
+            <ErdaAlert
+              message={i18n.t(
+                'dop:Current workflow, pull from {sourceBranch} branch to create a new branch, merge into {targetBranch} branch',
+                { sourceBranch, targetBranch: targetBranch?.mergeRequest },
+              )}
+              type="warning"
+            />
+          );
         },
       },
+
       {
         label: i18n.t('App'),
         type: 'select',
@@ -138,7 +137,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
           showSearch: true,
           onChange: (v: number) => {
             const { name } = apps?.list?.find((item) => item.id === v)!;
-            const result = getBranchInfo(form.getFieldValue('flowName'))?.values;
+            const result = getBranchInfo()?.values;
             form.setFieldsValue(result);
             getBranches
               .fetch({
@@ -146,89 +145,53 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
                 appName: name,
               })
               .then(() => {
-                form.validateFields(['sourceBranch', 'targetBranch', 'currentBranch']);
+                form.validateFields(['appID', 'currentBranch']);
               });
-          },
-        },
-      },
-      {
-        label: i18n.t('dop:source branch'),
-        type: 'select',
-        name: 'sourceBranch',
-        options: branches
-          ?.filter((item) => item.name === flowName)
-          .map((branch) => {
-            const curBranch = branchPolicies.find((item) => item.branch === branch.targetBranch)?.policy?.sourceBranch;
-            return { name: curBranch, value: curBranch };
-          }),
-        itemProps: {
-          onChange: (v: string) => {
-            const { name } = branches.find((item) => item.targetBranch === v)!;
-            const { sourceBranch } = getBranchInfo(name)?.values;
-            form.setFieldsValue({ sourceBranch });
           },
         },
         rules: [
           {
             validator: (_: unknown, value: string) => {
-              if (allBranch?.some((item) => item.name === value)) {
+              if (allBranchRef.current?.some((item) => item.name === sourceBranch)) {
                 return Promise.resolve();
               }
-              return Promise.reject(new Error(i18n.t('dop:The branch does not exist, Please create the branch first')));
+              return Promise.reject(
+                new Error(
+                  i18n.t('dop:The branch {branch} does not exist, Please create the branch first', {
+                    branch: sourceBranch,
+                  }),
+                ),
+              );
             },
           },
         ],
       },
+
       {
-        label: i18n.t('dop:Change branch'),
+        label: i18n.s('New branch', 'dop'),
         name: 'currentBranch',
         getComp: () => {
-          const ops = getBranchInfo(form.getFieldValue('flowName'))?.currentBranchOption;
+          const ops = getBranchInfo()?.currentBranchOption;
           return <AutoComplete options={ops?.map((item) => ({ value: item }))} />;
         },
         rules: [
           {
             validator: (_rule: any, value: string) => {
               if (value) {
-                const _flowName = form.getFieldValue('flowName');
-                const _flow = branches.find((item) => item.name === _flowName)!;
-                const currentBranch = _flow?.targetBranch;
                 const reg = /^[a-zA-Z_]+[\\/\\.\\$@#a-zA-Z0-9_-]*$/;
 
                 if (!reg.test(value)) {
                   return Promise.reject(
                     new Error(i18n.t('start with letters and can contain characters that are not wildcard')),
                   );
-                } else if (currentBranch && !validateBranchRule(value, currentBranch)) {
+                } else if (currentBranchRule && !validateBranchRule(value, currentBranchRule)) {
                   return Promise.reject(
-                    new Error(`${i18n.s('Please fill in the correct branch rule', 'dop')}, ${currentBranch}`),
+                    new Error(`${i18n.s('Please fill in the correct branch rule', 'dop')}, ${currentBranchRule}`),
                   );
                 }
               }
 
               return Promise.resolve();
-            },
-          },
-        ],
-      },
-      {
-        label: i18n.t('dop:target branch'),
-        name: 'targetBranch',
-        itemProps: {
-          disabled: true,
-          className: ' text-default-8',
-        },
-        rules: [
-          {
-            validator: (_rule: any, value: string) => {
-              if (value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error(
-                  i18n.s('The target branch is not found, please improve the workflow configuration first', 'dop'),
-                ),
-              );
             },
           },
         ],
@@ -247,9 +210,15 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
         </div>
       </div>
     );
-  }, [form, apps, branches, iteration]);
+  }, [form, apps, iteration]);
   return (
-    <Popover trigger={['click']} content={content} visible={visible} onVisibleChange={setVisible}>
+    <Popover
+      title={`${i18n.s('Create workflow', 'dop')}: ${flow?.name}`}
+      trigger={['click']}
+      content={content}
+      visible={visible}
+      onVisibleChange={setVisible}
+    >
       <div
         className="h-7 mr-2 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
         onClick={() => {
@@ -262,4 +231,12 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {} }) => {
   );
 };
 
-export default AddFlow;
+const AddFlowContainer = (props: IProps) => {
+  const { enable } = props;
+  if (!enable) {
+    return <ErdaIcon type="plus" size={20} className="cursor-not-allowed text-default-4" />;
+  }
+  return <AddFlow {...props} />;
+};
+
+export default AddFlowContainer;

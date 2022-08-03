@@ -326,7 +326,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
       mergable: false,
     });
     const { modalVisible } = this.state;
-    const { title, description, sourceBranch, targetBranch } = mrDetail;
+    const { title, description, sourceBranch, targetBranch } = mrDetail || {};
 
     if (isEmpty(mrDetail)) {
       return null;

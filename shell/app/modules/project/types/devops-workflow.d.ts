@@ -45,32 +45,8 @@ declare namespace DEVOPS_WORKFLOW {
   interface CreateFlowNode {
     issueID: number;
     appID: number;
-    sourceBranch: string;
-    targetBranch: string;
-  }
-
-  interface Commit {
-    id: string;
-    author: string;
-    committer: { email: string; name: string; When: string };
-    commitMessage: string;
-    parentSha: string;
-  }
-  interface DevFlowNode {
-    repoMergeID: number;
-    appID: number;
-    appName: string;
-    targetBranch: string;
-    sourceBranch: string;
-    isJoinTempBranch: boolean;
-    status: string;
-    tempBranch: string;
-    issueID: number;
-    mergeID: number;
-    canJoin: boolean;
-    commit: null | Commit;
-    baseCommit: null | Commit;
-    mergeRequestInfo: null | MergeRequestInfo;
+    flowRuleName: string;
+    currentBranch: string;
   }
 
   interface MergeRequestInfo {
@@ -81,33 +57,84 @@ declare namespace DEVOPS_WORKFLOW {
   }
 
   interface PipelineInfo {
-    status: string;
+    hasOnPushBranch: boolean;
+    inode: string;
+    pInode: string;
     pipelineID: number;
+    status: string;
     ymlName: string;
-    mergeID: number;
-    repoMergeID: number;
   }
 
   interface ChangeBranch {
     commit: Commit;
     branchName: string;
     status: 'success' | 'faild';
-    repoMergeID: number;
   }
   interface DevFlowInfo {
+    devFlow: DevFlowBase;
+    codeNode: CodeNode;
     hasPermission: boolean;
-    hasOnPushBranch: boolean;
-    devFlowRuleName: string;
-    inode: string;
-    pInode: string;
-    devFlowNode: DevFlowNode;
+    mergeRequestNode: MergeRequestNode;
+    tempMergeNode: TempMergeNode;
+    pipelineNode: PipelineNode;
+  }
+
+  interface PipelineNode {
     pipelineStepInfos: PipelineInfo[];
+  }
+
+  interface TempMergeNode {
+    tempBranch: string;
     changeBranch: ChangeBranch[];
+    baseCommit: null | Commit;
+  }
+
+  interface MergeRequestNode {
+    currentBranch: string;
+    desc: string;
+    mergeRequestInfo: null | MergeRequestInfo;
+    targetBranch: string;
+    title: string;
+  }
+
+  interface CodeNode {
+    currentBranch: string;
+    commit: Commit;
+    isJoinTempBranch: boolean;
+    joinTempBranchStatus: string;
+    canJoin: Boolean;
+    exist: Boolean;
+  }
+
+  interface Commit {
+    id: string;
+    author: string;
+    committer: {
+      email: string;
+      name: string;
+      When: string;
+    };
+    commitMessage: string;
+    parentSha: string;
+  }
+
+  interface DevFlowBase {
+    id: string;
+    orgID: number;
+    appID: number;
+    appName: string;
+    creator: string;
+    branch: string;
+    issueID: number;
+    flowRuleName: string;
+    joinTempBranchStatus: string;
+    isJoinTempBranch: boolean;
+    createdAt: string;
+    updatedAt: string;
   }
 
   type FlowStatus = 'none' | 'mergeFailed' | 'pipelineNotRun' | 'pipelineFiled' | 'pipelineRunning' | 'success';
   interface DevFlowInfos {
-    status: FlowStatus;
     devFlowInfos: DevFlowInfo[];
   }
 }
