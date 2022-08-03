@@ -26,7 +26,7 @@ const RepoMRCreation = () => {
   const query = routeInfoStore.useStore((s) => s.query);
 
   const [initData, setInitData] = React.useState(
-    query
+    query?.sourceBranch
       ? {
           description: decodeURIComponent(query.desc || ''),
           sourceBranch: decodeURIComponent(query.sourceBranch || ''),
@@ -39,7 +39,6 @@ const RepoMRCreation = () => {
   const moveToDiff = () => {
     diffRef && diffRef.current.scrollIntoView({ behavior: 'smooth' });
   };
-
   return (
     <div className="mr-creation h-full">
       <RepoMRForm
