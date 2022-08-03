@@ -12,13 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Col, Row } from 'antd';
 import TimeRangeSelector from 'common/components/monitor/components/timeRangeSelector';
-import ChartMap from './config';
-import './resource-usage-charts.scss';
-import { omit } from 'lodash';
+import { BoardGrid, Holder } from 'common';
+import CommonDashboardStore from 'common/stores/dashboard';
+import { useMount } from 'react-use';
+import { isEmpty } from 'lodash';
 
-type ChartType = keyof ReturnType<typeof ChartMap>;
+import { useUpdate } from 'common/use-hooks';
+
+import './resource-usage-charts.scss';
+const DashBoard = React.memo(BoardGrid.Pure);
 
 interface IProps {
   extraQuery?: object;
@@ -33,82 +36,42 @@ interface IProps {
   api?: string;
 }
 
-const ResourceUsageCharts = (props: IProps) => {
-  const { instance, extraQuery = {}, api } = props;
-  const { id, containerId } = instance;
-  const type = containerId ? 'container' : 'instance';
-  const chartMapConfig = ChartMap(api);
-
-  const PageMap = [
-    [
-      {
-        Chart: chartMapConfig.containerMem,
-        key: 'containerMem',
-      },
-      {
-        Chart: chartMapConfig.containerCpu,
-        key: 'containerCpu',
-      },
-    ],
-    [
-      {
-        Chart: chartMapConfig.containerIo,
-        key: 'containerIo',
-      },
-      {
-        Chart: chartMapConfig.containerNet,
-        key: 'containerNet',
-      },
-    ],
-  ];
+const ResourceUsageCharts1 = (props: IProps) => {
+  const containerId = props.instance?.containerId;
   const [timeSpan, setTimeSpan] = React.useState({
     startTimeMs: Date.now() - 3600 * 1000,
     endTimeMs: Date.now(),
   });
-  const paramObj = {
-    container: {
-      filter_container_id: containerId,
-      ...extraQuery,
-      start: timeSpan.startTimeMs,
-      end: timeSpan.endTimeMs,
-    },
-    instance: { filter_instance_id: id, ...extraQuery, start: timeSpan.startTimeMs, end: timeSpan.endTimeMs },
-  };
+  const [{ chartLayout }, updater] = useUpdate<{ chartLayout: DC.Layout }>({
+    chartLayout: [],
+  });
+  useMount(() => {
+    CommonDashboardStore.getCustomDashboard({
+      id: 'runtime-container-detail',
+      isSystem: true,
+    }).then((res) => updater.chartLayout(res));
+  });
 
-  const queryConvert = React.useCallback(
-    (data: Obj, chartType: ChartType) => {
-      if (chartType === 'containerNet' && type === 'container' && instance.podUid) {
-        return {
-          ...omit(data, 'filter_container_id'),
-          filter_pod_uid: instance.podUid,
-        };
-      }
-      return data;
-    },
-    [instance, type],
+  const globalVariable = React.useMemo(
+    () => ({
+      startTime: timeSpan.startTimeMs,
+      endTime: timeSpan.endTimeMs,
+      containerId,
+    }),
+    [timeSpan, containerId],
   );
 
   return (
-    <div className="unit-detail">
+    <div>
       <TimeRangeSelector
         timeSpan={timeSpan}
         onChangeTime={([start, end]) => setTimeSpan({ startTimeMs: start.valueOf(), endTimeMs: end.valueOf() })}
       />
-      {PageMap.map((cols, rIndex) => (
-        <Row gutter={20} key={String(rIndex)}>
-          {cols.map(({ Chart, key }: any, cIndex: number) => {
-            const spanWidth = 24 / cols.length;
-            const query = queryConvert(paramObj[type], key);
-            return (
-              <Col span={spanWidth} key={String(cIndex)}>
-                <Chart query={query} />
-              </Col>
-            );
-          })}
-        </Row>
-      ))}
+      <Holder when={isEmpty(chartLayout)}>
+        <DashBoard layout={chartLayout} globalVariable={globalVariable} />
+      </Holder>
     </div>
   );
 };
 
-export default ResourceUsageCharts;
+export default ResourceUsageCharts1;
