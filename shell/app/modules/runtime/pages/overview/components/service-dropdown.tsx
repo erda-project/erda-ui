@@ -56,7 +56,7 @@ const ServiceDropdown = (props: IProps) => {
     addrs,
     envs,
     deployments: { replicas },
-    autoscalerEnabled,
+    hpaEnabled,
   } = service;
   const runtimeDetail = runtimeStore.useStore((s) => s.runtimeDetail);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
@@ -125,7 +125,7 @@ const ServiceDropdown = (props: IProps) => {
     const hasDeployAuth = (permMap.runtime[`${envKey}DeployOperation`] || {}).pass;
     const hasConsoleAuth = (permMap.runtime[`${envKey}Console`] || {}).pass;
     const ops = [
-      ...insertWhen(hasDeployAuth && autoscalerEnabled !== 'Y', [
+      ...insertWhen(hasDeployAuth && hpaEnabled !== 'Y', [
         {
           title: i18n.t('runtime:Scale out'),
           onClick: () => {

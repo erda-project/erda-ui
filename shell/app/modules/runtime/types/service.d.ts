@@ -29,7 +29,8 @@ declare namespace RUNTIME_SERVICE {
     expose: string[];
     errors: null | Err[];
     type?: string;
-    autoscalerEnabled: string;
+    hpaEnabled: string;
+    vpaEnabled?: string;
   }
 
   interface Instance {
