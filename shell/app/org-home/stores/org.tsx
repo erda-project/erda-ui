@@ -248,7 +248,7 @@ const setLocationByAuth = (authObj: { roles: string[]; orgName: string }) => {
       let resetPath = goTo.resolve.orgRoot({ orgName });
       if (roles.toString() === 'DataEngineer') {
         // DataEngineer redirect to DataEngineer role page
-        resetPath = `/${orgName}/fdp/__cluster__/__workspace__/data-govern-platform/data-source`;
+        resetPath = `/${orgName}/fdp/__cluster__/__workspace__/data-integration-platform/data-source`;
       } else if (roles.toString() === 'Ops') {
         // 企业运维只有云管的权限
         resetPath = `/${orgName}/cmp/overview`;
