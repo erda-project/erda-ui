@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { AutoComplete, Button, Form, Popover } from 'antd';
-import { ErdaIcon, RenderPureForm, ErdaAlert } from 'common';
+import { ErdaIcon, RenderPureForm, ErdaAlert, Badge } from 'common';
 import projectStore from 'project/stores/project';
-import { some } from 'lodash';
+import { some, difference } from 'lodash';
 import { useMount } from 'react-use';
 import { getJoinedApps } from 'user/services/user';
 import { createFlow, getBranches, getBranchPolicy } from 'project/services/project-workflow';
@@ -50,6 +50,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
   const allBranch = getBranches.useData();
   const { id: projectId, name: projectName } = projectStore.useStore((s) => s.info);
   const [visible, setVisible] = React.useState(false);
+  const [chosenApp, setChosenApp] = React.useState('');
   const apps = getJoinedApps.useData();
   const metaWorkflow = getBranchPolicy.useData();
   const branchPolicies = metaWorkflow?.branchPolicies ?? [];
@@ -66,12 +67,58 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
   const getBranchInfo = () => {
     if (curPolicy) {
       let _currentBranch = currentBranchRule?.replaceAll('*', issue.id);
-      const currentBranchOption = _currentBranch ? _currentBranch.split(',') : [];
+      let newBranchOption = _currentBranch ? _currentBranch.split(',') : [];
+
+      const curBranchs = (allBranchRef.current || []).map((item) => item.name);
+      const curBranchOption = difference(newBranchOption, curBranchs).map((item) => ({
+        label: (
+          <div className="flex-h-center justify-between">
+            <span>{`${item}`}</span>
+            <Badge size="small" showDot={false} text={i18n.t('add')} status={'processing'} className="mr-1" />
+          </div>
+        ),
+        value: item,
+      }));
+      currentBranchRule?.split(',')?.forEach((item) => {
+        if (item?.endsWith('/*')) {
+          const branchPrefix = item.slice(0, -1);
+          curBranchs.forEach((b) => {
+            if (b.startsWith(branchPrefix)) {
+              curBranchOption.push({
+                label: (
+                  <div className="flex-h-center justify-between">
+                    <span>{`${b}`}</span>
+                    <Badge
+                      size="small"
+                      showDot={false}
+                      text={i18n.s('exist', 'dop')}
+                      status={'success'}
+                      className="mr-1"
+                    />
+                  </div>
+                ),
+                value: b,
+              });
+            }
+          });
+        } else if (curBranchs.find((b) => b === item)) {
+          curBranchOption.push({
+            label: (
+              <div className="flex-h-center">
+                <span>{`${item}`}</span>
+                <Badge size="small" showDot={false} text={i18n.s('exist', 'dop')} status={'success'} className="mr-1" />
+              </div>
+            ),
+            value: item,
+          });
+        }
+      });
+
       return {
         values: {
-          currentBranch: currentBranchOption[0],
+          currentBranch: curBranchOption[0]?.value,
         },
-        currentBranchOption,
+        currentBranchOption: curBranchOption,
       };
     }
     return {};
@@ -117,8 +164,13 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
           return (
             <ErdaAlert
               message={i18n.t(
-                'dop:Current workflow, pull from {sourceBranch} branch to create a new branch, merge into {targetBranch} branch',
-                { sourceBranch, targetBranch: targetBranch?.mergeRequest },
+                'dop:Current workflow, pull from {sourceBranch} branch to create a new branch, merge into {targetBranch} branch, branch rule is {branchRule}',
+                {
+                  sourceBranch,
+                  targetBranch: targetBranch?.mergeRequest,
+                  branchRule: currentBranchRule,
+                  interpolation: { escapeValue: false },
+                },
               )}
               type="warning"
             />
@@ -145,6 +197,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
                 appName: name,
               })
               .then(() => {
+                setChosenApp(`${v}`);
                 form.validateFields(['appID', 'currentBranch']);
               });
           },
@@ -168,11 +221,16 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
       },
 
       {
-        label: i18n.s('New branch', 'dop'),
+        label: i18n.s('Work branch', 'dop'),
+        labelTip: i18n.s(
+          'You can customize the branch name, and you can also choose an existing branch or a recommended new branch',
+          'dop',
+        ),
         name: 'currentBranch',
         getComp: () => {
           const ops = getBranchInfo()?.currentBranchOption;
-          return <AutoComplete options={ops?.map((item) => ({ value: item }))} />;
+
+          return <AutoComplete options={ops} />;
         },
         rules: [
           {
@@ -198,7 +256,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
       },
     ];
     return (
-      <div className="w-[400px]">
+      <div className="w-[500px]">
         <RenderPureForm form={form} list={list} />
         <div className="flex justify-end">
           <Button className="mr-4" onClick={handleCancel}>
@@ -210,7 +268,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
         </div>
       </div>
     );
-  }, [form, apps, iteration]);
+  }, [form, apps, iteration, chosenApp]);
   return (
     <Popover
       title={`${i18n.s('Create workflow', 'dop')}: ${flow?.name}`}
