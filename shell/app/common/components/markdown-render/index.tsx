@@ -99,8 +99,8 @@ const Link = ({ href, children }: LinkHTMLAttributes<HTMLAnchorElement>) => {
 // overwrite code will add duplicate pre wrappers(SyntaxHighlighter + original) in multiple line, so overwrite pre
 const pre = ({ children }: { children: React.ReactChild }) => {
   const preProps = children?.[0].props;
-  const codeStr = preProps.children[0].replace(/\n$/, '');
-  const match = /language-(\w+)/.exec(preProps.className);
+  const codeStr = (preProps?.children[0] ?? children?.[0]).replace(/\n$/, '');
+  const match = /language-(\w+)/.exec(preProps?.className);
   return (
     <SyntaxHighlighter language={match?.[1]} style={github}>
       {codeStr}
