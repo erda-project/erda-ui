@@ -37,7 +37,7 @@ interface IProps {
 }
 
 const ResourceUsageCharts1 = (props: IProps) => {
-  const containerId = props.instance?.containerId;
+  const { containerId, podUid } = props?.instance || {};
   const [timeSpan, setTimeSpan] = React.useState({
     startTimeMs: Date.now() - 3600 * 1000,
     endTimeMs: Date.now(),
@@ -57,8 +57,9 @@ const ResourceUsageCharts1 = (props: IProps) => {
       startTime: timeSpan.startTimeMs,
       endTime: timeSpan.endTimeMs,
       containerId,
+      podUid,
     }),
-    [timeSpan, containerId],
+    [timeSpan, podUid, containerId],
   );
 
   return (
