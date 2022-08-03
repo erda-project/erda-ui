@@ -22,14 +22,22 @@ declare namespace CP_SCALE_CARD {
 
   interface IProps {
     align: 'left' | 'right';
+    fixedActive?: string;
   }
 
   interface IData {
     list: Item[];
   }
 
+  interface IconMap {
+    active: JSX.Element;
+    normal: JSX.Element;
+  }
+
   interface Item {
-    icon: string;
+    key: string;
+    icon: string | IconMap;
+    width?: number;
     label: string;
     operations?: Obj<CP_COMMON.Operation>;
     [pro: string]: any;
