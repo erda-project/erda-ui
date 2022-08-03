@@ -172,7 +172,7 @@ const RepoMRForm = (props: IProps) => {
   const form = React.useRef<FormInstance>();
   const issueRef = React.useRef<{ getChosenIssues: () => ISSUE.IssueType[] }>();
 
-  const isEdit = !!formData;
+  const isEdit = !!formData && formData.id;
 
   useEffectOnce(() => {
     if (!isEmpty(formData)) {
@@ -417,7 +417,7 @@ const RepoMRForm = (props: IProps) => {
         targetBranch,
         removeSourceBranch: sourceIsDefaultBranch ? false : removeSourceBranch,
       };
-      if (formData) {
+      if (formData?.id) {
         data.action = 'edit';
         operateMR(data).then((result) => {
           // 更新列表tab上的统计数据
