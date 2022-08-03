@@ -414,7 +414,7 @@ export enum pages {
   ecpSetting = '/{orgName}/ecp/setting',
   ecpSettingDetail = '/{orgName}/ecp/setting/{id}',
 
-  dataAppEntry = '/{orgName}/fdp/__cluster__/__workspace__/data-govern-platform/data-source',
+  dataAppEntry = '/{orgName}/fdp/__cluster__/__workspace__/data-integration-platform/data-source',
 
   // gallery
   galleryRoot = '/{orgName}/gallery',
