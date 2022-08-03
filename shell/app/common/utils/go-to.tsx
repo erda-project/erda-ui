@@ -212,6 +212,7 @@ export enum pages {
   repoBranch = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/tree/{branch}',
   appMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/{state}/{mrId}',
   appOpenMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/open',
+  appCreateMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/open/createMR',
   pipelineRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline/obsoleted',
   pipelineNewRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline/list',
   appPipelineRecords = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline/records',

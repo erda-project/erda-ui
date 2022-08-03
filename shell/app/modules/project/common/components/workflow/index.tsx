@@ -14,6 +14,7 @@
 import React from 'react';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
+import { sortBy } from 'lodash';
 import CodeCard from './cards/code';
 import MergeCard from './cards/merge';
 import PipelineCard from './cards/pipeline';
@@ -31,20 +32,35 @@ export interface IProps {
 const WorkflowItem: React.FC<
   {
     data: DEVOPS_WORKFLOW.DevFlowInfo;
+    disabled: boolean;
   } & Omit<IProps, 'flowInfo'>
-> = ({ data, scope, getFlowNodeList, projectID }) => {
+> = ({ data, scope, getFlowNodeList, projectID, disabled }) => {
   const code = ({ index, className }: { index: number; className?: string }) => (
-    <CodeCard index={index} data={data} projectID={`${projectID}`} className={className} reload={getFlowNodeList} />
+    <CodeCard
+      disabled={disabled}
+      index={index}
+      data={data}
+      projectID={`${projectID}`}
+      className={className}
+      reload={getFlowNodeList}
+    />
   );
   const merge = ({ index, className }: { index: number; className?: string }) => (
-    <MergeCard index={index} data={data} projectID={`${projectID}`} className={className} reload={getFlowNodeList} />
+    <MergeCard
+      disabled={disabled}
+      index={index}
+      data={data}
+      projectID={`${projectID}`}
+      className={className}
+      reload={getFlowNodeList}
+    />
   );
   const pipeline = ({ index, className }: { index: number; className?: string }) => (
-    <PipelineCard index={index} data={data} projectID={`${projectID}`} className={className} />
+    <PipelineCard disabled={disabled} index={index} data={data} projectID={`${projectID}`} className={className} />
   );
 
   const mr = ({ index, className }: { index: number; className?: string }) => (
-    <MergeRequestCard index={index} data={data} projectID={`${projectID}`} className={className} />
+    <MergeRequestCard disabled={disabled} index={index} data={data} projectID={`${projectID}`} className={className} />
   );
   const split = ({ className }: { className?: string }) => (
     <div className={`w-5 h-[2px] bg-default-1 mt-7 ${className}`} />
@@ -71,9 +87,9 @@ const Workflow: React.FC<IProps> = ({ scope, projectID, getFlowNodeList, flowInf
 
   return (
     <>
-      {devFlowInfos?.map((item, idx) => {
-        const { hasPermission, devFlowRuleName = '' } = item;
-        const appName = item.devFlowNode?.appName || '';
+      {sortBy(devFlowInfos, (item) => (item.codeNode?.exist ? 1 : 2))?.map((item, idx) => {
+        const { hasPermission, devFlow } = item;
+        const { appName = '', flowRuleName } = devFlow || {};
 
         return (
           <div key={idx} className="border-all rounded mb-2">
@@ -81,7 +97,7 @@ const Workflow: React.FC<IProps> = ({ scope, projectID, getFlowNodeList, flowInf
               <div className="flex-h-center">
                 <ErdaIcon size={16} className="text-default-4" type="yingyongmingcheng" />
                 <span className="ml-2 font-medium text-default">
-                  {appName} {` (${i18n.t('dop:workflow')} - ${devFlowRuleName}) `}
+                  {appName} {` (${i18n.t('dop:workflow')} - ${flowRuleName}) `}
                 </span>
               </div>
               <ErdaIcon
@@ -98,11 +114,17 @@ const Workflow: React.FC<IProps> = ({ scope, projectID, getFlowNodeList, flowInf
                 <div className="text-center flex-1 text-sub">
                   {i18n.t(
                     'dop:No permission to access the current application {name}, Contact the application administrator to add permission',
-                    { name: item.devFlowNode.appName },
+                    { name: appName },
                   )}
                 </div>
               ) : (
-                <WorkflowItem data={item} scope={scope} projectID={projectID} getFlowNodeList={getFlowNodeList} />
+                <WorkflowItem
+                  disabled={item?.codeNode?.exist === false}
+                  data={item}
+                  scope={scope}
+                  projectID={projectID}
+                  getFlowNodeList={getFlowNodeList}
+                />
               )}
             </div>
           </div>

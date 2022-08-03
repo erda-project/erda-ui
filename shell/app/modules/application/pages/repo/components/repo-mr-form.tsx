@@ -178,6 +178,7 @@ const RepoMRForm = (props: IProps) => {
     if (!isEmpty(formData)) {
       const { sourceBranch, targetBranch, removeSourceBranch } = formData;
       getMRStats({ sourceBranch, targetBranch, removeSourceBranch });
+      onCompare({ sourceBranch, targetBranch });
     }
     getTemplateConfig().then((config) => {
       if (config.names.length) {
@@ -464,7 +465,7 @@ const RepoMRForm = (props: IProps) => {
     });
   };
   let disableSubmitTip: string | null = null;
-  if (mrStats.hasError) {
+  if (mrStats?.hasError) {
     disableSubmitTip = i18n.t('dop:merge request has errors');
   }
   return (

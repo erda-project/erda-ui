@@ -58,8 +58,8 @@ const ErdaAlert = ({
       type={type}
       className={`erda-alert py-2 px-4 mb-4 ${className || ''} theme-${theme}`}
       message={
-        <div className="flex items-center">
-          <ErdaIcon type={iconMap[type]} className="erda-alert-icon text-xl mr-2" />
+        <div className="flex items-start">
+          <ErdaIcon type={iconMap[type]} className="erda-alert-icon text-xl mr-2 mt-0.5" />
           {message}
         </div>
       }

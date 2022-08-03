@@ -34,7 +34,7 @@ interface IProps {
 const CompareDetail = ({ hideComment, disableComment = false, hideWorkflow = false }: IProps) => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
   const [compareDetail, comments, mrDetail] = repoStore.useStore((s) => [s.compareDetail, s.comments, s.mrDetail]);
-  const { commits = [], diff, from, to } = compareDetail;
+  const { commits = [], diff, from, to } = compareDetail || {};
   const [isFetching] = useLoading(repoStore, ['getCompareDetail']);
 
   return (

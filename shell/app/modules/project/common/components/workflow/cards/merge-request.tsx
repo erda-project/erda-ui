@@ -16,10 +16,12 @@ import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { Mr, Branch, Status } from './base';
 import classnames from 'classnames';
+import { goTo } from 'app/common/utils';
 
 interface CardProps {
   data: DEVOPS_WORKFLOW.DevFlowInfo;
   className?: string;
+  disabled: boolean;
   index: number;
   projectID: string;
   reload?: () => void;
@@ -53,40 +55,90 @@ const mrStatus = {
     ),
     stepStates: 'error',
   },
+  uncreate: {
+    icon: (
+      <div className="text-xs text-yellow flex-h-center">
+        <ErdaIcon type="tishi" fill={'yellow'} size={14} />
+        {i18n.s('Not create', 'dop')}
+      </div>
+    ),
+    stepStates: 'uncreate',
+  },
 };
 
 const MergeRequestCard = (props: CardProps) => {
-  const { data, projectID, index, className } = props;
-  const { targetBranch, appID, mergeRequestInfo, commit } = data.devFlowNode || {};
+  const { data, projectID, index, className, disabled } = props;
+  const { appID } = data.devFlow || {};
+  const {
+    currentBranch,
+    desc: createDesc,
+    mergeRequestInfo,
+    targetBranch,
+    title: createTitle,
+  } = data?.mergeRequestNode || {};
+  const { changeBranch } = data?.tempMergeNode || {};
+  const { commit } = data?.codeNode;
   const { mergeId, state, title = '' } = mergeRequestInfo || {};
   const curMrState = state && mrStatus[state];
   const stepStatus =
-    curMrState?.stepStates || (data.changeBranch?.find((item) => item.commit?.id === commit?.id) ? 'process' : 'wait');
-
+    curMrState?.stepStates || (changeBranch?.find((item) => item.commit?.id === commit?.id) ? 'process' : 'wait');
+  const cls = {
+    'bg-default-04': disabled,
+  };
   return (
-    <div className={classnames(className, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
+    <div className={classnames(className, cls, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
       <Status status={stepStatus} index={index} />
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center justify-between">
           <div className="flex-h-center">
             <span>{i18n.t('dop:merge request')}</span>
           </div>
-        </div>
-        <Branch className="mb-2" appId={appID} projectId={projectID} branch={targetBranch} />
-        <div className="flex-h-center text-xs">
-          {mergeId && state ? (
-            <>
-              {curMrState?.icon || null}
-              <Mr
-                className="ml-1 flex-1 overflow-hidden"
-                title={title}
-                state={state}
-                mrId={`${mergeId}`}
-                appId={appID}
-                projectId={projectID}
-              />
-            </>
+          {!disabled && targetBranch ? (
+            <div
+              onClick={() => {
+                mergeRequestInfo
+                  ? goTo(goTo.pages.appMr, { appId: appID, projectId: projectID, mrId: mergeId, state, jumpOut: true })
+                  : goTo(goTo.pages.appCreateMr, {
+                      appId: appID,
+                      projectId: projectID,
+                      jumpOut: true,
+                      query: {
+                        sourceBranch: encodeURIComponent(currentBranch),
+                        targetBranch: encodeURIComponent(targetBranch),
+                        title: encodeURIComponent(createTitle),
+                        desc: encodeURIComponent(createDesc),
+                      },
+                    });
+              }}
+              className={`px-3 rounded cursor-pointer bg-purple-deep text-white`}
+            >
+              {mergeRequestInfo ? i18n.s('check merge request', 'dop') : i18n.s('create merge request', 'dop')}
+            </div>
           ) : null}
+        </div>
+        {targetBranch ? (
+          <Branch className="mb-2" appId={appID} projectId={projectID} branch={targetBranch} />
+        ) : (
+          <div className="text-xs text-default-8">{i18n.s('target branch is empty', 'dop')}</div>
+        )}
+        <div className="flex-h-center text-xs">
+          {mergeRequestInfo ? (
+            state ? (
+              <>
+                {curMrState?.icon || null}
+                <Mr
+                  className="ml-1 flex-1 overflow-hidden"
+                  title={title}
+                  state={state}
+                  mrId={`${mergeId}`}
+                  appId={appID}
+                  projectId={projectID}
+                />
+              </>
+            ) : null
+          ) : (
+            mrStatus.uncreate.icon
+          )}
         </div>
       </div>
     </div>

@@ -23,20 +23,23 @@ import classnames from 'classnames';
 interface CardProps {
   data: DEVOPS_WORKFLOW.DevFlowInfo;
   className?: string;
+  disabled: boolean;
   index: number;
   projectID: string;
   reload?: () => void;
 }
 
 const MergeCard = (props: CardProps) => {
-  const { data, projectID, index, className, reload } = props;
-  const { isJoinTempBranch, baseCommit, tempBranch, appID, commit, mergeID } = data.devFlowNode || {};
-  const status = data.changeBranch?.find((item) => item.commit?.id === commit?.id) ? 'success' : 'process';
+  const { data, projectID, index, className, reload, disabled } = props;
+  const { changeBranch, baseCommit, tempBranch } = data?.tempMergeNode;
+  const { isJoinTempBranch, appID, flowRuleName, id } = data.devFlow || {};
+  const { commit } = data?.codeNode;
+  const status = changeBranch?.find((item) => item.commit?.id === commit?.id) ? 'success' : 'process';
 
   const ChangeList = (
     <div className="w-[344px]">
       <p className="pb-2 mb-2 border-0 border-b border-b-default-1 border-solid">{i18n.t('dop:Change list')}</p>
-      {data?.changeBranch?.map((item, idx) => {
+      {changeBranch?.map((item, idx) => {
         return (
           <div key={idx} className="flex-h-center p-2 hover:bg-default-06 overflow-hidden">
             <Branch
@@ -62,12 +65,14 @@ const MergeCard = (props: CardProps) => {
           </div>
         );
       })}
-      {!data?.changeBranch?.length ? <EmptyHolder style={{ height: 100 }} relative /> : null}
+      {!changeBranch?.length ? <EmptyHolder style={{ height: 100 }} relative /> : null}
     </div>
   );
-
+  const cls = {
+    'bg-default-04': disabled,
+  };
   return (
-    <div className={classnames(className, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
+    <div className={classnames(className, cls, 'hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded')}>
       <Status index={index} status={status} />
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center justify-between">
@@ -82,10 +87,10 @@ const MergeCard = (props: CardProps) => {
               <ErdaIcon type="help" className="text-default-3 ml-1" />
             </Tooltip>
           </div>
-          {tempBranch && isJoinTempBranch ? (
+          {!disabled && tempBranch && isJoinTempBranch ? (
             <div
               onClick={() => {
-                tempMerge({ mergeId: mergeID, enable: false }).then(() => {
+                tempMerge({ devFlowID: id, enable: false }).then(() => {
                   reload?.();
                 });
               }}
@@ -134,7 +139,7 @@ const MergeCard = (props: CardProps) => {
               onClick={() => {
                 goTo(goTo.pages.projectSetting, {
                   jumpOut: true,
-                  query: { tabKey: 'workflow', flowName: data.devFlowRuleName },
+                  query: { tabKey: 'workflow', flowName: flowRuleName },
                 });
               }}
             >
