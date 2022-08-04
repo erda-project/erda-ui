@@ -21,7 +21,7 @@ interface Props extends AvatarProps {
 
 let timer: NodeJS.Timeout;
 const WapperAvatar = (props: Props) => {
-  const { timeout = 200, children, src, ...rest } = props;
+  const { timeout = 400, children, src, ...rest } = props;
   const ref = React.useRef<HTMLDivElement>(null);
   const [img, setImg] = React.useState(src);
 
