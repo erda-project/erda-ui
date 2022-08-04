@@ -36,7 +36,6 @@ const CompareDetail = ({ hideComment, disableComment = false, hideWorkflow = fal
   const [compareDetail, comments, mrDetail] = repoStore.useStore((s) => [s.compareDetail, s.comments, s.mrDetail]);
   const { commits = [], diff, from, to } = compareDetail || {};
   const [isFetching] = useLoading(repoStore, ['getCompareDetail']);
-
   return (
     <Spin spinning={isFetching}>
       <Tabs
@@ -90,7 +89,7 @@ const CompareDetail = ({ hideComment, disableComment = false, hideWorkflow = fal
         </TabPane>
         {!hideWorkflow && (
           <TabPane key="workflow" tab={<div className="relative">{i18n.t('dop:workflow')}</div>}>
-            <MrWorkflow id={mrDetail.id} projectID={+projectId} />
+            <MrWorkflow branch={mrDetail.sourceBranch} appId={mrDetail.appId} projectID={+projectId} />
           </TabPane>
         )}
       </Tabs>
