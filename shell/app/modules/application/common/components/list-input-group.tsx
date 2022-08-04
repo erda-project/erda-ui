@@ -70,7 +70,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     const inputs = value.map((item: any, index: number) => {
       const { value: input, id } = item;
       let inputField = (
-        <Input
+        <Input.TextArea
           disabled={disabled}
           className="list-full-input"
           defaultValue={input}
