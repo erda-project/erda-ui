@@ -169,8 +169,8 @@ const TestList = () => {
       clearTestList();
     };
   }, [clearTestList, getTestList, getTestTypes]);
-  const handlePageChange = (pageNo: number) => {
-    getTestList({ pageNo });
+  const handlePageChange = (pageNo: number, pageSize?: number) => {
+    getTestList({ pageNo, pageSize: pageSize || testListPaging.pageSize });
   };
 
   const actions = {
