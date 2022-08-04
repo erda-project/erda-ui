@@ -44,7 +44,7 @@ export const getBranches = apiCreator<(payload: { projectName: string; appName: 
 
 export const getFlowList = apiCreator<
   (
-    payload: { projectID: number; mergeID: number } | { projectID: number; issueID: number },
+    payload: { projectID: number; branch: string; appID: string } | { projectID: number; issueID: number },
   ) => DEVOPS_WORKFLOW.DevFlowInfos
 >(apis.getFlowList);
 

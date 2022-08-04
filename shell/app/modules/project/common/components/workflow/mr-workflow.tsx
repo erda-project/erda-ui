@@ -19,16 +19,19 @@ import { getFlowList } from 'project/services/project-workflow';
 interface IProps {
   projectID: number;
   id: number;
+  branch: string;
+  appId: string;
 }
 
-const MrWorkflow: React.FC<IProps> = ({ projectID, id }) => {
+const MrWorkflow: React.FC<IProps> = ({ projectID, id, appId, branch }) => {
   const devFlowInfos = getFlowList.useData();
   const getFlowNodeList = React.useCallback(() => {
     getFlowList.fetch({
-      mergeID: id,
+      branch,
+      appID: appId,
       projectID,
     });
-  }, [projectID, id]);
+  }, [projectID, id, branch, appId]);
   React.useEffect(() => {
     getFlowNodeList();
   }, [getFlowNodeList]);
