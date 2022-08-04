@@ -48,14 +48,12 @@ export const SubscribersSelector = (props: IProps) => {
   }, [userMap, loginUserId, loginUser]);
 
   React.useEffect(() => {
-    setSubscribers(subscribersProps || []);
-  }, [subscribersProps]);
-
-  React.useEffect(() => {
     if (!issueID) {
       setSubscribers([loginUserId]);
+    } else {
+      setSubscribers(subscribersProps || []);
     }
-  }, [issueID, loginUserId]);
+  }, [issueID, loginUserId, subscribersProps]);
 
   const updateIssueDrawer = () => {
     getIssueDetail({ id: issueID as number });
