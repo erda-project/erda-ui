@@ -34,7 +34,7 @@ const test = createStore({
       const testTypes = await call(TestServices.getTestTypes);
       update({ testTypes });
     },
-    async getTestList({ select, call, update, getParams }, payload: { pageNo?: number }) {
+    async getTestList({ select, call, update, getParams }, payload: { pageNo?: number; pageSize?: number }) {
       const { appId: applicationId } = getParams();
       const { list, total } = await call(
         TestServices.getTestList,
