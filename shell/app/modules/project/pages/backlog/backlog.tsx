@@ -343,7 +343,7 @@ const Backlog = () => {
                 {isAdding ? (
                   <IssueForm
                     key="add"
-                    className="backlog-issue-item hover-active-bg"
+                    className="backlog-issue-item hover-active-bg h-[44px] flex-row"
                     onCancel={() => updater.isAdding(false)}
                     onOk={(val: ISSUE.BacklogIssueCreateBody) => {
                       return createIssue({ ...val }).finally(() => {
