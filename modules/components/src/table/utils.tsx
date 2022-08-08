@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Dropdown, Menu, Tooltip } from 'antd';
+import { Dropdown, Menu, Space, Tooltip } from 'antd';
 import cn from 'classnames';
 import React from 'react';
 import ErdaIcon from '../icon';
@@ -50,47 +50,73 @@ export function renderActions<T extends object = any>(
   actions?: TableRowActions<T> | null,
 ): Array<ErdaColumnType<T>> {
   if (actions) {
-    const { render } = actions;
+    const { render, width = 100, exposeCount = 1 } = actions;
     return [
       {
         title: locale.operation,
-        width: 100,
+        width: width,
         dataIndex: 'operation',
         fixed: 'right',
         render: (_: unknown, record: T, i: number) => {
           const list = render(record, i).filter((item) => item.show !== false);
-
-          const menu = (
-            <Menu theme="dark">
-              {list.map((item, index) => {
-                const { title, onClick, disabled = false, disabledTip } = item;
-                return (
-                  <Menu.Item key={index} onClick={disabled ? undefined : onClick}>
-                    <Tooltip title={disabled && disabledTip}>
+          if (list.length <= exposeCount) {
+            return (
+              <Space>
+                {list.map((item, index) => {
+                  const { title, onClick, disabled = false, disabledTip } = item;
+                  const handleClick: React.MouseEventHandler<HTMLSpanElement> = (ev) => {
+                    disabled ? ev.stopPropagation() : onClick?.();
+                  };
+                  return (
+                    <Tooltip key={index} title={disabled && disabledTip}>
                       <span
-                        className={cn(`${clsPrefix}-menu-item`, {
+                        className={cn(`${clsPrefix}-menu-item-normal`, {
                           [`${clsPrefix}-menu-item-disabled`]: !!disabled,
                         })}
-                        onClick={disabled ? (e: any) => e && e.stopPropagation && e.stopPropagation() : undefined}
+                        onClick={handleClick}
                       >
                         {title}
                       </span>
                     </Tooltip>
-                  </Menu.Item>
-                );
-              })}
-            </Menu>
-          );
+                  );
+                })}
+              </Space>
+            );
+          } else {
+            const menu = (
+              <Menu theme="dark">
+                {list.map((item, index) => {
+                  const { title, onClick, disabled = false, disabledTip } = item;
+                  return (
+                    <Menu.Item key={index} onClick={disabled ? undefined : onClick}>
+                      <Tooltip title={disabled && disabledTip}>
+                        <span
+                          className={cn(`${clsPrefix}-menu-item`, {
+                            [`${clsPrefix}-menu-item-disabled`]: !!disabled,
+                          })}
+                          onClick={disabled ? (e: React.MouseEvent<HTMLSpanElement>) => e.stopPropagation() : undefined}
+                        >
+                          {title}
+                        </span>
+                      </Tooltip>
+                    </Menu.Item>
+                  );
+                })}
+              </Menu>
+            );
 
-          return (
-            <span onClick={(e) => e.stopPropagation()}>
-              {!!list.length && (
-                <Dropdown overlay={menu} align={{ offset: [0, 5] }} trigger={['click']}>
-                  <ErdaIcon type="gengduo" size="16" className={`${clsPrefix}-action-more`} />
-                </Dropdown>
-              )}
-            </span>
-          );
+            return (
+              <span onClick={(e) => e.stopPropagation()}>
+                {!!list.length && (
+                  <Dropdown overlay={menu} align={{ offset: [0, 5] }} trigger={['click']}>
+                    <span className={`${clsPrefix}-action-more`}>
+                      <ErdaIcon type="gengduo" size="16" />
+                    </span>
+                  </Dropdown>
+                )}
+              </span>
+            );
+          }
         },
       },
     ];
