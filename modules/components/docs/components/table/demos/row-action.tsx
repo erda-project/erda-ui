@@ -11,8 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from '@erda-ui/components';
+import { Radio } from 'antd';
+import { TableRowActions } from 'src/table/interface';
 
 export default () => {
   const columns = [
@@ -53,7 +55,7 @@ export default () => {
     },
   ];
 
-  const actions = {
+  const normalActions = {
     render: (record: unknown) => {
       return [
         {
@@ -74,5 +76,55 @@ export default () => {
     },
   };
 
-  return <Table rowKey="name" columns={columns} dataSource={dataSource} actions={actions} />;
+  const oneAction = {
+    render: (record: unknown) => {
+      return [
+        {
+          title: '编辑',
+          onClick: () => {
+            console.log(record);
+          },
+        },
+      ];
+    },
+  };
+
+  const twoExposeAction = {
+    exposeCount: 2,
+    render: (record: unknown) => {
+      return [
+        {
+          title: '管理',
+          onClick: () => {
+            console.log(record);
+          },
+          disabled: true,
+          disabledTip: 'disable reason',
+        },
+        {
+          title: '编辑',
+          onClick: () => {
+            console.log(record);
+          },
+        },
+      ];
+    },
+  };
+  const actionsMap: Record<string, TableRowActions<Obj<any>>> = {
+    normal: normalActions,
+    one: oneAction,
+    twoExposeAction: twoExposeAction,
+  };
+  const [actionsType, setActionsType] = useState('normal');
+
+  return (
+    <>
+      <Radio.Group value={actionsType} onChange={(ev) => setActionsType(ev.target.value)} size="large">
+        <Radio.Button value="normal">actions 2</Radio.Button>
+        <Radio.Button value="one">actions 1</Radio.Button>
+        <Radio.Button value="twoExposeAction">expose 2 actions</Radio.Button>
+      </Radio.Group>
+      <Table rowKey="name" columns={columns} dataSource={dataSource} actions={actionsMap[actionsType]} />
+    </>
+  );
 };

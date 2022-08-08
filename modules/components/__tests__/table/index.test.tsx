@@ -65,9 +65,22 @@ describe('ErdaTable', () => {
       dataIndex: 'count',
     },
   ];
-  const genTableActions = (onClick: () => void) => {
+  const getOneTableActions = (onClick: () => void) => {
     const tableActions: TableRowActions<IData> = {
-      render: (record) => {
+      render: () => {
+        return [
+          {
+            title: 'editAction',
+            onClick,
+          },
+        ];
+      },
+    };
+    return tableActions;
+  };
+  const getTwoTableActions = (onClick: () => void) => {
+    const tableActions: TableRowActions<IData> = {
+      render: () => {
         return [
           {
             title: 'editAction',
@@ -75,8 +88,45 @@ describe('ErdaTable', () => {
           },
           {
             title: 'deleteAction',
-            show: record.count === 0,
+            disabled: true,
             onClick,
+          },
+        ];
+      },
+    };
+    return tableActions;
+  };
+  const getTwoTableActionsWithTwoExpose = (onClick: () => void) => {
+    const tableActions: TableRowActions<IData> = {
+      exposeCount: 2,
+      render: () => {
+        return [
+          {
+            title: 'editAction',
+            onClick,
+          },
+          {
+            title: 'deleteAction',
+            disabled: true,
+            onClick,
+          },
+        ];
+      },
+    };
+    return tableActions;
+  };
+  const getTwoTableActionsWithShowOne = (onClick: () => void) => {
+    const tableActions: TableRowActions<IData> = {
+      render: () => {
+        return [
+          {
+            title: 'editAction',
+            onClick,
+          },
+          {
+            title: 'deleteAction',
+            onClick,
+            show: false,
           },
         ];
       },
@@ -157,20 +207,67 @@ describe('ErdaTable', () => {
   });
   it('should work well with actions', async () => {
     const actionFn = jest.fn();
-    const result = render(
+    const oneAction = getOneTableActions(actionFn);
+    const twoActions = getTwoTableActions(actionFn);
+    const twoActionsWithExposeTwo = getTwoTableActionsWithTwoExpose(actionFn);
+    const twoActionsWithShowOne = getTwoTableActionsWithShowOne(actionFn);
+    const resultOneAction = render(
       <ErdaTable
         rowKey="id"
         columns={columns}
         dataSource={dataSource}
         pagination={defaultPagination}
-        actions={genTableActions(actionFn)}
+        actions={oneAction}
       />,
     );
-    expect(result.container).isExist('[xlink:href="#icon-gengduo"]', dataSource.length);
-    fireEvent.click(result.container.querySelectorAll('[xlink:href="#icon-gengduo"]')[0]);
-    await waitFor(() => expect(result.getByRole('menu')).toBeInTheDocument());
-    fireEvent.click(result.getByText('editAction').closest('li')!);
+    const resultTwoActions = render(
+      <ErdaTable
+        rowKey="id"
+        columns={columns}
+        dataSource={dataSource}
+        pagination={defaultPagination}
+        actions={twoActions}
+      />,
+    );
+    const resultTwoActionsWithExposeTwo = render(
+      <ErdaTable
+        rowKey="id"
+        columns={columns}
+        dataSource={dataSource}
+        pagination={defaultPagination}
+        actions={twoActionsWithExposeTwo}
+      />,
+    );
+    const resultTwoActionsWithShowOne = render(
+      <ErdaTable
+        rowKey="id"
+        columns={columns}
+        dataSource={dataSource}
+        pagination={defaultPagination}
+        actions={twoActionsWithShowOne}
+      />,
+    );
+    expect(resultOneAction.container).isExist('.erda-table-menu-item-normal', dataSource.length);
+    fireEvent.click(resultOneAction.getAllByText('editAction')[0]);
     expect(actionFn).toHaveBeenCalled();
+
+    expect(resultTwoActions.container).isExist('[xlink:href="#icon-gengduo"]', dataSource.length);
+    fireEvent.click(resultTwoActions.container.querySelectorAll('[xlink:href="#icon-gengduo"]')[0]);
+    await waitFor(() => expect(resultTwoActions.getByRole('menu')).toBeInTheDocument());
+    fireEvent.click(resultTwoActions.getAllByText('deleteAction')[0]);
+    expect(actionFn).toBeCalledTimes(1);
+    fireEvent.click(resultTwoActions.getAllByText('editAction')[0]);
+    expect(actionFn).toBeCalledTimes(2);
+
+    expect(resultTwoActionsWithExposeTwo.container).isExist('.erda-table-menu-item-normal', dataSource.length * 2);
+    fireEvent.click(resultTwoActionsWithExposeTwo.getAllByText('deleteAction')[0]);
+    expect(actionFn).toBeCalledTimes(2);
+    fireEvent.click(resultTwoActionsWithExposeTwo.getAllByText('editAction')[0]);
+    expect(actionFn).toBeCalledTimes(3);
+
+    expect(resultTwoActionsWithShowOne.container).isExist('.erda-table-menu-item-normal', dataSource.length);
+    fireEvent.click(resultTwoActionsWithShowOne.getAllByText('editAction')[0]);
+    expect(actionFn).toBeCalledTimes(4);
   });
   it('should work well with sort is Object', async () => {
     const tableChangeFn = jest.fn();
