@@ -709,6 +709,7 @@ export const EditIssueDrawer = (props: IProps) => {
       maskClosable={isContentChanged ? false : isEditMode}
       data={formData}
       projectId={projectId}
+      issueId={id}
       issueType={issueType}
       setData={setFormData}
       footer={footer}
