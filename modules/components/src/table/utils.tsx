@@ -54,7 +54,7 @@ export function renderActions<T extends object = any>(
     return [
       {
         title: locale.operation,
-        width: width,
+        width,
         dataIndex: 'operation',
         fixed: 'right',
         render: (_: unknown, record: T, i: number) => {
