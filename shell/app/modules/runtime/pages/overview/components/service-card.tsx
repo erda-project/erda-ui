@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tooltip, Popover, Tabs, Modal } from 'antd';
-import { Icon as CustomIcon, IF, Table } from 'common';
+import { Icon as CustomIcon, IF, Table, Badge } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import HealthPoint from 'project/common/components/health-point';
 import { map, isEmpty } from 'lodash';
@@ -561,6 +561,16 @@ const RunningPods = ({
     {
       dataIndex: 'phase',
       title: i18n.t('Status'),
+      render: (text: string) => {
+        const phaseMap = {
+          Running: 'processing',
+          Pending: 'warning',
+          Succeeded: 'success',
+          Failed: 'error',
+          Unknown: 'default',
+        };
+        return <Badge text={text} status={phaseMap[text] || 'default'} showDot={false} />;
+      },
     },
     {
       dataIndex: 'host',
