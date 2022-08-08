@@ -27,6 +27,12 @@ const apis = {
   applyCancelRules: {
     api: 'post@/api/runtimes/autoscaler/hpa-rules-action',
   },
+  getRuntimeServicePods: {
+    api: '/api/instances/actions/get-service-pods',
+  },
+  getRuntimeService: {
+    api: '/api/instances/actions/get-service',
+  },
 };
 
 interface CreateScaledRulesParams {
@@ -71,6 +77,14 @@ export const getScaledRules = apiCreator<(p: { runtimeId: number; services: stri
 );
 
 export const applyCancelRules = apiCreator<(p: ApplyCancelActionParams) => void>(apis.applyCancelRules);
+
+export const getRuntimeServicePods = apiCreator<
+  (p: { status?: string; runtimeID: string; serviceName: string }) => RUNTIME.ServicePod[]
+>(apis.getRuntimeServicePods);
+
+export const getRuntimeService = apiCreator<
+  (p: { status?: string; runtimeID: string | number; serviceName: string }) => RUNTIME.ServicePod[]
+>(apis.getRuntimeService);
 
 export const getRuntimeDetail = ({ runtimeId }: { runtimeId: number | string }): RUNTIME.Detail => {
   return agent.get(`/api/runtimes/${runtimeId}`).then((response: any) => response.body);

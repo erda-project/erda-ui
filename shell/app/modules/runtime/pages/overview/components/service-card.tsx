@@ -12,30 +12,32 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Popover, Tabs } from 'antd';
-import { Icon as CustomIcon, IF, NoAuthTip } from 'common';
+import { Tooltip, Popover, Tabs, Modal } from 'antd';
+import { Icon as CustomIcon, IF, Table } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import HealthPoint from 'project/common/components/health-point';
 import { map, isEmpty } from 'lodash';
 import classNames from 'classnames';
-import InstanceTable from 'runtime/common/components/instance-table';
-import PodTable from 'runtime/common/components/pod-table';
+import { statusMap } from 'project/common/components/health-point';
 import { SlidePanel, IWithTabs } from 'runtime/common/components/slide-panel-tabs';
 import ProjectUnitDetail from 'monitor-common/components/resource-usage/resource-usage-charts';
 import ContainerLog from 'runtime/common/logs/containers/container-log';
 import Terminal from 'dcos/common/containers/terminal';
 import i18n from 'i18n';
-import { allWordsFirstLetterUpper, firstCharToUpper, notify, updateSearch } from 'common/utils';
+import { firstCharToUpper, notify, updateSearch } from 'common/utils';
 import DomainModal from './domain-modal';
 import ServiceDropdown from './service-dropdown';
 import routeInfoStore from 'core/stores/route';
 import './service-card.scss';
-import { useMount } from 'react-use';
+import { useMount, useUpdateEffect } from 'react-use';
+import moment from 'moment';
 import runtimeStore from 'runtime/stores/runtime';
-import { usePerm } from 'user/common';
+import { WithAuth, usePerm } from 'user/common';
 import runtimeServiceStore from 'runtime/stores/service';
 import runtimeDomainStore from 'runtime/stores/domain';
 import ElasticScaling from './elastic-scaling';
+import { getRuntimeServicePods, getRuntimeService } from 'runtime/services/runtime';
+import { insertWhen } from 'common/utils';
 
 const { TabPane } = Tabs;
 
@@ -67,60 +69,75 @@ const ServiceCard = (props: IProps) => {
     runtimeType = 'service',
   } = props;
 
-  const [serviceInsMap] = runtimeServiceStore.useStore((s) => [s.serviceInsMap]);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
-  const permMap = usePerm((s) => s.app);
-  const [
-    {
-      title,
-      visible,
-      instances,
-      withTabs,
-      content,
-      slideVisible,
-      isFetching,
-      domainModalVisible,
-      elasticScalingVisible,
-    },
-    updater,
-  ] = useUpdate({
-    title: '',
-    isFetching: false,
-    visible: false,
-    slideVisible: false,
-    withTabs: {},
-    content: null,
-    instances: {},
-    domainModalVisible: false,
-    elasticScalingVisible: false,
-  });
 
-  React.useEffect(() => {
-    if (serviceInsMap[name] !== undefined && serviceInsMap[name] !== instances) {
-      updater.instances(serviceInsMap[name]);
-    }
-  }, [serviceInsMap, name, updater, instances]);
+  const [{ title, visible, withTabs, content, slideVisible, domainModalVisible, elasticScalingVisible }, updater] =
+    useUpdate({
+      title: '',
+      visible: false,
+      slideVisible: false,
+      withTabs: {},
+      content: null,
+      domainModalVisible: false,
+      elasticScalingVisible: false,
+    });
 
   const { serviceName, jumpFrom } = routeInfoStore.useStore((s) => s.query);
 
-  const openSlidePanel = (type: string, record?: RUNTIME_SERVICE.Instance) => {
+  const [runingFetched, setRunningFetched] = React.useState({ loading: false, fetched: false });
+  const [stopedFetched, setStopedFetched] = React.useState({ loading: false, fetched: false });
+
+  const [stopedData, setStopedData] = React.useState<RUNTIME.ServicePod[]>([]);
+  const [_runningData, setRunningData] = React.useState<RUNTIME.ServicePod[]>([]);
+
+  const runningData = React.useMemo(
+    () => map(_runningData || [], (item) => ({ isRunning: true, ...item })),
+    [_runningData],
+  );
+
+  useUpdateEffect(() => {
+    if (visible) {
+      !runingFetched.fetched && fetchRunningData();
+      !stopedFetched.fetched && fetchStopData();
+    }
+  }, [visible]);
+
+  const fetchRunningData = React.useCallback(() => {
+    setRunningFetched((prev) => ({ ...prev, loading: true }));
+    return getRuntimeServicePods({ runtimeID: runtimeId, serviceName: name }).then((res) => {
+      setRunningFetched({ fetched: true, loading: false });
+      setRunningData(res?.data || []);
+      return res?.data || [];
+    });
+  }, [runtimeId, name]);
+
+  const fetchStopData = React.useCallback(() => {
+    setStopedFetched((prev) => ({ ...prev, loading: true }));
+    getRuntimeService({ runtimeID: runtimeId, serviceName: name, status: 'stopped' }).then((res) => {
+      setStopedData(res?.data || []);
+      setStopedFetched({ fetched: true, loading: false });
+    });
+  }, [runtimeId, name]);
+
+  const openSlidePanel = (type: string, record?: RUNTIME.ServicePod) => {
     updater.title(titleMap[type]);
-    if (isEmpty(instances)) {
-      runtimeServiceStore.getServiceInstances(name).then((data: RUNTIME_SERVICE.InsMap) => {
-        renderSlidePanel(type, data, record);
+    if (isEmpty(runningData)) {
+      fetchRunningData().then((res) => {
+        renderSlidePanel(type, res || [], record);
       });
     } else {
-      renderSlidePanel(type, instances as any, record);
+      renderSlidePanel(type, runningData || [], record);
     }
   };
 
-  const renderSlidePanel = (type: string, insMap: RUNTIME_SERVICE.InsMap, record?: RUNTIME_SERVICE.Instance) => {
-    let instanceList: RUNTIME_SERVICE.Instance[] = [];
+  const renderSlidePanel = (type: string, insList: RUNTIME.ServicePod[], record?: RUNTIME.ServicePod) => {
+    let instanceList: RUNTIME.ServicePod[] = [];
     let defaultKey = '';
 
     const getTabKey = (ins: any) => {
       let tagId = '';
-      const { id, containerId } = ins;
+      const { uid: id, containerId: _containerId } = ins;
+      const containerId = ins.podContainers?.[0]?.containerId || _containerId;
       if (containerId) {
         tagId = containerId.slice(0, 6);
       } else if (id) {
@@ -129,22 +146,36 @@ const ServiceCard = (props: IProps) => {
       }
       return {
         tab: `${name} . ${tagId}`,
-        key: ins.id || ins.containerId,
+        key: id || containerId,
       };
     };
 
-    const { runs = [] } = insMap;
-    const getDefaultKey = (ins: RUNTIME_SERVICE.Instance) => {
-      const { id, containerId } = ins;
-      let key: any = id || containerId;
-      type === 'monitor' && (key = containerId || id);
+    const getDefaultKey = (ins: RUNTIME.ServicePod) => {
+      const { uid, containerId: _containerId } = ins;
+      const containerId = ins.podContainers?.[0]?.containerId || _containerId;
+      let key: any = uid || containerId;
+      type === 'monitor' && (key = containerId || uid);
       return key;
     };
 
+    const convertIns = (ins: RUNTIME.ServicePod) => {
+      if (ins.podContainers) {
+        const { podContainers, k8sNamespace, podNamespace, status, phase, ..._rest } = ins;
+        const podItem = podContainers?.[0] || {};
+        return {
+          status: phase || status,
+          podNamespace: k8sNamespace || podNamespace,
+          ..._rest,
+          ...podItem,
+          podUid: _rest.uid,
+        };
+      }
+      return ins;
+    };
     // 没有 record，操作入口为 serviceCard 下拉，默认定位到运行中的第一个实例
     if (!record) {
-      const firstIns = runs.length ? runs[0] : null;
-      instanceList = runs;
+      const firstIns = insList.length ? insList[0] : null;
+      instanceList = insList;
       if (firstIns) {
         defaultKey = getDefaultKey(firstIns);
       }
@@ -152,7 +183,7 @@ const ServiceCard = (props: IProps) => {
       // 有 record，操作入口为 instanceTable 或实例错误信息
       const { isRunning } = record;
       if (isRunning) {
-        instanceList = runs;
+        instanceList = insList;
       } else {
         instanceList = [record];
       }
@@ -163,11 +194,13 @@ const ServiceCard = (props: IProps) => {
       // 优先取 containerId 查询，若无则用 id(instanceId) 查询
       case 'monitor': {
         const contents = map(instanceList, (ins) => {
-          const { containerId, id } = ins;
+          const { uid: id, containerId: _containerId } = ins;
+          const containerId = ins.podContainers?.[0]?.containerId || _containerId;
+
           return {
             Comp: ProjectUnitDetail,
             props: {
-              instance: ins,
+              instance: convertIns(ins),
               api: '/api/runtime/metrics',
               extraQuery: { filter_runtime_id: runtimeId, filter_application_id: appId },
             },
@@ -185,7 +218,7 @@ const ServiceCard = (props: IProps) => {
           return {
             Comp: ContainerLog,
             props: {
-              instance: ins,
+              instance: convertIns(ins),
               isStopped: !isRunning,
               extraQuery: { applicationId: appId },
               fetchApi: '/api/runtime/logs',
@@ -199,12 +232,13 @@ const ServiceCard = (props: IProps) => {
       case 'terminal': {
         const { clusterName } = runtimeDetail;
         const contents = map(instanceList, (ins) => {
-          const { host, containerId, id } = ins;
+          const { uid: id, containerId: _containerId, host } = ins;
+          const containerId = ins.podContainers?.[0]?.containerId || _containerId;
           return {
             Comp: Terminal,
             props: {
               instanceTerminal: true,
-              instance: ins,
+              instance: convertIns(ins),
               clusterName,
               host,
               containerId: containerId || id,
@@ -215,11 +249,6 @@ const ServiceCard = (props: IProps) => {
         updater.withTabs({ defaultActiveKey: defaultKey, contents });
         break;
       }
-      case 'record': {
-        updater.withTabs({});
-        updater.content(<InstanceTable instances={insMap} withHeader={false} />);
-        break;
-      }
       default:
         break;
     }
@@ -228,10 +257,6 @@ const ServiceCard = (props: IProps) => {
 
   const togglePanel = () => {
     updater.visible(!visible);
-    if (serviceInsMap[name] !== undefined) return;
-    // 这里维护一个 isFetching 是因为如果通过 dva-loading 判断，在多个服务存在，展开另一个时原本的已展开的也会转菊花
-    updater.isFetching(true);
-    runtimeServiceStore.getServiceInstances(name).then(() => updater.isFetching(false));
   };
 
   useMount(() => {
@@ -363,39 +388,6 @@ const ServiceCard = (props: IProps) => {
       </div>
     );
   };
-  const opsCol = {
-    title: i18n.t('Operations'),
-    width: 240,
-    key: 'Operations',
-    fixed: 'right',
-    render: (record: RUNTIME_SERVICE.Instance) => {
-      const { isRunning } = record;
-      return (
-        <div className="service-ops table-operations">
-          <IF check={isRunning}>
-            <IF check={(permMap.runtime[`${runtimeDetail.extra.workspace.toLowerCase()}Console`] || {}).pass}>
-              <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>
-                {i18n.t('Console')}
-              </span>
-              <IF.ELSE />
-
-              <NoAuthTip>
-                <span className="table-operations-btn">{i18n.t('Console')}</span>
-              </NoAuthTip>
-            </IF>
-          </IF>
-          <IF check={isServiceType}>
-            <span className="table-operations-btn" onClick={() => openSlidePanel('monitor', { ...record })}>
-              {i18n.t('Container Monitoring')}
-            </span>
-          </IF>
-          <span className="table-operations-btn" onClick={() => openSlidePanel('log', { ...record })}>
-            {firstCharToUpper(i18n.t('log'))}
-          </span>
-        </div>
-      );
-    },
-  };
 
   let errorMsg: React.ReactNode = '';
   if (errors && errors[0] && status !== 'Healthy') {
@@ -420,6 +412,35 @@ const ServiceCard = (props: IProps) => {
       errorMsg = wrapTooltip(errorMsg, msgContent);
     }
   }
+
+  const permMap = usePerm((s) => s.app);
+  const consoleAuth = (permMap.runtime[`${runtimeDetail.extra.workspace.toLowerCase()}Console`] || {}).pass;
+
+  const handleKill = (record: RUNTIME.ServicePod) => {
+    const infoContent = (
+      <div className="">
+        <div>{`${i18n.t('cmp:Pod instance')}: ${record.podName}`}</div>
+      </div>
+    );
+
+    const onOk = () =>
+      runtimeServiceStore
+        .killServicePod({
+          runtimeID: +runtimeId,
+          podName: record.podName,
+        })
+        .then(() => {
+          fetchRunningData();
+          fetchStopData();
+        });
+
+    Modal.confirm({
+      title: i18n.t('runtime:confirm to delete the Pod'),
+      content: infoContent,
+      width: 500,
+      onOk,
+    });
+  };
 
   return (
     <React.Fragment>
@@ -447,20 +468,29 @@ const ServiceCard = (props: IProps) => {
             </div>
           )}
         </div>
-        <div className="inner-content">
+        <div className={`inner-content ${visible ? '' : 'hidden'}`}>
           <Tabs defaultActiveKey="service-details">
-            <TabPane
-              tab={
-                isServiceType
-                  ? allWordsFirstLetterUpper(i18n.t('runtime:service details'))
-                  : i18n.t('runtime:Task Details')
-              }
-              key="service-details"
-            >
-              <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} runtimeType={runtimeType} />
+            <TabPane tab={`${i18n.t('Running')} (${runningData?.length || 0})`} key="running">
+              <RunningPods
+                data={runningData || []}
+                consoleAuth={consoleAuth}
+                key={name}
+                kill={handleKill}
+                isServiceType={isServiceType}
+                openSlidePanel={openSlidePanel}
+                onReload={fetchRunningData}
+              />
             </TabPane>
-            <TabPane tab={i18n.t('Pod Details')} key="pod-detail">
-              <PodTable runtimeID={runtimeId} service={name} />
+            <TabPane tab={`${i18n.t('Stopped')} (${stopedData?.length || 0})`} key="stop">
+              <StopedPods
+                data={stopedData || []}
+                loading={stopedFetched.loading}
+                onReload={fetchStopData}
+                key={name}
+                isServiceType={isServiceType}
+                openSlidePanel={openSlidePanel}
+              />
+              <div />
             </TabPane>
           </Tabs>
         </div>
@@ -473,6 +503,177 @@ const ServiceCard = (props: IProps) => {
         closeSlidePanel={() => updater.slideVisible(false)}
       />
     </React.Fragment>
+  );
+};
+
+const RunningPods = ({
+  data,
+  consoleAuth,
+  isServiceType,
+  openSlidePanel,
+  onReload,
+  kill,
+}: {
+  data: RUNTIME.ServicePod[];
+  consoleAuth: boolean;
+  onReload: () => void;
+  isServiceType: boolean;
+  openSlidePanel: (type: string, record?: RUNTIME.ServicePod) => void;
+  kill: (record: RUNTIME.ServicePod) => void;
+}) => {
+  const actions = {
+    render: (record: RUNTIME.ServicePod) => {
+      return [
+        {
+          title: (
+            <WithAuth pass={consoleAuth}>
+              <span>{i18n.t('Console')}</span>
+            </WithAuth>
+          ),
+          onClick: () => {
+            openSlidePanel('terminal', { ...record });
+          },
+        },
+        ...insertWhen(isServiceType, [
+          {
+            title: i18n.t('Container Monitoring'),
+            onClick: () => openSlidePanel('monitor', { ...record }),
+          },
+        ]),
+        {
+          title: firstCharToUpper(i18n.t('log')),
+          onClick: () => openSlidePanel('log', { ...record }),
+        },
+        {
+          title: firstCharToUpper(i18n.t('stop')),
+          onClick: () => {
+            kill(record);
+          },
+        },
+      ];
+    },
+  };
+  const columns = [
+    {
+      dataIndex: 'ipAddress',
+      title: i18n.s('Container group IP', 'dop'),
+    },
+    {
+      dataIndex: 'phase',
+      title: i18n.t('Status'),
+    },
+    {
+      dataIndex: 'host',
+      title: i18n.t('runtime:Host IP'),
+    },
+    {
+      dataIndex: 'message',
+      title: i18n.t('runtime:Message'),
+    },
+    {
+      dataIndex: 'restartCount',
+      title: i18n.t('cmp:Number of restarts'),
+    },
+    {
+      dataIndex: 'startedAt',
+      title: i18n.t('Creation time'),
+      render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+    },
+  ];
+
+  return (
+    <Table
+      rowKey={(record, i) => {
+        const { uid: id, containerId: _containerId } = record;
+        const containerId = record.podContainers?.[0]?.containerId || _containerId;
+        return `${i}${id}-${containerId}`;
+      }}
+      actions={actions}
+      columns={columns}
+      dataSource={data}
+      onReload={onReload}
+    />
+  );
+};
+
+const insStatusMap = statusMap.task;
+const StopedPods = ({
+  data,
+  loading,
+  onReload,
+  isServiceType,
+  openSlidePanel,
+}: {
+  data: RUNTIME.ServicePod[];
+  loading: boolean;
+  onReload: () => void;
+  isServiceType: boolean;
+  openSlidePanel: (type: string, record?: RUNTIME.ServicePod) => void;
+}) => {
+  const columns = [
+    {
+      title: i18n.t('runtime:Instance IP'),
+      dataIndex: 'ipAddress',
+      width: 120,
+    },
+    {
+      title: i18n.t('runtime:Host address'),
+      width: 120,
+      dataIndex: 'host',
+    },
+    {
+      title: i18n.t('Status'),
+      dataIndex: 'status',
+      className: 'th-status',
+      render: (text: string, record: RUNTIME.ServicePod) => {
+        const { message } = record;
+        return (
+          <span className="nowrap">
+            {insStatusMap[text].text}
+            {message ? <Tooltip title={message}> ({message})</Tooltip> : null}
+          </span>
+        );
+      },
+    },
+    {
+      title: i18n.t('Creation time'),
+      width: 176,
+      dataIndex: 'startedAt',
+      className: 'th-time nowrap',
+      render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+    },
+    {
+      title: i18n.t('Operations'),
+      dataIndex: 'Operations',
+      render: (_, record: RUNTIME.ServicePod) => {
+        return (
+          <div className="service-ops table-operations">
+            <IF check={isServiceType}>
+              <span className="table-operations-btn" onClick={() => openSlidePanel('monitor', { ...record })}>
+                {i18n.t('Container Monitoring')}
+              </span>
+            </IF>
+            <span className="table-operations-btn" onClick={() => openSlidePanel('log', { ...record })}>
+              {firstCharToUpper(i18n.t('log'))}
+            </span>
+          </div>
+        );
+      },
+    },
+  ];
+
+  return (
+    <Table
+      columns={columns}
+      onReload={onReload}
+      dataSource={data || []}
+      rowKey={(record, i) => {
+        const { uid: id, containerId: _containerId } = record;
+        const containerId = record.podContainers?.[0]?.containerId || _containerId;
+        return `${i}${id}-${containerId}`;
+      }}
+      loading={loading}
+    />
   );
 };
 
