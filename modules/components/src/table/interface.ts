@@ -30,6 +30,7 @@ export interface RowAction {
 
 export interface TableRowActions<T> {
   width?: number | string;
+  exposeCount?: number;
   /**
    * (record: T) => IAction[]
    *
