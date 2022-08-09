@@ -66,7 +66,14 @@ export const cancelDeploy = apiCreator<
 >(apis.cancelDeploy);
 
 export const createDeploy = apiCreator<
-  (params: { releaseId: string; workspace: string; id: string; modes: string[] }) => PROJECT_DEPLOY.DeployOrder
+  (params: {
+    releaseId: string;
+    workspace: string;
+    id: string;
+    modes: string[];
+    projectId: number;
+    projectName: string;
+  }) => PROJECT_DEPLOY.DeployOrder
 >(apis.createDeploy);
 
 export const getProjectRuntimeCount = apiCreator<

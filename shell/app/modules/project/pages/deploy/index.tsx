@@ -29,6 +29,7 @@ import DeployDetail from './deploy-detail';
 import { deployOrderStatusMap } from './config';
 import moment from 'moment';
 import { getBranchPolicy } from 'project/services/project-workflow';
+import projectStore from 'project/stores/project';
 import {
   getDeployOrders,
   getDeployOrderDetail,
@@ -138,7 +139,7 @@ const DeployContent = ({
     selectedOrder: '',
   });
   const env = propsEnv?.toUpperCase();
-
+  const projectInfo = projectStore.useStore((s) => s.info);
   const timer = React.useRef<number>();
   const isAutoLoaing = React.useRef(false);
   const reloadRef = React.useRef<{ reload: () => void }>();
@@ -506,7 +507,14 @@ const DeployContent = ({
 
                 selectedRelease &&
                   createDeploy
-                    .fetch({ workspace: env, id: selectedRelease.id, releaseId: selectedRelease.releaseId, modes })
+                    .fetch({
+                      workspace: env,
+                      id: selectedRelease.id,
+                      releaseId: selectedRelease.releaseId,
+                      modes,
+                      projectId: projectInfo.id,
+                      projectName: projectInfo.name,
+                    })
                     .then(() => {
                       getDeployOrdersFunc();
                       closeAddDrawer();
