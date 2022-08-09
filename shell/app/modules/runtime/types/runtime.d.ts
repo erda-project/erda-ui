@@ -137,6 +137,42 @@ declare namespace RUNTIME {
       metadata: Metadata | CronMetadataFormData;
     }[];
   }
+
+  interface ServicePod {
+    uid: string;
+    ipAddress: string;
+    host: string;
+    phase: string;
+    message: string;
+    startedAt: string;
+    service: string;
+    clusterName: string;
+    podName: string;
+    status: string;
+    podUid: string;
+    podNamespace: string;
+    memory: number;
+    image: string;
+    disk: number;
+    cpu: number;
+    containerName: string;
+    containerId: string;
+    k8sNamespace: string;
+    restartCount: string;
+    podContainers: PodContainer[];
+  }
+
+  interface PodContainer {
+    containerId: string;
+    containerName: string;
+    image: string;
+    resources: {
+      memRequest: number;
+      memLimit: number;
+      cpuRequest: number;
+      cpuLimit: number;
+    };
+  }
 }
 
 interface CPU_MEM_DISK {

@@ -142,10 +142,6 @@ const ServiceDropdown = (props: IProps) => {
         },
       ]),
       {
-        title: i18n.t('runtime:History'),
-        onClick: () => openSlidePanel('record'),
-      },
-      {
         title: i18n.t('runtime:Internal Address'),
         onClick: () => showModalInfo(i18n.t('runtime:Internal Address'), vipContent),
       },
