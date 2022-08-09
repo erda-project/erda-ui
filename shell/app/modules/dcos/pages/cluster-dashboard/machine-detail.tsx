@@ -105,7 +105,7 @@ const MachineOverviewDashboard = ({ machineDetail }: { machineDetail: ORG_MACHIN
 
   useMount(() => {
     CommonDashboardStore.getCustomDashboard({
-      id: 'runtime-container-detail',
+      id: 'cmp-dashboard-nodeDetail-origin',
       isSystem: true,
     }).then((res) => setChartLayout(res));
   });
