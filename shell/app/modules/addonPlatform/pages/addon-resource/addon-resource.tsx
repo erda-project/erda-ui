@@ -13,11 +13,17 @@
 
 import React from 'react';
 import { Spin } from 'antd';
-import { IF, MetricsMonitor } from 'common';
+import { IF, MetricsMonitor, BoardGrid, Holder } from 'common';
 import PureAddonResource from './pure-addon-resource';
 import addonStore from 'common/stores/addon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
+import { isEmpty } from 'lodash';
+import TimeRangeSelector from 'common/components/monitor/components/timeRangeSelector';
+import { useMount } from 'react-use';
+import CommonDashboardStore from 'common/stores/dashboard';
+
+const DashBoard = React.memo(BoardGrid.Pure);
 
 const AddonResource = () => {
   const info = addonStore.useStore((s) => s.addonDetail);
@@ -31,17 +37,62 @@ const AddonResource = () => {
     <Spin spinning={loading}>
       <PureAddonResource resourceInfo={info} resourceId={insId} />
       <IF check={addonName && cluster && realInstanceId}>
-        <MetricsMonitor
-          resourceType={addonName}
-          resourceId={insId}
-          commonChartQuery={{
-            filter_cluster_name: cluster,
-            filter_addon_id: realInstanceId,
-            customAPIPrefix: '/api/addon/metrics/charts/',
-          }}
-        />
+        {dashboardMap[addonName] ? (
+          <DashboardChart addonId={realInstanceId} addonName={addonName} />
+        ) : (
+          <MetricsMonitor
+            resourceType={addonName}
+            resourceId={insId}
+            commonChartQuery={{
+              filter_cluster_name: cluster,
+              filter_addon_id: realInstanceId,
+              customAPIPrefix: '/api/addon/metrics/charts/',
+            }}
+          />
+        )}
       </IF>
     </Spin>
+  );
+};
+const dashboardMap = {
+  mysql: 'addon-mysql',
+  'terminus-elasticsearch': 'addon-es',
+  redis: 'addon-redis',
+};
+const DashboardChart = ({ addonName, addonId }: { addonName: string; addonId: string }) => {
+  const [timeSpan, setTimeSpan] = React.useState({
+    startTimeMs: Date.now() - 3600 * 1000,
+    endTimeMs: Date.now(),
+  });
+
+  const [chartLayout, setChartLayout] = React.useState<DC.Layout>([]);
+
+  useMount(() => {
+    CommonDashboardStore.getCustomDashboard({
+      id: dashboardMap[addonName],
+      isSystem: true,
+    }).then((res) => setChartLayout(res));
+  });
+
+  const globalVariable = React.useMemo(
+    () => ({
+      startTime: timeSpan.startTimeMs,
+      endTime: timeSpan.endTimeMs,
+      addonId,
+    }),
+    [timeSpan, addonId],
+  );
+
+  return (
+    <div>
+      <TimeRangeSelector
+        timeSpan={timeSpan}
+        onChangeTime={([start, end]) => setTimeSpan({ startTimeMs: start.valueOf(), endTimeMs: end.valueOf() })}
+      />
+      <Holder when={isEmpty(chartLayout)}>
+        <DashBoard layout={chartLayout} globalVariable={globalVariable} />
+      </Holder>
+    </div>
   );
 };
 
