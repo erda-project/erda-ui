@@ -12,13 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { getFormatter } from 'charts/utils/formatter';
-import { Holder, MetricsMonitor } from 'common';
+import { Holder, BoardGrid } from 'common';
 import i18n from 'i18n';
 import { isEmpty, isFunction, map } from 'lodash';
 import { Tag } from 'antd';
 import React from 'react';
-import './machine-detail.scss';
+import TimeRangeSelector from 'common/components/monitor/components/timeRangeSelector';
+import { useMount } from 'react-use';
+import CommonDashboardStore from 'common/stores/dashboard';
 import { firstCharToUpper } from 'app/common/utils';
+
+import './machine-detail.scss';
+
+const DashBoard = React.memo(BoardGrid.Pure);
 
 const itemConfigs = [
   {
@@ -78,18 +84,8 @@ const MachineDetail = ({ type, machineDetail }: IProps) => {
         ));
         break;
       case 'insight':
-        Content = (
-          <MetricsMonitor
-            resourceType="machine"
-            resourceId={machineDetail.hostname}
-            defaultTime={1}
-            commonChartQuery={{
-              filter_host_ip: machineDetail.ip,
-              filter_cluster_name: machineDetail.clusterName,
-              customAPIPrefix: '/api/orgCenter/metrics/',
-            }}
-          />
-        );
+        Content = <MachineOverviewDashboard machineDetail={machineDetail} />;
+
         break;
       default:
         break;
@@ -97,6 +93,44 @@ const MachineDetail = ({ type, machineDetail }: IProps) => {
   }
 
   return <Holder when={isEmpty(machineDetail)}>{Content}</Holder>;
+};
+
+const MachineOverviewDashboard = ({ machineDetail }: { machineDetail: ORG_MACHINE.IMachine }) => {
+  const [timeSpan, setTimeSpan] = React.useState({
+    startTimeMs: Date.now() - 3600 * 1000,
+    endTimeMs: Date.now(),
+  });
+
+  const [chartLayout, setChartLayout] = React.useState<DC.Layout>([]);
+
+  useMount(() => {
+    CommonDashboardStore.getCustomDashboard({
+      id: 'runtime-container-detail',
+      isSystem: true,
+    }).then((res) => setChartLayout(res));
+  });
+
+  const globalVariable = React.useMemo(
+    () => ({
+      startTime: timeSpan.startTimeMs,
+      endTime: timeSpan.endTimeMs,
+      clusterName: machineDetail.clusterName,
+      hostIP: machineDetail.ip,
+    }),
+    [timeSpan, machineDetail],
+  );
+
+  return (
+    <div>
+      <TimeRangeSelector
+        timeSpan={timeSpan}
+        onChangeTime={([start, end]) => setTimeSpan({ startTimeMs: start.valueOf(), endTimeMs: end.valueOf() })}
+      />
+      <Holder when={isEmpty(chartLayout)}>
+        <DashBoard layout={chartLayout} globalVariable={globalVariable} />
+      </Holder>
+    </div>
+  );
 };
 
 export default MachineDetail;

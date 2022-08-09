@@ -32,7 +32,7 @@ const CP_PANEL = (props: CP_PANEL.Props) => {
     const reField: IField = { ...item };
     switch (renderType) {
       case 'ellipsis':
-        reField.valueItem = (_p: Obj) => <Ellipsis title={_p.value} />;
+        reField.valueItem = (_p: Obj) => <Ellipsis title={_p.value || '-'} />;
         break;
       case 'tagsRow':
         {
@@ -61,7 +61,7 @@ const CP_PANEL = (props: CP_PANEL.Props) => {
           reField.valueItem = (_props) => {
             return (
               <span className="fake-link" {..._p}>
-                {_props.value}
+                {_props.value || '-'}
               </span>
             );
           };
@@ -69,7 +69,7 @@ const CP_PANEL = (props: CP_PANEL.Props) => {
         break;
       case 'copyText':
         reField.valueItem = (_props: Obj) => (
-          <Text type="Text" props={{ renderType: 'copyText', value: { text: _props.value } }} />
+          <Text type="Text" props={{ renderType: 'copyText', value: { text: _props.value || '-' } }} />
         );
         break;
       case 'highlightText':
@@ -78,7 +78,7 @@ const CP_PANEL = (props: CP_PANEL.Props) => {
             type="Text"
             props={{
               renderType: 'text',
-              value: { text: _props.value },
+              value: { text: _props.value || '-' },
               textStyleName: { [`text-${color}`]: !!color },
             }}
           />
