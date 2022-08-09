@@ -37,6 +37,7 @@ interface IProps {
   shareLink?: string;
   confirmCloseTip?: string;
   maskClosable?: boolean;
+  issueId?: string;
   data: CreateDrawerData;
   issueType: string;
   projectId: string;
@@ -64,6 +65,7 @@ interface IProps {
 export const IssueDrawer = (props: IProps) => {
   const {
     className = '',
+    issueId,
     canCreate = false,
     canDelete = false,
     children,
@@ -194,7 +196,7 @@ export const IssueDrawer = (props: IProps) => {
                   {extraHeaderOp}
                   <SubscribersSelector
                     subscribers={data.subscribers}
-                    issueID={customFieldDetail?.issueID}
+                    issueID={customFieldDetail?.issueID || issueId}
                     issueType={issueType}
                     projectId={projectId}
                     setData={setData}
