@@ -16,21 +16,19 @@ import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import Workflow from 'project/common/components/workflow';
 import AddFlow from 'project/common/components/workflow/add-flow';
-import { getFlowList, getBranchPolicy } from 'project/services/project-workflow';
-import { getProjectIterations } from 'project/services/project-iteration';
+import { getFlowList } from 'project/services/project-workflow';
 import { goTo } from 'app/common/utils';
 import { TASK_FLOW } from './config';
 
 interface IProps {
   projectID: number;
   id: number;
-  metaIssue: Obj;
+  type: string;
 }
 
-const IssueWorkflow: React.FC<IProps> = ({ projectID, id, metaIssue }) => {
+const IssueWorkflow: React.FC<IProps> = ({ projectID, id }) => {
   const devFlowInfos = getFlowList.useData();
-  const [currentIteration, setIteration] = React.useState<ITERATION.Detail>({} as any);
-  const { iterationID } = metaIssue;
+  const [flowUseable, setFlowUseable] = React.useState(false);
   const [expand, setExpand] = React.useState(true);
   const getFlowNodeList = React.useCallback(() => {
     getFlowList.fetch({
@@ -38,33 +36,11 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, metaIssue }) => {
       projectID,
     });
   }, [projectID, id]);
-  React.useEffect(() => {
-    getProjectIterations({
-      projectID,
-      pageSize: 100,
-      pageNo: 1,
-    }).then((res) => {
-      const iteration = res?.data?.list.find((t) => t.id === iterationID)!;
-      setIteration(iteration);
-    });
-  }, []);
-
-  const [workflows] = getBranchPolicy.useState();
-
-  const getWorkflows = React.useCallback(() => getBranchPolicy.fetch({ projectID }), [projectID]);
-
-  React.useEffect(() => {
-    getWorkflows();
-  }, [getWorkflows]);
 
   React.useEffect(() => {
     getFlowNodeList();
   }, [getFlowNodeList]);
 
-  const curFlow = workflows?.flows && workflows.flows.find((item) => item.name === TASK_FLOW);
-
-  const hasMultipleBranch =
-    curFlow && (workflows?.branchPolicies || []).find((bItem) => bItem.branch === curFlow.targetBranch)?.branchType;
   return (
     <div>
       <div className="relative h-12 flex-h-center text-primary font-medium">
@@ -83,21 +59,13 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, metaIssue }) => {
         </span>
 
         <span className="w-px h-3 bg-default-1 mx-4" />
-        <AddFlow
-          onAdd={getFlowNodeList}
-          flow={curFlow}
-          enable={!!curFlow}
-          metaData={{
-            iteration: currentIteration,
-            issue: metaIssue,
-          }}
-        />
+        <AddFlow onAdd={getFlowNodeList} projectID={projectID} onFlowUseable={setFlowUseable} issueId={id} />
       </div>
       {devFlowInfos?.devFlowInfos.length ? (
         <If condition={expand}>
           <Workflow flowInfo={devFlowInfos} scope="ISSUE" projectID={projectID} getFlowNodeList={getFlowNodeList} />
         </If>
-      ) : hasMultipleBranch ? (
+      ) : flowUseable ? (
         <div className="py-4 px-8">
           <span className=" text-default-6">{i18n.s('No workflow has been added yet, please click + Add', 'dop')}</span>
         </div>

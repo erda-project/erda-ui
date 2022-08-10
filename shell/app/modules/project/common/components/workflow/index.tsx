@@ -15,10 +15,12 @@ import React from 'react';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { sortBy } from 'lodash';
+import { Popconfirm } from 'antd';
 import CodeCard from './cards/code';
 import MergeCard from './cards/merge';
 import PipelineCard from './cards/pipeline';
 import MergeRequestCard from './cards/merge-request';
+import { deleteFlow } from 'project/services/project-workflow';
 
 import './index.scss';
 
@@ -100,14 +102,31 @@ const Workflow: React.FC<IProps> = ({ scope, projectID, getFlowNodeList, flowInf
                   {appName} {` (${i18n.t('dop:workflow')} - ${flowRuleName}) `}
                 </span>
               </div>
-              <ErdaIcon
-                onClick={() => {
-                  getFlowNodeList();
-                }}
-                size={18}
-                type="shuaxin"
-                className=" font-medium cursor-pointer text-default-6 hover:text-default-8"
-              />
+              <div>
+                <ErdaIcon
+                  onClick={() => {
+                    getFlowNodeList();
+                  }}
+                  size={18}
+                  type="shuaxin"
+                  className=" font-medium cursor-pointer text-default-6 hover:text-default-8"
+                />
+
+                <Popconfirm
+                  title={`${i18n.t('common:confirm to delete')}?`}
+                  onConfirm={() => {
+                    deleteFlow({ flowId: devFlow.id, deleteBranch: true }).then(() => {
+                      getFlowNodeList();
+                    });
+                  }}
+                >
+                  <ErdaIcon
+                    size={18}
+                    type="shanchu"
+                    className=" font-medium cursor-pointer ml-2 text-default-6 hover:text-default-8"
+                  />
+                </Popconfirm>
+              </div>
             </div>
             <div className="p-2">
               {!hasPermission ? (

@@ -22,7 +22,7 @@ import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { compact, map } from 'lodash';
 import moment from 'moment';
-import { getFlowList, getBranchPolicy } from 'project/services/project-workflow';
+import { getFlowList } from 'project/services/project-workflow';
 import issueFieldStore from 'org/stores/issue-field';
 import { ISSUE_OPTION } from 'project/common/components/issue/issue-config';
 import { getIssueTypeOption, IssueIcon } from 'project/common/components/issue/issue-icon';
@@ -37,6 +37,7 @@ import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import userStore from 'user/stores';
 import { useUpdateEffect, useMount } from 'react-use';
 import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/component/table-view';
+import AddFlow from 'project/common/components/workflow/add-flow';
 import Workflow from 'project/common/components/workflow';
 import iterationStore from 'app/modules/project/stores/iteration';
 import './issue-item.scss';
@@ -87,9 +88,11 @@ export const IssueItem = (props: IIssueProps) => {
   } = props;
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const { title, type, priority, creator, assignee, id, iterationID, issueButton } = data;
+
   const iterationList = iterationStore.useStore((s) => s.iterationList);
   const projectPerm = usePerm((s) => s.project);
   const { projectId } = routeInfoStore.getState((s) => s.params);
+  const flowRef = React.useRef<{ reload: () => void }>(null);
   const permObj =
     type === ISSUE_OPTION.REQUIREMENT
       ? projectPerm.requirement
@@ -147,13 +150,14 @@ export const IssueItem = (props: IIssueProps) => {
 
   const statusOptions: Array<{ value: string; iconLabel: JSX.Element; disabled: boolean }> = [];
   map(issueButton, (item) => {
-    statusOptions.push({
-      disabled: !item.permission,
-      value: `${item.stateID}`,
-      iconLabel: <IssueState stateID={item.stateID} />,
-    });
+    (item.permission || state?.stateID === item.stateID) &&
+      statusOptions.push({
+        disabled: !item.permission,
+        value: `${item.stateID}`,
+        iconLabel: <IssueState stateID={item.stateID} />,
+      });
   });
-
+  const flowAddable = showFlow && [ISSUE_TYPE.TASK].includes(type);
   const fieldsMap = {
     iteration: {
       Comp: (
@@ -233,10 +237,25 @@ export const IssueItem = (props: IIssueProps) => {
                 <Menu.Item
                   key="delete"
                   disabled={!deleteAuth}
-                  className={`text-danger ${deleteAuth ? '' : 'disabled'}`}
+                  className={`text-danger ${deleteAuth ? 'hover:bg-default-04' : 'disabled'}`}
                 >
                   {deleteText || i18n.t('Delete')}
                 </Menu.Item>
+                {flowAddable ? (
+                  <Menu.Item key="addFlow" className="text-default-8 hover:bg-default-04">
+                    <AddFlow
+                      key={id}
+                      onAdd={() => {
+                        flowRef?.current?.reload();
+                        setFlowExpand(true);
+                      }}
+                      projectID={+projectId}
+                      issueId={id}
+                    >
+                      <span>{i18n.t('add {name}', { name: i18n.t('dop:workflow') })}</span>
+                    </AddFlow>
+                  </Menu.Item>
+                ) : null}
               </Menu>
             }
             placement="bottomLeft"
@@ -268,12 +287,16 @@ export const IssueItem = (props: IIssueProps) => {
     >
       <div className="flex-h-center w-full py-1.5">
         {showFlow ? (
-          <ErdaIcon
-            className="hover:bg-default-1 text-default-6 hover:text-default-8 p-0.5 -ml-1 cursor-pointer"
-            size={20}
-            onClick={() => setFlowExpand((prev) => !prev)}
-            type={`${flowExpand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`}
-          />
+          flowAddable ? (
+            <ErdaIcon
+              className="hover:bg-default-1 text-default-6 hover:text-default-8 p-0.5 -ml-1 cursor-pointer"
+              size={20}
+              onClick={() => setFlowExpand((prev) => !prev)}
+              type={`${flowExpand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`}
+            />
+          ) : (
+            <div className="p-0.5 -ml-1 w-6" />
+          )
         ) : null}
         <div className="issue-info h-full">
           <div
@@ -316,44 +339,50 @@ export const IssueItem = (props: IIssueProps) => {
           <div className="text-sub flex items-center flex-wrap justify-end">{fields}</div>
         </div>
       </div>
-      <FlowList key={id} projectId={projectId} issueId={id} visible={flowExpand} />
+      {flowAddable ? <FlowList ref={flowRef} key={id} projectId={projectId} issueId={id} visible={flowExpand} /> : null}
     </div>
   );
 };
 
-const FlowList = ({ projectId, issueId, visible }: { projectId: string; issueId: number; visible: boolean }) => {
-  const [flowData, setFlowData] = React.useState<DEVOPS_WORKFLOW.DevFlowInfos | null>(null);
-  const getFlowNodeList = React.useCallback(() => {
-    getFlowList({
-      issueID: issueId,
-      projectID: +projectId,
-    }).then((res) => {
-      setFlowData(res?.data);
+const FlowList = React.forwardRef(
+  ({ projectId, issueId, visible }: { projectId: string; issueId: number; visible: boolean }, ref) => {
+    const [flowData, setFlowData] = React.useState<DEVOPS_WORKFLOW.DevFlowInfos | null>(null);
+    const getFlowNodeList = React.useCallback(() => {
+      getFlowList({
+        issueID: issueId,
+        projectID: +projectId,
+      }).then((res) => {
+        setFlowData(res?.data);
+      });
+    }, [projectId, issueId]);
+
+    React.useImperativeHandle(ref, () => ({
+      reload: getFlowNodeList,
+    }));
+
+    useMount(() => {
+      if (visible) getFlowNodeList();
     });
-  }, [projectId, issueId]);
 
-  useMount(() => {
-    if (visible) getFlowNodeList();
-  });
+    useUpdateEffect(() => {
+      if (visible && !flowData?.devFlowInfos.length) getFlowNodeList();
+    }, [visible]);
 
-  useUpdateEffect(() => {
-    if (visible && !flowData?.devFlowInfos.length) getFlowNodeList();
-  }, [visible]);
-
-  return visible ? (
-    <div className="w-full overflow-hidden px-6">
-      {flowData?.devFlowInfos.length ? (
-        <Workflow flowInfo={flowData} scope="ISSUE" projectID={+projectId} getFlowNodeList={getFlowNodeList} />
-      ) : (
-        <EmptyHolder
-          relative
-          style={{ height: 120 }}
-          tip={i18n.t('no available {item}', { item: i18n.t('dop:workflow') })}
-        />
-      )}
-    </div>
-  ) : null;
-};
+    return visible ? (
+      <div className="w-full overflow-hidden px-6">
+        {flowData?.devFlowInfos.length ? (
+          <Workflow flowInfo={flowData} scope="ISSUE" projectID={+projectId} getFlowNodeList={getFlowNodeList} />
+        ) : (
+          <EmptyHolder
+            relative
+            style={{ height: 120 }}
+            tip={i18n.t('no available {item}', { item: i18n.t('dop:workflow') })}
+          />
+        )}
+      </div>
+    ) : null;
+  },
+);
 
 interface IIssueFormProps {
   className?: string;
@@ -362,6 +391,7 @@ interface IIssueFormProps {
   onOk: (data: ISSUE.BacklogIssueCreateBody) => Promise<number>;
   typeDisabled?: boolean;
   issueTypeOption?: ISSUE_OPTION[];
+  onCreate?: () => void;
 }
 
 const placeholderMap = {
@@ -371,7 +401,7 @@ const placeholderMap = {
 };
 
 export const IssueForm = (props: IIssueFormProps) => {
-  const { onCancel = noop, onOk, className = '', defaultIssueType, typeDisabled, issueTypeOption } = props;
+  const { onCancel = noop, onOk, className = '', defaultIssueType, typeDisabled, issueTypeOption, onCreate } = props;
   const { projectId } = routeInfoStore.getState((s) => s.params);
   const { addFieldsToIssue } = issueStore.effects;
   const [bugStageList, taskTypeList] = issueFieldStore.useStore((s) => [s.bugStageList, s.taskTypeList]);
@@ -393,7 +423,7 @@ export const IssueForm = (props: IIssueFormProps) => {
     setTypeSelectWidth(typeSelectWidth ? _typeSelectWidth : _typeSelectWidth + 20);
   }, [formData.type, className]); // The reason for adding className is that it affects the width
 
-  const onAdd = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onAdd = (e: React.KeyboardEvent<HTMLInputElement>, callback: () => void) => {
     const continueAdd = isWin ? e.shiftKey : e.metaKey;
     const data = {
       ...formData,
@@ -424,6 +454,7 @@ export const IssueForm = (props: IIssueFormProps) => {
           });
           addFieldsToIssue({ property, issueID: newIssueID, orgID, projectID: +projectId });
         }
+        callback();
       });
       updater.title('');
       if (!continueAdd) {
@@ -442,7 +473,11 @@ export const IssueForm = (props: IIssueFormProps) => {
           { meta: isWin ? 'Shift' : 'Cmd' },
         )}`}
         maxLength={255}
-        onPressEnter={onAdd}
+        onPressEnter={(e) =>
+          onAdd(e, () => {
+            onCreate?.();
+          })
+        }
         autoFocus
         onChange={(e) => updater.title(e.target.value)}
         style={{ height: '42px', paddingRight: '180px', paddingLeft: `${typeSelectWidth}px` }}

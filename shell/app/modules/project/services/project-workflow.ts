@@ -11,6 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import { apiCreator } from 'core/service';
+import agent from 'agent';
 
 const apis = {
   tempMerge: {
@@ -42,6 +43,13 @@ export const getBranches = apiCreator<(payload: { projectName: string; appName: 
   apis.getBranches,
 );
 
+export function deleteFlow({ flowId, deleteBranch }: { flowId: string; deleteBranch: boolean }) {
+  return agent
+    .delete(`/api/devflow/${flowId}`)
+    .query({ deleteBranch })
+    .then((response: any) => response.body);
+}
+
 export const getFlowList = apiCreator<
   (
     payload: { projectID: number; branch: string; appID: string } | { projectID: number; issueID: number },
@@ -54,7 +62,7 @@ export const getPipelineDetail = apiCreator<(payload: { pipelineID: number }) =>
   apis.getPipelineDetail,
 );
 
-export const getBranchPolicy = apiCreator<(payload: { projectID: string }) => DEVOPS_WORKFLOW.DevOpsWorkFlow>(
+export const getBranchPolicy = apiCreator<(payload: { projectID: string | number }) => DEVOPS_WORKFLOW.DevOpsWorkFlow>(
   apis.getBranchPolicy,
 );
 
