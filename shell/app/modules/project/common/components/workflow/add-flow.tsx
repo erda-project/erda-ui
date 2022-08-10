@@ -20,15 +20,15 @@ import { useMount } from 'react-use';
 import { getJoinedApps } from 'user/services/user';
 import { createFlow, getBranches, getBranchPolicy } from 'project/services/project-workflow';
 import i18n from 'i18n';
+import { TASK_FLOW } from './config';
 
 interface IProps {
   enable?: boolean;
   flow: DEVOPS_WORKFLOW.BranchFlows;
   onAdd: () => void;
-  metaData: {
-    iteration: ITERATION.Detail;
-    issue: Obj;
-  };
+  projectID: number;
+  children?: JSX.Element;
+  issueId: number;
 }
 
 // valid branch rule
@@ -45,7 +45,7 @@ const validateBranchRule = (v: string, rule: string) => {
   });
 };
 
-const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
+const AddFlow: React.FC<IProps> = ({ onAdd, issueId, flow, children }) => {
   const [form] = Form.useForm<Omit<DEVOPS_WORKFLOW.CreateFlowNode, 'issueID'>>();
   const allBranch = getBranches.useData();
   const { id: projectId, name: projectName } = projectStore.useStore((s) => s.info);
@@ -58,15 +58,13 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
   const curPolicy = branchPolicies.find((item) => item.branch === flow.targetBranch);
   const { currentBranch: currentBranchRule, sourceBranch, targetBranch } = curPolicy?.policy || {};
 
-  const { iteration, issue } = metaData;
-
   const allBranchRef = React.useRef<REPOSITORY.IBranch[] | null>(null);
 
-  React.useImperativeHandle(allBranchRef, () => allBranch);
+  React.useImperativeHandle(allBranchRef, () => allBranch || []);
 
   const getBranchInfo = () => {
     if (curPolicy) {
-      let _currentBranch = currentBranchRule?.replaceAll('*', issue.id);
+      let _currentBranch = currentBranchRule?.replaceAll('*', `${issueId}`);
       let newBranchOption = _currentBranch ? _currentBranch.split(',') : [];
 
       const curBranchs = (allBranchRef.current || []).map((item) => item.name);
@@ -149,7 +147,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
     const handleOk = async () => {
       const formData = await form.validateFields();
       await createFlow.fetch({
-        issueID: issue.id,
+        issueID: issueId,
         ...formData,
         flowRuleName: flow.name,
       });
@@ -189,7 +187,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
           showSearch: true,
           onChange: (v: number) => {
             const { name } = apps?.list?.find((item) => item.id === v)!;
-            const result = getBranchInfo()?.values;
+            const result = getBranchInfo()?.values || {};
             form.setFieldsValue(result);
             getBranches
               .fetch({
@@ -268,7 +266,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
         </div>
       </div>
     );
-  }, [form, apps, iteration, chosenApp]);
+  }, [form, apps, chosenApp]);
   return (
     <Popover
       title={`${i18n.s('Create workflow', 'dop')}: ${flow?.name}`}
@@ -277,24 +275,63 @@ const AddFlow: React.FC<IProps> = ({ onAdd, metaData = {}, flow }) => {
       visible={visible}
       onVisibleChange={setVisible}
     >
-      <div
-        className="h-7 mr-2 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
-        onClick={() => {
-          setVisible(true);
-        }}
-      >
-        <ErdaIcon type="plus" size={20} />
-      </div>
+      {children ? (
+        <div
+          className="cursor-pointer"
+          onClick={() => {
+            setVisible(true);
+          }}
+        >
+          {children}
+        </div>
+      ) : (
+        <div
+          className="h-7 mr-2 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
+          onClick={() => {
+            setVisible(true);
+          }}
+        >
+          <ErdaIcon type="plus" size={20} />
+        </div>
+      )}
     </Popover>
   );
 };
 
-const AddFlowContainer = (props: IProps) => {
-  const { enable } = props;
+interface ContainerProps {
+  onAdd: () => void;
+  projectID: number;
+  children?: JSX.Element;
+  onFlowUseable?: (b: boolean) => void;
+  issueId: number;
+}
+
+const AddFlowContainer = (props: ContainerProps) => {
+  const { children, projectID, onFlowUseable } = props;
+
+  const [workflows] = getBranchPolicy.useState();
+
+  const getWorkflows = React.useCallback(() => getBranchPolicy.fetch({ projectID }), [projectID]);
+
+  const curFlow = workflows?.flows && workflows.flows.find((item) => item.name === TASK_FLOW);
+  React.useEffect(() => {
+    getWorkflows();
+  }, [getWorkflows]);
+
+  const enable = !!curFlow;
+
+  const hasMultipleBranch = !!(
+    curFlow && (workflows?.branchPolicies || []).find((bItem) => bItem.branch === curFlow.targetBranch)?.branchType
+  );
+
+  React.useEffect(() => {
+    onFlowUseable?.(hasMultipleBranch);
+  }, [hasMultipleBranch]);
+
   if (!enable) {
-    return <ErdaIcon type="plus" size={20} className="cursor-not-allowed text-default-4" />;
+    return children || <ErdaIcon type="plus" size={20} className="cursor-not-allowed text-default-4" />;
   }
-  return <AddFlow {...props} />;
+  return curFlow ? <AddFlow {...props} enable={enable} flow={curFlow} /> : null;
 };
 
 export default AddFlowContainer;

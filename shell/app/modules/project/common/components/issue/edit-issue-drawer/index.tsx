@@ -826,7 +826,7 @@ export const EditIssueDrawer = (props: IProps) => {
       />
       <Choose>
         <When condition={[ISSUE_TYPE.TASK].includes(issueType) && isEditMode}>
-          <IssueWorkflow projectID={+addRelatedMattersProjectId} id={propId!} type={issueType} metaIssue={formData} />
+          <IssueWorkflow projectID={+addRelatedMattersProjectId} id={propId!} type={issueType} />
         </When>
         <Otherwise>{IssueDrawer.Empty}</Otherwise>
       </Choose>

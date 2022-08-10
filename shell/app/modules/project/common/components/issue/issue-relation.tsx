@@ -144,6 +144,10 @@ const useIssueRelation = (props: IProps) => {
         className={activeButtonType === 'create' ? '' : 'hidden'}
         onSaveRelation={addRelation}
         onCancel={() => setActiveButtonType('')}
+        onCreate={() => {
+          setActiveButtonType('create');
+          setExpand(true);
+        }}
         iterationID={curIterationID}
         defaultIssueType={defaultIssueType}
         issueTypeOption={issueTypeOption}
@@ -156,7 +160,7 @@ const useIssueRelation = (props: IProps) => {
               editable
               nameEditable
               showFlow
-              defaultExpandFlow={index === 0}
+              // defaultExpandFlow={index === 0}
               key={item.id}
               showIteration
               afterUpdate={() => onRelationChange?.()}
@@ -740,6 +744,7 @@ interface IAddNewIssueProps {
   onCancel: () => void;
   typeDisabled?: boolean;
   className?: string;
+  onCreate?: () => void;
 }
 
 const AddNewIssue = ({
@@ -750,6 +755,7 @@ const AddNewIssue = ({
   typeDisabled,
   issueTypeOption,
   className = '',
+  onCreate,
 }: IAddNewIssueProps) => {
   const { createIssue } = iterationStore.effects;
   const { projectId } = routeInfoStore.getState((s) => s.params);
@@ -761,6 +767,7 @@ const AddNewIssue = ({
       onCancel={onCancel}
       issueTypeOption={issueTypeOption}
       defaultIssueType={defaultIssueType}
+      onCreate={onCreate}
       onOk={(val: ISSUE.BacklogIssueCreateBody) => {
         return createIssue({
           // 创建事件
