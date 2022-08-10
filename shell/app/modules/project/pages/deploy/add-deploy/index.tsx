@@ -53,7 +53,7 @@ const AddDeploy = ({
 
   useUpdateEffect(() => {
     selectedRelease &&
-      getReleaseRenderDetail.fetch({ releaseID: selectedRelease, workspace: env, mode, id }).then((res) => {
+      getReleaseRenderDetail.fetch({ projectId, releaseID: selectedRelease, workspace: env, mode, id }).then((res) => {
         res.data?.id &&
           propsOnSelect({
             name: res.data.name,

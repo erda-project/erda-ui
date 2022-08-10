@@ -152,6 +152,7 @@ declare namespace PROJECT_DEPLOY {
   interface ReleaseRenderDetailReq {
     releaseID: string;
     workspace: string;
+    projectId: string;
     mode?: string[];
     id?: string;
   }
