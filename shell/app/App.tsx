@@ -146,9 +146,9 @@ window.initData = undefined;
 const { user, orgs, currentOrg, orgAccess } = getGlobal('initData') || {};
 
 if (user) {
-  if (process.env.GA_ID) {
-    ReactGA.initialize(process.env.GA_ID);
-    ReactGA.gtag('config', process.env.GA_ID, { userId: user.id });
+  if (erdaEnv.GA_ID) {
+    ReactGA.initialize(erdaEnv.GA_ID as string);
+    ReactGA.gtag('config', erdaEnv.GA_ID, { userId: user.id });
     ReactGA.send('pageview');
   }
 
