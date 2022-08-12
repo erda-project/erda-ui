@@ -47,11 +47,6 @@ import 'tailwindcss/tailwind.css';
 import ReactGA from 'react-ga4';
 import { initLinkS } from './links-service';
 
-if (process.env.GA_ID) {
-  ReactGA.initialize(process.env.GA_ID);
-  ReactGA.send('pageview');
-}
-
 setConfig('onAPISuccess', message.success);
 setConfig('onAPIFail', notify);
 
@@ -151,6 +146,12 @@ window.initData = undefined;
 const { user, orgs, currentOrg, orgAccess } = getGlobal('initData') || {};
 
 if (user) {
+  if (process.env.GA_ID) {
+    ReactGA.initialize(process.env.GA_ID);
+    ReactGA.gtag('config', process.env.GA_ID, { userId: user.id });
+    ReactGA.send('pageview');
+  }
+
   window.localStorage.removeItem(`lastPath`); // clear old lastPath
   const lastPath = window.localStorage.getItem(`${user.id}-lastPath`);
   if (lastPath) {
