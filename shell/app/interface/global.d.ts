@@ -116,6 +116,7 @@ interface Window {
     ENABLE_BIGDATA: boolean;
     ENABLE_EDGE: boolean;
     ENABLE_GALLERY: boolean;
+    GA_ID: string;
     UC_PUBLIC_URL: string; // 包含protocol
   };
   refreshApiGateway: RefreshApiGateway | null;
