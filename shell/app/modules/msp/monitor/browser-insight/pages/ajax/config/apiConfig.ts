@@ -11,62 +11,49 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { sortHandler, multipleDataHandler, groupHandler } from 'common/utils/chart-utils';
-
-const commonQuery = {};
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab }: { sortTab: string }) => {
+    getFetchObj: ({ sortTab, terminusKey }: { sortTab: string; terminusKey: string }) => {
       const fetchMap = {
         time: {
-          fetchApi: 'ta_req_top_avg_time',
-          query: { group: 'req_path', limit: 20, sort: 'avg_tt', avg: 'tt' },
-          dataKey: 'avg.tt',
-        },
-        percent: {
-          fetchApi: 'ta_req_top_percent_time',
-          query: { group: 'req_path', limit: 20, sort: 'sumPercent_tt', sumPercent: 'tt' },
-          dataKey: 'sumPercent.tt',
+          group: 'req_path',
+          expr: 'avg',
+          field: 'tt::field',
+          extendHandler: { unit: 'ms' },
         },
         cpm: {
-          fetchApi: 'ta_req_top_cpm',
-          query: { group: 'req_path', limit: 20, sort: 'cpm_tt', cpm: 'tt' },
-          dataKey: 'cpm.tt',
+          group: 'req_path',
+          expr: 'count',
+          field: 'tt::field',
         },
       };
-      const { query = {}, fetchApi = '', dataKey = '' } = fetchMap[sortTab] || {};
-      return { fetchApi, extendQuery: { ...query }, extendHandler: { dataKey } };
+      const { group, expr, field } = fetchMap[sortTab] || {};
+      const postData = {
+        from: ['ta_timing'],
+        select: [
+          {
+            expr: `${group}::tag`,
+            alias: 'type',
+          },
+          {
+            expr: `${expr}(${field})`,
+            alias: 'value',
+          },
+        ],
+        where: [`tk::tag='${terminusKey}'`, `${field} > 0`],
+        limit: 20,
+        groupby: [`${group}::tag`],
+        orderby: [
+          {
+            expr: `${expr}(${field}) DESC`,
+          },
+        ],
+      };
+      return { postData, extendHandler: fetchMap[sortTab]?.extendHandler || {} };
     },
-    dataHandler: sortHandler(),
-  },
-  rspTopN: {
-    fetchApi: 'ta_req_avg_time/histogram',
-    query: { ...commonQuery, group: 'req_path', limit: 5, sort: 'histogram_avg_tt', avg: 'tt' },
-    dataHandler: groupHandler('avg.tt'),
-  },
-  cpmTopN: {
-    fetchApi: 'ta_req_cpm/histogram',
-    query: { ...commonQuery, group: 'req_path', limit: 5, sort: 'histogram_cpm_tt', cpm: 'tt' },
-    dataHandler: groupHandler('cpm.tt'),
-  },
-  postTopN: {
-    fetchApi: 'ta_req_send/histogram',
-    query: { ...commonQuery, group: 'req_path', limit: 5, sort: 'histogram_sum_res', sum: 'res' },
-    dataHandler: groupHandler('sum.res'),
-  },
-  receiveTopN: {
-    fetchApi: 'ta_req_recv/histogram',
-    query: { ...commonQuery, group: 'req_path', limit: 5, sort: 'histogram_sum_req', sum: 'req' },
-    dataHandler: groupHandler('sum.req'),
-  },
-  ajaxPerformanceTrends: {
-    fetchApi: 'ta_ajax_timing/histogram',
-    query: { ...commonQuery, count: 'tt', avg: 'tt' },
-    dataHandler: multipleDataHandler(['avg.tt', 'count.tt']),
-  },
-  statusTopN: {
-    fetchApi: 'ta_req_status/histogram',
-    query: { ...commonQuery, group: 'status_code', limit: 5, sort: 'histogram_count_req', count: 'req' },
-    dataHandler: groupHandler('count.req'),
+    dataHandler: (res: { data: Array<{ type: string; value: string }> }, rest: Obj) => {
+      const unit = rest?.extendHandler?.unit;
+      return { list: (res?.data || []).map((item) => ({ name: item.type, value: item.value, unit })) };
+    },
   },
 };

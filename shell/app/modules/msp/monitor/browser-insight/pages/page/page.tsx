@@ -15,22 +15,13 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
+import { DashboardRender } from 'browser-insight/common/components/biRenderFactory';
 import PageMap from './config/chartMap';
 import './page.scss';
 
 const Page = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
-  const getAllChart = () => {
-    return [<PageMap.performanceInterval />, <PageMap.timeTopN />, <PageMap.cpmTopN />];
-  };
-  const getDetailChart = () => {
-    const query = chosenSortItem ? { filter_doc_path: chosenSortItem } : {};
-    return [
-      <PageMap.performanceInterval query={query} />,
-      <PageMap.pagePerformanceTrends query={query} />,
-      <PageMap.slowTrack query={query} />,
-    ];
-  };
+
   return (
     <div>
       <div className="flex justify-between mb-3">
@@ -45,11 +36,11 @@ const Page = () => {
           </div>
         </Col>
         <Col span={16}>
-          <Row gutter={[20, 20]}>
-            {(chosenSortItem ? getDetailChart() : getAllChart()).map((item) => (
-              <Col span={24}>{item}</Col>
-            ))}
-          </Row>
+          {chosenSortItem ? (
+            <DashboardRender key={'page_detail'} daboardId="page_detail" doc_path={chosenSortItem} />
+          ) : (
+            <DashboardRender key={'page_overview'} daboardId="page_overview" />
+          )}
         </Col>
       </Row>
     </div>

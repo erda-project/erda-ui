@@ -12,15 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { merge } from 'lodash';
-import { sortRender, chartRender } from 'browser-insight/common/components/biRenderFactory';
-import ScriptDetail from '../script-detail';
+import { sortRender } from 'browser-insight/common/components/biRenderFactory';
 import { ApiMap } from './apiConfig';
 import i18n from 'i18n';
-
-const commonAttr = {
-  moduleName: 'BIScript',
-  groupId: 'BIScript',
-};
 
 const chartMap = merge(
   {
@@ -40,22 +34,6 @@ const chartMap = merge(
         onClickItem: null,
       },
     },
-    errorTopN: {
-      titleText: i18n.t('msp:Number of JavaScript errors'),
-      ...commonAttr,
-      chartName: 'errorTopN',
-    },
-    browsersTopN: {
-      titleText: i18n.t('msp:Number of browser errors'),
-      ...commonAttr,
-      chartName: 'browsersTopN',
-    },
-    scriptDetail: {
-      titleText: i18n.t('msp:error details'),
-      ...commonAttr,
-      chartName: 'scriptDetail',
-      viewRender: ScriptDetail,
-    },
   },
   ApiMap,
 );
@@ -63,7 +41,4 @@ const chartMap = merge(
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,
   sortList: sortRender(chartMap.sortList) as any,
-  errorTopN: chartRender(chartMap.errorTopN) as any,
-  browsersTopN: chartRender(chartMap.browsersTopN) as any,
-  scriptDetail: chartRender(chartMap.scriptDetail) as any,
 };

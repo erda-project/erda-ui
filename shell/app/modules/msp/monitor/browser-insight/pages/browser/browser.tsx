@@ -16,21 +16,10 @@ import { Row, Col } from 'antd';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import BrowserMap from './config/chartMap';
+import { DashboardRender } from 'browser-insight/common/components/biRenderFactory';
 
 const Browser = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
-  const getAllChart = () => {
-    return [<BrowserMap.timeTopN />, <BrowserMap.cpmTopN />];
-  };
-
-  const getDetailChart = () => {
-    const query = chosenSortItem ? { filter_browser: chosenSortItem } : {};
-    return [
-      <BrowserMap.browserPerformanceInterval query={query} />,
-      <BrowserMap.singleTimeTopN query={query} />,
-      <BrowserMap.singleCpmTopN query={query} />,
-    ];
-  };
 
   return (
     <div>
@@ -45,11 +34,11 @@ const Browser = () => {
           </div>
         </Col>
         <Col span={16}>
-          <Row gutter={[20, 20]}>
-            {(chosenSortItem ? getDetailChart() : getAllChart()).map((item) => (
-              <Col span={24}>{item}</Col>
-            ))}
-          </Row>
+          {chosenSortItem ? (
+            <DashboardRender key={'browser_detail'} daboardId="browser_detail" browser={chosenSortItem} />
+          ) : (
+            <DashboardRender key={'browser_overview'} daboardId="browser_overview" />
+          )}
         </Col>
       </Row>
     </div>

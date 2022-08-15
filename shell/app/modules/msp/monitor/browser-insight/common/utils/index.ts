@@ -42,7 +42,7 @@ export const sortCreator = (moduleName: string, chartName: string, payload?: obj
       type: 'sortTab',
       tabList: [
         { name: i18n.t('msp:Average Time'), key: 'time' },
-        { name: i18n.t('msp:Time Percentage'), key: 'percent' },
+        // { name: i18n.t('msp:Time Percentage'), key: 'percent' },
         { name: i18n.t('msp:Throughput'), key: 'cpm' },
       ],
     },

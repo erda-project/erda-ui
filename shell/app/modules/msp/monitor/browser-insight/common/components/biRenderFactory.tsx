@@ -12,7 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ChartBaseFactory, SortBaseFactory } from 'monitor-common';
+import { ChartBaseFactory } from 'monitor-common';
+import SortBaseFactory from './sort-list/sortFactory';
+import monitorCommonStore from 'common/stores/monitorCommon';
+import { BoardGrid, Holder } from 'common';
+import { useMount } from 'react-use';
+import CommonDashboardStore from 'common/stores/dashboard';
+import { isEmpty } from 'lodash';
+import routeInfoStore from 'core/stores/route';
+
+const DashBoard = React.memo(BoardGrid.Pure);
 
 export const chartRender = (obj: any) => {
   if (!obj) return null;
@@ -35,8 +44,44 @@ export const sortRender = (obj: any) => {
   if (!obj) return null;
   const { query = {}, fetchApi, ...rest } = obj;
   const SortPanel = SortBaseFactory.create({ ...rest });
-  query.dependentKey = { start: 'startTimeMs', end: 'endTimeMs', filter_tk: 'terminusKey' };
+  const commonQuery = {
+    format: 'chartv2',
+    ql: 'influxql:ast',
+    type: '_',
+    filter__metric_scope: 'micro_service',
+  };
+  query.dependentKey = { start: 'startTimeMs', end: 'endTimeMs', filter__metric_scope_id: 'terminusKey' };
   return (props: any) => (
-    <SortPanel {...props} {...rest} query={query} fetchApi={`/api/spot/tmc/metrics/${fetchApi || ''}`} />
+    <SortPanel {...props} {...rest} query={{ ...query, ...commonQuery }} fetchApi={`/api/tmc/metrics-query`} />
+  );
+};
+
+export const DashboardRender = ({ daboardId, ...rest }: { daboardId: string; [pro: string]: any }) => {
+  const [timeSpan] = monitorCommonStore.useStore((s) => [s.globalTimeSelectSpan.range]);
+  const terminusKey = routeInfoStore.useStore((s) => s.params.terminusKey);
+
+  const [chartLayout, setChartLayout] = React.useState<DC.Layout>([]);
+
+  useMount(() => {
+    CommonDashboardStore.getCustomDashboard({
+      id: daboardId,
+      isSystem: true,
+    }).then((res) => setChartLayout(res));
+  });
+
+  const globalVariable = React.useMemo(
+    () => ({
+      startTime: timeSpan.startTimeMs,
+      endTime: timeSpan.endTimeMs,
+      tk: terminusKey,
+      ...rest,
+    }),
+    [timeSpan, terminusKey, rest],
+  );
+
+  return (
+    <Holder when={isEmpty(chartLayout)}>
+      <DashBoard layout={chartLayout} globalVariable={globalVariable} />
+    </Holder>
   );
 };

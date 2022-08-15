@@ -13,10 +13,8 @@
 
 import { merge } from 'lodash';
 import { sortCreator } from 'browser-insight/common/utils';
-import { sortRender, chartRender } from 'browser-insight/common/components/biRenderFactory';
+import { sortRender } from 'browser-insight/common/components/biRenderFactory';
 import { ApiMap } from './apiConfig';
-import i18n from 'i18n';
-
 export const commonAttr = {
   moduleName: 'BIBrowser',
   groupId: 'BIBrowser',
@@ -30,43 +28,6 @@ const chartMap = merge(
       type: 'sortList',
       chartName: 'sortList',
     },
-    timeTopN: {
-      titleText: i18n.t('msp:Average loading time - browser type'),
-      ...commonAttr,
-      chartName: 'timeTopN',
-      viewProps: {
-        unitType: 'TIME',
-      },
-    },
-    cpmTopN: {
-      titleText: i18n.t('msp:Throughput - browser type'),
-      ...commonAttr,
-      chartName: 'cpmTopN',
-      viewProps: {
-        unitType: 'CPM',
-      },
-    },
-    browserPerformanceInterval: {
-      ...commonAttr,
-      chartName: 'performanceInterval',
-      titleText: i18n.t('msp:browser performance trends'),
-    },
-    singleTimeTopN: {
-      titleText: i18n.t('msp:average load time'),
-      ...commonAttr,
-      chartName: 'singleTimeTopN',
-      viewProps: {
-        unitType: 'TIME',
-      },
-    },
-    singleCpmTopN: {
-      titleText: i18n.t('msp:Throughput'),
-      ...commonAttr,
-      chartName: 'singleCpmTopN',
-      viewProps: {
-        unitType: 'CPM',
-      },
-    },
   },
   ApiMap,
 );
@@ -74,9 +35,4 @@ const chartMap = merge(
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,
   sortList: sortRender(chartMap.sortList) as any,
-  timeTopN: chartRender(chartMap.timeTopN) as any,
-  cpmTopN: chartRender(chartMap.cpmTopN) as any,
-  browserPerformanceInterval: chartRender(chartMap.browserPerformanceInterval) as any,
-  singleTimeTopN: chartRender(chartMap.singleTimeTopN) as any,
-  singleCpmTopN: chartRender(chartMap.singleCpmTopN) as any,
 };

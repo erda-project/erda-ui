@@ -11,45 +11,48 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { get } from 'lodash';
-import { sortHandler, groupHandler } from 'common/utils/chart-utils';
-
-const commonQuery = {};
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab }: { sortTab: string }) => {
+    getFetchObj: ({ sortTab, terminusKey }: { sortTab: string; terminusKey: string }) => {
       const fetchMap = {
         error: {
-          fetchApi: 'ta_top_script_error',
-          query: { group: 'error', count: 'count', limit: 20, sort: 'count_count', source: true },
-          dataKey: 'count.count',
+          group: 'error',
+          expr: 'count',
+          field: 'count::field',
         },
         url: {
-          fetchApi: 'ta_top_page_script_error',
-          query: { group: 'doc_path', count: 'count', limit: 20, sort: 'count_count', source: true },
-          dataKey: 'count.count',
+          group: 'doc_path',
+          expr: 'count',
+          field: 'count::field',
         },
       };
-      const { fetchApi = '', query = {}, dataKey = '' } = fetchMap[sortTab] || {};
-      return { fetchApi, extendQuery: query, extendHandler: { dataKey } };
+      const { group, expr, field } = fetchMap[sortTab] || {};
+      const postData = {
+        from: ['ta_timing'],
+        select: [
+          {
+            expr: `${group}::tag`,
+            alias: 'type',
+          },
+          {
+            expr: `${expr}(${field})`,
+            alias: 'value',
+          },
+        ],
+        where: [`tk::tag='${terminusKey}'`, `${field} > 0`],
+        limit: 20,
+        groupby: [`${group}::tag`],
+        orderby: [
+          {
+            expr: `${expr}(${field}) DESC`,
+          },
+        ],
+      };
+      return { postData, extendHandler: fetchMap[sortTab]?.extendHandler || {} };
     },
-    dataHandler: sortHandler(),
-  },
-  errorTopN: {
-    fetchApi: 'ta_top_js_script_error/histogram',
-    query: { ...commonQuery, group: 'error', limit: 4, sort: 'histogram_count_count', count: 'count', source: true },
-    dataHandler: groupHandler('count.count'),
-  },
-  browsersTopN: {
-    fetchApi: 'ta_top_browser_script_error/histogram',
-    query: { ...commonQuery, group: 'browser', limit: 4, sort: 'histogram_count_count', count: 'count', source: true },
-    dataHandler: groupHandler('count.count'),
-  },
-  scriptDetail: {
-    fetchApi: 'error_info',
-    dataHandler: (originData = {}) => {
-      const list = get(originData, 'results[0].data');
-      return { list };
+    dataHandler: (res: { data: Array<{ type: string; value: string }> }, rest: Obj) => {
+      const unit = rest?.extendHandler?.unit;
+      return { list: (res?.data || []).map((item) => ({ name: item.type, value: item.value, unit })) };
     },
   },
 };
