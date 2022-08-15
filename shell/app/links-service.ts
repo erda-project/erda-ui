@@ -14,38 +14,42 @@
 import axios from 'axios';
 
 export function initLinkS(userId: string, userName: string, orgName: string) {
-  axios
-    .get('/getLinksToken', { params: { userId, userName, orgName } })
-    .then((res) => {
-      // @ts-ignore LinkS
-      if (window.LinkS) {
-        Reflect.deleteProperty(window, 'LinkS');
+  const ak = process.env.LINKS_AK;
+  const sk = process.env.LINKS_SK;
+  if (ak && sk) {
+    axios
+      .get('/getLinksToken', { params: { userId, userName, orgName } })
+      .then((res) => {
+        // @ts-ignore LinkS
+        if (window.LinkS) {
+          Reflect.deleteProperty(window, 'LinkS');
 
-        const node1 = document.getElementById('links-widget-div');
-        const node2 = document.getElementById('links-tip-container');
-        const node3 = document.querySelector('.links-card-div');
-        const node4 = document.getElementById('last-links');
-        if (node1 && node2 && node3 && node4) {
-          document.body.removeChild(node1);
-          document.body.removeChild(node2);
-          document.body.removeChild(node3);
-          document.head.removeChild(node4);
+          const node1 = document.getElementById('links-widget-div');
+          const node2 = document.getElementById('links-tip-container');
+          const node3 = document.querySelector('.links-card-div');
+          const node4 = document.getElementById('last-links');
+          if (node1 && node2 && node3 && node4) {
+            document.body.removeChild(node1);
+            document.body.removeChild(node2);
+            document.body.removeChild(node3);
+            document.head.removeChild(node4);
+          }
         }
-      }
 
-      const element = document.createElement('script');
-      element.src = `https://links-tp.alipay.com/widgetInit/6295896f51a53d0479bd6528/?links_auth_token=${res.data}`;
-      element.type = 'text/javascript';
-      element.async = true;
-      element.id = 'last-links';
+        const element = document.createElement('script');
+        element.src = `https://links-tp.alipay.com/widgetInit/6295896f51a53d0479bd6528/?links_auth_token=${res.data}`;
+        element.type = 'text/javascript';
+        element.async = true;
+        element.id = 'last-links';
 
-      element.onerror = (e) => {
-        console.error('Failed to load LinkS:', e);
-      };
+        element.onerror = (e) => {
+          console.error('Failed to load LinkS:', e);
+        };
 
-      document.head.appendChild(element);
-    })
-    .catch((e) => {
-      console.error('get Links Token failed', e);
-    });
+        document.head.appendChild(element);
+      })
+      .catch((e) => {
+        console.error('get Links Token failed', e);
+      });
+  }
 }

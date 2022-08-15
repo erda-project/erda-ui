@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "DEV=true nest start --watch",
-    "start": "nest start",
+    "start": "DEV=true nest start",
     "build": "rm -rf ./dist && nest build",
     "start:prod": "node dist/main",
     "precommit": "lint-staged"
