@@ -16,25 +16,11 @@ import { Row, Col } from 'antd';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import DomainMap from './config/chartMap';
 import { TimeSelectWithStore } from 'msp/components/time-select';
+import { DashboardRender } from 'browser-insight/common/components/biRenderFactory';
 import './domain.scss';
 
 const Domain = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
-  const getAllChart = () => {
-    return [<DomainMap.performanceInterval />, <DomainMap.timeTopN />, <DomainMap.cpmTopN />];
-  };
-
-  const getDetailChart = () => {
-    const filter_host = chosenSortItem;
-    const query = filter_host ? { filter_host } : {};
-    return [
-      <DomainMap.performanceInterval query={query} />,
-      <DomainMap.domainPerformanceTrends query={query} />,
-      <DomainMap.pageTopN query={query} />,
-      <DomainMap.slowTrack query={query} />,
-    ];
-  };
-
   return (
     <div>
       <div className="flex justify-between mb-3">
@@ -49,11 +35,11 @@ const Domain = () => {
           </div>
         </Col>
         <Col className="bi-domain-charts" span={16}>
-          <Row gutter={[0, 20]}>
-            {(chosenSortItem ? getDetailChart() : getAllChart()).map((item) => (
-              <Col span={24}>{item}</Col>
-            ))}
-          </Row>
+          {chosenSortItem ? (
+            <DashboardRender key={'domain_detail'} daboardId="domain_detail" host={chosenSortItem} />
+          ) : (
+            <DashboardRender key={'domain_overview'} daboardId="domain_overview" />
+          )}
         </Col>
       </Row>
     </div>

@@ -23,3 +23,11 @@ export const loadChart = ({ fetchApi, ...query }: IChartQuery): IChartResult => 
     .query(query)
     .then((response: any) => response.body);
 };
+
+export const loadChartNew = ({ fetchApi, query, data }: IChartQuery): IChartResult => {
+  return agent
+    .post(fetchApi)
+    .query(query)
+    .send(data)
+    .then((response: any) => response.body);
+};

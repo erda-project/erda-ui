@@ -16,18 +16,10 @@ import { Row, Col } from 'antd';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import AjaxMap from './config/chartMap';
+import { DashboardRender } from 'browser-insight/common/components/biRenderFactory';
 
 const Ajax = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
-
-  const getAllChart = () => {
-    return [<AjaxMap.rspTopN />, <AjaxMap.cpmTopN />, <AjaxMap.postTopN />, <AjaxMap.receiveTopN />];
-  };
-
-  const getDetailChart = () => {
-    const query = chosenSortItem ? { filter_req_path: chosenSortItem } : {};
-    return [<AjaxMap.ajaxPerformanceTrends query={query} />, <AjaxMap.statusTopN query={query} />];
-  };
 
   return (
     <div>
@@ -42,11 +34,11 @@ const Ajax = () => {
           </div>
         </Col>
         <Col span={16}>
-          <Row gutter={[20, 20]}>
-            {(chosenSortItem ? getDetailChart() : getAllChart()).map((item) => (
-              <Col span={24}>{item}</Col>
-            ))}
-          </Row>
+          {chosenSortItem ? (
+            <DashboardRender key={'ajax_detail'} daboardId="ajax_detail" req_path={chosenSortItem} />
+          ) : (
+            <DashboardRender key={'ajax_overview'} daboardId="ajax_overview" />
+          )}
         </Col>
       </Row>
     </div>

@@ -13,9 +13,8 @@
 
 import { merge } from 'lodash';
 import { sortCreator } from 'browser-insight/common/utils';
-import { sortRender, chartRender } from 'browser-insight/common/components/biRenderFactory';
+import { sortRender } from 'browser-insight/common/components/biRenderFactory';
 import { ApiMap } from './apiConfig';
-import i18n from 'i18n';
 
 export const commonAttr = {
   moduleName: 'BIAjax',
@@ -29,48 +28,6 @@ const chartMap = merge(
       type: 'sortList',
       chartName: 'sortList',
     },
-    rspTopN: {
-      titleText: `TOP 5 ${i18n.t('Response time').toLowerCase()} `,
-      ...commonAttr,
-      chartName: 'rspTopN',
-      viewProps: {
-        unitType: 'TIME',
-      },
-    },
-    cpmTopN: {
-      titleText: `TOP 5 ${i18n.t('msp:Throughput').toLowerCase()} `,
-      ...commonAttr,
-      chartName: 'cpmTopN',
-      viewProps: {
-        unitType: 'CPM',
-      },
-    },
-    postTopN: {
-      titleText: i18n.t('msp:Send data'),
-      ...commonAttr,
-      chartName: 'postTopN',
-      viewProps: {
-        unitType: 'CAPACITY',
-      },
-    },
-    receiveTopN: {
-      titleText: i18n.t('msp:Receive data'),
-      ...commonAttr,
-      chartName: 'receiveTopN',
-      viewProps: {
-        unitType: 'CAPACITY',
-      },
-    },
-    ajaxPerformanceTrends: {
-      ...commonAttr,
-      titleText: i18n.t('msp:ajax performance trends'),
-      chartName: 'performanceTrends',
-    },
-    statusTopN: {
-      titleText: i18n.t('msp:http status'),
-      ...commonAttr,
-      chartName: 'statusTopN',
-    },
   },
   ApiMap,
 );
@@ -78,10 +35,4 @@ const chartMap = merge(
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,
   sortList: sortRender(chartMap.sortList) as any,
-  rspTopN: chartRender(chartMap.rspTopN) as any,
-  cpmTopN: chartRender(chartMap.cpmTopN) as any,
-  postTopN: chartRender(chartMap.postTopN) as any,
-  receiveTopN: chartRender(chartMap.receiveTopN) as any,
-  ajaxPerformanceTrends: chartRender(chartMap.ajaxPerformanceTrends) as any,
-  statusTopN: chartRender(chartMap.statusTopN) as any,
 };

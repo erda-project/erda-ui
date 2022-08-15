@@ -253,7 +253,7 @@ const MiddlewareDashboard = () => {
         }}
         onRow={({ instanceId }: MIDDLEWARE_DASHBOARD.IMiddlewareDetail) => ({
           onClick: () => {
-            goTo(`./${instanceId}/monitor`);
+            goTo(`./${instanceId}/resource`);
           },
         })}
         onChange={handleTableChange}

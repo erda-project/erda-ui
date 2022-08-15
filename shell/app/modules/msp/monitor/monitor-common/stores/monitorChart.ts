@@ -13,13 +13,14 @@
 
 import { createStore } from 'core/cube';
 import { get } from 'lodash';
-import { loadChart } from '../services/monitorChart';
+import { loadChart, loadChartNew } from '../services/monitorChart';
 
 const initState = {} as any;
 const defaultDataHandler = (dt: any) => dt;
 interface IChartQuery {
   chartName: string;
   moduleName: string;
+  postData?: Obj;
   query: {
     [pro: string]: any;
     extendHandler: object;
@@ -46,6 +47,20 @@ const monitorChart = createStore({
       monitorChart.reducers.startLoadingChart({ moduleName, chartName });
       const { extendHandler, ...restQuery } = query;
       const origData = await call(loadChart, { ...restQuery });
+      monitorChart.reducers.loadChartSuccess({
+        origData,
+        moduleName,
+        chartName,
+        dataHandler,
+        query: restQuery,
+        extendHandler,
+      });
+    },
+    async loadChartNew({ call }, payload: IChartQuery) {
+      const { moduleName, chartName, query, dataHandler, postData } = payload;
+      monitorChart.reducers.startLoadingChart({ moduleName, chartName });
+      const { extendHandler, fetchApi, ...restQuery } = query;
+      const origData = await call(loadChartNew, { fetchApi, query: restQuery, data: postData });
       monitorChart.reducers.loadChartSuccess({
         origData,
         moduleName,

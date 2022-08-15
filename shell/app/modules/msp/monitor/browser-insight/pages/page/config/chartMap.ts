@@ -13,11 +13,8 @@
 
 import { merge } from 'lodash';
 import { sortCreator } from 'browser-insight/common/utils';
-import { sortRender, chartRender } from 'browser-insight/common/components/biRenderFactory';
-import TablePanel from 'browser-insight/common/components/table-panel';
-import SlowTrace from 'browser-insight/common/components/slow-track-panel';
+import { sortRender } from 'browser-insight/common/components/biRenderFactory';
 import { ApiMap } from './apiConfig';
-import i18n from 'i18n';
 
 export const commonAttr = {
   moduleName: 'BIPage',
@@ -33,47 +30,6 @@ const chartMap = merge(
       type: 'sortList',
       chartName: 'sortList',
     },
-    performanceInterval: {
-      ...commonAttr,
-      titleText: i18n.t('Performance range'),
-      chartName: 'performanceInterval',
-    },
-    timeTopN: {
-      titleText: i18n.t('msp:Average Time'),
-      ...commonAttr,
-      chartName: 'timeTopN',
-      viewProps: {
-        unitType: 'TIME',
-      },
-    },
-    cpmTopN: {
-      titleText: i18n.t('msp:Throughput'),
-      ...commonAttr,
-      chartName: 'cpmTopN',
-      viewProps: {
-        unitType: 'CPM',
-      },
-    },
-    pagePerformanceTrends: {
-      ...commonAttr,
-      titleText: i18n.t('msp:visit page performance trends'),
-      chartName: 'performanceTrends',
-    },
-    pageTopN: {
-      titleText: `${i18n.t('msp:visit times')} TOP20`,
-      ...commonAttr,
-      chartName: 'pageTopN',
-      viewRender: TablePanel,
-      viewProps: {
-        isPage: true,
-      },
-    },
-    slowTrack: {
-      titleText: i18n.t('msp:slow loading tracking'),
-      ...commonAttr,
-      chartName: 'slow',
-      viewRender: SlowTrace,
-    },
   },
   ApiMap,
 );
@@ -82,10 +38,4 @@ export default {
   subTab: sortRender(chartMap.subTab) as any,
   sortTab: sortRender(chartMap.sortTab) as any,
   sortList: sortRender(chartMap.sortList) as any,
-  performanceInterval: chartRender(chartMap.performanceInterval) as any,
-  timeTopN: chartRender(chartMap.timeTopN) as any,
-  cpmTopN: chartRender(chartMap.cpmTopN) as any,
-  pagePerformanceTrends: chartRender(chartMap.pagePerformanceTrends) as any,
-  pageTopN: chartRender(chartMap.pageTopN) as any,
-  slowTrack: chartRender(chartMap.slowTrack) as any,
 };

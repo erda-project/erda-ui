@@ -15,12 +15,9 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import ScriptMap from './config/chartMap';
+import { DashboardRender } from 'browser-insight/common/components/biRenderFactory';
 
 const Script = () => {
-  const getAllChart = () => {
-    return [<ScriptMap.errorTopN />, <ScriptMap.browsersTopN />];
-  };
-
   return (
     <div>
       <div className="flex justify-end mb-3">
@@ -34,11 +31,7 @@ const Script = () => {
           </div>
         </Col>
         <Col span={16}>
-          <Row gutter={[20, 20]}>
-            {getAllChart().map((item) => (
-              <Col span={24}>{item}</Col>
-            ))}
-          </Row>
+          <DashboardRender key={'script_overview'} daboardId="script_overview" />
         </Col>
       </Row>
     </div>

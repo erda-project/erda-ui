@@ -11,57 +11,49 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { sortHandler, multipleDataHandler, groupHandler } from 'common/utils/chart-utils';
-
-const commonQuery = {};
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab }: { sortTab: string }) => {
+    getFetchObj: ({ sortTab, terminusKey }: { sortTab: string; terminusKey: string }) => {
       const fetchMap = {
         time: {
-          fetchApi: 'ta_top_avg_time',
-          query: { group: 'browser', limit: 20, sort: 'avg_plt', avg: 'plt' },
-          dataKey: 'avg.plt',
-        },
-        percent: {
-          fetchApi: 'ta_top_percent_time',
-          query: { group: 'browser', limit: 20, sort: 'sumPercent_plt', sumPercent: 'plt' },
-          dataKey: 'sumPercent.plt',
+          group: 'browser',
+          expr: 'avg',
+          field: 'plt::field',
+          extendHandler: { unit: 'ms' },
         },
         cpm: {
-          fetchApi: 'ta_top_cpm',
-          query: { group: 'browser', limit: 20, sort: 'cpm_plt', cpm: 'plt' },
-          dataKey: 'cpm.plt',
+          group: 'browser',
+          expr: 'count',
+          field: 'plt::field',
         },
       };
-      const { query = {}, fetchApi = '', dataKey = '' } = fetchMap[sortTab] || {};
-      return { fetchApi, extendQuery: { ...query }, extendHandler: { dataKey } };
+      const { group, expr, field } = fetchMap[sortTab] || {};
+      const postData = {
+        from: ['ta_timing'],
+        select: [
+          {
+            expr: `${group}::tag`,
+            alias: 'type',
+          },
+          {
+            expr: `${expr}(${field})`,
+            alias: 'value',
+          },
+        ],
+        where: [`tk::tag='${terminusKey}'`, `${field} > 0`],
+        limit: 20,
+        groupby: [`${group}::tag`],
+        orderby: [
+          {
+            expr: `${expr}(${field}) DESC`,
+          },
+        ],
+      };
+      return { postData, extendHandler: fetchMap[sortTab]?.extendHandler || {} };
     },
-    dataHandler: sortHandler(),
-  },
-  timeTopN: {
-    fetchApi: 'ta_avg_time/histogram',
-    query: { ...commonQuery, group: 'browser', limit: 5, sort: 'histogram_avg_plt', avg: 'plt' },
-    dataHandler: groupHandler('avg.plt'),
-  },
-  cpmTopN: {
-    fetchApi: 'ta_cpm/histogram',
-    query: { ...commonQuery, group: 'browser', limit: 5, sort: 'histogram_cpm_plt', cpm: 'plt' },
-    dataHandler: groupHandler('cpm.plt'),
-  },
-  browserPerformanceInterval: {
-    fetchApi: 'ta_performance/histogram',
-    query: { ...commonQuery, avg: ['tcp', 'srt', 'plt', 'rlt'] },
-    dataHandler: multipleDataHandler(['avg.tcp', 'avg.srt', 'avg.plt', 'avg.rlt']),
-  },
-  singleTimeTopN: {
-    fetchApi: 'ta_avg_time/histogram',
-    query: { ...commonQuery, avg: 'plt' },
-    dataHandler: groupHandler('avg.plt'),
-  },
-  singleCpmTopN: {
-    fetchApi: 'ta_cpm/histogram',
-    query: { ...commonQuery, cpm: 'plt' },
-    dataHandler: groupHandler('cpm.plt'),
+    dataHandler: (res: { data: Array<{ type: string; value: string }> }, rest: Obj) => {
+      const unit = rest?.extendHandler?.unit;
+      return { list: (res?.data || []).map((item) => ({ name: item.type, value: item.value, unit })) };
+    },
   },
 };

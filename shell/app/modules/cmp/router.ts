@@ -31,7 +31,7 @@ export const getOrgProjectTabs = () => [
 ];
 
 const middlewareTabs = [
-  { key: 'monitor', name: i18n.t('Monitoring Details') },
+  // { key: 'monitor', name: i18n.t('Monitoring Details') },
   { key: 'resource', name: i18n.t('Resource Details') },
   { key: 'detail', name: i18n.t('basic information') },
 ];
