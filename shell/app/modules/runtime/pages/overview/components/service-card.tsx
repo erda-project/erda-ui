@@ -523,27 +523,30 @@ const RunningPods = ({
 }) => {
   const actions = {
     render: (record: RUNTIME.ServicePod) => {
+      const _containerId = record.podContainers?.[0]?.containerId;
       return [
-        {
-          title: (
-            <WithAuth pass={consoleAuth}>
-              <span>{i18n.t('Console')}</span>
-            </WithAuth>
-          ),
-          onClick: () => {
-            openSlidePanel('terminal', { ...record });
-          },
-        },
-        ...insertWhen(isServiceType, [
+        ...insertWhen(!!_containerId, [
           {
-            title: i18n.t('Container Monitoring'),
-            onClick: () => openSlidePanel('monitor', { ...record }),
+            title: (
+              <WithAuth pass={consoleAuth}>
+                <span>{i18n.t('Console')}</span>
+              </WithAuth>
+            ),
+            onClick: () => {
+              openSlidePanel('terminal', { ...record });
+            },
+          },
+          ...insertWhen(isServiceType, [
+            {
+              title: i18n.t('Container Monitoring'),
+              onClick: () => openSlidePanel('monitor', { ...record }),
+            },
+          ]),
+          {
+            title: firstCharToUpper(i18n.t('log')),
+            onClick: () => openSlidePanel('log', { ...record }),
           },
         ]),
-        {
-          title: firstCharToUpper(i18n.t('log')),
-          onClick: () => openSlidePanel('log', { ...record }),
-        },
         {
           title: firstCharToUpper(i18n.t('stop')),
           onClick: () => {
@@ -568,6 +571,10 @@ const RunningPods = ({
           Succeeded: 'success',
           Failed: 'error',
           Unknown: 'default',
+          Creating: 'processing',
+          Healthy: 'success',
+          UnHealthy: 'error',
+          Terminated: 'error',
         };
         return <Badge text={text} status={phaseMap[text] || 'default'} showDot={false} />;
       },
