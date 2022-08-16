@@ -218,15 +218,7 @@ const AccessDetail = () => {
               getComp: () => <Sla />,
             },
           ]}
-        >
-          <OverviewChart
-            queries={{
-              workspace: accessDetail.access.workspace?.toLowerCase(),
-              projectID: accessDetail.access.projectID,
-              endpoint: accessDetail.access.endpointName,
-            }}
-          />
-        </DetailsPanel>
+        />
       </div>
       <SlaEditor
         mode="add"
