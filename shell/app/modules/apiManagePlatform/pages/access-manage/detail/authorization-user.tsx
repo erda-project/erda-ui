@@ -110,7 +110,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
             <div className="client_displayName">
               <Ellipsis title={text || record.client?.name} />
             </div>
-            {record.contract.status === 'proved' && (
+            {/* {record.contract.status === 'proved' && (
               <Tooltip title={i18n.t('traffic audit')}>
                 <CustomIcon
                   className="ml-2 text-primary hover-active font-bold"
@@ -121,7 +121,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
                   }}
                 />
               </Tooltip>
-            )}
+            )} */}
           </div>
         );
       },
