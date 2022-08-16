@@ -67,7 +67,7 @@ function TableConfig<T extends object = any>({
         {!hideColumnConfig ? (
           <Popover
             content={columnsFilter}
-            trigger="hover"
+            trigger="click"
             placement="bottomRight"
             overlayClassName="erda-table-columns-filter"
             // getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
