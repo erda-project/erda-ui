@@ -28,7 +28,7 @@ export const ApiMap = {
       };
       const { group, expr, field } = fetchMap[sortTab] || {};
       const postData = {
-        from: ['ta_timing'],
+        from: ['ta_error'],
         select: [
           {
             expr: `${group}::tag`,
