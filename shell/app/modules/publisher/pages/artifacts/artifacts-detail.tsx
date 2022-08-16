@@ -56,8 +56,8 @@ const ArtifactsDetail = ({ data, artifactsId }: IProps) => {
     ...insertWhen(isMobileApp, [
       { value: 'certification', label: i18n.t('publisher:authenticate list') },
       { value: 'safety', label: i18n.t('publisher:safety management') },
-      { value: 'statistics', label: i18n.t('publisher:statistics dashboard') },
-      { value: 'errorReport', label: i18n.t('publisher:error report') },
+      // { value: 'statistics', label: i18n.t('publisher:statistics dashboard') },
+      // { value: 'errorReport', label: i18n.t('publisher:error report') },
     ]),
   ];
 

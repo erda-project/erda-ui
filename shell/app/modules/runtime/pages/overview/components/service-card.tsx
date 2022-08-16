@@ -522,6 +522,7 @@ const RunningPods = ({
   kill: (record: RUNTIME.ServicePod) => void;
 }) => {
   const actions = {
+    width: 100,
     render: (record: RUNTIME.ServicePod) => {
       const _containerId = record.podContainers?.[0]?.containerId;
       return [
@@ -558,25 +559,26 @@ const RunningPods = ({
   };
   const columns = [
     {
+      dataIndex: 'podName',
+      title: firstCharToUpper(i18n.t('instance name')),
+      width: 300,
+    },
+    {
       dataIndex: 'ipAddress',
-      title: i18n.s('Container group IP', 'dop'),
+      title: firstCharToUpper(i18n.s('pod IP', 'runtime')),
     },
     {
       dataIndex: 'phase',
       title: i18n.t('Status'),
       render: (text: string) => {
         const phaseMap = {
-          Running: 'processing',
-          Pending: 'warning',
-          Succeeded: 'success',
-          Failed: 'error',
-          Unknown: 'default',
-          Creating: 'processing',
-          Healthy: 'success',
-          UnHealthy: 'error',
-          Terminated: 'error',
+          Creating: { status: 'processing', name: i18n.s('creating', 'dop') },
+          Healthy: { status: 'success', name: i18n.t('healthy') },
+          Unhealthy: { status: 'error', name: i18n.t('unhealthy') },
+          default: { status: 'default', name: text },
         };
-        return <Badge text={text} status={phaseMap[text] || 'default'} showDot={false} />;
+        const curPhase = phaseMap[text] || phaseMap.default;
+        return <Badge text={curPhase.name} status={curPhase.status} showDot={false} />;
       },
     },
     {
@@ -590,6 +592,11 @@ const RunningPods = ({
     {
       dataIndex: 'restartCount',
       title: i18n.t('cmp:Number of restarts'),
+    },
+    {
+      dataIndex: 'k8sNamespace',
+      title: i18n.t('cmp:Namespace'),
+      hidden: true,
     },
     {
       dataIndex: 'startedAt',
@@ -607,6 +614,7 @@ const RunningPods = ({
       }}
       actions={actions}
       columns={columns}
+      scroll={{ x: 1000 }}
       dataSource={data}
       onReload={onReload}
     />
