@@ -187,7 +187,7 @@ const ClientDetail = () => {
               <div className="asset_name">
                 <Ellipsis title={text} />
               </div>
-              {record.status === 'proved' && (
+              {/* {record.status === 'proved' && (
                 <Tooltip title={i18n.t('traffic audit')}>
                   <CustomIcon
                     className="ml-2 text-primary hover-active font-bold"
@@ -198,7 +198,7 @@ const ClientDetail = () => {
                     }}
                   />
                 </Tooltip>
-              )}
+              )} */}
             </div>
           );
         },
