@@ -561,11 +561,11 @@ const RunningPods = ({
     {
       dataIndex: 'podName',
       title: firstCharToUpper(i18n.t('instance name')),
-      width: 300,
+      width: 180,
     },
     {
       dataIndex: 'ipAddress',
-      title: firstCharToUpper(i18n.s('pod IP', 'runtime')),
+      title: firstCharToUpper(i18n.s('instance IP', 'runtime')),
     },
     {
       dataIndex: 'phase',
