@@ -57,7 +57,7 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
   function beforeUpload(file: UploadFile) {
     const UPLOAD_SIZE_LIMIT = 10; // M
     const isLtSize = (file.size || 0) / 1024 / 1024 < UPLOAD_SIZE_LIMIT;
-    const isLtType = file.type === 'application/zip';
+    const isLtType = ['application/zip', 'application/x-zip-compressed'].includes(file.type || '');
     if (!isLtSize) {
       message.warning(i18n.t('common:the uploaded file must not exceed {size}M', { size: UPLOAD_SIZE_LIMIT }));
     }
