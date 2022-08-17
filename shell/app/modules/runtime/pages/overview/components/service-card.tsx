@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tooltip, Popover, Tabs, Modal } from 'antd';
-import { Icon as CustomIcon, IF, Table, Badge } from 'common';
+import { Icon as CustomIcon, IF, Table, Badge, Copy } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import HealthPoint from 'project/common/components/health-point';
 import { map, isEmpty } from 'lodash';
@@ -562,6 +562,13 @@ const RunningPods = ({
       dataIndex: 'podName',
       title: firstCharToUpper(i18n.t('instance name')),
       width: 180,
+      render: (v: string) => {
+        return (
+          <span className="cursor-copy nowrap" data-clipboard-text={v} title={v}>
+            {v}
+          </span>
+        );
+      },
     },
     {
       dataIndex: 'ipAddress',
@@ -606,18 +613,21 @@ const RunningPods = ({
   ];
 
   return (
-    <Table
-      rowKey={(record, i) => {
-        const { uid: id, containerId: _containerId } = record;
-        const containerId = record.podContainers?.[0]?.containerId || _containerId;
-        return `${i}${id}-${containerId}`;
-      }}
-      actions={actions}
-      columns={columns}
-      scroll={{ x: 1000 }}
-      dataSource={data}
-      onReload={onReload}
-    />
+    <>
+      <Table
+        rowKey={(record, i) => {
+          const { uid: id, containerId: _containerId } = record;
+          const containerId = record.podContainers?.[0]?.containerId || _containerId;
+          return `${i}${id}-${containerId}`;
+        }}
+        actions={actions}
+        columns={columns}
+        scroll={{ x: 1000 }}
+        dataSource={data}
+        onReload={onReload}
+      />
+      <Copy selector=".cursor-copy" />
+    </>
   );
 };
 
