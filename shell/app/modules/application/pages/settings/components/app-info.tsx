@@ -21,20 +21,9 @@ import { usePerm } from 'app/user/common';
 import { filter } from 'lodash';
 import i18n from 'i18n';
 import appStore from 'application/stores/application';
-import layoutStore from 'layout/stores/layout';
 import userStore from 'app/user/stores';
 import { removeMember } from 'common/services/index';
 import routeInfoStore from 'core/stores/route';
-import { theme } from 'app/themes';
-
-// 修改应用信息后，更新左侧菜单上方的信息
-const reloadHeadInfo = () => {
-  const detail = appStore.getState((s) => s.detail);
-  layoutStore.reducers.setSubSiderInfoMap({
-    key: 'application',
-    detail: { ...detail, icon: theme.appIcon }, // name不可编辑，若可编辑需重新加载Selector，参考project-info
-  });
-};
 
 const PureAppInfo = (): JSX.Element => {
   const appDetail = appStore.useStore((s) => s.detail);
@@ -173,9 +162,7 @@ const PureAppInfo = (): JSX.Element => {
 
   const onUpdate = (val: Obj) => {
     const { isPublic, ...rest } = val;
-    return updateAppDetail({ ...rest, isPublic: isPublic === 'true' }).then(() => {
-      reloadHeadInfo();
-    });
+    return updateAppDetail({ ...rest, isPublic: isPublic === 'true' });
   };
 
   return (
