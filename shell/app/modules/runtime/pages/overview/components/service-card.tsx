@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tooltip, Popover, Tabs, Modal } from 'antd';
-import { Icon as CustomIcon, IF, Table, Badge, Copy } from 'common';
+import { Icon as CustomIcon, IF, Table, Badge, Copy, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import HealthPoint from 'project/common/components/health-point';
 import { map, isEmpty } from 'lodash';
@@ -595,6 +595,7 @@ const RunningPods = ({
     {
       dataIndex: 'message',
       title: i18n.t('runtime:Message'),
+      render: (v: string) => <Ellipsis title={v || ''} />,
     },
     {
       dataIndex: 'restartCount',
