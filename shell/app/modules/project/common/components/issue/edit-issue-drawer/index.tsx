@@ -211,7 +211,6 @@ export const EditIssueDrawer = (props: IProps) => {
     if (visible) {
       if (id) {
         getIssueStreams({ type: issueType, id, pageNo: 1, pageSize: 100 });
-        getCustomFields();
       }
       getCustomFieldsByProject({
         propertyIssueType: issueType,
@@ -223,6 +222,7 @@ export const EditIssueDrawer = (props: IProps) => {
           projectID: +addRelatedMattersProjectId,
           issueID: undefined,
         });
+        id && getCustomFields();
       });
     }
   }, [
