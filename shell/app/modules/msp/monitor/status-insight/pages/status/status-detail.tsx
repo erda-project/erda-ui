@@ -29,8 +29,8 @@ import { firstCharToUpper } from 'app/common/utils';
 
 const StatusDetail = () => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const [detail, pastIncidents] = monitorStatusStore.useStore((s) => [s.detail, s.pastIncidents]);
-  const { getStatusDetail, getPastIncidents } = monitorStatusStore.effects;
+  const [detail] = monitorStatusStore.useStore((s) => [s.detail, s.pastIncidents]);
+  const { getStatusDetail } = monitorStatusStore.effects;
   const { clearStatusDetail } = monitorStatusStore.reducers;
   const [isFetching, setDatumFetching] = useLoading(monitorStatusStore, ['getStatusDetail', 'setDatumPoint']);
 
@@ -41,7 +41,6 @@ const StatusDetail = () => {
 
   useEffectOnce(() => {
     getStatusDetail();
-    getPastIncidents();
     return () => {
       clearStatusDetail();
     };
@@ -218,10 +217,10 @@ const StatusDetail = () => {
         </span>
       </div>
       <MonthUptime />
-      <div className="title-bar past-incident">
+      {/* <div className="title-bar past-incident">
         <span className="title">{i18n.t('msp:Last 3 months')}</span>
       </div>
-      <PastIncidents pastIncidents={pastIncidents} fetchData={getPastIncidents} />
+      <PastIncidents pastIncidents={pastIncidents} fetchData={getPastIncidents} /> */}
     </div>
   );
 };
