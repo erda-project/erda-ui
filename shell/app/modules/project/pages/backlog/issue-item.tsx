@@ -446,7 +446,7 @@ export const IssueForm = (props: IIssueFormProps) => {
               if (['Select', 'MultiSelect'].includes(item.propertyType)) {
                 return {
                   ...item,
-                  values: [item.enumeratedValues?.[0].id as number],
+                  values: [item.enumeratedValues?.[0]?.id as number],
                 };
               }
             }
