@@ -18,7 +18,7 @@ import { qs, setApiWithOrg } from 'common/utils';
 import moment, { Moment } from 'moment';
 import i18n from 'i18n';
 
-const DAY_RANGE = 7; // unit: d
+const DAY_RANGE = 30; // unit: d
 const DEFAULT_INTERVAL_H = 1; // unit: h
 const DEFAULT_INTERVAL_MS = DEFAULT_INTERVAL_H * 60 * 60 * 1000;
 
