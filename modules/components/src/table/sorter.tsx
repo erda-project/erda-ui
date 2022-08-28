@@ -89,16 +89,16 @@ export const useSorterMenu = <T extends object>(onTableSort: (params: SorterResu
       return (
         <Menu>
           <Menu.Item key={'0'} onClick={() => onSort(column)}>
-            <span className={`${prefixCls}-menu-item`}>{locale.cancelSort}</span>
+            <span className={`${prefixCls}-menu-item-normal`}>{locale.cancelSort}</span>
           </Menu.Item>
           <Menu.Item key={'ascend'} onClick={() => onSort(column, 'ascend')}>
-            <span className={`${prefixCls}-menu-item`}>
+            <span className={`${prefixCls}-menu-item-normal`}>
               <ErdaIcon type="shengxu" className={`${prefixCls}-menu-icon`} />
               {locale.ascend}
             </span>
           </Menu.Item>
           <Menu.Item key={'descend'} onClick={() => onSort(column, 'descend')}>
-            <span className={`${prefixCls}-menu-item`}>
+            <span className={`${prefixCls}-menu-item-normal`}>
               <ErdaIcon type="jiangxu" className={`${prefixCls}-menu-icon`} />
               {locale.descend}
             </span>
