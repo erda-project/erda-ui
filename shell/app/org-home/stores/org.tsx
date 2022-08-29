@@ -23,6 +23,7 @@ import { intersection, map } from 'lodash';
 import announcementStore from 'org/stores/announcement';
 import { initLinkS } from '../../links-service';
 import userStore from '../../user/stores';
+import { erdaEnv } from 'common/constants';
 interface IState {
   currentOrg: ORG.IOrg;
   curPathOrg: string;
@@ -64,7 +65,9 @@ const org = createStore({
           if (currentOrg.name !== orgName && curOrg) {
             org.reducers.updateCurrentOrg(curOrg);
             const user = userStore.getState((s) => s.loginUser);
-            initLinkS(user.id, user.nick || user.name, curOrg.name);
+            if (erdaEnv.LINKS_SK && erdaEnv.LINKS_AK) {
+              initLinkS(user.id, user.nick || user.name, curOrg.name);
+            }
             getResourcePermissions({ scope: 'org', scopeID: `${curOrg.id}` }).then((result) => {
               permStore.reducers.updatePerm('org', result.data);
               org.effects.getOrgByDomain({ orgName });
