@@ -82,7 +82,9 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
     initAxios();
     orgStore.reducers.updateCurrentOrg(curOrg);
     const { user } = getGlobal('initData') || {};
-    initLinkS(user.id, user.nick || user.name, curOrg.name);
+    if (erdaEnv.LINKS_SK && erdaEnv.LINKS_AK) {
+      initLinkS(user.id, user.nick || user.name, curOrg.name);
+    }
     if (orgAccess && curOrg) {
       permStore.reducers.updatePerm('org', orgAccess);
       if (orgAccess.access) {
