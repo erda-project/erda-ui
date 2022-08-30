@@ -139,6 +139,13 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
         ],
       },
       {
+        key: 'cmpEdgePlatform',
+        href: goTo.resolve.ecpEdgePlatform(), // '/cmp/customDashboard',
+        icon: <ErdaIcon type="fuwujiankong" />,
+        text: i18n.t('ecp:Edge computing'),
+        subtitle: i18n.t('ecp:Edge computing'),
+      },
+      {
         key: 'cmpDashboard',
         href: goTo.resolve.orgCustomDashboard(), // '/cmp/customDashboard',
         icon: <ErdaIcon type="zidingyi" />,

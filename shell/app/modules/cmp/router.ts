@@ -281,6 +281,11 @@ function getCmpRouter(): RouteConfigItem[] {
           ],
         },
         {
+          path: 'edgePlatform',
+          layout: { noWrapper: true },
+          getComp: (cb) => cb(import('app/modules/cmp/pages/edge')),
+        },
+        {
           path: 'customDashboard',
           breadcrumbName: i18n.t('Custom Dashboard'),
           routes: [

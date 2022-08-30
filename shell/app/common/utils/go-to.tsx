@@ -274,6 +274,7 @@ export enum pages {
   alarmReport = '/{orgName}/cmp/alarm/report/{clusterName}/{chartUniqId}?category={category}&x_filter_host_ip={ip}&x_timestamp={timestamp}',
 
   // 企业中心自定义大盘
+  ecpEdgePlatform = '/{orgName}/cmp/edgePlatform',
   orgCustomDashboard = '/{orgName}/cmp/customDashboard',
   orgAddCustomDashboard = '/{orgName}/cmp/customDashboard/add',
   orgCustomDashboardDetail = '/{orgName}/cmp/customDashboard/{customDashboardId}',
