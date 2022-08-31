@@ -282,6 +282,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'edgePlatform',
+          breadcrumbName: i18n.t('ecp:Edge computing'),
           layout: { noWrapper: true },
           getComp: (cb) => cb(import('app/modules/cmp/pages/edge')),
         },
