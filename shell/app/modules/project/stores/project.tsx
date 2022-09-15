@@ -121,6 +121,7 @@ const project = createStore({
           !loadingInProject && checkIsProjectIndex();
         }
       } else if (isIn('orgProject') && `${curProjectId}` !== projectId) {
+        project.reducers.updateCurProjectId(projectId);
         project.effects.getProjectInfo(projectId, true);
       }
 

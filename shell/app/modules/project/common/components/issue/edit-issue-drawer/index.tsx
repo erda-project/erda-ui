@@ -359,7 +359,7 @@ export const EditIssueDrawer = (props: IProps) => {
       params.planFinishedAt = ''; // replace null to mark delete
     }
     if (has(value, 'planStartedAt') && !value.planStartedAt) {
-      params.planStartedAt = '';
+      params.planStartedAt = isEditMode ? '' : undefined;
     }
 
     if ([ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType)) {
