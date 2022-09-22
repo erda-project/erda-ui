@@ -264,6 +264,7 @@ const BuildDetail = (props: IProps) => {
         taskID: node.id,
         pipelineID,
         logId: node.extra.uuid,
+        clusterName: pipelineDetail.clusterName,
         taskContainers: node.extra.taskContainers,
         showLog: true,
       });
