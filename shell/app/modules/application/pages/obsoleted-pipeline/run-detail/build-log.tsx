@@ -123,6 +123,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
       slidePanelComps,
       title,
       logId,
+      clusterName,
       taskContainers = [],
       downloadAPI,
       customFetchAPIPrefix,
@@ -152,6 +153,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
             customFetchAPIPrefix || (pipelineID && taskID ? `/api/cicd/${pipelineID}/tasks/${taskID}/logs` : false),
           downloadAPI,
           taskID,
+          clusterName,
           id,
           stream: isStdErr ? 'stderr' : 'stdout',
         }}

@@ -356,7 +356,7 @@ export const EditIssueDrawer = (props: IProps) => {
       params.labels = value.labels;
     }
     if (has(value, 'planFinishedAt') && !value.planFinishedAt) {
-      params.planFinishedAt = ''; // replace null to mark delete
+      params.planFinishedAt = isEditMode ? '' : undefined; // replace null to mark delete
     }
     if (has(value, 'planStartedAt') && !value.planStartedAt) {
       params.planStartedAt = isEditMode ? '' : undefined;
