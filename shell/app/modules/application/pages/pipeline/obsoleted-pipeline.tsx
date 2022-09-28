@@ -19,7 +19,7 @@ import i18n from 'i18n';
 
 const Pipeline = () => {
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <Alert
         type="info"
         message={
