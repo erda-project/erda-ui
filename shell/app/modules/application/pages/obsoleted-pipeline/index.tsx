@@ -60,7 +60,7 @@ const PipelineManage = (props: IProps) => {
     selectedKeys: nodeId,
   };
   return (
-    <div className="bg-white py-3 px-4">
+    <div className="bg-white py-3 px-4 flex-1 overflow-hidden">
       <SplitPage>
         <SplitPage.Left className="pipeline-manage-left">
           {pipelineID && !nodeId ? (
