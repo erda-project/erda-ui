@@ -144,7 +144,6 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
   const { data = {}, attemptTest } = state;
   const [api, setAPI] = React.useState(data?.apiSpec || {});
   const [loop, setLoop] = React.useState({ loop: data?.loop });
-
   const processTempFun = processTemp(execOperation);
 
   React.useEffect(() => {
@@ -167,7 +166,9 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
         set(draft, 'body.type', BODY_RAW_OPTION[1]);
         set(draft, 'headers', updateHeader(BODY_RAW_OPTION[1]));
       } else if (draft.body?.type === BODY_RAW_OPTION[2]) {
-        set(draft, 'body.content', formatStrToKeyValue(draft.body.content));
+        const newData =
+          typeof draft.body.content === 'string' ? formatStrToKeyValue(draft.body.content) : draft.body.content;
+        set(draft, 'body.content', newData);
       }
     });
     setAPI(apiSpec);
@@ -956,7 +957,6 @@ const APIBody = (props: any) => {
   const { data = {}, onChange, renderProps, processDataTemp } = props;
   const isRaw = data.type && !['none', BasicForm].includes(data.type);
   const realType = data.type || 'none';
-
   const updateBody = (key: string, val: any, autoSave?: boolean, resetContent?: boolean) => {
     const newBody: any = { ...data, [key]: val || '' };
     if (key === 'type' && resetContent) {
