@@ -109,12 +109,14 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           headers['OPENAPI-CSRF-TOKEN'] = token;
         }
         // add {orgName} part only in local mode
-        return axios(isLocal ? api.replace('/api', '/api/-') : api, {
+        const req = axios(isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
           baseURL: API_URL,
           headers,
           validateStatus: () => true, // pass data and error to later check
         });
+        console.log(`request ${api}------headers`, headers, '-----request', request);
+        return req;
       };
       const initData: any = {};
       const orgName = request.path.split('/')[1];
@@ -138,6 +140,12 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         const [userRes, orgListRes, sysAccessRes, orgRes] = respList.map((res) =>
           res.status === 'fulfilled' ? { ...res.value.data, status: res.value.status } : null,
         );
+        console.log('/api/user/me response------', userRes);
+        console.log('/api/orgs response------', orgListRes);
+
+        console.log('/api/permissions/actions/access response------', sysAccessRes);
+        console.log('/api/orgs/actions/get-by-domain------', orgRes);
+
         if (userRes?.status === 401) {
           const loginRes = await callApi('/api/openapi/login', {
             headers: { referer: `${request.protocol}://${request.hostname}${request.url}` },
