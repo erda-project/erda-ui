@@ -254,7 +254,8 @@ const ConfigEnvSelector = (props: IProps) => {
           const runParams = isEmpty(rest) ? [] : map(rest, (v, k) => ({ name: k, value: v }));
           saveRunParams(runParams); // 保存此次的值
           execute({
-            configManageNamespaces: configManageNamespaces === '0' ? [] : [configManageNamespaces],
+            configManageNamespaces:
+              !scopeConfigData.executeEnvChosen || configManageNamespaces === '0' ? [] : [configManageNamespaces],
             runParams,
           });
         }}

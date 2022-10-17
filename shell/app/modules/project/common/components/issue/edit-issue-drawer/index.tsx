@@ -584,6 +584,7 @@ export const EditIssueDrawer = (props: IProps) => {
       setHasEdited(true);
       setIssueType(currentType as ISSUE_TYPE);
       setIsLoading(false);
+      setFormData((prev: any) => ({ ...prev, type: currentType }));
     });
   };
 
@@ -687,7 +688,6 @@ export const EditIssueDrawer = (props: IProps) => {
   }
 
   const relationData = getIssueRelation.useData();
-
   return (
     <IssueDrawer
       editMode={isEditMode}
