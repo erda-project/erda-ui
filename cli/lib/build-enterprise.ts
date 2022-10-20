@@ -93,7 +93,7 @@ const releaseImage = async (registry?: string) => {
   const tag = `${version}-${date}-${sha}`; // 3.20-2020520-182737976
 
   const image = `${registry ?? defaultEnterpriseRegistry}:${tag}`;
-  await execa('docker', ['build', '-f', 'Dockerfile', '--platform', 'linux/arm64/v8', '-t', image, '.'], {
+  await execa('docker', ['-f', 'Dockerfile', 'build', '--platform', 'linux/arm64/v8', '-t', image, '.'], {
     stdio: 'inherit',
     cwd: currentDir,
   });
