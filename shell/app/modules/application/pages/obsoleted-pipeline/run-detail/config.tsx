@@ -66,7 +66,11 @@ export const ciStatusMap = {
     color: 'gray',
     status: 'warning',
   },
-
+  Canceling: {
+    text: '取消中',
+    clolor: 'blue',
+    status: 'processing',
+  },
   Success: {
     text: i18n.t('succeed'),
     icon: 'play1',
