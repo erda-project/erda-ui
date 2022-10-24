@@ -42,7 +42,7 @@
   "author": "Erda-FE",
   "license": "AGPL",
   "dependencies": {
-    "@erda-ui/components": "0.1.9",
+    "@erda-ui/components": "workspace:*",
     "@erda-ui/dashboard-configurator": "2.0.15",
     "@erda-ui/react-markdown-editor-lite": "^1.4.9",
     "@formily/core": "^2.1.9",
@@ -70,6 +70,7 @@
     "mock-json-schema": "^1.0.8",
     "openapi-types": "^9.1.0",
     "path-browserify": "^1.0.1",
+    "prop-types": "^15.8.1",
     "query-string": "^6.4.2",
     "rc-resize-observer": "^1.0.1",
     "react": "16.14.0",

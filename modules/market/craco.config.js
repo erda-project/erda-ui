@@ -71,6 +71,13 @@ module.exports = {
       },
     },
   },
+  eslint: {
+    enable: false,
+  },
+  tslint: {
+    enable: false,
+  },
+
   plugins: [
     {
       plugin: CracoAntDesignPlugin,

@@ -29,6 +29,13 @@ const devUrlDomain = 'erda.dev.terminus.io';
 const devProxyUrl = `https://${devUrlDomain}`;
 
 module.exports = {
+  eslint: {
+    enable: false,
+  },
+
+  tslint: {
+    enable: false,
+  },
   webpack: {
     alias: {
       src: path.join(__dirname, 'src'),
@@ -51,6 +58,7 @@ module.exports = {
       plugins: [require('tailwindcss'), require('autoprefixer')],
     },
   },
+
   devServer: {
     host: 'localuc.erda.dev.terminus.io',
     port: 3032,
