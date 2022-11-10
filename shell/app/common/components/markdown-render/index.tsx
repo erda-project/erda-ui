@@ -108,6 +108,31 @@ const pre = ({ children }: { children: React.ReactChild }) => {
   );
 };
 
+const setForbiddenTag = (
+  tagName: string,
+  props: { node: { src: string; properties: Obj<string> }; children: string[] },
+) => {
+  let codeStr = '';
+  Object.keys(props?.node?.properties || {}).forEach((key) => {
+    codeStr = `${key}="${props.node.properties[key]}" `;
+  });
+
+  let childrenStr = '';
+  props.children?.forEach((item) => {
+    childrenStr += item;
+  });
+  codeStr = `<${tagName} ${codeStr}>${childrenStr}</${tagName}>`;
+  return <SyntaxHighlighter style={github}>{codeStr}</SyntaxHighlighter>;
+};
+
+const setIframe = (props: { node: { src: string; properties: Obj<string> }; children: string[] }) => {
+  return setForbiddenTag('iframe', props);
+};
+
+const setScript = (props: { node: { src: string; properties: Obj<string> }; children: string[] }) => {
+  return setForbiddenTag('script', props);
+};
+
 interface IMdProps {
   value: string;
   className?: string;
@@ -121,7 +146,7 @@ export const MarkdownRender = ({ value, className, style, noWrapper, components 
       className={`md-content ${className || ''}`}
       remarkPlugins={[remarkGfm, remarkBreaks]}
       rehypePlugins={[rehypeRaw]}
-      components={{ img: ScalableImage, a: Link, pre, ...components }}
+      components={{ img: ScalableImage, a: Link, pre, iframe: setIframe, script: setScript, ...components }}
     >
       {value}
     </ReactMarkdown>
