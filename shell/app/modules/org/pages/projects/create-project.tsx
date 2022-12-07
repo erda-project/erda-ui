@@ -198,24 +198,24 @@ const templateArr: ICardProps[] = [
     ),
     disabled: false,
   },
-  {
-    name: i18n.t('cmp:Code Hosting Project'),
-    val: 'codeHostingProject',
-    icon: 'code',
-    description: i18n.t(
-      'cmp:Used to host code repositories, supports multiple repositories, with the option to enable CI/CD and artifacts.',
-    ),
-    disabled: true,
-  },
-  {
-    name: i18n.t('cmp:Agile Project'),
-    val: 'agileProject',
-    icon: 'scrum',
-    description: i18n.t(
-      'cmp:Supports agile management of Scrum and traditional project management, including requirements, tasks and bugs.',
-    ),
-    disabled: true,
-  },
+  // {
+  //   name: i18n.t('cmp:Code Hosting Project'),
+  //   val: 'codeHostingProject',
+  //   icon: 'code',
+  //   description: i18n.t(
+  //     'cmp:Used to host code repositories, supports multiple repositories, with the option to enable CI/CD and artifacts.',
+  //   ),
+  //   disabled: true,
+  // },
+  // {
+  //   name: i18n.t('cmp:Agile Project'),
+  //   val: 'agileProject',
+  //   icon: 'scrum',
+  //   description: i18n.t(
+  //     'cmp:Supports agile management of Scrum and traditional project management, including requirements, tasks and bugs.',
+  //   ),
+  //   disabled: true,
+  // },
 ];
 
 const workSpaceMap = {
