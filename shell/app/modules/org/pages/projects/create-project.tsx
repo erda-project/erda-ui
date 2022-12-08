@@ -141,7 +141,7 @@ const ProjectType = (props: IProjectType) => {
   );
 
   return (
-    <div className="template-card-row flex justify-between items-center items-stretch">
+    <div className="template-card-row flex items-center items-stretch">
       {list.map((item) => {
         const isChecked = selectType === item.val;
         const cln = classnames([
@@ -149,6 +149,7 @@ const ProjectType = (props: IProjectType) => {
           'rounded',
           'px-2',
           'py-3',
+          'ml-2',
           'cursor-pointer',
           'flex',
           'flex-col',
