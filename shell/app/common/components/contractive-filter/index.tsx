@@ -106,7 +106,7 @@ export type ICondition<T> = T extends 'select'
   : ICustomCondition<T>;
 
 interface IFilterItemProps<T> {
-  itemData: ICondition<T>;
+  itemData: ICondition<T> & { comProps: Obj };
   value: any;
   active: boolean;
 
@@ -242,7 +242,7 @@ const InputFilterItem = ({
   onChange,
   onQuickOperation,
 }: IFilterItemProps<'input'>) => {
-  const { key, placeholder, disabled } = itemData;
+  const { key, placeholder, disabled, comProps } = itemData;
   const [inputVal, setInputVal] = React.useState(value);
   const debouncedChange = React.useRef(debounce(onChange, 1000));
 
@@ -255,7 +255,6 @@ const InputFilterItem = ({
       debouncedChange?.current({ key, value: inputVal }, { forceChange: true });
     }
   }, [inputVal]);
-
   return (
     <Input
       value={inputVal}
@@ -267,6 +266,7 @@ const InputFilterItem = ({
       prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
       placeholder={firstCharToUpper(placeholder)}
       onChange={(e) => setInputVal(e.target.value)}
+      {...comProps}
     />
   );
 };
