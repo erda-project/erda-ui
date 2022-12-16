@@ -136,6 +136,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
     selectedAddonVersions: [],
     versionMap: {},
     selectedAddonPlans: [],
+    versionValue: '',
   };
 
   static getDerivedStateFromProps(nextProps: Readonly<ICreateAddOnProps>, prevState: any): any {
@@ -337,7 +338,12 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
           disabled={this.isEditing()}
           className="w-full"
           placeholder={i18n.t('dop:please select the version')}
-          onSelect={() => setFieldsValue?.({ plan: undefined })}
+          onSelect={(v) => {
+            this.setState({
+              versionValue: v,
+            });
+            setFieldsValue?.({ plan: undefined });
+          }}
         >
           {selectedAddonVersions.map((v: string) => (
             <Option key={v}>{v}</Option>
@@ -348,16 +354,16 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
 
     // @ts-ignore
     let plans = [];
-    if (selectedAddon.plan) {
-      plans.push({
-        plan: planValue,
-        planCnName: PLAN_NAME[planValue],
-      });
-    } else if (getFieldValue?.('version') && !isEmpty(versionMap)) {
+    if (getFieldValue?.('version') && !isEmpty(versionMap)) {
       plans = map(versionMap[getFieldValue?.('version')].spec.plan || { basic: {} }, (_, k) => ({
         plan: k,
         planCnName: PLAN_NAME[k],
       }));
+    } else if (selectedAddon.plan) {
+      plans.push({
+        plan: planValue,
+        planCnName: PLAN_NAME[planValue],
+      });
     } else if (selectedAddonPlans?.length) {
       plans = map(selectedAddonPlans, (k) => ({ plan: k, planCnName: PLAN_NAME[k] }));
     } else {
@@ -366,6 +372,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
         planCnName: PLAN_NAME[k],
       }));
     }
+
     const plan = (
       <Item
         name="plan"

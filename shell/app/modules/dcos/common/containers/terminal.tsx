@@ -26,21 +26,21 @@ interface IProps {
   port: string;
   containerId?: string;
   instanceTerminal?: boolean;
+  clusterExist?: boolean;
 }
 
 const ServiceTerminal = (props: IProps) => {
-  const { clusterName, instanceTerminal = false, host, user, port, containerId } = props;
+  const { clusterName, instanceTerminal = false, host, user, port, containerId, clusterExist } = props;
   const [clusterDetail, setClusterDetail] = React.useState<ORG_CLUSTER.ICluster | null>(null);
-
   React.useEffect(() => {
-    if (clusterName) {
+    if (clusterName && clusterExist !== true) {
       getClusterDetail({ clusterName }).then((res) => {
         setClusterDetail(res?.data);
       });
     }
-  }, [clusterName]);
+  }, [clusterName, clusterExist]);
 
-  if (isEmpty(clusterDetail)) {
+  if (clusterExist !== true && isEmpty(clusterDetail)) {
     return (
       <div className="service-terminal">
         <span className="terminal-info">{i18n.t('cmp:getting cluster information')}...</span>

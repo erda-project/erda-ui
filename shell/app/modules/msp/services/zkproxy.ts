@@ -177,10 +177,6 @@ export const getZkInterfaceList = ({
 //     .then((response: any) => response.body);
 // };
 
-export const getClusterDetail = ({ clusterName }: { clusterName: string }) => {
-  return agent.get(`/api/clusters/${clusterName}`).then((response: any) => response.body);
-};
-
 export const getServiceByIp = ({ projectID, workspace, ip }: MS_ZK.IServiceQuery) => {
   return agent
     .get('/api/tmc/service-ip')
