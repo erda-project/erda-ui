@@ -15,6 +15,7 @@ import { set, some } from 'lodash';
 import { axios } from 'core/service';
 import { downloadFileAxios, getCookies, getOrgFromPath, setApiWithOrg } from './index';
 import { getCurrentLocale } from 'i18n';
+import { getCSRFToken } from 'core/config';
 import errorHandler from '../../error-handler';
 import { getGlobal } from 'core/global-space';
 
@@ -31,7 +32,7 @@ export const initAxios = () => {
       headers.Accept = 'application/vnd.dice+json;version=1.0';
       headers.Lang = getCurrentLocale().key === 'zh' ? 'zh-CN' : 'en-US';
       if (!['GET', 'HEAD', 'OPTIONS', 'TRACE'].includes(method)) {
-        const token = getCookies('OPENAPI-CSRF-TOKEN');
+        const token = getCSRFToken(); //getCookies('OPENAPI-CSRF-TOKEN');
         if (token) {
           headers['OPENAPI-CSRF-TOKEN'] = token;
         }

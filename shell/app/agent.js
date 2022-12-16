@@ -14,6 +14,7 @@
 import agent from 'core/agent';
 import { getCookies, setApiWithOrg, getOrgFromPath } from 'common/utils';
 import { getGlobal } from 'core/global-space';
+import { getCSRFToken } from 'core/config';
 import { some } from 'lodash';
 import errorHandler from './error-handler';
 
@@ -46,7 +47,7 @@ function handleError(req) {
     // csrf token过期时进行重试
     if (err && err.status === 403 && (response.text || '').includes('empty csrf token')) {
       // 重试的肯定是需要带token的，不必再判断method
-      const token = getCookies('OPENAPI-CSRF-TOKEN');
+      const token = getCSRFToken(); //getCookies('OPENAPI-CSRF-TOKEN');
       if (token) {
         req.set('OPENAPI-CSRF-TOKEN', token);
       }

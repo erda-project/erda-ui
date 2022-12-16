@@ -14,7 +14,8 @@
 import React from 'react';
 import { Popover, message, Upload } from 'antd';
 import { Icon as CustomIcon } from 'common';
-import { getCookies, getOrgFromPath } from 'common/utils';
+import { getOrgFromPath } from 'common/utils';
+import { getCSRFToken } from 'core/config';
 import i18n from 'i18n';
 import './upload-plugin.scss';
 
@@ -24,7 +25,7 @@ const UploadPlugin = (props: any) => {
     action: '/api/files',
     showUploadList: false,
     headers: {
-      'OPENAPI-CSRF-TOKEN': getCookies('OPENAPI-CSRF-TOKEN'),
+      'OPENAPI-CSRF-TOKEN': getCSRFToken(), //getCookies('OPENAPI-CSRF-TOKEN'),
       org: getOrgFromPath(),
     },
     beforeUpload: (file: any) => {
