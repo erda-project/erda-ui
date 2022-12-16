@@ -114,11 +114,11 @@ const ServiceDropdown = (props: IProps) => {
       <List
         itemLayout="horizontal"
         className="env-list"
-        dataSource={map(envs, (value, key) => (
-          <span className="env-item">{`${key}: ${value}`}</span>
-        ))}
+        dataSource={map(envs, (value, key) => {
+          return <span key={key} className="env-item">{`${key}: ${value}`}</span>;
+        })}
         renderItem={(item: JSX.Element) => {
-          return <Ellipsis>{item}</Ellipsis>;
+          return <Ellipsis title={item} />;
         }}
       />
     );
@@ -149,7 +149,9 @@ const ServiceDropdown = (props: IProps) => {
     envs &&
       ops.push({
         title: i18n.t('runtime:Environment Variable'),
-        onClick: () => showModalInfo(i18n.t('runtime:Environment Variable'), envContent),
+        onClick: () => {
+          showModalInfo(i18n.t('runtime:Environment Variable'), envContent);
+        },
       });
     isEndpoint &&
       hasDeployAuth &&
