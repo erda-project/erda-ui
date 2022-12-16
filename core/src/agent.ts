@@ -13,18 +13,10 @@
 
 import agentUse from 'superagent-use';
 import { getCurrentLocale } from './i18n';
+import { getCSRFToken } from './config';
 import request from 'superagent';
 
 const superagent = agentUse(request);
-
-function getCookies(key: string) {
-  const cookies = {};
-  window.document.cookie.split(';').forEach((item) => {
-    const [k, v] = item.split('=');
-    cookies[k.trim()] = v && v.trim();
-  });
-  return key ? cookies[key] : cookies;
-}
 
 /**
  * set accept header
@@ -33,7 +25,7 @@ function setHeader(req: request.SuperAgentRequest) {
   req.set('Accept', 'application/vnd.dice+json;version=1.0');
   req.set('Lang', getCurrentLocale().key === 'zh' ? 'zh-CN' : 'en-US');
   if (!['GET', 'HEAD', 'OPTIONS', 'TRACE'].includes(req.method)) {
-    const token = getCookies('OPENAPI-CSRF-TOKEN');
+    const token = getCSRFToken();
     if (token) {
       req.set('OPENAPI-CSRF-TOKEN', token);
     }

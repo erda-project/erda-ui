@@ -13,6 +13,7 @@
 
 import { message, UploadProps } from 'antd';
 import { getCookies } from '.';
+import { getCSRFToken } from 'core/config';
 import { qs, getOrgFromPath } from 'common/utils';
 import i18n from 'i18n';
 
@@ -31,7 +32,7 @@ export function getUploadProps(
     action: `/api/files${queryStr ? `?${queryStr}` : ''}`,
     showUploadList: false,
     headers: {
-      'OPENAPI-CSRF-TOKEN': getCookies('OPENAPI-CSRF-TOKEN'),
+      'OPENAPI-CSRF-TOKEN': getCSRFToken(), //getCookies('OPENAPI-CSRF-TOKEN'),
       org: getOrgFromPath(),
     },
     beforeUpload: (file: any) => {
