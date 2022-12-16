@@ -23,7 +23,7 @@ import DiceConfigPage from 'config-page';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 import { isNumber } from 'lodash';
-import { message } from 'antd';
+import { message, Select } from 'antd';
 import TraceSearchDetail from 'trace-insight/pages/trace-querier/trace-search-detail';
 import { useUpdate } from 'common/use-hooks';
 import moment from 'moment';
@@ -37,6 +37,7 @@ const name = {
 interface IState {
   traceId?: string;
   startTime?: number;
+  searchCondition?: Obj<string>;
   query: {
     serviceName?: string;
     rpcMethod?: string;
@@ -67,11 +68,18 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const conditions = getTraceConditions.useData();
-  const [{ traceId, startTime, query }, updater, update] = useUpdate<IState>({
+  const [{ traceId, startTime, query, searchCondition }, updater, update] = useUpdate<IState>({
     traceId: undefined,
     query: {},
     startTime: undefined,
+    searchCondition: {
+      serviceName: '=',
+      traceID: '=',
+      rpcMethod: '=',
+      httpPath: '=',
+    },
   });
+
   React.useEffect(() => {
     getTraceConditions.fetch();
   }, []);
@@ -81,6 +89,7 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
     if (conditions) {
       const { others, sort, ...rest } = conditions;
       const fixConditions = Object.keys(rest);
+
       fixConditions.forEach((key, index) => {
         const option = conditions[key];
         defaultValue[key] = option?.[0]?.value;
@@ -107,6 +116,24 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
             type: 'input',
             showIndex: 0,
             fixed: false,
+            comProps: {
+              addonBefore: (
+                <Select
+                  size="small"
+                  style={{ width: 80 }}
+                  bordered={false}
+                  value={searchCondition?.[paramKey]}
+                  onChange={(v) => {
+                    updater.searchCondition((prev: Obj) => {
+                      return { ...prev, [paramKey]: v };
+                    });
+                  }}
+                >
+                  <Select.Option value="=">{i18n.t('dop:equal to')}</Select.Option>
+                  <Select.Option value="！=">{i18n.t('dop:not equal to')}</Select.Option>
+                </Select>
+              ),
+            },
             placeholder: i18n.t('Please enter the {name}', { name: displayName }),
             key: paramKey,
             label: displayName,
@@ -131,7 +158,7 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
       ] as ICondition[],
       defaultValue,
     ];
-  }, [conditions]);
+  }, [conditions, searchCondition]);
 
   const handleSearch = (data: {
     [key: string]: string | Array<IValue>;
@@ -159,17 +186,33 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
   };
 
   const params = React.useMemo(() => {
-    const { traceStatus, traceID, ...rest } = query;
+    const { traceStatus, traceID, httpPath, rpcMethod, ...rest } = query;
     return {
       tenantId,
       startTime: range.startTimeMs,
       endTime: range.endTimeMs,
       ...rest,
       status: traceStatus,
-      serviceName: scope === 'serviceMonitor' ? serviceName : rest.serviceName,
-      traceId: traceID,
+      conditions: [
+        {
+          serviceName: (scope === 'serviceMonitor' ? serviceName : rest.serviceName) || '',
+          operator: searchCondition?.serviceName,
+        },
+        {
+          traceId: traceID || '',
+          operator: searchCondition?.traceID,
+        },
+        {
+          httpPath: httpPath || '',
+          operator: searchCondition?.httpPath,
+        },
+        {
+          rpcMethod: rpcMethod || '',
+          operator: searchCondition?.rpcMethod,
+        },
+      ],
     };
-  }, [tenantId, range, query, scope, serviceName]);
+  }, [tenantId, range, query, scope, serviceName, searchCondition]);
   if (!serviceName && requestCompleted && scope == 'serviceMonitor') {
     return <NoServicesHolder />;
   }
