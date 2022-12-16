@@ -240,6 +240,7 @@ const ServiceCard = (props: IProps) => {
               instanceTerminal: true,
               instance: convertIns(ins),
               clusterName,
+              clusterExist: true,
               host,
               containerId: containerId || id,
             },
