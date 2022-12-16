@@ -130,7 +130,7 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
                   }}
                 >
                   <Select.Option value="=">{i18n.t('dop:equal to')}</Select.Option>
-                  <Select.Option value="！=">{i18n.t('dop:not equal to')}</Select.Option>
+                  <Select.Option value="!=">{i18n.t('dop:not equal to')}</Select.Option>
                 </Select>
               ),
             },
