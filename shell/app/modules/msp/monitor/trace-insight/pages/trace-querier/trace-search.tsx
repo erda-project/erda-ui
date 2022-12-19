@@ -141,7 +141,6 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
           });
         });
     }
-    updater.query(defaultValue);
     return [
       [
         {
