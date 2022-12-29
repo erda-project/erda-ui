@@ -90,13 +90,21 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
       <div className="erda-base-list-item-container">
         <div className="flex">
           {onSelectChange ? (
-            <Checkbox
-              className="flex items-center mr-4"
-              disabled={!selectable}
-              checked={selected}
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e) => onSelectChange(e.target.checked)}
-            />
+            <div
+              className="flex items-center justify-center w-[32px]"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelectChange(!selected);
+              }}
+            >
+              <Checkbox
+                className="mr-4"
+                disabled={!selectable}
+                checked={selected}
+                // onClick={(e) => e.stopPropagation()}
+                // onChange={(e) => onSelectChange(e.target.checked)}
+              />
+            </div>
           ) : null}
           {mainState && (curLogo || icon) ? <Badge onlyDot {...mainState} /> : null}
           {curLogo ? (
