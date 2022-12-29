@@ -19,7 +19,6 @@ describe('getUploadProps', () => {
     const result = getUploadProps({});
     expect(result.action).toBe('/api/files');
     expect(result.headers).toStrictEqual({
-      'OPENAPI-CSRF-TOKEN': 'OPENAPI-CSRF-TOKEN',
       org: getOrgFromPath(),
     });
     expect(result.beforeUpload({ size: 20971550 })).toBe(false);
