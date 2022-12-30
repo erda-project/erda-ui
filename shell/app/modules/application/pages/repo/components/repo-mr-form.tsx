@@ -227,14 +227,16 @@ const RepoMRForm = (props: IProps) => {
       });
       return;
     }
-    getRepoBlob({ path: `/${branch}/${path}/${name}` }).then((data) => {
-      update({
-        tplName: name,
-        tplContent: data.content,
+    if (branch && path) {
+      getRepoBlob({ path: `/${branch}/${path}/${name}` }).then((data) => {
+        update({
+          tplName: name,
+          tplContent: data.content,
+        });
+        tplMap[name] = data.content;
+        tplNameCache = name;
       });
-      tplMap[name] = data.content;
-      tplNameCache = name;
-    });
+    }
   };
 
   const handleTplChange = (params: { tplContent: string; tplName: string }) => {
@@ -248,7 +250,6 @@ const RepoMRForm = (props: IProps) => {
 
   const getTplSelect = () => {
     const tplNames = templateConfig.names.filter((file: string) => file.endsWith('.md'));
-
     const menu = (
       <Menu selectedKeys={[`tpl_${tplName}`]}>
         {tplNames.length ? (

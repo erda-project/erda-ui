@@ -81,7 +81,7 @@ export const IssueActivities = (props: IProps) => {
               showName={false}
               className="absolute left-[-12px]"
             />
-            <div className="flex-1 ml-5 p-4 rounded-sm issue-activity-content issue-comment-content">
+            <div className="flex-1 ml-5 p-4 rounded-sm issue-activity-content issue-comment-content overflow-hidden">
               <div>
                 <MarkdownRender value={activity.content} />
               </div>
