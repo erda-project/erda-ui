@@ -19,6 +19,8 @@ import DeployLog from 'runtime/common/logs/components/deploy-log';
 import i18n from 'i18n';
 import commonStore from 'common/stores/common';
 
+import './build-log.scss';
+
 const linkMark = '##to_link:';
 
 const { TabPane } = Tabs;
@@ -175,7 +177,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
       );
 
     const detailViewer = (
-      <div>
+      <div className="build-log-detail">
         <Tabs>
           {this.props.showLog && (
             <TabPane tab={i18n.s('execution log')} key="log">
