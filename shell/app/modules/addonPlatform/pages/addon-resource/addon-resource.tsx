@@ -58,6 +58,7 @@ const dashboardMap = {
   mysql: 'addon-mysql',
   'terminus-elasticsearch': 'addon-es',
   redis: 'addon-redis',
+  rocketmq: 'addon-rocketmq',
 };
 const DashboardChart = ({ addonName, addonId }: { addonName: string; addonId: string }) => {
   const [timeSpan, setTimeSpan] = React.useState({
