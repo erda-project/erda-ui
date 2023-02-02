@@ -97,6 +97,7 @@ declare namespace GATEWAY {
     scene: string;
     description: string;
     needBindCloudapi: boolean;
+    gatewayProvider?: '' | 'MSE';
   }
 
   interface CreateOpenApiConsumer extends Base {
@@ -142,6 +143,7 @@ declare namespace GATEWAY {
     redirectService: string;
     redirectType: string;
     method: string;
+    gatewayProvider?: '' | 'MSE';
   }
 
   interface ApiFilterCondition {
