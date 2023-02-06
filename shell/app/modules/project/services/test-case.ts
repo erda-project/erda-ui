@@ -156,14 +156,20 @@ export function getFields(): TEST_CASE.Field[] {
 export function create(payload: TEST_CASE.CaseBody, testPlanId?: number) {
   return agent
     .post('/api/testcases')
-    .query({ testPlanId })
+    .query({ testPlanId, projectID: payload.projectID })
     .send(payload)
     .then((response: any) => response.body);
 }
 
 // 获取测试用例详情
-export function getDetail({ id }: Merge<TEST_CASE.QueryCaseDetail, { testPlanID: number }>): TEST_CASE.CaseDetail {
-  return agent.get(`/api/testcases/${id}`).then((response: any) => response.body);
+export function getDetail({
+  id,
+  projectID,
+}: Merge<TEST_CASE.QueryCaseDetail, { testPlanID: number; projectID: number }>): TEST_CASE.CaseDetail {
+  return agent
+    .get(`/api/testcases/${id}`)
+    .query({ projectID })
+    .then((response: any) => response.body);
 }
 
 export function getDetailRelations({
@@ -180,11 +186,12 @@ export function getDetailRelations({
 export function editPartial({ id, ...payload }: TEST_CASE.CaseBody) {
   return agent
     .put(`/api/testcases/${id}`)
+    .query({ projectID: payload.projectID })
     .send(payload)
     .then((response: any) => response.body);
 }
 
-export function exportFileInTestCase(payload: TEST_CASE.ExportFileQuery) {
+export function exportFileInTestCase(payload: Merge<TEST_CASE.ExportFileQuery, { projectID: number }>) {
   const lang = getLang();
   const query = qs.stringify({ ...payload, lang } as any, { arrayFormat: 'none' });
   return agent.get(`/api/testcases/actions/export?${query}`).then((response: any) => response.body);
@@ -223,9 +230,10 @@ export function updateCases({ query, payload }: { query: TEST_CASE.CaseFilter; p
 }
 
 // 批量更新测试用例（更新优先级，移入/移出回收站）
-export function batchUpdateCase(payload: TEST_CASE.BatchUpdate) {
+export function batchUpdateCase(payload: Merge<TEST_CASE.BatchUpdate, { projectID: number }>) {
   return agent
     .post('/api/testcases/actions/batch-update')
+    .query({ projectID: payload.projectID })
     .send(payload)
     .then((response: any) => response.body);
 }
@@ -240,9 +248,10 @@ export function batchUpdateCase(payload: TEST_CASE.BatchUpdate) {
 // }
 
 // 彻底删除测试用例
-export function deleteEntirely(payload: { testCaseIDs: number[] }) {
+export function deleteEntirely(payload: { testCaseIDs: number[]; projectID: number }) {
   return agent
     .delete('/api/testcases/actions/batch-clean-from-recycle-bin')
+    .query({ projectID: payload.projectID })
     .send(payload)
     .then((response: any) => response.body);
 }
@@ -251,6 +260,7 @@ export function deleteEntirely(payload: { testCaseIDs: number[] }) {
 export function copyCases(query: TEST_CASE.BatchCopy) {
   return agent
     .post('/api/testcases/actions/batch-copy')
+    .query({ projectID: query.projectID })
     .send(query)
     .then((response: any) => response.body);
 }
