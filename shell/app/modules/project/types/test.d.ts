@@ -106,7 +106,7 @@ declare namespace TEST_CASE {
     module: number;
     preCondition: string;
     priority: string;
-    projectId: number;
+    projectID: number;
     recycled: boolean;
     selectProjectId: number;
     stepAndResults: {

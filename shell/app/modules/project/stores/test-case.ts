@@ -113,7 +113,8 @@ const testCaseStore = createStore({
       { call, update, getParams },
       payload: Merge<TEST_CASE.QueryCaseDetail, { scope: 'testPlan' | 'testCase' }>,
     ) {
-      const { testPlanId } = getParams();
+      const { testPlanId, projectId } = getParams();
+      const projectID = +projectId;
       let issueBugs: TEST_CASE.RelatedBug[] = [];
       let caseDetail = {} as TEST_CASE.CaseDetail;
       if (payload.scope === 'testPlan') {
@@ -127,7 +128,7 @@ const testCaseStore = createStore({
           ...payload,
           testPlanID: testPlanId,
         });
-        const detail = await call(getDetail, { id: testCaseID, testPlanID: testPlanId });
+        const detail = await call(getDetail, { id: testCaseID, testPlanID: testPlanId, projectID });
         caseDetail = {
           ...detail,
           id,
@@ -138,7 +139,7 @@ const testCaseStore = createStore({
         };
         issueBugs = relationBugs;
       } else {
-        caseDetail = await call(getDetail, { ...payload, testPlanID: testPlanId });
+        caseDetail = await call(getDetail, { ...payload, testPlanID: testPlanId, projectID });
         caseDetail = {
           testCaseID: caseDetail.id,
           ...caseDetail,
@@ -153,14 +154,15 @@ const testCaseStore = createStore({
       update({ issueBugs });
     },
     async editPartial({ call, getParams }, detailCase: TEST_CASE.CaseBody) {
-      const { projectId: projectID } = getParams();
-      await call(editPartial, { ...detailCase, projectID });
+      const { projectId } = getParams();
+      await call(editPartial, { ...detailCase, projectID: +projectId });
     },
     async getFields({ call }) {
       const fields = await call(getFields);
       testCaseStore.reducers.dealFields(fields);
     },
-    async exportFile({ call }, fileType: TEST_CASE.CaseFileType) {
+    async exportFile({ call, getParams }, fileType: TEST_CASE.CaseFileType) {
+      const { projectId } = getParams();
       const { testCaseIDs, ...rest } = await testCaseStore.effects.getSelectedCaseIds();
       const query = routeInfoStore.getState((s) => s.query);
       const temp = { recycled: query.recycled === 'true' };
@@ -170,7 +172,7 @@ const testCaseStore = createStore({
         fileType,
         testCaseID: testCaseIDs,
       }) as any as TEST_CASE.ExportFileQuery;
-      return call(exportFileInTestCase, exportQuery);
+      return call(exportFileInTestCase, { ...exportQuery, projectID: +projectId });
     },
     async importTestCase({ call, getParams, getQuery }, payload: { file: any }) {
       const { projectId: projectID } = getParams();
@@ -249,45 +251,49 @@ const testCaseStore = createStore({
       const payload: Omit<TEST_PLAN.PlanBatch, 'testPlanID'> = { execStatus: status, relationIDs };
       testPlanStore.effects.updateCasesStatus(payload);
     },
-    async moveCase({ call }, payload: Omit<TEST_CASE.BatchUpdate, 'priority'>) {
-      const res = await call(batchUpdateCase, payload);
+    async moveCase({ call, getParams }, payload: Omit<TEST_CASE.BatchUpdate, 'priority'>) {
+      const { projectId } = getParams();
+      const res = await call(batchUpdateCase, { ...payload, projectID: +projectId });
       testCaseStore.reducers.removeChoosenIds(payload.testCaseIDs);
       message.success(i18n.t('dop:update completed'));
       testCaseStore.effects.getCases();
       return res;
     },
     // 更新优先级
-    async updatePriority({ call, select }, priority: TEST_CASE.Priority) {
+    async updatePriority({ call, select, getParams }, priority: TEST_CASE.Priority) {
       const { primaryKeys } = select((s) => s.choosenInfo);
       const payload: Omit<TEST_CASE.BatchUpdate, 'recycled' | 'moveToTestSetID'> = {
         testCaseIDs: primaryKeys,
         priority,
       };
-      const res = await call(batchUpdateCase, payload);
+      const { projectId } = getParams();
+      const res = await call(batchUpdateCase, { ...payload, projectID: +projectId });
       testCaseStore.reducers.removeChoosenIds(payload.testCaseIDs);
       message.success(i18n.t('dop:update completed'));
       testCaseStore.effects.getCases();
       return res;
     },
     // 移至回收站
-    async toggleToRecycle({ call }, payload: Omit<TEST_CASE.BatchUpdate, 'priority'>) {
-      const res = await call(batchUpdateCase, payload);
+    async toggleToRecycle({ call, getParams }, payload: Omit<TEST_CASE.BatchUpdate, 'priority'>) {
+      const { projectId } = getParams();
+      const res = await call(batchUpdateCase, { ...payload, projectID: +projectId });
       testCaseStore.reducers.removeChoosenIds(payload.testCaseIDs);
       message.success(i18n.t('deleted successfully'));
       testCaseStore.effects.getCases();
       return res;
     },
-    async deleteEntirely({ call }, id?: number) {
+    async deleteEntirely({ call, getParams }, id?: number) {
       let tempIds = [];
+      const { projectId } = getParams();
       if (id) {
         // 单条
         tempIds = [id];
-        await call(deleteEntirely, { testCaseIDs: tempIds });
+        await call(deleteEntirely, { testCaseIDs: tempIds, projectID: +projectId });
       } else {
         // 批量
         const newQuery = await testCaseStore.effects.getSelectedCaseIds();
         tempIds = newQuery.testCaseIDs || [];
-        await call(deleteEntirely, { testCaseIDs: tempIds });
+        await call(deleteEntirely, { testCaseIDs: tempIds, projectID: +projectId });
       }
       testCaseStore.reducers.removeChoosenIds(tempIds);
       message.success(i18n.t('deleted successfully'));
