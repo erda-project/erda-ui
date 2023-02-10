@@ -236,6 +236,7 @@ export const getCompareDetail = ({
 }: Merge<REPOSITORY.QueryCompareDetail, { repoPrefix: string }>): REPOSITORY.CompareDetail => {
   return agent
     .get(`/api/repo/${repoPrefix}/compare/${encodeNumberSign(compareA)}...${encodeNumberSign(compareB)}`)
+    .query({ limit: 500 })
     .then((response: any) => response.body);
 };
 
