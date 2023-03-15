@@ -345,6 +345,7 @@ const AppRelease = (props: IReleaseProps) => {
             setTags([]);
           }}
           hideSave
+          hideClear
           popoverProps={{
             getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement,
           }}
