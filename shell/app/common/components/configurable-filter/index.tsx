@@ -26,6 +26,7 @@ import { firstCharToUpper } from 'app/common/utils';
 export interface IProps {
   fieldsList: Field[];
   configList?: ConfigData[];
+  hideClear?: boolean;
   defaultConfig?: number | string;
   onFilter: (data: Obj) => void;
   onDeleteFilter?: (data: Obj) => void;
@@ -181,6 +182,7 @@ const ConfigurableFilter = React.forwardRef(
       onSaveFilter,
       processField,
       hideSave,
+      hideClear,
       onClear,
       onClose,
       popoverProps = {},
@@ -465,15 +467,17 @@ const ConfigurableFilter = React.forwardRef(
               </div>
             </Popover>
             {isAllOpen ? (
-              <div
-                className="erda-configurable-filter-clear-btn p-1 rounded-sm leading-none cursor-pointer"
-                onClick={() => {
-                  setAllOpen();
-                  onFilter();
-                }}
-              >
-                <ErdaIcon type="zhongzhi" color="currentColor" size={20} className="relative top-px" />
-              </div>
+              hideClear ? null : (
+                <div
+                  className="erda-configurable-filter-clear-btn p-1 rounded-sm leading-none cursor-pointer"
+                  onClick={() => {
+                    setAllOpen();
+                    onFilter();
+                  }}
+                >
+                  <ErdaIcon type="zhongzhi" color="currentColor" size={20} className="relative top-px" />
+                </div>
+              )
             ) : null}
           </div>
         ) : null}
