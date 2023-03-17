@@ -31,7 +31,7 @@ const parseLinkInContent = (content: string, pushSlideComp?: (q: string) => void
   if (regLog.LOGSTART.test(content)) {
     const [parrent, time, level, params] = regLog.LOGSTART.exec(content);
     const [serviceName, requestId, ...rest] = (params || '').split(',');
-    if (!requestId) return `[${serviceName}] --- ${content.split(parrent).join('')}`;
+    if (!requestId) return `[${serviceName}] ${content.split(parrent).join('')}`;
     const logInfo = content.split(parrent);
     return (
       <React.Fragment>
