@@ -29,17 +29,20 @@ const defaultLogName = 'all';
 
 const parseLinkInContent = (content: string, pushSlideComp?: (q: string) => void) => {
   if (regLog.LOGSTART.test(content)) {
-    const [parrent, time, level, params] = regLog.LOGSTART.exec(content);
+    const [parrent, time, level, params, thread] = regLog.LOGSTART.exec(content);
+
     const [serviceName, requestId, ...rest] = (params || '').split(',');
-    if (!requestId) return `[${serviceName}] ${content.split(parrent).join('')}`;
+    if (!requestId) return `[${serviceName}] - [${thread}] ${content.split(parrent).join('')}`;
     const logInfo = content.split(parrent);
     return (
       <React.Fragment>
         {'['}
         <a onClick={() => pushSlideComp && pushSlideComp(requestId)}>
-          <Tooltip title={rest.length ? `[${requestId},${rest}]` : `[${requestId}]`}>{serviceName}</Tooltip>
+          <Tooltip title={rest.length ? `[trace_id: ${requestId}, span_id: ${rest}]` : `[${requestId}]`}>
+            {serviceName}
+          </Tooltip>
         </a>
-        {`] ${logInfo[1]}`}
+        {`] - [${thread}] ${logInfo[1]}`}
       </React.Fragment>
     );
   } else {
