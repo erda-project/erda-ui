@@ -15,12 +15,13 @@ import { regLog } from '../log-util';
 
 describe('log-util', () => {
   it('regLog.LOGSTART should work well', () => {
-    const str = '2021-06-29T11:05:45.713Z INFO - [content]';
+    const str = '2021-06-29T11:05:45.713Z INFO [content] - [thread]';
     expect(regLog.LOGSTART.test(str)).toBeTruthy();
     const result = regLog.LOGSTART.exec(str) || [];
-    const [, time, level, params] = result;
+    const [, time, level, params, thread] = result;
     expect(time).toBe('2021-06-29T11:05:45.713Z');
     expect(level).toBe('INFO');
     expect(params).toBe('content');
+    expect(thread).toBe('thread');
   });
 });
