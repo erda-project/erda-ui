@@ -215,7 +215,7 @@ const VariableConfig = ({
       render: (text: string, { isFromDefault, source }: IKey) => (
         <div className="flex justify-between items-center">
           <span className="cursor-copy nowrap" data-clipboard-text={text} title={text}>
-            {text}
+            <Tooltip title={text}>{text}</Tooltip>
           </span>
           <span>
             {source === 'certificate' && (
