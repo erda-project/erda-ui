@@ -66,6 +66,25 @@
       background-color: $platinum;
     }
   }
+
+  .issue-item-date-picker input {
+    color: $color-default-6 !important;
+
+    &::-webkit-input-placeholder {
+      color: $color-default-6 !important;
+    }
+    &:-ms-input-placeholder {
+      color: $color-default-6 !important;
+    }
+    &:-moz-placeholder {
+      color: $color-default-6 !important;
+      opacity: 1;
+    }
+    &::-moz-placeholder {
+      color: $color-default-6 !important;
+      opacity: 1;
+    }
+  }
 }
 
 .issue-item-member-selector {

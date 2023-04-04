@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Dropdown, Input, Menu, Modal, Select } from 'antd';
+import { Button, Dropdown, Input, Menu, Modal, Select, DatePicker } from 'antd';
 import { useUpdate } from 'app/common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
 import { Ellipsis, ErdaIcon, Icon as CustomIcon, MemberSelector, EmptyHolder } from 'common';
@@ -215,7 +215,18 @@ export const IssueItem = (props: IIssueProps) => {
     planFinishedAt: {
       Comp: (
         <span key="planFinishedAt" className="mr-6 w-20 truncate">
-          {data.planFinishedAt ? moment(data.planFinishedAt).format('YYYY/MM/DD') : i18n.t('dop:Unspecified')}
+          <DatePicker
+            bordered={false}
+            value={data.planFinishedAt ? moment(data.planFinishedAt) : null}
+            suffixIcon={false}
+            allowClear={false}
+            format={'YYYY/MM/DD'}
+            placeholder={i18n.t('dop:Unspecified')}
+            className="p-0 issue-item-date-picker"
+            onChange={(date) => {
+              updateIssueRecord({ ...data, planFinishedAt: moment(date).format('YYYY-MM-DDTHH:mm:ss') + 'Z' });
+            }}
+          />
         </span>
       ),
       show: true,
