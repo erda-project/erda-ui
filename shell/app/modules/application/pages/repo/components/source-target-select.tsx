@@ -113,6 +113,7 @@ interface IState {
   sourceBranch?: string;
   targetBranch?: string;
   removeSourceBranch: boolean;
+  targetBranchHasChange: boolean;
 }
 class SourceTargetSelect extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -123,6 +124,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
       sourceBranch,
       targetBranch,
       removeSourceBranch: props.defaultRemoveSourceBranch || false,
+      targetBranchHasChange: false,
     };
     const changed = {} as any;
     if (sourceBranch) {
@@ -153,9 +155,15 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
 
   handleChange = (key: 'sourceBranch' | 'targetBranch') => (value: string) => {
     // @ts-ignore
-    this.setState({ [key as 'sourceBranch' | 'targetBranch']: value }, () => {
-      this.triggerCompare();
-    });
+    this.setState(
+      {
+        [key as 'sourceBranch' | 'targetBranch']: value,
+        targetBranchHasChange: key === 'targetBranch' ? true : this.state.targetBranchHasChange,
+      },
+      () => {
+        this.triggerCompare();
+      },
+    );
     this.triggerChange({ [key]: value }, true);
   };
 
@@ -169,7 +177,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
     // Should provide an event to pass value to Form.
     const { onChange } = this.props;
     const newValue = { ...this.state, ...changedValue };
-    if (Reflect.has(changedValue, 'sourceBranch')) {
+    if (Reflect.has(changedValue, 'sourceBranch') && !this.state.targetBranchHasChange) {
       const sourceBranch = changedValue['sourceBranch'];
       const targetPolicy = this.props.branchPolicies.find(({ branch }) => {
         const branches = branch.split(',');
