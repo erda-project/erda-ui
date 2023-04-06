@@ -87,7 +87,7 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
       type: 'inputNumber',
       pattern: /^\d+$/,
       initialValue: service.deployments.replicas,
-      itemProps: { min: 0, max: 50 },
+      itemProps: { min: 0 },
       formItemLayout: {
         labelCol: {
           sm: { span: 24 },
