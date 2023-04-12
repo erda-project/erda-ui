@@ -12,6 +12,7 @@
     "update-version": "erda-ui set-pkg-version",
     "clear-dependencies": "erda-ui clear-dependencies",
     "init": "erda-ui init",
+    "build": "erda-ui build --online",
     "build-online": "erda-ui build --online",
     "i18n": "erda-ui i18n",
     "preinstall": "npx only-allow pnpm",
