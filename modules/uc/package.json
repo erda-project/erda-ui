@@ -50,8 +50,9 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.2.14",
-    "postcss-import": "^14.1.0",
+    "@types/history": "4.x",
     "postcss": "^8.3.6",
+    "postcss-import": "^14.1.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14"
   }
 }
