@@ -44,7 +44,7 @@ const ProtocolInput = ({ value = '', onChange, ...rest }: IInputProps) => {
           <Select.Option value={HTTPS_PREFIX}>https://</Select.Option>
         </Select>
       }
-      maxLength={100}
+      maxLength={200}
       value={inputValue}
       onChange={(e) => onChange && onChange(`${protocol}${e.target.value.trim()}`)}
       {...rest}
