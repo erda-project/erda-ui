@@ -43,13 +43,13 @@ export const appList: () => LAYOUT.IApp[] = () =>
         },
         href: goTo.resolve.dopRoot(),
       },
-      {
-        key: 'msp',
-        icon: 'MSP-entry',
-        name: i18n.t('Microservice Platform'),
-        breadcrumbName: i18n.t('Microservice Platform'),
-        href: goTo.resolve.mspRootOverview(),
-      },
+      // {
+      //   key: 'msp',
+      //   icon: 'MSP-entry',
+      //   name: i18n.t('Microservice Platform'),
+      //   breadcrumbName: i18n.t('Microservice Platform'),
+      //   href: goTo.resolve.mspRootOverview(),
+      // },
       {
         key: 'cmp',
         icon: 'CMP-entry',

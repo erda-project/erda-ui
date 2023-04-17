@@ -192,12 +192,27 @@ const layout = createStore({
       if (currentApp) state.currentApp = currentApp;
       state.subSiderInfoMap = merge(state.subSiderInfoMap, menusMap);
     },
+    updateAppList(state, payload: { menu: LAYOUT.IApp; position?: number }) {
+      const { menu, position } = payload;
+
+      if (!state.appList.find((item) => item.key === menu.key)) {
+        if (position !== undefined) {
+          const newAppList = [...state.appList];
+          newAppList.splice(position, 0, menu);
+          state.appList = newAppList;
+        } else {
+          state.appList = [...state.appList, menu];
+        }
+      }
+    },
     clearLayout(state) {
       state.subSiderInfoMap = {};
       state.appList = [];
       state.currentApp = {
         key: '',
         name: '',
+        shortName: '',
+        icon: '',
         breadcrumbName: '',
         href: '',
       };
