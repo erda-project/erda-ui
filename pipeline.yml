@@ -1,15 +1,13 @@
 version: "1.1"
-
-on:
+name: ""
+"on":
   push:
     branches:
       - master
       - release/*
     tags:
       - v*
-
 cron: 0 0 10,13,16,19,23 * * ?
-
 stages:
   - stage:
       - git-checkout:
@@ -31,12 +29,12 @@ stages:
   - stage:
       - extract-repo-version:
           alias: ui-version
-          description: Extract repo version in git dir
+          description: 从 git 代码仓库中解析提交信息，生成仓库版本
           params:
             git_dir: ${{ dirs.erda-ui }}
       - extract-repo-version:
           alias: ui-enterprise-version
-          description: Extract repo version in git dir
+          description: 从 git 代码仓库中解析提交信息，生成仓库版本
           params:
             git_dir: ${{ dirs.erda-ui-enterprise }}
   - stage:
@@ -90,6 +88,7 @@ stages:
               url: ${{ configs.docker_registry }}
               username: ${{ configs.docker_registry_username }}
             workdir: ${{ dirs.build-erda-ui }}
+          image: registry.erda.cloud/erda-actions/dockerfile-action:1.0-20230424150226-5fd86c2
           resources:
             cpu: 0.5
             mem: 2048
@@ -107,6 +106,7 @@ stages:
               url: ${{ configs.docker_registry }}
               username: ${{ configs.docker_registry_username }}
             workdir: ${{ dirs.build-erda-ui-enterprise }}
+          image: registry.erda.cloud/erda-actions/dockerfile-action:1.0-20230424150226-5fd86c2
           resources:
             cpu: 0.5
             mem: 2048
@@ -118,11 +118,11 @@ stages:
           params:
             check_diceyml: false
             cross_cluster: "true"
-            tag_version: ${{ outputs.ui-version.version }}
             dice_yml: ${{ dirs.erda-ui }}/erda.yml
             image:
               enterprise-ui: ${{ outputs.build-erda-ui-enterprise-image.image }}
               ui: ${{ outputs.build-erda-ui-image.image }}
+            tag_version: ${{ outputs.ui-version.version }}
           resources:
             cpu: 0.5
             mem: 512
