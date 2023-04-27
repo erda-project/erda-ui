@@ -1,8 +1,4 @@
-#!dice
-FROM registry.erda.cloud/retag/node:14.18.2-slim
-
-# Set special timezone
-RUN echo "Asia/Shanghai" | tee /etc/timezone
+FROM registry.erda.cloud/erda-x/node:14
 
 WORKDIR /usr/src/app
 
