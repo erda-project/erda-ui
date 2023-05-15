@@ -16,7 +16,7 @@ import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import IssueProtocol from 'project/pages/issue/issue-protocol';
 
 const Ticket = () => {
-  return <IssueProtocol hideImport issueType={ISSUE_TYPE.TICKET} />;
+  return <IssueProtocol issueType={ISSUE_TYPE.TICKET} />;
 };
 
 export default Ticket;
