@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Row, Col } from 'antd';
-import gatewayIngressCommonStore from 'app/modules/msp/monitor/gateway-ingress/stores/common';
+import gatewayIngressCommonStore from 'app/modules/extra/msp/monitor/gateway-ingress/stores/common';
 import LatencyMap from './config/chartMap';
 import TopTabRight from '../../common/components/tab-right';
 import StatisticsSelector, { STATISTICS } from '../../common/components/statistics-selector';

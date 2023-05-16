@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { get, isEmpty, forEach, reduce } from 'lodash';
-import { multiGroupsAndDimensionDataHandler } from 'app/modules/msp/monitor/api-insight/pages/request/config/apiConfig';
+import { multiGroupsAndDimensionDataHandler } from 'app/modules/extra/msp/monitor/api-insight/pages/request/config/apiConfig';
 import { gatewayApiPrefix } from '../../config';
 
 const commonQuery = {};
