@@ -14,7 +14,7 @@
 import React, { useState } from 'react';
 import { Row, Col } from 'antd';
 import { QPSRequestChart, PVRequestChart } from './config/chartMap';
-import FilterNav from 'app/modules/msp/monitor/api-insight/common/components/filterNav';
+import FilterNav from 'app/modules/extra/msp/monitor/api-insight/common/components/filterNav';
 import routeInfoStore from 'core/stores/route';
 import apiMonitorFilterStore from '../../stores/filter';
 import gatewayStore from 'msp/stores/gateway';

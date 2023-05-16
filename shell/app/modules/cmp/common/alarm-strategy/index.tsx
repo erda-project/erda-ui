@@ -25,7 +25,7 @@ import notifyGroupStore from 'application/stores/notify-group';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
-import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
+import mspAlarmStrategyStore from 'app/modules/extra/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
 import { ColumnProps, IActions } from 'app/common/components/table/interface';
 import './index.scss';
 
