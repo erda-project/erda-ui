@@ -18,7 +18,7 @@ import PureSubTab from './sub-tab';
 import PureSortTab from './sort-tab';
 import PureSortList from './sort-list';
 import monitorCommonStore from 'common/stores/monitorCommon';
-import monitorChartStore from 'app/modules/msp/monitor/monitor-common/stores/monitorChart';
+import monitorChartStore from 'app/modules/extra/msp/monitor/monitor-common/stores/monitorChart';
 import routeInfoStore from 'core/stores/route';
 
 interface ICreateParams {

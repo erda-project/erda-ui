@@ -66,7 +66,7 @@ import { useLoading } from 'core/stores/loading';
 import orgCustomAlarmStore from 'app/modules/cmp/stores/custom-alarm';
 import mspCustomAlarmStore from 'msp/alarm-manage/alarm-strategy/stores/custom-alarm';
 import orgMonitorMetaDataStore from 'app/modules/cmp/stores/analysis-monitor-metadata';
-import mspMonitorMetaDataStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/analysis-monitor-metadata';
+import mspMonitorMetaDataStore from 'app/modules/extra/msp/alarm-manage/alarm-strategy/stores/analysis-monitor-metadata';
 import { ColumnProps } from 'app/interface/common';
 import './index.scss';
 

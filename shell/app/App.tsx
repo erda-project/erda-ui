@@ -110,7 +110,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
       import('publisher/entry'),
       import('project/entry'),
       import('apiManagePlatform/entry'),
-      import('msp/entry'),
+      // import('msp/entry'),
       ...insertWhen(erdaEnv.ENABLE_EDGE === 'true', [import('app/modules/ecp/entry')]),
       import('application/entry'),
       import('cmp/entry'),
@@ -119,7 +119,11 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
       import('addonPlatform/entry'),
       import('gallery/entry'),
       import('./modules/extra/entry'),
-    ].forEach((p) => p.then((m) => m.default(registerModule)));
+    ].forEach((p) =>
+      p.then((m) => {
+        Array.isArray(m.default) ? m.default.forEach((mItem) => mItem(registerModule)) : m.default(registerModule);
+      }),
+    );
 
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
 

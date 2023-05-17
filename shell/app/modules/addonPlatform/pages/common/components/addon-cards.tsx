@@ -20,7 +20,7 @@ import { useUpdate } from 'common/use-hooks';
 import { allWordsFirstLetterUpper, goTo, ossImg } from 'common/utils';
 import { AddonDetailDrawer } from './addon-detail-drawer';
 import { ENV_NAME, PLAN_NAME } from '../configs';
-import { getMSFrontPathByKey } from 'app/modules/msp/config';
+import { getMSFrontPathByKey } from 'app/modules/extra/msp/config';
 import CreateLog from './create-log';
 import addon_png from 'app/images/resources/addon.png';
 import './addon-cards.scss';

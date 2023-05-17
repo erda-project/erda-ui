@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Row, Col } from 'antd';
-import FilterNav from 'app/modules/msp/monitor/api-insight/common/components/filterNav';
+import FilterNav from 'app/modules/extra/msp/monitor/api-insight/common/components/filterNav';
 import TransportMap from './config/chartMap';
 import routeInfoStore from 'core/stores/route';
 import apiMonitorFilterStore from '../../stores/filter';

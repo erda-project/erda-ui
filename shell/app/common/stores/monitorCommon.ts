@@ -54,6 +54,11 @@ interface IState {
     range: {
       triggerTime?: number;
     } & ITimeSpan;
+    dynamicRanges: {
+      [rangeKey: string]: {
+        triggerTime?: number;
+      } & ITimeSpan;
+    };
   };
   modules: any;
   appGroup: any;

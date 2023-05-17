@@ -15,4 +15,4 @@ const entry = (registerModule) => {
   // register some modules here
 };
 
-export default entry;
+export default [entry];
