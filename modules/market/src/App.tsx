@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import DownloadPage from './pages/download';
 
@@ -28,12 +28,12 @@ const NotFound = () => {
 
 function App() {
   return (
-    <Router history={history}>
+    <BrowserRouter history={history}>
       <Switch>
         <Route exact path="/:orgName/market/download/:publishItemId" component={DownloadPage} />
         <Route path="*" component={NotFound} />
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 }
 
