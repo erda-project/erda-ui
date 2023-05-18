@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch, Router } from 'react-router-dom';
 import Login from 'src/pages/login';
 import Setting from 'src/pages/setting';
 import Recovery from 'src/pages/recovery';
@@ -25,7 +25,7 @@ const NotFound = () => {
 
 export default function App() {
   return (
-    <BrowserRouter history={history as any}>
+    <Router history={history as any}>
       <Switch>
         <Route exact path="/uc/settings" component={Setting} />
         <Route exact path="/uc/login" component={Login} />
@@ -33,6 +33,6 @@ export default function App() {
         <Route exact path="/uc/recovery" component={Recovery} />
         <Route path="*" component={NotFound} />
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
