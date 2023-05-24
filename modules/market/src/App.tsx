@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router as _Router, Route as _Route, Switch as _Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import DownloadPage from './pages/download';
 
@@ -25,6 +25,10 @@ const NotFound = () => {
     </div>
   );
 };
+
+const Router = _Router as any;
+const Switch = _Switch as any;
+const Route = _Route as any;
 
 function App() {
   return (

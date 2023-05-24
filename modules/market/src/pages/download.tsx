@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Spin, message, Button, Rate, Tabs, Carousel, Col, Row } from 'antd';
-import { StickyContainer, Sticky } from 'react-sticky';
+import { StickyContainer as _StickyContainer, Sticky as _Sticky } from 'react-sticky';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
@@ -23,6 +23,9 @@ import './download.scss';
 import DownloadPC from './download-pc';
 
 const { TabPane } = Tabs;
+const Sticky = _Sticky as any;
+const StickyContainer = _StickyContainer as any;
+
 interface IObj {
   [key: string]: any;
 }
@@ -261,7 +264,7 @@ const DownloadPage = ({ match }: any) => {
 
   const renderTabBar = (props: any, DefaultTabBar: any) => (
     <Sticky bottomOffset={80}>
-      {({ style }) => <DefaultTabBar {...props} className="site-custom-tab-bar" style={{ ...style }} />}
+      {({ style }: { style: any }) => <DefaultTabBar {...props} className="site-custom-tab-bar" style={{ ...style }} />}
     </Sticky>
   );
 

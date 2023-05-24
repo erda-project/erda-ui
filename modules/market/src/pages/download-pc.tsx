@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Button } from 'antd';
-import QRCode from 'qrcode.react';
+import _QRCode from 'qrcode.react';
 import dayjs from 'dayjs';
 
 import './download-pc.scss';
@@ -37,6 +37,8 @@ interface IProps {
   showDownload: boolean;
   handleDownload: () => void;
 }
+
+const QRCode = _QRCode as any;
 
 const DownloadPagePC = ({ name, versionList, versions, current, showDownload, handleDownload }: IProps) => {
   return (
