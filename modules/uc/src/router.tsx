@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Route, Switch, Router } from 'react-router-dom';
+import { Router as _Router, Route as _Route, Switch as _Switch } from 'react-router-dom';
 import Login from 'src/pages/login';
 import Setting from 'src/pages/setting';
 import Recovery from 'src/pages/recovery';
@@ -22,6 +22,10 @@ import { history } from 'src/common';
 const NotFound = () => {
   return <h1>page not found</h1>;
 };
+
+const Router = _Router as any;
+const Switch = _Switch as any;
+const Route = _Route as any;
 
 export default function App() {
   return (
