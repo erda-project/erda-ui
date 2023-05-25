@@ -19,7 +19,7 @@ import { usePrefixCls } from '../_util/hooks';
 import cn from 'classnames';
 import { RowSelection } from './interface';
 
-interface IProps<T> {
+interface IProps<T extends Obj<any>> {
   rowKey?: string | GetRowKey<T>;
   dataSource: T[];
   pagination: TablePaginationConfig | false;
