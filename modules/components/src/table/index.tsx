@@ -32,7 +32,7 @@ export interface ErdaColumnType<T> extends ColumnType<T> {
   sortTitle?: React.ReactNode;
 }
 
-export interface ErdaTableProps<T = unknown> extends TableProps<T> {
+export interface ErdaTableProps<T extends Obj<any> = any> extends TableProps<T> {
   columns: Array<ErdaColumnType<T>>;
   extraConfig?: {
     tableKey?: string;
@@ -47,7 +47,7 @@ export interface ErdaTableProps<T = unknown> extends TableProps<T> {
   rowSelection?: RowSelection<T>;
 }
 
-const ErdaTable = <T extends Obj>({
+const ErdaTable = <T extends Obj<any>>({
   onRow,
   rowKey,
   rowClassName,

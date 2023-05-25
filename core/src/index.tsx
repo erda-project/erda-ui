@@ -14,7 +14,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { useLocation } from 'react-use';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { registStore } from './framework/regist-store';
 import { IGetRouter, registRouters } from './framework/regist-router';
@@ -93,7 +93,7 @@ const App = ({ dynamicModules = [] }: { dynamicModules?: DynamicModule[] }) => {
     return null;
   }
 
-  return <BrowserRouter history={browserHistory}>{renderRoutes([route])}</BrowserRouter>;
+  return <Router history={browserHistory}>{renderRoutes([route])}</Router>;
 };
 
 export const startApp = () => {
