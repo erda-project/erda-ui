@@ -88,7 +88,7 @@ stages:
               url: ${{ configs.docker_registry }}
               username: ${{ configs.docker_registry_username }}
             workdir: ${{ dirs.build-erda-ui }}
-          image: registry.erda.cloud/erda-actions/dockerfile-action:1.0-20230424150226-5fd86c2
+          image: registry.erda.cloud/erda-actions/dockerfile-action:1.0-20230509080433-9515bd6
           resources:
             cpu: 0.5
             mem: 2048
@@ -106,7 +106,7 @@ stages:
               url: ${{ configs.docker_registry }}
               username: ${{ configs.docker_registry_username }}
             workdir: ${{ dirs.build-erda-ui-enterprise }}
-          image: registry.erda.cloud/erda-actions/dockerfile-action:1.0-20230424150226-5fd86c2
+          image: registry.erda.cloud/erda-actions/dockerfile-action:1.0-20230509080433-9515bd6
           resources:
             cpu: 0.5
             mem: 2048
