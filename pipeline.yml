@@ -46,6 +46,7 @@ stages:
             build_cmd:
               - cd ${{ dirs.erda-ui }}/shell && npm run extra-logic
               - cd ${{ dirs.erda-ui }}
+              - npm cache clean --force
               - npm i -g --force pnpm@6.x
               - pnpm i --frozen-lockfile --no-optional --unsafe-perm
               - pnpm run build-online
@@ -54,9 +55,6 @@ stages:
           resources:
             cpu: 0.5
             mem: 6144
-          caches:
-            - key: '{{basePath}}/build-cache-community/{{endPath}}'
-              path: ${{ dirs.erda-ui }}/node_modules
       - js-build:
           alias: build-erda-ui-enterprise
           description: 针对 nodejs 工程的编译打包任务
@@ -70,9 +68,6 @@ stages:
           resources:
             cpu: 0.5
             mem: 2048
-          caches:
-            - key: '{{basePath}}/build-cache-enterprise/{{endPath}}'
-              path: ${{ dirs.erda-ui }}/node_modules
   - stage:
       - dockerfile:
           alias: build-erda-ui-image
