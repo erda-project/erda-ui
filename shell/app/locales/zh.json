@@ -2067,7 +2067,7 @@
     "whether {action} task {name}": "是否{action}任务{name}",
     "within {num} characters": "{num}个字符以内",
     "won't fix": "不修复",
-    "work hours": "工时",
+    "work hours": "人天预算",
     "workflow": "工作流",
     "yml format error": "yml格式错误",
     "yml-addon-not-exist-tip": "当前实例不存在，请切换到编辑模式重新添加",
