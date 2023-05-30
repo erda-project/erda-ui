@@ -25,6 +25,7 @@ import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
 import { WithAuth, usePerm } from 'user/common';
 import routeInfoStore from 'core/stores/route';
+import { transToStr } from 'project/common/components/issue/time-input';
 
 const options = [
   { value: 'unarchive', label: i18n.t('In Progress') },
@@ -139,6 +140,14 @@ export const Iteration = () => {
             <Progress percent={+percent} />
           </div>
         );
+      },
+    },
+    {
+      title: i18n.t('dop:work hours'),
+      width: 120,
+      dataIndex: 'manHour',
+      render: (manHour: { estimateTime: number }) => {
+        return (manHour?.estimateTime && transToStr(manHour.estimateTime)) || '-';
       },
     },
   ];

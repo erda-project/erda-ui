@@ -18,6 +18,7 @@ import i18n from 'i18n';
 import moment, { Moment } from 'moment';
 import { DatePicker, FormInstance } from 'antd';
 import React from 'react';
+import { TimeInput } from 'project/common/components/issue/time-input';
 
 interface IProps {
   visible: boolean;
@@ -67,6 +68,13 @@ export default ({ visible, data, onClose }: IProps) => {
           />
         );
       },
+    },
+    {
+      className: 'mb-3',
+      name: ['manHour', 'estimateTime'],
+      label: i18n.t('dop:work hours'),
+      type: 'custom',
+      getComp: () => <TimeInput showErrTip passAndTrigger />,
     },
     {
       name: 'content',

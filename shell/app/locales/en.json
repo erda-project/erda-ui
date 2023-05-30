@@ -2067,6 +2067,7 @@
     "whether {action} task {name}": "whether {action} task {name}",
     "within {num} characters": "within {num} characters",
     "won't fix": "won't fix",
+    "work hours": "work hours",
     "workflow": "workflow",
     "yml format error": "yml format error",
     "yml-addon-not-exist-tip": "the current instance does not exist, please switch to edit mode to add again",
