@@ -67,7 +67,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
     "cz-customizable": "^6.9.2",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.1.0",
     "eslint": "^8.41.0",
     "eslint-plugin-deprecation": "^1.4.1",
     "f2elint": "^1.2.3",
