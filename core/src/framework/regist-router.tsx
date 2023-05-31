@@ -50,45 +50,47 @@ const parseRoutes = (rootRoute: SHELL.ParsedRoute) => {
     component: NotFound,
   };
   const walk = (routes: SHELL.ParsedRoute[], _parent: SHELL.ParsedRoute, _deep: number | string) => {
-    return routes.map((item, i) => {
-      const route = { ...item };
-      route._parent = _parent;
-      route.key = route.key ? route.key : `${_deep}-${i + 1}`;
-      const relativePath = route.relativePath || route.path || '';
-      route.path =
-        _parent.path !== '/'
-          ? relativePath === ''
-            ? _parent.path
-            : `${_parent.path}/${relativePath}`
-          : `/${relativePath}`;
-      route.relativePath = relativePath;
+    return routes
+      .filter((item) => item?.path || item?.getComp)
+      .map((item, i) => {
+        const route = { ...item };
+        route._parent = _parent;
+        route.key = route.key ? route.key : `${_deep}-${i + 1}`;
+        const relativePath = route.relativePath || route.path || '';
+        route.path =
+          _parent.path !== '/'
+            ? relativePath === ''
+              ? _parent.path
+              : `${_parent.path}/${relativePath}`
+            : `/${relativePath}`;
+        route.relativePath = relativePath;
 
-      const { wrapper } = route;
-      // replace getComp to component
-      if (route.getComp) {
-        route.component = asyncComponent(() =>
-          route.getComp((importPromise: Promise<any>, key = 'default') => {
-            return importPromise.then((mod) => (wrapper ? wrapper(mod[key]) : mod[key]));
-          }),
-        );
-        route.exact = route.exact || true;
-      } else if (!route.component && route.routes) {
-        route.component = EmptyContainer;
-      }
+        const { wrapper } = route;
+        // replace getComp to component
+        if (route.getComp) {
+          route.component = asyncComponent(() =>
+            route.getComp((importPromise: Promise<any>, key = 'default') => {
+              return importPromise.then((mod) => (wrapper ? wrapper(mod[key]) : mod[key]));
+            }),
+          );
+          route.exact = route.exact || true;
+        } else if (!route.component && route.routes) {
+          route.component = EmptyContainer;
+        }
 
-      const curMark = route.mark || (route.path === route._parent.path ? route._parent.mark : '');
-      route.searchMark = curMark; // set searchMark to record path search
+        const curMark = route.mark || (route.path === route._parent.path ? route._parent.mark : '');
+        route.searchMark = curMark; // set searchMark to record path search
 
-      routeMap[route.path] = {
-        key: route.key,
-        route,
-      };
+        routeMap[route.path] = {
+          key: route.key,
+          route,
+        };
 
-      if (route.routes) {
-        route.routes = walk(route.routes.concat(notFoundRoute), route, route.key);
-      }
-      return route;
-    });
+        if (route.routes) {
+          route.routes = walk(route.routes.concat(notFoundRoute), route, route.key);
+        }
+        return route;
+      });
   };
   return [
     {
