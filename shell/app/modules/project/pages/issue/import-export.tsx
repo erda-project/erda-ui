@@ -260,10 +260,12 @@ const Import = (props: ImportProps) => {
 
   const importFile = () => {
     fileId &&
-      importIssueFile({ fileID: fileId, issueType, projectID: projectId }).then(() => {
-        message.success(i18n.t('dop:start importing, please view detail in records'));
-        toRecord();
-      });
+      importIssueFile({ fileID: fileId, issueType: issueType === 'ALL' ? '' : issueType, projectID: projectId }).then(
+        () => {
+          message.success(i18n.t('dop:start importing, please view detail in records'));
+          toRecord();
+        },
+      );
   };
 
   return (
