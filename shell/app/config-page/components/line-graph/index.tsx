@@ -73,10 +73,10 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
       },
       grid: {
         containLabel: true,
-        left: 30,
+        left: 40,
         bottom: 30,
         top: 10,
-        right: 0,
+        right: 30,
       },
       legend: {
         data: (dimensions ?? []).map((item) => ({

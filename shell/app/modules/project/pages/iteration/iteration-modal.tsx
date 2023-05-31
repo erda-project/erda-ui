@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import moment, { Moment } from 'moment';
 import { DatePicker, FormInstance } from 'antd';
 import React from 'react';
-import { TimeInput, checkReg, checkMsg } from 'project/common/components/issue/time-input';
+import { TimeInput, checkReg, checkMsg, transToStr } from 'project/common/components/issue/time-input';
 
 interface IProps {
   visible: boolean;
@@ -74,7 +74,17 @@ export default ({ visible, data, onClose }: IProps) => {
       name: ['manHour', 'estimateTime'],
       label: i18n.t('dop:work hours'),
       required: true,
-      rules: [{ pattern: checkReg, message: checkMsg }],
+      rules: [
+        {
+          validator: (_rule: any, value: number, callback: (msg?: string) => void) => {
+            if (value && checkReg.test(`${transToStr(value)} `)) {
+              callback();
+            } else {
+              callback(checkMsg);
+            }
+          },
+        },
+      ],
       type: 'custom',
       getComp: () => <TimeInput />,
     },
