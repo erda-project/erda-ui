@@ -615,6 +615,7 @@ const IssueMetaFields = React.forwardRef(
           name: ['issueManHour', 'estimateTime'],
           label: i18n.t('dop:Estimated time'),
           type: 'custom',
+          showRequiredMark: true,
           getComp: ({ value, disabled, originalValue }: Pick<GetCompProps, 'value' | 'originalValue' | 'disabled'>) => (
             <TimeInput
               showErrTip

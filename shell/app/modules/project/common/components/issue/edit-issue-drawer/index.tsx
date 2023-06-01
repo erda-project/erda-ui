@@ -274,6 +274,10 @@ export const EditIssueDrawer = (props: IProps) => {
       message.warn(i18n.t('dop:missing title'));
       return false;
     }
+    if (!_data.issueManHour?.estimateTime) {
+      message.warn(i18n.t('dop:missing estimated time'));
+      return false;
+    }
     if (!_data.assignee) {
       message.warn(i18n.t('dop:missing assignee'));
       return false;

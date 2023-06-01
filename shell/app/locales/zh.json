@@ -1729,6 +1729,7 @@
     "missing startTime": "开始日期未选择",
     "missing task type": "未填写任务类型",
     "missing title": "标题未填写",
+    "missing estimated time": "预估时间未填写",
     "mode": "方式",
     "modification of dice.yml": "dice.yml 的修改",
     "modified successfully": "修改成功",
