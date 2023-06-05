@@ -72,10 +72,20 @@ interface IProps {
   passAndTrigger?: boolean;
   tooltip?: React.ReactElement;
   onChange?: (v: number | string) => void;
+  changeOnInput?: boolean;
 }
 export const TimeInput = React.forwardRef(
   (
-    { value, originalValue, onChange = () => {}, showErrTip = false, passAndTrigger = false, tooltip, ...rest }: IProps,
+    {
+      value,
+      originalValue,
+      onChange = () => {},
+      showErrTip = false,
+      passAndTrigger = false,
+      tooltip,
+      changeOnInput = false,
+      ...rest
+    }: IProps,
     ref,
   ) => {
     const [showTip, setShowTip] = React.useState(false);
@@ -88,6 +98,10 @@ export const TimeInput = React.forwardRef(
       const pass = value && value.length ? checkReg.test(`${value} `) : true;
       showErrTip && setShowTip(!pass);
     }, [showErrTip, value]);
+
+    React.useEffect(() => {
+      changeOnInput && onChange(_value || '');
+    }, [_value]);
 
     const triggerSave = (v: string | number, pass: boolean) => {
       showErrTip && setShowTip(!pass);

@@ -77,16 +77,16 @@ export default ({ visible, data, onClose }: IProps) => {
       rules: [
         {
           validator: (_rule: any, value: number, callback: (msg?: string) => void) => {
-            if (value && checkReg.test(`${transToStr(value)} `)) {
-              callback();
-            } else {
+            if (value && !checkReg.test(`${transToStr(value)} `)) {
               callback(checkMsg);
             }
+
+            callback();
           },
         },
       ],
       type: 'custom',
-      getComp: () => <TimeInput />,
+      getComp: () => <TimeInput changeOnInput />,
     },
     {
       name: 'content',
