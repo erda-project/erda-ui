@@ -274,7 +274,10 @@ export const EditIssueDrawer = (props: IProps) => {
       message.warn(i18n.t('dop:missing title'));
       return false;
     }
-    if (issueType !== ISSUE_TYPE.REQUIREMENT && !_data.issueManHour?.estimateTime) {
+    if (
+      ![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC, ISSUE_TYPE.REQUIREMENT].includes(issueType) &&
+      !_data.issueManHour?.estimateTime
+    ) {
       message.warn(i18n.t('dop:missing estimated time'));
       return false;
     }
