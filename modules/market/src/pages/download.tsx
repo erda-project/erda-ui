@@ -310,63 +310,40 @@ const DownloadPage = ({ match }: any) => {
                 </div>
 
                 <StickyContainer>
-                  <Tabs className="mt20" defaultActiveKey="1" renderTabBar={renderTabBar} centered>
-                    <TabPane tab="详情" key="1">
-                      <div className="preview-img-list">
-                        {previewImgs.map((url, index) => {
-                          return (
-                            <img
-                              key={index}
-                              className="preview-img"
-                              src={url}
-                              alt="preview-image"
-                              onClick={() => handleShowGallery(index)}
-                            />
-                          );
-                        })}
-                        <div style={{ paddingRight: '1rem' }}></div>
-                      </div>
-                      <div className="flex-box mt12 app-provider">
-                        <span>
-                          <span className="mr8">
-                            {current.version ? moment(current.updatedAt).format('YYYY/MM/DD') : '-'} 更新
-                          </span>
-                          <span>{current.version || '-'} 版本</span>
+                  <>
+                    <div className="preview-img-list">
+                      {previewImgs.map((url, index) => {
+                        return (
+                          <img
+                            key={index}
+                            className="preview-img"
+                            src={url}
+                            alt="preview-image"
+                            onClick={() => handleShowGallery(index)}
+                          />
+                        );
+                      })}
+                      <div style={{ paddingRight: '1rem' }}></div>
+                    </div>
+                    <div className="flex-box mt12 app-provider">
+                      <span>
+                        <span className="mr8">
+                          {current.version ? moment(current.updatedAt).format('YYYY/MM/DD') : '-'} 更新
                         </span>
+                        <span>{current.version || '-'} 版本</span>
+                      </span>
+                    </div>
+                    {desc && (
+                      <div className="app-desc" onClick={() => setDescExpand((p) => !p)}>
+                        {descExpand ? desc : desc.length > 90 ? `${desc.slice(0, 90)}...` : desc}
+                        {desc.length > 90 ? (
+                          <span className="expand">
+                            <Icon type={descExpand ? 'fold' : 'unfold'}></Icon>
+                          </span>
+                        ) : null}
                       </div>
-                      {desc && (
-                        <div className="app-desc" onClick={() => setDescExpand((p) => !p)}>
-                          {descExpand ? desc : desc.length > 90 ? `${desc.slice(0, 90)}...` : desc}
-                          {desc.length > 90 ? (
-                            <span className="expand">
-                              <Icon type={descExpand ? 'fold' : 'unfold'}></Icon>
-                            </span>
-                          ) : null}
-                        </div>
-                      )}
-                    </TabPane>
-                    <TabPane tab="评论" key="2">
-                      暂未开放，敬请期待
-                    </TabPane>
-                    {/* <TabPane tab="精选" key="3" forceRender>
-                      <Row gutter={12} className="recommend-list">
-                        {recommend.map((item) => {
-                          const logoUrl = replaceHost(item.logo); // 兖矿Dice上传图片为http的，市场为https的，看不到，临时替换为当前域名
-                          return (
-                            <Col key={item.id} span={8} className="recommend-app" onClick={() => goTo(`./${item.id}`)}>
-                              {logoUrl ? (
-                                <img src={logoUrl} alt={item.name || 'app-logo'} />
-                              ) : (
-                                <Icon type="app" style={{ fontSize: '3rem' }} />
-                              )}
-                              <div className="bold nowrap">{item.displayName || item.name}</div>
-                              <div className="install">安装</div>
-                            </Col>
-                          );
-                        })}
-                      </Row>
-                    </TabPane> */}
-                  </Tabs>
+                    )}
+                  </>
                 </StickyContainer>
                 <div className="button-wrap">
                   {React.Children.count(versions) ? (
