@@ -30,10 +30,10 @@ export interface IProps {
   searchOnce?: boolean;
   extraButton?: JSX.Element;
   CustomLogContent?: typeof React.Component;
-  onStartRolling: () => void;
-  onGoToBottom: () => void;
-  onCancelRolling: () => void;
-  onGoToTop: () => void;
+  onStartRolling?: () => void;
+  onGoToBottom?: () => void;
+  onCancelRolling?: () => void;
+  onGoToTop?: () => void;
   onShowDownloadModal: () => void;
   transformContent?: () => string;
 }
@@ -55,11 +55,11 @@ const LogRoller = React.forwardRef((props: IProps, ref) => {
 
     const direction = distanceToTop > prevDistanceToTop.current ? 'down' : 'up';
     if (distanceToBottom > 10 && rolling) {
-      onCancelRolling(); // 日志bottom !==0，取消自动rolling
+      onCancelRolling?.(); // 日志bottom !==0，取消自动rolling
     }
     // 向上移动顶部，并且移动前的距离不为 0 时，拉取日志
     if (direction === 'up' && preElm.current?.scrollTop === 0 && prevDistanceToTop.current !== 0) {
-      onGoToTop(); // 往上移动
+      onGoToTop?.(); // 往上移动
     }
     prevDistanceToTop.current = distanceToTop;
   };
@@ -67,9 +67,9 @@ const LogRoller = React.forwardRef((props: IProps, ref) => {
   const toggleRolling = () => {
     const { rolling, onStartRolling, onCancelRolling } = props;
     if (rolling) {
-      onCancelRolling();
+      onCancelRolling?.();
     } else {
-      onStartRolling();
+      onStartRolling?.();
     }
   };
 
@@ -134,13 +134,19 @@ const LogRoller = React.forwardRef((props: IProps, ref) => {
         </Button>
       </div>
       <div className="log-control btn-line-rtl">
-        <Button onClick={() => onGoToBottom()} type="ghost">
-          {i18n.t('Back to Bottom')}
-        </Button>
-        <Button onClick={() => onGoToTop()} type="ghost">
-          {i18n.t('Back to Top')}
-        </Button>
-        {!searchOnce && (
+        {onGoToBottom && (
+          <Button onClick={() => onGoToBottom()} type="ghost">
+            {i18n.t('Back to Bottom')}
+          </Button>
+        )}
+
+        {onGoToTop && (
+          <Button onClick={() => onGoToTop()} type="ghost">
+            {i18n.t('Back to Top')}
+          </Button>
+        )}
+
+        {!searchOnce && toggleRolling && (
           <Button onClick={toggleRolling} type="ghost">
             {rolling ? firstCharToUpper(i18n.t('default:pause')) : firstCharToUpper(i18n.t('default:start'))}
           </Button>

@@ -16,6 +16,7 @@ import classnames from 'classnames';
 import { pick, isEmpty } from 'lodash';
 import { isPromise, goTo as goToPath, qs, allWordsFirstLetterUpper } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
+import { getConfig } from 'core/config';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 interface IMenuItem {
@@ -68,8 +69,34 @@ const PureMenu = (props: IMenu) => {
     keepTabQuery,
     ...rest
   } = props;
-  const breadcrumbInfoMap = breadcrumbStore.useStore((s) => s.infoMap);
+  const breadcrumbInfo = breadcrumbStore.useStore((s) => s);
+  const { infoMap: breadcrumbInfoMap, params } = breadcrumbInfo;
+  const { setCurrentParams } = breadcrumbStore.reducers;
   const finalMenus = typeof menus === 'function' ? menus({ ...props, breadcrumbInfoMap }) : menus;
+  const history = getConfig('history');
+  const { location } = history;
+  const { pathname } = location;
+
+  const currentParams = React.useMemo(() => {
+    let _params = {};
+    params.forEach((menu) => {
+      const prefix = menu.prefix.split('undefined').join('');
+      if (pathname.indexOf(prefix) !== -1) {
+        _params = { ...menu.params };
+      }
+      menu.subMenu?.forEach((subMenu: Obj) => {
+        const subPrefix = subMenu.prefix.split('undefined').join('');
+        if (pathname.indexOf(subPrefix) !== -1) {
+          _params = { ..._params, ...subMenu.params };
+        }
+      });
+    });
+    return _params;
+  }, [params, pathname]);
+
+  React.useEffect(() => {
+    setCurrentParams(currentParams);
+  }, [currentParams]);
 
   if (!finalMenus || !finalMenus.length) {
     return null;
@@ -132,6 +159,17 @@ const PureMenu = (props: IMenu) => {
       active: isActive ? isActive(activeKey) : activeKey === key,
       [itemClass]: !!itemClass,
     });
+
+    const targetKey = key
+      .split('/')
+      .map((_key) => {
+        if (_key.indexOf(':') !== -1) {
+          return currentParams[_key.split(':').join('')];
+        }
+        return _key;
+      })
+      .join('/');
+
     return (
       <li
         key={key}
@@ -139,7 +177,7 @@ const PureMenu = (props: IMenu) => {
         onClick={() => {
           if (!readonly && !disabled && activeKey !== key) {
             // click current not trigger
-            handleClick(activeKey, key);
+            handleClick(activeKey, targetKey);
           }
         }}
       >
