@@ -33,8 +33,10 @@ interface IState {
     curOrgName: string;
     mspProjectName: string;
     cmpCluster: null | ORG_CLUSTER.ICluster;
-    mspBreadcrumb: { [key in MS_INDEX.IMenuKey]: string };
+    mspBreadcrumb: { [key in MS_INDEX.IMenuKey]?: string };
   };
+  params: Obj[];
+  currentParams: Obj;
 }
 
 const initState: IState = {
@@ -59,6 +61,8 @@ const initState: IState = {
     cmpCluster: null,
     mspBreadcrumb: {},
   },
+  params: [],
+  currentParams: {},
 };
 
 type Key = keyof typeof initState.infoMap;
@@ -69,6 +73,12 @@ const breadcrumb = createStore({
   reducers: {
     setInfo(state, key: Key, value: any) {
       state.infoMap[key] = value;
+    },
+    setParams(state, value: Obj[]) {
+      state.params = value;
+    },
+    setCurrentParams(state, value: Obj) {
+      state.currentParams = value;
     },
   },
 });

@@ -80,6 +80,7 @@ class Echarts extends React.Component {
 
   // render the dom
   renderEchartDom() {
+    const { onClick, onSelect } = this.props;
     // init the echart object
     const echartObj = this.getEchartsInstance();
     // set loading mask
@@ -114,8 +115,34 @@ class Echarts extends React.Component {
       });
     }
 
+    option.brush = { toolbox: ['lineX'] };
+
     // set the echart option
     echartObj.setOption(option, this.props.notMerge || false, this.props.lazyUpdate || false);
+
+    if (onClick && typeof onClick === 'function') {
+      // echart click function
+      echartObj.on('click', function (params) {
+        const { dataIndex } = params;
+        let op = echartObj.getOption();
+        var name = op.xAxis[0].data[dataIndex];
+        onClick?.(name);
+      });
+    }
+
+    if (onSelect && typeof onSelect === 'function') {
+      // echart select function
+      echartObj.on('brushEnd', function (params) {
+        const { areas = [] } = params;
+        const { range = [] } = areas[0] || {};
+        const [start, end] = range;
+        let op = echartObj.getOption();
+
+        const startIndex = echartObj.convertFromPixel({ seriesIndex: 0 }, [start, 50])[0];
+        const endIndex = echartObj.convertFromPixel({ seriesIndex: 0 }, [end, 50])[0];
+        onSelect?.(op.xAxis[0].data[startIndex], op.xAxis[0].data[endIndex]);
+      });
+    }
 
     return echartObj;
   }
