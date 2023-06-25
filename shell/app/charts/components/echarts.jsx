@@ -122,6 +122,7 @@ class Echarts extends React.Component {
 
     if (onClick && typeof onClick === 'function') {
       // echart click function
+      echartObj.off('click');
       echartObj.on('click', function (params) {
         const { dataIndex } = params;
         let op = echartObj.getOption();
