@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { RES_BODY } from 'core/service';
 
 export const getAddons = (query: {
   type: string;
@@ -19,7 +20,7 @@ export const getAddons = (query: {
   projectId?: number;
   workspace?: string | string[];
   displayName?: string[];
-}): ADDON.Instance[] => {
+}): RES_BODY<ADDON.Instance[]> => {
   return agent
     .get('/api/addons')
     .query(query)
