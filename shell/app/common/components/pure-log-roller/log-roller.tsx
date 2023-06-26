@@ -36,12 +36,14 @@ export interface IProps {
   onGoToTop?: () => void;
   onShowDownloadModal: () => void;
   transformContent?: () => string;
+  showStartButton?: boolean;
 }
 
 const LogRoller = React.forwardRef((props: IProps, ref) => {
   const prevDistanceToTop = React.useRef(0);
   const preElm = React.useRef<HTMLDivElement>(null);
   const [fullScreen, setFullScreen] = React.useState(false);
+  const { showStartButton = true } = props;
 
   React.useImperativeHandle(ref, () => ({
     preElm: preElm.current,
@@ -146,7 +148,7 @@ const LogRoller = React.forwardRef((props: IProps, ref) => {
           </Button>
         )}
 
-        {!searchOnce && toggleRolling && (
+        {!searchOnce && toggleRolling && showStartButton && (
           <Button onClick={toggleRolling} type="ghost">
             {rolling ? firstCharToUpper(i18n.t('default:pause')) : firstCharToUpper(i18n.t('default:start'))}
           </Button>

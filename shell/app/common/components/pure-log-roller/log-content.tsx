@@ -38,7 +38,13 @@ const DefaultLogItem = ({ log, transformContent }: IItemProps) => {
   return (
     <div className="log-item">
       <span className="log-item-logtime">
-        {moment(`${timestamp}`.length < 13 ? timestamp * 1000 : timestamp / 1000000).format('YYYY-MM-DD HH:mm:ss')}
+        {moment(
+          `${timestamp}`.length < 13
+            ? timestamp * 1000
+            : `${timestamp}`.length === 13
+            ? timestamp
+            : timestamp / 1000000,
+        ).format('YYYY-MM-DD HH:mm:ss')}
       </span>
       <pre className="log-item-content" dangerouslySetInnerHTML={{ __html: reContent }} />
       {suffix || null}
