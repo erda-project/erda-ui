@@ -31,20 +31,12 @@ import ResizeObserver from 'rc-resize-observer';
 import themeColor from 'app/theme-color.mjs';
 import { theme } from '../theme';
 import i18n from 'i18n';
-import ReactEcharts from 'echarts-for-react';
 
 import './echarts.scss';
 
 echarts.registerTheme('erda', theme);
 
 class Echarts extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      option: {},
-    };
-  }
   // first add
   componentDidMount() {
     const echartObj = this.renderEchartDom();
@@ -68,7 +60,7 @@ class Echarts extends React.Component {
 
   // update
   componentDidUpdate() {
-    // this.renderEchartDom();
+    this.renderEchartDom();
   }
 
   // remove
@@ -126,9 +118,6 @@ class Echarts extends React.Component {
     option.brush = { toolbox: ['lineX'] };
 
     // set the echart option
-    this.setState({
-      option,
-    });
     echartObj.setOption(option, this.props.notMerge || false, this.props.lazyUpdate || false);
 
     if (onClick && typeof onClick === 'function') {
@@ -160,23 +149,14 @@ class Echarts extends React.Component {
   }
 
   render() {
-    const { onClick, onSelect } = this.props;
     return (
       <ResizeObserver onResize={() => this.getEchartsInstance().resize()}>
         <div
           ref={(ref) => {
             this.echartsDom = ref;
           }}
-          style={{ height: 0 }}
-        />
-        <ReactEcharts
           className={`chart-dom ${this.props.className || ''}`}
           style={this.props.style}
-          option={this.state.option}
-          onEvents={{
-            click: onClick,
-            brushEnd: onSelect,
-          }}
         />
       </ResizeObserver>
     );
