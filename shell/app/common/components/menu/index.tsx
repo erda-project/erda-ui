@@ -74,8 +74,8 @@ const PureMenu = (props: IMenu) => {
   const { setCurrentParams } = breadcrumbStore.reducers;
   const finalMenus = typeof menus === 'function' ? menus({ ...props, breadcrumbInfoMap }) : menus;
   const history = getConfig('history');
-  const { location } = history;
-  const { pathname } = location;
+  const { location = {} } = history || {};
+  const { pathname = '' } = location;
 
   const currentParams = React.useMemo(() => {
     let _params = {};
