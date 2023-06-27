@@ -76,6 +76,7 @@ const PureMenu = (props: IMenu) => {
   const history = getConfig('history');
   const { location = {} } = history || {};
   const { pathname = '' } = location;
+  const [currentMenu, setCurrentMenu] = React.useState<IMenuItem>();
 
   const currentParams = React.useMemo(() => {
     let _params = {};
@@ -140,7 +141,14 @@ const PureMenu = (props: IMenu) => {
     // 可能存在路由中匹配多个currentKey，故split后假如length>1则删除最后一个后再拼
     const pathArr = pathname.split(currentKey);
     pathArr.length > 1 && pathArr.pop();
-    const basePath = pathArr.join(currentKey);
+    let basePath = pathArr.join(currentKey);
+    const currentMenuKeyList = currentMenu?.key.split('/') || [];
+
+    if (currentMenuKeyList.length > 1) {
+      currentMenuKeyList.pop();
+      basePath = basePath.split(currentMenuKeyList.join('/'))[0];
+    }
+
     const newPath = `${basePath}/${targetKey}`;
     const concatPath = `${newPath}${query}`.replace(/\/{2,}/, '/'); // 避免路由中多个连续的/
     goTo(concatPath);
@@ -152,13 +160,6 @@ const PureMenu = (props: IMenu) => {
     const { disabled, key, name, isLetterUpper = true, split, readonly, isActive, className: itemClass = '' } = menu;
     let { title } = menu;
     title = title ?? (isLetterUpper ? allWordsFirstLetterUpper(name) : name);
-    const menuItemClass = classnames({
-      'tab-menu-item': true,
-      'tab-menu-disabled': disabled,
-      'tab-split-line-before': split,
-      active: isActive ? isActive(activeKey) : activeKey === key,
-      [itemClass]: !!itemClass,
-    });
 
     const targetKey = key
       .split('/')
@@ -170,6 +171,14 @@ const PureMenu = (props: IMenu) => {
       })
       .join('/');
 
+    const menuItemClass = classnames({
+      'tab-menu-item': true,
+      'tab-menu-disabled': disabled,
+      'tab-split-line-before': split,
+      active: isActive ? isActive(activeKey) : activeKey === targetKey,
+      [itemClass]: !!itemClass,
+    });
+
     return (
       <li
         key={key}
@@ -177,6 +186,7 @@ const PureMenu = (props: IMenu) => {
         onClick={() => {
           if (!readonly && !disabled && activeKey !== key) {
             // click current not trigger
+            setCurrentMenu(menu);
             handleClick(activeKey, targetKey);
           }
         }}
