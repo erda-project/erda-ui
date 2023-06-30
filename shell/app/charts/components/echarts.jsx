@@ -115,7 +115,9 @@ class Echarts extends React.Component {
       });
     }
 
-    option.brush = { toolbox: { show: false, brushType: 'lineX' } };
+    if (onSelect && typeof onSelect === 'function') {
+      option.brush = { toolbox: { show: false, brushType: 'lineX' } };
+    }
 
     // set the echart option
     echartObj.setOption(option, this.props.notMerge || false, this.props.lazyUpdate || false);
