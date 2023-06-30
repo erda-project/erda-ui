@@ -115,7 +115,7 @@ class Echarts extends React.Component {
       });
     }
 
-    option.brush = { toolbox: ['lineX'] };
+    option.brush = { toolbox: { show: false, brushType: 'lineX' } };
 
     // set the echart option
     echartObj.setOption(option, this.props.notMerge || false, this.props.lazyUpdate || false);
@@ -132,7 +132,15 @@ class Echarts extends React.Component {
     }
 
     if (onSelect && typeof onSelect === 'function') {
+      echartObj.dispatchAction({
+        type: 'takeGlobalCursor',
+        key: 'brush',
+        brushOption: {
+          brushType: 'lineX', // 指定选框类型
+        },
+      });
       // echart select function
+      echartObj.off('brushEnd');
       echartObj.on('brushEnd', function (params) {
         const { areas = [] } = params;
         const { range = [] } = areas[0] || {};
@@ -141,7 +149,7 @@ class Echarts extends React.Component {
 
         const startIndex = echartObj.convertFromPixel({ seriesIndex: 0 }, [start, 50])[0];
         const endIndex = echartObj.convertFromPixel({ seriesIndex: 0 }, [end, 50])[0];
-        onSelect?.(op.xAxis[0].data[startIndex], op.xAxis[0].data[endIndex]);
+        onSelect?.([op.xAxis[0].data[startIndex], op.xAxis[0].data[endIndex]]);
       });
     }
 
