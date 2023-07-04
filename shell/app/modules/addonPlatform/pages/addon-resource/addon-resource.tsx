@@ -59,6 +59,7 @@ const dashboardMap = {
   'terminus-elasticsearch': 'addon-es',
   redis: 'addon-redis',
   rocketmq: 'addon-rocketmq',
+  kafka: 'addon-kafka',
 };
 const DashboardChart = ({ addonName, addonId }: { addonName: string; addonId: string }) => {
   const [timeSpan, setTimeSpan] = React.useState({
