@@ -188,7 +188,16 @@ const layout = createStore({
       const { appList, currentApp, menusMap = {}, key } = (_payload as LAYOUT.IInitLayout) || {};
       const { user } = getGlobal('initData');
       if (key === 'sysAdmin' && !user.isSysAdmin) return;
-      if (appList?.length) state.appList = appList;
+      let list = [...state.appList, ...appList];
+      // Some modules are loaded later, but in a fixed order
+      const positionList = list.filter((item) => item.position);
+      list = list.filter((item) => !item.position);
+      positionList.forEach((item) => {
+        list.splice(item.position as number, 0, item);
+      });
+
+      if (appList?.length)
+        state.appList = list.filter((item, index) => list.findIndex((i) => i.key === item.key) === index);
       if (currentApp) state.currentApp = currentApp;
       state.subSiderInfoMap = merge(state.subSiderInfoMap, menusMap);
     },
@@ -198,7 +207,7 @@ const layout = createStore({
       if (!state.appList.find((item) => item.key === menu.key)) {
         if (position !== undefined) {
           const newAppList = [...state.appList];
-          newAppList.splice(position, 0, menu);
+          newAppList.splice(position, 0, { ...menu, position });
           state.appList = newAppList;
         } else {
           state.appList = [...state.appList, menu];

@@ -31,6 +31,7 @@ declare namespace LAYOUT {
     breadcrumbName: string;
     href: string;
     path?: string | Function;
+    position?: number;
   }
 
   interface InviteToOrgPayload {
