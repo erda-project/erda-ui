@@ -140,8 +140,18 @@ export default ({ command, mode }) => {
         // string shorthand
         // '/foo': 'http://localhost:4567',
         // with options
+        '/api/ai-proxy/': {
+          target: 'https://ai-proxy.erda.cloud',
+          changeOrigin: true,
+          secure: false,
+        },
         '/api/': {
           target: envConfig.BACKEND_URL,
+          changeOrigin: true,
+          secure: false,
+        },
+        '/v1/': {
+          target: 'https://ai-proxy.erda.cloud',
           changeOrigin: true,
           secure: false,
         },

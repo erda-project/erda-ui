@@ -183,6 +183,18 @@ export const createProxyService = (app: INestApplication) => {
       onError,
     }),
   );
+  app.use(
+    (pathname: string, req: Request) => {
+      if (pathname.startsWith('/api/ai-proxy/')) {
+        return true;
+      }
+    },
+    createProxyMiddleware({
+      target: 'https://ai-proxy.erda.cloud',
+      changeOrigin: !isProd,
+      onError,
+    }),
+  );
   return wsProxy;
 };
 
