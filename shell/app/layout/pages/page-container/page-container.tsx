@@ -132,6 +132,7 @@ const PageContainer = ({ route }: IProps) => {
   } else if (state.startInit) {
     MainContent = <RenderMainContent noWrapper={noWrapper} customMain={customMain} route={route} layout={layout} />;
   }
+
   return (
     <Shell
       className={layoutClass}
@@ -151,7 +152,7 @@ const PageContainer = ({ route }: IProps) => {
         {MainContent}
       </div>
       <MessageCenter show={showMessage} />
-      <ChatGPT />
+      {currentOrg && <ChatGPT />}
     </Shell>
   );
 };

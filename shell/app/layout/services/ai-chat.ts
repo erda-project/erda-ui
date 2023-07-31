@@ -65,12 +65,13 @@ interface ResetSessionPayload {
 export const getSessions = (params: IGetSessionsParams): RAW_RESPONSE<ISessions> => {
   const { userId, name, phone, email } = params;
   const { currentOrg } = getGlobal('initData');
+  const { hostname } = location;
   const req = agent.get('/api/ai-proxy/sessions');
   req.set('X-Ai-Proxy-User-Id', userId);
   req.set('X-Ai-Proxy-Username', name);
   req.set('X-Ai-Proxy-Phone', phone);
   req.set('X-Ai-Proxy-Email', email);
-  req.set('X-Ai-Proxy-Source', 'erda.cloud');
+  req.set('X-Ai-Proxy-Source', hostname);
   req.set('X-Ai-Proxy-Org-Id', currentOrg);
   return req.then((response: any) => response.body);
 };
@@ -78,12 +79,13 @@ export const getSessions = (params: IGetSessionsParams): RAW_RESPONSE<ISessions>
 export const addSessions = (params: AddSessionsParams) => {
   const { userId, userName, phone, email, name, topic, contextLength, temperature } = params;
   const { currentOrg } = getGlobal('initData');
+  const { hostname } = location;
   const req = agent.post('/api/ai-proxy/sessions');
   req.set('X-Ai-Proxy-User-Id', userId);
   req.set('X-Ai-Proxy-Username', userName);
   req.set('X-Ai-Proxy-Phone', phone);
   req.set('X-Ai-Proxy-Email', email);
-  req.set('X-Ai-Proxy-Source', 'erda.cloud');
+  req.set('X-Ai-Proxy-Source', hostname);
   req.set('X-Ai-Proxy-Org-Id', currentOrg);
   return req
     .send({
@@ -92,7 +94,7 @@ export const addSessions = (params: AddSessionsParams) => {
       topic,
       contextLength,
       isArchived: false,
-      source: 'erda.cloud',
+      source: hostname,
       resettAt: new Date(),
       model: 'gpt-35-turbo-16k',
       temperature,
@@ -103,12 +105,13 @@ export const addSessions = (params: AddSessionsParams) => {
 export const getLogs = (params: GetLogsPayload): RAW_RESPONSE<{ list: Log[] }> => {
   const { userId, name, phone, email, id } = params;
   const { currentOrg } = getGlobal('initData');
+  const { hostname } = location;
   const req = agent.get(`/api/ai-proxy/sessions/${id}/chat-logs`);
   req.set('X-Ai-Proxy-User-Id', userId);
   req.set('X-Ai-Proxy-Username', name);
   req.set('X-Ai-Proxy-Phone', phone);
   req.set('X-Ai-Proxy-Email', email);
-  req.set('X-Ai-Proxy-Source', 'erda.cloud');
+  req.set('X-Ai-Proxy-Source', hostname);
   req.set('X-Ai-Proxy-Org-Id', currentOrg);
   return req.then((response: any) => response.body);
 };
@@ -116,12 +119,13 @@ export const getLogs = (params: GetLogsPayload): RAW_RESPONSE<{ list: Log[] }> =
 export const resetSession = (params: ResetSessionPayload) => {
   const { userId, name, phone, email, id } = params;
   const { currentOrg } = getGlobal('initData');
+  const { hostname } = location;
   const req = agent.patch(`/api/ai-proxy/sessions/${id}/actions/reset`);
   req.set('X-Ai-Proxy-User-Id', userId);
   req.set('X-Ai-Proxy-Username', name);
   req.set('X-Ai-Proxy-Phone', phone);
   req.set('X-Ai-Proxy-Email', email);
-  req.set('X-Ai-Proxy-Source', 'erda.cloud');
+  req.set('X-Ai-Proxy-Source', hostname);
   req.set('X-Ai-Proxy-Org-Id', currentOrg);
   return req.then((response: any) => response.body);
 };
