@@ -123,6 +123,20 @@ export const createProxyService = (app: INestApplication) => {
   );
   app.use(
     createProxyMiddleware(
+      (pathname: string, req: Request) => {
+        if (pathname.startsWith('/api/ai-proxy/')) {
+          return true;
+        }
+      },
+      {
+        target: 'https://ai-proxy.erda.cloud',
+        changeOrigin: !isProd,
+        onError,
+      },
+    ),
+  );
+  app.use(
+    createProxyMiddleware(
       (pathname: string) => {
         return !!pathname.match('^/api');
       },
@@ -182,20 +196,6 @@ export const createProxyService = (app: INestApplication) => {
       changeOrigin: !isProd,
       onError,
     }),
-  );
-  app.use(
-    createProxyMiddleware(
-      (pathname: string, req: Request) => {
-        if (pathname.startsWith('/api/ai-proxy/')) {
-          return true;
-        }
-      },
-      {
-        target: 'https://ai-proxy.erda.cloud',
-        changeOrigin: !isProd,
-        onError,
-      },
-    ),
   );
   return wsProxy;
 };
