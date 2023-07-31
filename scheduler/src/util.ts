@@ -69,6 +69,7 @@ const getEnv = () => {
       GITTAR_ADDR: process.env.GITTAR_ADDR,
       ENTERPRISE_URL: process.env.ENTERPRISE_UI_ADDR,
       FDP_URL: process.env.FDP_UI_ADDR,
+      AI_BACKEND_URL: process.env.AI_BACKEND_URL,
     };
   }
 
@@ -84,6 +85,7 @@ const getEnv = () => {
       FDP_URL?: string;
       SCHEDULER_URL?: string;
       SCHEDULER_PORT?: number;
+      AI_BACKEND_URL?: string;
     },
   };
 };

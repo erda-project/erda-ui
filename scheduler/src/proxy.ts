@@ -20,12 +20,13 @@ import qs from 'query-string';
 const isProd = process.env.NODE_ENV === 'production';
 
 const { envConfig } = getEnv();
-const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL, FDP_URL } = envConfig;
+const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL, FDP_URL, AI_BACKEND_URL } = envConfig;
 
 const API_URL = getHttpUrl(BACKEND_URL);
 const UC_API_URL = getHttpUrl(UC_BACKEND_URL);
 const ENTERPRISE_UI_URL = getHttpUrl(ENTERPRISE_URL);
 const FDP_UI_URL = getHttpUrl(FDP_URL);
+const AI_URL = getHttpUrl(AI_BACKEND_URL);
 
 const GITTAR_URL = isProd ? getHttpUrl(GITTAR_ADDR) : API_URL;
 
@@ -129,7 +130,7 @@ export const createProxyService = (app: INestApplication) => {
         }
       },
       {
-        target: 'https://ai-proxy.erda.cloud',
+        target: AI_URL,
         changeOrigin: !isProd,
         onError,
       },
