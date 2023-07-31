@@ -5,6 +5,7 @@
   "charts": {
     "Apdex": "Apdex",
     "CPU usage": "CPU usage",
+    "Erda service support": "Erda service support",
     "GC time": "GC time",
     "GC times": "GC times",
     "Page loading": "Page loading",
@@ -13,7 +14,9 @@
     "Request queuing": "Request queuing",
     "Resource loading": "Resource loading",
     "Send": "Send",
+    "To use this feature, please specify": "To use this feature, please specify",
     "Write": "Write",
+    "context cleared": "context cleared",
     "incremental GC time": "incremental GC time",
     "incremental GC times": "incremental GC times",
     "loading": "loading",
@@ -29,7 +32,11 @@
     "success rate": "success rate",
     "tolerable": "tolerable",
     "usage": "usage",
-    "usage percent": "usage percent"
+    "usage percent": "usage percent",
+    "1. This function relies on AI services such as ChatGPT (which may include foreign suppliers), and the messages you send will be processed by its large model.": "1. This function relies on AI services such as ChatGPT (which may include foreign suppliers), and the messages you send will be processed by its large model.",
+    "2. Erda will audit all conversations and keep them for a period of time, but will not actively review your conversations.": "2. Erda will audit all conversations and keep them for a period of time, but will not actively review your conversations.",
+    "3. do not send trade secrets, sensitive data, private information and other illegal content.": "3. do not send trade secrets, sensitive data, private information and other illegal content.",
+    "4. need help, please contact": "4. need help, please contact"
   },
   "cmp": {
     "2 machines": "2 machines",
