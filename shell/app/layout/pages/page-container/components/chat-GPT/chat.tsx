@@ -21,6 +21,8 @@ import UserItem from './user-item';
 import GPTItem from './gpt-item';
 import { getLogs, resetSession, SSE } from 'layout/services/ai-chat';
 
+const ai_url = process.env.AI_BACKEND_URL;
+
 const Chat = ({ id }: { id?: number }) => {
   const { id: userId, name, phone, email } = userStore.getState((s) => s.loginUser);
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
@@ -85,7 +87,7 @@ const Chat = ({ id }: { id?: number }) => {
   };
 
   const completions = (content: string) => {
-    const url = '/v1/chat/completions';
+    const url = `${ai_url}/v1/chat/completions`;
     var source = new SSE(url, {
       method: 'POST',
       headers: {
@@ -170,7 +172,7 @@ const Chat = ({ id }: { id?: number }) => {
         )}
         {loading && <GPTItem message={<Spin />} />}
       </div>
-      <div className="flex items-center w-full max-w-3xl pb-6 relative">
+      <div className="flex items-center w-full pb-6 relative">
         <Popconfirm title={i18n.t('cmp:are you sure you want to reset?')} onConfirm={reset}>
           <CustomIcon type="zhongzhi" className="text-xl mr-2 cursor-pointer" />
         </Popconfirm>
