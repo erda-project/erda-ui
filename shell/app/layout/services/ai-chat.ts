@@ -13,6 +13,7 @@
 
 import agent from 'agent';
 import { getGlobal } from 'core/global-space';
+import { AI_BACKEND_URL } from 'common/constants';
 
 interface IGetSessionsParams {
   userId: string;
@@ -62,13 +63,11 @@ interface ResetSessionPayload {
   id: number;
 }
 
-const ai_url = process.env.AI_BACKEND_URL;
-
 export const getSessions = (params: IGetSessionsParams): RAW_RESPONSE<ISessions> => {
   const { userId, name, phone, email } = params;
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
-  const req = agent.get(`${ai_url}/api/ai-proxy/sessions`);
+  const req = agent.get(`${AI_BACKEND_URL}/api/ai-proxy/sessions`);
   req.set('X-Ai-Proxy-User-Id', userId);
   req.set('X-Ai-Proxy-Username', name);
   req.set('X-Ai-Proxy-Phone', phone);
@@ -82,7 +81,7 @@ export const addSessions = (params: AddSessionsParams) => {
   const { userId, userName, phone, email, name, topic, contextLength, temperature } = params;
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
-  const req = agent.post(`${ai_url}/api/ai-proxy/sessions`);
+  const req = agent.post(`${AI_BACKEND_URL}/api/ai-proxy/sessions`);
   req.set('X-Ai-Proxy-User-Id', userId);
   req.set('X-Ai-Proxy-Username', userName);
   req.set('X-Ai-Proxy-Phone', phone);
@@ -108,7 +107,7 @@ export const getLogs = (params: GetLogsPayload): RAW_RESPONSE<{ list: Log[] }> =
   const { userId, name, phone, email, id } = params;
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
-  const req = agent.get(`${ai_url}/api/ai-proxy/sessions/${id}/chat-logs`);
+  const req = agent.get(`${AI_BACKEND_URL}/api/ai-proxy/sessions/${id}/chat-logs`);
   req.set('X-Ai-Proxy-User-Id', userId);
   req.set('X-Ai-Proxy-Username', name);
   req.set('X-Ai-Proxy-Phone', phone);
@@ -122,7 +121,7 @@ export const resetSession = (params: ResetSessionPayload) => {
   const { userId, name, phone, email, id } = params;
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
-  const req = agent.patch(`${ai_url}/api/ai-proxy/sessions/${id}/actions/reset`);
+  const req = agent.patch(`${AI_BACKEND_URL}/api/ai-proxy/sessions/${id}/actions/reset`);
   req.set('X-Ai-Proxy-User-Id', userId);
   req.set('X-Ai-Proxy-Username', name);
   req.set('X-Ai-Proxy-Phone', phone);

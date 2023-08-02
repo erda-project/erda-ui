@@ -20,8 +20,7 @@ import orgStore from 'app/org-home/stores/org';
 import UserItem from './user-item';
 import GPTItem from './gpt-item';
 import { getLogs, resetSession, SSE } from 'layout/services/ai-chat';
-
-const ai_url = process.env.AI_BACKEND_URL;
+import { AI_BACKEND_URL } from 'common/constants';
 
 const Chat = ({ id }: { id?: number }) => {
   const { id: userId, name, phone, email } = userStore.getState((s) => s.loginUser);
@@ -87,7 +86,7 @@ const Chat = ({ id }: { id?: number }) => {
   };
 
   const completions = (content: string) => {
-    const url = `${ai_url}/v1/chat/completions`;
+    const url = `${AI_BACKEND_URL}/v1/chat/completions`;
     var source = new SSE(url, {
       method: 'POST',
       headers: {
