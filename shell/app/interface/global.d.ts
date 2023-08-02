@@ -92,10 +92,9 @@ type Spread<L, R> =
 // A中的所有属性都符合B中对应属性的类型，A中不存在而B中存在的以B的为准
 type ShapeOf<A, B> = {
   [k in keyof A & keyof B]: A[k] extends B[k] ? A[k] : never;
-} &
-  {
-    [k in keyof A]: A[k];
-  };
+} & {
+  [k in keyof A]: A[k];
+};
 
 interface Obj<T = any> {
   [k: string]: T;
@@ -121,6 +120,7 @@ interface Window {
     LINKS_SK: string;
     LINKS_AK: string;
     UC_PUBLIC_URL: string; // 包含protocol
+    AI_BACKEND_URL: string;
   };
   refreshApiGateway: RefreshApiGateway | null;
   previewFun: (el: HTMLElement) => void;

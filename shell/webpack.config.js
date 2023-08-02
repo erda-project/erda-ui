@@ -236,7 +236,6 @@ module.exports = async () => {
         'process.env.UI_ENV': JSON.stringify(process.env.ERDA_UI_ENV),
         'process.env.FOR_COMMUNITY': JSON.stringify(process.env.FOR_COMMUNITY),
         'process.env.mainVersion': JSON.stringify(mainVersion),
-        'process.env.AI_BACKEND_URL': JSON.stringify(process.env.AI_BACKEND_URL),
       }),
       ...mfConfigs.map((mfConfig) => new ModuleFederationPlugin(mfConfig)),
     ],

@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 import { getGlobal } from 'core/global-space';
-import { AI_BACKEND_URL } from 'common/constants';
+import { erdaEnv } from 'common/constants';
 
 interface IGetSessionsParams {
   userId: string;
@@ -62,6 +62,8 @@ interface ResetSessionPayload {
   email: string;
   id: number;
 }
+
+const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL;
 
 export const getSessions = (params: IGetSessionsParams): RAW_RESPONSE<ISessions> => {
   const { userId, name, phone, email } = params;

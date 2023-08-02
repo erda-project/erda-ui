@@ -57,6 +57,3 @@ export const ALIYUN_APPLICATION_VMS =
 
 // Whether to hide parts related to milestones
 export const HIDDEN_MILESTONE = true;
-
-// ai chat backend url
-export const AI_BACKEND_URL = process.env.AI_BACKEND_URL;
