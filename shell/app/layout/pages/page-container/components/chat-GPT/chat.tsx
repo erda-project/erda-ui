@@ -20,7 +20,9 @@ import orgStore from 'app/org-home/stores/org';
 import UserItem from './user-item';
 import GPTItem from './gpt-item';
 import { getLogs, resetSession, SSE } from 'layout/services/ai-chat';
-import { AI_BACKEND_URL } from 'common/constants';
+import { erdaEnv } from 'common/constants';
+
+const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL;
 
 const Chat = ({ id }: { id?: number }) => {
   const { id: userId, name, phone, email } = userStore.getState((s) => s.loginUser);
