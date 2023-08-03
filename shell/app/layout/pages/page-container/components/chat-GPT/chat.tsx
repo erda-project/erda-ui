@@ -13,6 +13,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Input, Spin, message, Popconfirm, Divider } from 'antd';
+import { encode } from 'js-base64';
 import i18n from 'i18n';
 import { ErdaIcon as CustomIcon } from 'common';
 import userStore from 'app/user/stores';
@@ -54,11 +55,16 @@ const Chat = ({ id }: { id?: number }) => {
 
         messageRef.current = messageRef.current.slice(1);
         setMessageContent({ message: messageRef.current });
+
+        if (listRef.current) {
+          listRef.current.scrollTop = listRef.current?.scrollHeight;
+        }
+
         if (!messageRef.current) {
           clearInterval(interval);
           isShowingRef.current = false;
         }
-      }, 100);
+      }, 50);
     }
   }, [messageContent]);
 
@@ -117,13 +123,13 @@ const Chat = ({ id }: { id?: number }) => {
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache',
-        'X-Ai-Proxy-User-Id': userId,
-        'X-Ai-Proxy-Username': name,
-        'X-Ai-Proxy-Phone': phone,
-        'X-AI-Proxy-Email': email,
+        'X-Ai-Proxy-User-Id': encode(userId),
+        'X-Ai-Proxy-Username': encode(name),
+        'X-Ai-Proxy-Phone': encode(phone),
+        'X-AI-Proxy-Email': encode(email),
         'X-Ai-Proxy-Source': 'erda.cloud',
-        'X-Ai-Proxy-Org-Id': orgId,
-        'X-AI-Proxy-SessionId': id,
+        'X-Ai-Proxy-Org-Id': encode(`${orgId}`),
+        'X-AI-Proxy-SessionId': encode(`${id}`),
       },
       payload: JSON.stringify({
         model: 'gpt-35-turbo-16k',
@@ -196,8 +202,10 @@ const Chat = ({ id }: { id?: number }) => {
           autoSize={{ minRows: 1, maxRows: 4 }}
           value={inputVal}
           onPressEnter={(e) => {
-            e.preventDefault();
-            enter(e.currentTarget?.value);
+            if (!e.shiftKey) {
+              e.preventDefault();
+              enter(e.currentTarget?.value);
+            }
           }}
           onChange={(e) => setInputVal(e.target.value)}
         />
