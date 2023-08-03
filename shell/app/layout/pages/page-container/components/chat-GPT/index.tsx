@@ -13,7 +13,7 @@
 
 import React, { useState } from 'react';
 import { Modal } from 'antd';
-import { Icon as CustomIcon } from 'common';
+import { ErdaIcon as CustomIcon } from 'common';
 import Sidebar from './sidebar';
 import Chat from './chat';
 
@@ -27,7 +27,7 @@ const ChatGPT = () => {
         className="fixed bottom-16 right-[8px] shadow-card p-2 rounded-[10px] bg-white cursor-pointer w-[44px] text-center"
         onClick={() => setVisible(true)}
       >
-        <CustomIcon type="android" className="text-xl mr-0" />
+        <CustomIcon type="ai" className="text-xl mr-0" />
       </div>
       <Modal visible={visible} width="60%" onCancel={() => setVisible(false)} footer={false} bodyStyle={{ padding: 0 }}>
         <div className="flex" style={{ height: '80vh' }}>

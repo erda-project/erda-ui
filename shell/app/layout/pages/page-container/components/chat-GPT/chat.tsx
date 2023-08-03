@@ -179,7 +179,7 @@ const Chat = ({ id }: { id?: number }) => {
         </Popconfirm>
         <Input.TextArea
           size="large"
-          placeholder={i18n.t('chats:Send a message')}
+          placeholder={i18n.t('charts:Send a message')}
           className="max-h-[200px] pr-[30px] flex-1"
           autoSize={{ minRows: 1, maxRows: 4 }}
           value={inputVal}
