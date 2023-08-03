@@ -24,7 +24,7 @@ const ChatGPT = () => {
   return (
     <>
       <div
-        className="fixed bottom-16 right-[8px] shadow-card p-2 rounded-[10px] bg-white cursor-pointer w-[44px] text-center"
+        className="fixed bottom-16 right-[8px] shadow-card p-2 rounded-[10px] bg-white cursor-pointer w-[40px] text-center"
         onClick={() => setVisible(true)}
       >
         <CustomIcon type="ai" className="text-xl mr-0" />

@@ -32,12 +32,35 @@ const Chat = ({ id }: { id?: number }) => {
   const [inputVal, setInputVal] = useState('');
   const listRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef('');
+  const isShowingRef = useRef(false);
+  const [messageContent, setMessageContent] = useState<{ message?: string; isNew?: string }>({});
 
   useEffect(() => {
     if (id) {
       loadLogs();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (messageContent.message && !isShowingRef.current) {
+      isShowingRef.current = true;
+      const interval = setInterval(() => {
+        if (list[list.length - 1].type === 'user') {
+          list.push({ type: 'gpt', message: messageRef.current.slice(0, 1) });
+        } else {
+          list[list.length - 1].message += messageRef.current.slice(0, 1);
+        }
+        setList(list);
+
+        messageRef.current = messageRef.current.slice(1);
+        setMessageContent({ message: messageRef.current });
+        if (!messageRef.current) {
+          clearInterval(interval);
+          isShowingRef.current = false;
+        }
+      }, 100);
+    }
+  }, [messageContent]);
 
   const loadLogs = async () => {
     const res = await getLogs({ userId, name, phone, email, id });
@@ -124,23 +147,12 @@ const Chat = ({ id }: { id?: number }) => {
 
         if (content && messageRef.current === '') {
           messageRef.current += content;
-          setList([...list, { type: 'gpt', message: messageRef.current }]);
+          setMessageContent({ message: messageRef.current });
         } else if (content) {
           messageRef.current += content;
-          if (list[list.length - 1].type !== 'user') {
-            list[list.length - 1].message = messageRef.current;
-            setList([...list]);
-          }
+          setMessageContent({ message: messageRef.current });
         }
       } else {
-        if (list[list.length - 1].type !== 'user') {
-          list[list.length - 1].message = messageRef.current;
-          setList([...list]);
-        } else {
-          setList([...list, { type: 'gpt', message: messageRef.current }]);
-        }
-
-        messageRef.current = '';
         source.close();
       }
     };
