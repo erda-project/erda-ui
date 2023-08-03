@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ErdaIcon as CustomIcon } from 'common';
+import { ErdaIcon as CustomIcon, MarkdownRender } from 'common';
 
 const GPTItem = ({ message }: { message: React.ReactNode }) => {
   return (
@@ -21,7 +21,9 @@ const GPTItem = ({ message }: { message: React.ReactNode }) => {
         <div className="flex-none w-[40px] h-[40px] text-2xl bg-green text-white rounded-sm p-1">
           <CustomIcon type="ai" />
         </div>
-        <div className="flex-none w-[calc(100%-60px)] text-black text-left">{message}</div>
+        <div className="flex-none w-[calc(100%-60px)] text-black text-left">
+          {message && <MarkdownRender value={message} />}
+        </div>
       </div>
     </div>
   );
