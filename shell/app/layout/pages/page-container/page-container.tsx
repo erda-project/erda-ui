@@ -152,7 +152,7 @@ const PageContainer = ({ route }: IProps) => {
         {MainContent}
       </div>
       <MessageCenter show={showMessage} />
-      {currentOrg && <ChatGPT />}
+      {currentOrg && ['erda', 'terminus'].includes(currentOrg.name) && <ChatGPT />}
     </Shell>
   );
 };

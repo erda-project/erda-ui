@@ -3,6 +3,10 @@
     "Parameter name": "Parameter name"
   },
   "charts": {
+    "1. This function relies on AI services such as ChatGPT (which may include foreign suppliers), and the messages you send will be processed by its large model.": "1. This function relies on AI services such as ChatGPT (which may include foreign suppliers), and the messages you send will be processed by its large model.",
+    "2. Erda will audit all conversations and keep them for a period of time, but will not actively review your conversations.": "2. Erda will audit all conversations and keep them for a period of time, but will not actively review your conversations.",
+    "3. do not send trade secrets, sensitive data, private information and other illegal content.": "3. do not send trade secrets, sensitive data, private information and other illegal content.",
+    "4. need help, please contact": "4. need help, please contact",
     "Apdex": "Apdex",
     "CPU usage": "CPU usage",
     "Erda service support": "Erda service support",
@@ -14,6 +18,7 @@
     "Request queuing": "Request queuing",
     "Resource loading": "Resource loading",
     "Send": "Send",
+    "Send a message": "Send a message",
     "To use this feature, please specify": "To use this feature, please specify",
     "Write": "Write",
     "context cleared": "context cleared",
@@ -32,11 +37,7 @@
     "success rate": "success rate",
     "tolerable": "tolerable",
     "usage": "usage",
-    "usage percent": "usage percent",
-    "1. This function relies on AI services such as ChatGPT (which may include foreign suppliers), and the messages you send will be processed by its large model.": "1. This function relies on AI services such as ChatGPT (which may include foreign suppliers), and the messages you send will be processed by its large model.",
-    "2. Erda will audit all conversations and keep them for a period of time, but will not actively review your conversations.": "2. Erda will audit all conversations and keep them for a period of time, but will not actively review your conversations.",
-    "3. do not send trade secrets, sensitive data, private information and other illegal content.": "3. do not send trade secrets, sensitive data, private information and other illegal content.",
-    "4. need help, please contact": "4. need help, please contact"
+    "usage percent": "usage percent"
   },
   "cmp": {
     "2 machines": "2 machines",
