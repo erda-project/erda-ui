@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { encode } from 'js-base64';
 import { getGlobal } from 'core/global-space';
 import { erdaEnv } from 'common/constants';
 
@@ -84,12 +85,12 @@ export const addSessions = (params: AddSessionsParams) => {
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
   const req = agent.post(`${AI_BACKEND_URL}/api/ai-proxy/sessions`);
-  req.set('X-Ai-Proxy-User-Id', userId);
-  req.set('X-Ai-Proxy-Username', userName);
-  req.set('X-Ai-Proxy-Phone', phone);
-  req.set('X-Ai-Proxy-Email', email);
+  req.set('X-Ai-Proxy-User-Id', encode(userId));
+  req.set('X-Ai-Proxy-Username', encode(userName));
+  req.set('X-Ai-Proxy-Phone', encode(phone));
+  req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
-  req.set('X-Ai-Proxy-Org-Id', currentOrg);
+  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg));
   return req
     .send({
       userId,
@@ -110,12 +111,12 @@ export const getLogs = (params: GetLogsPayload): RAW_RESPONSE<{ list: Log[] }> =
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
   const req = agent.get(`${AI_BACKEND_URL}/api/ai-proxy/sessions/${id}/chat-logs`);
-  req.set('X-Ai-Proxy-User-Id', userId);
-  req.set('X-Ai-Proxy-Username', name);
-  req.set('X-Ai-Proxy-Phone', phone);
-  req.set('X-Ai-Proxy-Email', email);
+  req.set('X-Ai-Proxy-User-Id', encode(userId));
+  req.set('X-Ai-Proxy-Username', encode(name));
+  req.set('X-Ai-Proxy-Phone', encode(phone));
+  req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
-  req.set('X-Ai-Proxy-Org-Id', currentOrg);
+  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg));
   return req.then((response: any) => response.body);
 };
 
@@ -124,12 +125,12 @@ export const resetSession = (params: ResetSessionPayload) => {
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
   const req = agent.patch(`${AI_BACKEND_URL}/api/ai-proxy/sessions/${id}/actions/reset`);
-  req.set('X-Ai-Proxy-User-Id', userId);
-  req.set('X-Ai-Proxy-Username', name);
-  req.set('X-Ai-Proxy-Phone', phone);
-  req.set('X-Ai-Proxy-Email', email);
+  req.set('X-Ai-Proxy-User-Id', encode(userId));
+  req.set('X-Ai-Proxy-Username', encode(name));
+  req.set('X-Ai-Proxy-Phone', encode(phone));
+  req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
-  req.set('X-Ai-Proxy-Org-Id', currentOrg);
+  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg));
   return req.then((response: any) => response.body);
 };
 
