@@ -19,7 +19,7 @@ import { getSessions, addSessions } from 'layout/services/ai-chat';
 
 const Sidebar = ({ onChange }: { onChange: (current: string) => void }) => {
   const [form] = Form.useForm();
-  const { id: userId, name, phone, email } = userStore.getState((s) => s.loginUser);
+  const { id: userId, nick: name, phone, email } = userStore.getState((s) => s.loginUser);
   const [items, setItems] = useState<Array<{ key: string; label: string }>>([]);
   const [current, setCurrent] = useState<string>();
   const [visible, setVisible] = useState(false);
