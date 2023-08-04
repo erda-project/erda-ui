@@ -71,12 +71,12 @@ export const getSessions = (params: IGetSessionsParams): RAW_RESPONSE<ISessions>
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
   const req = agent.get(`${AI_BACKEND_URL}/api/ai-proxy/sessions`);
-  req.set('X-Ai-Proxy-User-Id', userId);
-  req.set('X-Ai-Proxy-Username', name);
-  req.set('X-Ai-Proxy-Phone', phone);
-  req.set('X-Ai-Proxy-Email', email);
+  req.set('X-Ai-Proxy-User-Id', encode(userId));
+  req.set('X-Ai-Proxy-Username', encode(name));
+  req.set('X-Ai-Proxy-Phone', encode(phone));
+  req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
-  req.set('X-Ai-Proxy-Org-Id', currentOrg);
+  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg.id));
   return req.then((response: any) => response.body);
 };
 
@@ -90,7 +90,7 @@ export const addSessions = (params: AddSessionsParams) => {
   req.set('X-Ai-Proxy-Phone', encode(phone));
   req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
-  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg));
+  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg.id));
   return req
     .send({
       userId,
@@ -116,7 +116,7 @@ export const getLogs = (params: GetLogsPayload): RAW_RESPONSE<{ list: Log[] }> =
   req.set('X-Ai-Proxy-Phone', encode(phone));
   req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
-  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg));
+  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg.id));
   return req.then((response: any) => response.body);
 };
 
@@ -130,7 +130,7 @@ export const resetSession = (params: ResetSessionPayload) => {
   req.set('X-Ai-Proxy-Phone', encode(phone));
   req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
-  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg));
+  req.set('X-Ai-Proxy-Org-Id', encode(currentOrg.id));
   return req.then((response: any) => response.body);
 };
 
