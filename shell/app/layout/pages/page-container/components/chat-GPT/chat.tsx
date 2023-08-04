@@ -129,7 +129,7 @@ const Chat = ({ id }: { id?: number }) => {
         'X-AI-Proxy-Email': encode(email),
         'X-Ai-Proxy-Source': 'erda.cloud',
         'X-Ai-Proxy-Org-Id': encode(`${orgId}`),
-        'X-AI-Proxy-SessionId': encode(`${id}`),
+        'X-AI-Proxy-SessionId': `${id}`,
       },
       payload: JSON.stringify({
         model: 'gpt-35-turbo-16k',
