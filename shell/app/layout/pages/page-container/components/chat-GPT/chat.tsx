@@ -26,7 +26,7 @@ import { erdaEnv } from 'common/constants';
 const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL;
 
 const Chat = ({ id }: { id?: number }) => {
-  const { id: userId, name, phone, email } = userStore.getState((s) => s.loginUser);
+  const { id: userId, nick: name, phone, email } = userStore.getState((s) => s.loginUser);
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const [list, setList] = useState<Array<{ type: string; message: string }>>([]);
   const [loading, setLoading] = useState(false);
