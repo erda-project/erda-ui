@@ -64,7 +64,7 @@ const Chat = ({ id }: { id?: number }) => {
           clearInterval(interval);
           isShowingRef.current = false;
         }
-      }, 50);
+      }, 5);
     }
   }, [messageContent]);
 
@@ -169,7 +169,7 @@ const Chat = ({ id }: { id?: number }) => {
   };
 
   return (
-    <div className="flex flex-1 flex-col h-full items-cente p-4">
+    <div className="flex w-[calc(100%-256px)] flex-col h-full items-cente p-4">
       <div className="flex-1 w-full text-center ml-auto mr-auto mb-10 overflow-y-auto" ref={listRef}>
         {list.length ? (
           list.map((item) => {
@@ -216,7 +216,7 @@ const Chat = ({ id }: { id?: number }) => {
 
 const EmptyList = () => {
   return (
-    <div className="max-w-3xl mt-6 m-auto">
+    <div className="mt-6 m-auto">
       <div className="text-label text-left bg-brightgray rounded-lg p-4 opacity-60">
         {i18n.t('charts:To use this feature, please specify')}:
         <br />

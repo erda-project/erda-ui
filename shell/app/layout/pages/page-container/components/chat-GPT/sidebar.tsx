@@ -52,7 +52,7 @@ const Sidebar = ({ onChange }: { onChange: (current: string) => void }) => {
   };
 
   return (
-    <div className="w-[256px] flex flex-col border-right">
+    <div className="w-[256px] flex-none flex flex-col border-right">
       <div className="flex items-center pl-6 pr-2">
         <div className="flex-1 text-xl font-medium">Erda Assistant</div>
         <Button size="small" className="m-2 flex items-center" type="primary" onClick={() => setVisible(true)}>
