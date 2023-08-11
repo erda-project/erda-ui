@@ -246,9 +246,9 @@ const CreationForm = ({ createType }: { createType: string }) => {
               resourceConfig[key].memQuota = +resourceConfig[key].memQuota;
             });
         }
-        const { projectTemplate, ...rest } = values;
+        const { projectTemplate, labels, ...rest } = values;
 
-        createProject({ template: 'DevOps', ...rest, orgId }).then((res: any) => {
+        createProject({ template: 'DevOps', ...rest, orgId, labels: labels?.split?.(',') || [] }).then((res: any) => {
           if (res.success) {
             if (createType === 'createProject') {
               createTenantProject({
@@ -351,6 +351,19 @@ const CreationForm = ({ createType }: { createType: string }) => {
       itemProps: {
         placeholder: i18n.t('project-app-name-tip'),
         maxLength: 30,
+      },
+    },
+    {
+      label: i18n.t('Project label'),
+      name: 'labels',
+      rules: [
+        {
+          pattern: /^[\u4e00-\u9fa5a-zA-Z0-9,]+$/,
+          message: i18n.t('project-labels-tip'),
+        },
+      ],
+      itemProps: {
+        placeholder: i18n.t('project-labels-tip'),
       },
     },
     ...insertWhen(createType === 'importProject', [
