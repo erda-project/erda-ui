@@ -59,8 +59,8 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
     this.props.setCanGetClusterListAndResources?.(!this.state.modalVisible);
   };
 
-  handleSubmit = (values: object) => {
-    return Promise.resolve(this.props.updateInfo(values)).then(() => {
+  handleSubmit = ({ labels, ...rest }: Obj) => {
+    return Promise.resolve(this.props.updateInfo({ ...rest, labels: labels ? labels.split(',') : [] })).then(() => {
       this.toggleModal();
     });
   };

@@ -104,6 +104,22 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
       label: i18n.t('Project name'),
       name: 'displayName',
     },
+    {
+      label: i18n.t('Project label'),
+      name: 'labels',
+      customRender: (value: string[]) => (
+        <div>
+          {value?.map((item) => (
+            <span
+              className={`label-item text-purple-deep bg-purple-light border-0 border-solid border-l-2 border-l-purple-mid inline-block mr-2 m-w-[40px] h-[28px] leading-[28px] pl-3 pr-3`}
+              key={item}
+            >
+              {item}
+            </span>
+          )) || '-'}
+        </div>
+      ),
+    },
     ...insertWhen(notMSP, [
       {
         label: i18n.t('Public or private'),
