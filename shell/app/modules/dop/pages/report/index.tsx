@@ -285,20 +285,17 @@ const ProjectReport = () => {
       >
         {fields.map((group) => (
           <Row gutter={8} className="mb-4">
-            {group.map(
-              (item) =>
-                item[0] && (
-                  <Col span={3} key={item[0].label}>
-                    <Card
-                      title={item.label}
-                      hoverable
-                      onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
-                    >
-                      {item.value}
-                    </Card>
-                  </Col>
-                ),
-            )}
+            {group.map((item) => (
+              <Col span={3} key={item.label}>
+                <Card
+                  title={item.label}
+                  hoverable
+                  onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
+                >
+                  {item.value}
+                </Card>
+              </Col>
+            ))}
           </Row>
         ))}
       </Drawer>
