@@ -14,6 +14,30 @@
 import agent from 'agent';
 import { RES_BODY } from 'core/service';
 
+export interface Report {
+  projectID: string;
+  projectName: string;
+  empProjectCode: string;
+  budgetMandayTotal: string;
+  taskEstimatedManday: string;
+  actualMandayTotal: string;
+  unfinishedAssigneeTotal: string;
+  requirementTotal: string;
+  requirementAssociatedTotal: string;
+  requirementUnassignedRate: string;
+  taskTotal: string;
+  taskDoneRate: string;
+  taskAssociatedRate: string;
+  bugTotal: string;
+  bugUndoneRate: string;
+  bugSeriousRate: string;
+  bugLowLevelRate: string;
+  bugDemandDesignRate: string;
+  bugOnlineRate: string;
+  bugReopenRate: string;
+  requirementDoneRate: string;
+}
+
 export const getAddons = (query: {
   type: string;
   value: string;
@@ -30,6 +54,13 @@ export const getAddons = (query: {
 export const approves = (payload: PROJECT.Approves) => {
   return agent
     .post('/api/approves')
+    .send(payload)
+    .then((response: any) => response.body);
+};
+
+export const getReports = (payload: Obj): RES_BODY<Report[]> => {
+  return agent
+    .post('/api/project-report/actions/query')
     .send(payload)
     .then((response: any) => response.body);
 };
