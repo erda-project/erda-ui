@@ -113,7 +113,7 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:requirement total'),
           value: detailData.requirementTotal || '-',
-          url: goTo.pages.requirementList,
+          url: goTo.pages.requirementIssues,
           params: { projectId: detailData.projectID },
         },
         {
@@ -133,7 +133,7 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:task total'),
           value: detailData.taskTotal || '-',
-          url: goTo.pages.taskList,
+          url: goTo.pages.taskIssues,
           params: { projectId: detailData.projectID },
         },
         {
@@ -149,7 +149,7 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:bug total'),
           value: detailData.bugTotal || '-',
-          url: goTo.pages.bugList,
+          url: goTo.pages.bugIssues,
           params: { projectId: detailData.projectID },
         },
         {
