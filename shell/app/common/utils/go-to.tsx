@@ -263,7 +263,7 @@ export enum pages {
   cmpResourceOwnerRank = '/{orgName}/cmp/resource-rank/owner',
   publisherContent = '/{orgName}/dop/publisher/{type}/{publisherItemId}',
   iterationDetail = '/{orgName}/dop/projects/{projectId}/issues/iteration/{iterationId}/{issueType}',
-  requirementList = '/{orgName}/dop/projects/{projectId}/issues/all?type=REQUIREMENT',
+  requirementList = '/{orgName}/dop/projects/{projectId}/issues/all?tab=REQUIREMENT',
   taskList = '/{orgName}/dop/projects/{projectId}/issues/all?type=task',
   bugList = '/{orgName}/dop/projects/{projectId}/issues/all?type=bug',
   issueDetail = '/{orgName}/dop/projects/{projectId}/issues/{issueType}?id={issueId}&iterationID={iterationId}&type={issueType}',
