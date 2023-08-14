@@ -66,6 +66,14 @@ export const getOrgCenterMenu = () => {
           subtitle: i18n.t('Org'),
           show: orgPerm.orgCenter.viewSetting.pass,
         },
+        {
+          key: 'Project statement',
+          href: goTo.resolve.dopReport(), // '/dop/report',
+          icon: <ErdaIcon type="yunweibaogao" />,
+          text: i18n.t('dop:Project Report'),
+          subtitle: i18n.t('dop:Project Report'),
+          show: orgPerm.dop.publisher.read.pass, // Use this permission point for now
+        },
       ],
       (item) => item.show !== false,
     ),

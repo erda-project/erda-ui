@@ -12,39 +12,55 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { Drawer, Card, Col, Row } from 'antd';
+import { Drawer, Card, Col, Row, Tooltip } from 'antd';
 import i18n from 'i18n';
+import moment from 'moment';
 import { ColumnProps } from 'antd/lib/table';
 import { goTo } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { ConfigurableFilter } from 'common';
 import ErdaTable from 'common/components/table';
 import { getReports, Report } from 'dop/services';
+import RateSelect from './rate-select';
 
 const ProjectReport = () => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const [data, setData] = useState<Report[]>([]);
   const [visible, setVisible] = useState(false);
   const [detailData, setDetailData] = useState<Report>({} as Report);
+  const [loading, setLoading] = useState(false);
+  const [filterData, setFilterData] = useState<Obj>({
+    time: [moment().subtract(1, 'day').startOf('day').valueOf(), moment().endOf('day').valueOf()],
+  });
 
   useEffect(() => {
-    loadData();
-  }, []);
+    const { projectName, time, ...operations } = filterData;
+    loadData({
+      operations: Object.keys(operations)
+        .filter((key) => operations[key])
+        .map((key) => operations[key]),
+      projectName,
+      start: moment(time[0]).format('YYYY-MM-DD HH:mm:ss'),
+      end: moment(time[1]).format('YYYY-MM-DD HH:mm:ss'),
+    });
+  }, [filterData]);
 
-  const loadData = async () => {
+  const loadData = async (params: Obj) => {
+    setLoading(true);
     const payload = {
-      start: '2023-08-08 00:00:00',
-      end: '2023-08-11 00:00:00',
       orgId,
+      ...params,
     };
     const res = await getReports(payload);
 
     if (res.success) {
       const list =
-        res.data?.filter?.(
-          (item, index) => res.data?.findIndex((report) => item.projectID === report.projectID) !== index,
-        ) || [];
+        res.data
+          ?.reverse?.()
+          .filter?.((item, index) => res.data?.findIndex((report) => item.projectID === report.projectID) !== index) ||
+        [];
       setData(list);
+      setLoading(false);
     }
   };
 
@@ -64,20 +80,24 @@ const ProjectReport = () => {
     {
       title: i18n.t('dop:work hours'),
       dataIndex: 'budgetMandayTotal',
+      render: (text) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '-'),
     },
     {
       title: i18n.t('dop:estimated work hours'),
       dataIndex: 'taskEstimatedManday',
+      render: (text) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '-'),
     },
     {
       title: i18n.t('dop:serious bug rate'),
       dataIndex: 'bugSeriousRate',
-      render: (text) => (text || text === 0 ? `${text}%` : ''),
+      render: (text) =>
+        text || text === 0 ? <Tooltip title={`${text * 100}%`}>{`${(text * 100).toFixed(2)}%`}</Tooltip> : '',
     },
     {
       title: i18n.t('dop:reopen bug rate'),
       dataIndex: 'bugReopenRate',
-      render: (text) => (text || text === 0 ? `${text}%` : ''),
+      render: (text) =>
+        text || text === 0 ? <Tooltip title={`${text * 100}%`}>{`${(text * 100).toFixed(2)}%`}</Tooltip> : '',
     },
   ];
 
@@ -94,87 +114,115 @@ const ProjectReport = () => {
         },
         {
           label: i18n.t('dop:work hours'),
-          value: detailData.budgetMandayTotal || '-',
+          value: detailData.budgetMandayTotal,
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
         },
         {
           label: i18n.t('dop:estimated work hours'),
-          value: detailData.taskEstimatedManday || '-',
+          value: detailData.taskEstimatedManday,
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
         },
         {
           label: i18n.t('dop:actual manday total'),
-          value: detailData.actualMandayTotal || '-',
+          value: detailData.actualMandayTotal,
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
         },
         {
           label: i18n.t('dop:unfinished assignee total'),
-          value: detailData.unfinishedAssigneeTotal || '-',
+          value: detailData.unfinishedAssigneeTotal,
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
         },
       ],
       [
         {
           label: i18n.t('dop:requirement total'),
-          value: detailData.requirementTotal || '-',
+          value: detailData.requirementTotal,
           url: goTo.pages.requirementIssues,
           params: { projectId: detailData.projectID },
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
         },
         {
           label: i18n.t('dop:requirement done rate'),
-          value: detailData.requirementDoneRate || '-',
+          value: detailData.requirementDoneRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
         {
           label: i18n.t('dop:requirement associated total'),
-          value: detailData.requirementAssociatedTotal || '-',
+          value: detailData.requirementAssociatedTotal,
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
         },
         {
           label: i18n.t('dop:requirement unassigned rate'),
-          value: detailData.requirementUnassignedRate || '-',
+          value: detailData.requirementUnassignedRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
       ],
       [
         {
           label: i18n.t('dop:task total'),
-          value: detailData.taskTotal || '-',
+          value: detailData.taskTotal,
           url: goTo.pages.taskIssues,
           params: { projectId: detailData.projectID },
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
         },
         {
           label: i18n.t('dop:task done rate'),
-          value: detailData.taskDoneRate || '-',
+          value: detailData.taskDoneRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
         {
           label: i18n.t('dop:task associated rate'),
-          value: detailData.taskAssociatedRate || '-',
+          value: detailData.taskAssociatedRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
       ],
       [
         {
           label: i18n.t('dop:bug total'),
-          value: detailData.bugTotal || '-',
+          value: detailData.bugTotal,
           url: goTo.pages.bugIssues,
           params: { projectId: detailData.projectID },
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
         },
         {
           label: i18n.t('dop:bug undone rate'),
-          value: detailData.bugUndoneRate || '-',
+          value: detailData.bugUndoneRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
         {
           label: i18n.t('dop:serious bug rate'),
-          value: detailData.bugSeriousRate || '-',
+          value: detailData.bugSeriousRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
         {
           label: i18n.t('dop:low level bug rate'),
-          value: detailData.bugLowLevelRate || '-',
+          value: detailData.bugLowLevelRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
         {
           label: i18n.t('dop:demand design bug rate'),
-          value: detailData.bugDemandDesignRate || '-',
+          value: detailData.bugDemandDesignRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
         {
           label: i18n.t('dop:online bug rate'),
-          value: detailData.bugOnlineRate || '-',
+          value: detailData.bugOnlineRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
         {
           label: i18n.t('dop:reopen bug rate'),
-          value: detailData.bugReopenRate || '-',
+          value: detailData.bugReopenRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
       ],
     ],
@@ -193,64 +241,67 @@ const ProjectReport = () => {
     },
     {
       label: i18n.t('dop:bug undone rate'),
-      type: 'input',
       key: 'bugUndoneRate',
-      placeholder: i18n.t('Please enter the {name}', { name: i18n.t('dop:bug undone rate') }),
-      customProps: {
-        autoComplete: 'off',
+      type: 'custom',
+      getComp: () => {
+        return <RateSelect />;
       },
     },
     {
       label: i18n.t('dop:serious bug rate'),
-      type: 'input',
       key: 'bugSeriousRate',
-      placeholder: i18n.t('Please enter the {name}', { name: i18n.t('dop:serious bug rate') }),
-      customProps: {
-        autoComplete: 'off',
+      type: 'custom',
+      getComp: () => {
+        return <RateSelect />;
       },
     },
     {
       label: i18n.t('dop:low level bug rate'),
-      type: 'input',
       key: 'bugLowLevelRate',
-      placeholder: i18n.t('Please enter the {name}', { name: i18n.t('dop:low level bug rate') }),
-      customProps: {
-        autoComplete: 'off',
+      type: 'custom',
+      getComp: () => {
+        return <RateSelect />;
       },
     },
     {
       label: i18n.t('dop:demand design bug rate'),
-      type: 'input',
       key: 'bugDemandDesignRate',
-      placeholder: i18n.t('Please enter the {name}', { name: i18n.t('dop:demand design bug rate') }),
-      customProps: {
-        autoComplete: 'off',
+      type: 'custom',
+      getComp: () => {
+        return <RateSelect />;
       },
     },
     {
       label: i18n.t('dop:online bug rate'),
-      type: 'input',
       key: 'bugOnlineRate',
-      placeholder: i18n.t('Please enter the {name}', { name: i18n.t('dop:online bug rate') }),
-      customProps: {
-        autoComplete: 'off',
+      type: 'custom',
+      getComp: () => {
+        return <RateSelect />;
       },
     },
     {
       label: i18n.t('dop:reopen bug rate'),
-      type: 'input',
       key: 'bugReopenRate',
-      placeholder: i18n.t('Please enter the {name}', { name: i18n.t('dop:reopen bug rate') }),
+      type: 'custom',
+      getComp: () => {
+        return <RateSelect />;
+      },
+    },
+    {
+      label: '',
+      type: 'input',
+      key: 'projectName',
+      outside: true,
+      placeholder: i18n.t('Please enter the {name}', { name: i18n.t('default:Project name') }),
       customProps: {
         autoComplete: 'off',
       },
     },
     {
       label: '',
-      type: 'input',
-      key: 'ProjectName',
+      type: 'rangePicker',
+      key: 'time',
       outside: true,
-      placeholder: i18n.t('Please enter the {name}', { name: i18n.t('default:Project name') }),
       customProps: {
         autoComplete: 'off',
       },
@@ -258,16 +309,17 @@ const ProjectReport = () => {
   ];
 
   const handleSearch = (values: Obj) => {
-    console.log(values);
+    setFilterData(values);
   };
 
   return (
     <div>
       <ErdaTable
+        loading={loading}
         rowKey="assetID"
         columns={columns}
         dataSource={data}
-        slot={<ConfigurableFilter hideSave fieldsList={filterConfig} onFilter={handleSearch} />}
+        slot={<ConfigurableFilter hideSave fieldsList={filterConfig} onFilter={handleSearch} value={filterData} />}
         onRow={(record) => {
           return {
             onClick: () => {
@@ -289,10 +341,11 @@ const ProjectReport = () => {
               <Col span={3} key={item.label}>
                 <Card
                   title={item.label}
-                  hoverable
+                  hoverable={!!item.url}
                   onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
+                  className="text-center"
                 >
-                  {item.value}
+                  {item.render && typeof item.render === 'function' ? item.render(item.value) : item.value}
                 </Card>
               </Col>
             ))}
