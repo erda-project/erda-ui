@@ -36,6 +36,7 @@ export interface Report {
   bugOnlineRate: string;
   bugReopenRate: string;
   requirementDoneRate: string;
+  timestamp: string;
 }
 
 export const getAddons = (query: {

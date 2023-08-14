@@ -491,6 +491,7 @@ const ConfigurableFilter = React.forwardRef(
                   setExternalValue((prev) => ({ ...prev, [item.key]: v }));
                 }}
                 key={item.key}
+                className="mr-2"
               />
             );
           })}
