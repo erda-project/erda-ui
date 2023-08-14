@@ -22,6 +22,11 @@ import { ConfigurableFilter } from 'common';
 import ErdaTable from 'common/components/table';
 import { getReports, Report } from 'dop/services';
 import RateSelect from './rate-select';
+import ChartColumn from './chart-column';
+
+interface listItem extends Report {
+  chart: Report[];
+}
 
 const ProjectReport = () => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
@@ -54,11 +59,14 @@ const ProjectReport = () => {
     const res = await getReports(payload);
 
     if (res.success) {
-      const list =
-        res.data
-          ?.reverse?.()
-          .filter?.((item, index) => res.data?.findIndex((report) => item.projectID === report.projectID) !== index) ||
-        [];
+      const list = [] as listItem[];
+      res.data?.forEach((item) => {
+        if (!list.find((report) => report.projectID === item.projectID)) {
+          list.push({ ...item, chart: [item] });
+        } else {
+          list.find((report) => report.projectID === item.projectID)?.chart.push(item);
+        }
+      });
       setData(list);
       setLoading(false);
     }
@@ -75,7 +83,8 @@ const ProjectReport = () => {
     },
     {
       title: i18n.t('default:Project trace chart'),
-      dataIndex: '',
+      dataIndex: 'chart',
+      render: (chart) => <ChartColumn data={chart} />,
     },
     {
       title: i18n.t('dop:work hours'),
