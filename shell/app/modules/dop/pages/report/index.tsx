@@ -283,8 +283,8 @@ const ProjectReport = () => {
         width="90%"
         onClose={() => setVisible(false)}
       >
-        {fields.map((group) => (
-          <Row gutter={8} className="mb-4">
+        {fields.map((group, index) => (
+          <Row gutter={8} className="mb-4" key={index}>
             {group.map((item) => (
               <Col span={3} key={item.label}>
                 <Card
