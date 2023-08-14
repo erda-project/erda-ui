@@ -207,6 +207,11 @@ export default function getDopRouter(): RouteConfigItem[] {
           layout: { noWrapper: true, hideSidebar: true },
           getComp: (cb) => cb(import('config-page/debug')),
         } as RouteConfigItem,
+        {
+          path: 'report',
+          pageName: i18n.t('dop:Project Report'),
+          getComp: (cb) => cb(import('dop/pages/report')),
+        },
       ],
     },
     {

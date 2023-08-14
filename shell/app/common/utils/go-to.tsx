@@ -157,6 +157,7 @@ export enum pages {
   dopMyInitiateWait = '/{orgName}/dop/approval/my-initiate/WaitApprove',
   dopPublisher = '/{orgName}/dop/publisher',
   dopPublicProjects = '/{orgName}/dop/public-projects',
+  dopReport = '/{orgName}/dop/report',
 
   // project
   project = '/{orgName}/dop/projects/{projectId}',
@@ -262,6 +263,9 @@ export enum pages {
   cmpResourceOwnerRank = '/{orgName}/cmp/resource-rank/owner',
   publisherContent = '/{orgName}/dop/publisher/{type}/{publisherItemId}',
   iterationDetail = '/{orgName}/dop/projects/{projectId}/issues/iteration/{iterationId}/{issueType}',
+  requirementIssues = '/{orgName}/dop/projects/{projectId}/issues/all?tab=REQUIREMENT',
+  taskIssues = '/{orgName}/dop/projects/{projectId}/issues/all?tab=TASK',
+  bugIssues = '/{orgName}/dop/projects/{projectId}/issues/all?tab=BUG',
   taskList = '/{orgName}/dop/projects/{projectId}/issues/all?type=task',
   bugList = '/{orgName}/dop/projects/{projectId}/issues/all?type=bug',
   issueDetail = '/{orgName}/dop/projects/{projectId}/issues/{issueType}?id={issueId}&iterationID={iterationId}&type={issueType}',
