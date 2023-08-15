@@ -199,7 +199,7 @@ const ProjectReport = () => {
         },
         {
           label: i18n.t('dop:bug undone rate'),
-          value: detailData.bugUndoneRate,
+          value: detailData.bugDoneRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
         },
