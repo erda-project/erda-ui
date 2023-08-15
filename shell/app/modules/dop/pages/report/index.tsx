@@ -60,14 +60,14 @@ const ProjectReport = () => {
 
     if (res.success) {
       const list = [] as listItem[];
-      res.data?.forEach((item) => {
+      res.data?.reverse()?.forEach((item) => {
         if (!list.find((report) => report.projectID === item.projectID)) {
           list.push({ ...item, chart: [item] });
         } else {
           list.find((report) => report.projectID === item.projectID)?.chart.push(item);
         }
       });
-      setData(list);
+      setData(list.reverse()?.map((item) => ({ ...item, chart: item.chart.reverse() })));
       setLoading(false);
     }
   };
