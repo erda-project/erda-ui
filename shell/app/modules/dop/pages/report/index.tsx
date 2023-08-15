@@ -89,12 +89,12 @@ const ProjectReport = () => {
     {
       title: i18n.t('dop:work hours'),
       dataIndex: 'budgetMandayTotal',
-      render: (text) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '-'),
+      render: (text) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'),
     },
     {
       title: i18n.t('dop:estimated work hours'),
       dataIndex: 'taskEstimatedManday',
-      render: (text) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '-'),
+      render: (text) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'),
     },
     {
       title: i18n.t('dop:serious bug rate'),
@@ -124,22 +124,22 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:work hours'),
           value: detailData.budgetMandayTotal,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:estimated work hours'),
           value: detailData.taskEstimatedManday,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:actual manday total'),
           value: detailData.actualMandayTotal,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:unfinished assignee total'),
           value: detailData.unfinishedAssigneeTotal,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
       ],
       [
@@ -148,24 +148,24 @@ const ProjectReport = () => {
           value: detailData.requirementTotal,
           url: goTo.pages.requirementIssues,
           params: { projectId: detailData.projectID },
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:requirement done rate'),
           value: detailData.requirementDoneRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
         {
           label: i18n.t('dop:requirement associated total'),
           value: detailData.requirementAssociatedTotal,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:requirement unassigned rate'),
           value: detailData.requirementUnassignedRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
       ],
       [
@@ -174,19 +174,19 @@ const ProjectReport = () => {
           value: detailData.taskTotal,
           url: goTo.pages.taskIssues,
           params: { projectId: detailData.projectID },
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:task done rate'),
           value: detailData.taskDoneRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
         {
           label: i18n.t('dop:task associated rate'),
           value: detailData.taskAssociatedRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
       ],
       [
@@ -195,43 +195,43 @@ const ProjectReport = () => {
           value: detailData.bugTotal,
           url: goTo.pages.bugIssues,
           params: { projectId: detailData.projectID },
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '-'),
+          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:bug undone rate'),
           value: detailData.bugDoneRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
         {
           label: i18n.t('dop:serious bug rate'),
           value: detailData.bugSeriousRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
         {
           label: i18n.t('dop:low level bug rate'),
           value: detailData.bugLowLevelRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
         {
           label: i18n.t('dop:demand design bug rate'),
           value: detailData.bugDemandDesignRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
         {
           label: i18n.t('dop:online bug rate'),
           value: detailData.bugOnlineRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
         {
           label: i18n.t('dop:reopen bug rate'),
           value: detailData.bugReopenRate,
           render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '-',
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
       ],
     ],
