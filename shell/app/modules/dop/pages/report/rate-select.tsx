@@ -30,7 +30,7 @@ const RateSelect = ({
   useEffect(() => {
     if (val) {
       onChange({
-        val: Number(val),
+        val: Number(val) / 100,
         operation,
         key: id,
       });
@@ -63,6 +63,7 @@ const RateSelect = ({
             setVal(undefined);
           }
         }}
+        suffix="%"
       />
     </div>
   );

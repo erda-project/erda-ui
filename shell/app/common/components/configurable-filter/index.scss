@@ -112,6 +112,15 @@
     border: none;
   }
 
+  .ant-input-affix-wrapper {
+    background-color: $color-default-06 !important;
+    border: none;
+
+    .ant-input {
+      background-color: transparent !important;
+    }
+  }
+
   &-config-select {
     padding: 3px 0;
     line-height: 24px;
