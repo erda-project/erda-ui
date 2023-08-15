@@ -41,7 +41,12 @@ const RateSelect = ({
 
   return (
     <div className="flex">
-      <Select className="w-[120px] flex-none" value={operation} onChange={setOperation}>
+      <Select
+        className="w-[120px] flex-none"
+        value={operation}
+        onChange={setOperation}
+        getPopupContainer={() => document.body}
+      >
         <Option value={'>'}>{i18n.t('default:greater than')}</Option>
         <Option value={'>='}>{i18n.t('dop:Greater than or equal to')}</Option>
         <Option value={'='}>{i18n.t('dop:equal to')}</Option>
