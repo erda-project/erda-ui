@@ -28,7 +28,11 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
     },
     yAxis: {
       type: 'value',
-      name: i18n.t('dop:man day'),
+    },
+    grid: {
+      bottom: 20,
+      right: 10,
+      top: 10,
     },
     series: [
       {
@@ -42,9 +46,19 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
         type: 'line',
       },
     ],
+  };
+
+  const otherOption = {
+    yAxis: {
+      type: 'value',
+      name: i18n.t('dop:man day'),
+    },
     legend: {
       data: [i18n.t('dop:work hours'), i18n.t('dop:actual manday total')],
-      left: 10,
+      right: 10,
+    },
+    tooltip: {
+      show: true,
     },
   };
   return (
@@ -68,7 +82,7 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
       <div onClick={(e) => e.stopPropagation()}>
         <Modal width="800px" visible={visible} onCancel={() => setVisible(false)} footer={false}>
           <Echarts
-            option={option}
+            option={{ ...option, ...otherOption }}
             style={{
               width: '720px',
               height: '320px',

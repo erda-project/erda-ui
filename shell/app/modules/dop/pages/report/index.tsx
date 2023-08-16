@@ -37,7 +37,7 @@ const ProjectReport = () => {
   const [detailData, setDetailData] = useState<Report>({} as Report);
   const [loading, setLoading] = useState(false);
   const [filterData, setFilterData] = useState<Obj>({
-    time: [moment().subtract(1, 'day').startOf('day').valueOf(), moment().endOf('day').valueOf()],
+    time: [moment().subtract(7, 'day').startOf('day').valueOf(), moment().endOf('day').valueOf()],
   });
 
   useEffect(() => {
