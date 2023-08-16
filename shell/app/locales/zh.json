@@ -1920,7 +1920,7 @@
     "repository description": "仓库描述",
     "repository settings": "仓库设置",
     "repository source": "仓库来源",
-    "requirement associated total": "需求已关联任务占比",
+    "requirement associated rate": "需求已关联任务占比",
     "requirement description": "需求描述",
     "requirement done rate": "需求完成进度",
     "requirement total": "需求总数",

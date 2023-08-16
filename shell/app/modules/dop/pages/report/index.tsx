@@ -28,6 +28,8 @@ interface listItem extends Report {
   chart: Report[];
 }
 
+const cardColorList = ['#a051ff', '#16c2c3', '#697fff', '#f3b519'];
+
 const ProjectReport = () => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const [data, setData] = useState<Report[]>([]);
@@ -161,9 +163,10 @@ const ProjectReport = () => {
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
         {
-          label: i18n.t('dop:requirement associated total'),
-          value: detailData.requirementAssociatedTotal,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
+          label: i18n.t('dop:requirement associated rate'),
+          value: detailData.requirementAssociatedRate,
+          render: (text: number) =>
+            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
         },
         {
           label: i18n.t('dop:requirement unassigned rate'),
@@ -357,6 +360,7 @@ const ProjectReport = () => {
                   hoverable={!!item.url}
                   onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
                   className="text-center"
+                  headStyle={{ backgroundColor: cardColorList[index] }}
                 >
                   {item.render && typeof item.render === 'function' ? item.render(item.value) : item.value}
                 </Card>
