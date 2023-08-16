@@ -20,12 +20,14 @@ const { Option } = Select;
 const RateSelect = ({
   onChange,
   id,
+  value,
 }: {
   onChange: ({ val, operation, key }?: { val: number; operation: string; key: string }) => void;
   id: string;
+  value: { val: number; operation: string };
 }) => {
-  const [operation, setOperation] = useState('>');
-  const [val, setVal] = useState<string>();
+  const [operation, setOperation] = useState(value?.operation || '>');
+  const [val, setVal] = useState<string>(value?.val ? `${value?.val * 100}` : '');
 
   useEffect(() => {
     if (val) {
@@ -37,7 +39,16 @@ const RateSelect = ({
     } else {
       onChange(undefined);
     }
-  }, [val]);
+  }, [val, operation]);
+
+  useEffect(() => {
+    if (!value && val) {
+      setVal('');
+    }
+    if (!value && operation !== '>') {
+      setOperation('>');
+    }
+  }, [value]);
 
   return (
     <div className="flex">
