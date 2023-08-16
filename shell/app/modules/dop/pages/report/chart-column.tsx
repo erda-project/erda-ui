@@ -14,6 +14,7 @@
 import React, { useState } from 'react';
 import { Modal } from 'antd';
 import moment from 'moment';
+import i18n from 'i18n';
 import Echarts from 'charts/components/echarts';
 import { Report } from 'dop/services';
 
@@ -27,17 +28,24 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
     },
     yAxis: {
       type: 'value',
+      name: i18n.t('dop:man day'),
     },
     series: [
       {
+        name: i18n.t('dop:work hours'),
         data: data.map((item) => item.budgetMandayTotal),
         type: 'line',
       },
       {
+        name: i18n.t('dop:actual manday total'),
         data: data.map((item) => item.actualMandayTotal),
         type: 'line',
       },
     ],
+    legend: {
+      data: [i18n.t('dop:work hours'), i18n.t('dop:actual manday total')],
+      left: 10,
+    },
   };
   return (
     <>
