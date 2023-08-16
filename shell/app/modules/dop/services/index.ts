@@ -18,8 +18,8 @@ export interface Report {
   projectID: string;
   projectName: string;
   empProjectCode: string;
-  budgetMandayTotal: string;
-  taskEstimatedManday: string;
+  budgetMandayTotal: number;
+  taskEstimatedManday: number;
   actualMandayTotal: string;
   unfinishedAssigneeTotal: string;
   requirementTotal: string;
@@ -30,11 +30,11 @@ export interface Report {
   taskAssociatedRate: string;
   bugTotal: string;
   bugUndoneRate: string;
-  bugSeriousRate: string;
+  bugSeriousRate: number;
   bugLowLevelRate: string;
   bugDemandDesignRate: string;
   bugOnlineRate: string;
-  bugReopenRate: string;
+  bugReopenRate: number;
   requirementDoneRate: string;
   timestamp: string;
   bugDoneRate: string;
