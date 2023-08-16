@@ -23,7 +23,7 @@ export interface Report {
   actualMandayTotal: string;
   unfinishedAssigneeTotal: string;
   requirementTotal: string;
-  requirementAssociatedTotal: string;
+  requirementAssociatedRate: string;
   requirementUnassignedRate: string;
   taskTotal: string;
   taskDoneRate: string;
