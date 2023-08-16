@@ -390,6 +390,7 @@ export enum pages {
   orgCenterApproval = '/{orgName}/orgCenter/approval',
   orgCenterAnnouncement = '/{orgName}/orgCenter/setting/detail?tabKey=announcement',
   orgCenterSafety = '/{orgName}/orgCenter/safety',
+  orgReport = '/{orgName}/orgCenter/report',
 
   cmpNotifyGroup = '/{orgName}/orgCenter/setting/detail?tabKey=notifyGroup',
   cmpSetting = '/{orgName}/orgCenter/setting/detail',

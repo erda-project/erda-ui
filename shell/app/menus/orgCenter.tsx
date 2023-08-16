@@ -68,7 +68,7 @@ export const getOrgCenterMenu = () => {
         },
         {
           key: 'Project statement',
-          href: goTo.resolve.dopReport(), // '/dop/report',
+          href: goTo.resolve.orgReport(), // '/orgCenter/report',
           icon: <ErdaIcon type="yunweibaogao" />,
           text: i18n.t('dop:Project Report'),
           subtitle: i18n.t('dop:Project Report'),

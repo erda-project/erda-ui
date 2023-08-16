@@ -28,7 +28,7 @@ interface listItem extends Report {
   chart: Report[];
 }
 
-const cardColorList = ['#a051ff', '#16c2c3', '#697fff', '#f3b519'];
+const cardColorList = [undefined, '#16c2c3', '#697fff', '#f3b519'];
 
 const ProjectReport = () => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
@@ -37,11 +37,11 @@ const ProjectReport = () => {
   const [detailData, setDetailData] = useState<Report>({} as Report);
   const [loading, setLoading] = useState(false);
   const [filterData, setFilterData] = useState<Obj>({
-    time: [moment().subtract(1, 'day').startOf('day').valueOf(), moment().endOf('day').valueOf()],
+    time: [moment().subtract(7, 'day').startOf('day').valueOf(), moment().endOf('day').valueOf()],
   });
 
   useEffect(() => {
-    const { projectName, time, ...operations } = filterData;
+    const { projectName, empProjectCode, time, ...operations } = filterData;
     loadData({
       operations: Object.keys(operations)
         .filter((key) => operations[key])
@@ -49,6 +49,10 @@ const ProjectReport = () => {
       projectName,
       start: moment(time[0]).format('YYYY-MM-DD HH:mm:ss'),
       end: moment(time[1]).format('YYYY-MM-DD HH:mm:ss'),
+      labelQuerys: [
+        ...(projectName ? [{ key: 'project_name', val: projectName, operation: 'like' }] : []),
+        ...(empProjectCode ? [{ key: 'emp_project_code', val: empProjectCode, operation: '=' }] : []),
+      ],
     });
   }, [filterData]);
 
@@ -130,12 +134,12 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:work hours'),
           value: detailData.budgetMandayTotal,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
+          render: (text: number) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:estimated work hours'),
           value: detailData.taskEstimatedManday,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
+          render: (text: number) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:actual manday total'),
@@ -249,7 +253,7 @@ const ProjectReport = () => {
     {
       label: i18n.t('default:Project code'),
       type: 'input',
-      key: 'EmpProjectCode',
+      key: 'empProjectCode',
       placeholder: i18n.t('Please enter the {name}', { name: i18n.t('default:Project code') }),
       customProps: {
         autoComplete: 'off',
@@ -320,6 +324,7 @@ const ProjectReport = () => {
       outside: true,
       customProps: {
         autoComplete: 'off',
+        allowClear: false,
       },
     },
   ];

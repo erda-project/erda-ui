@@ -168,6 +168,11 @@ function getOrgCenterRouter(): RouteConfigItem[] {
             },
           ],
         },
+        {
+          path: 'report',
+          pageName: i18n.t('dop:Project Report'),
+          getComp: (cb) => cb(import('dop/pages/report')),
+        },
       ],
     },
   ];
