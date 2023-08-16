@@ -89,22 +89,26 @@ const ProjectReport = () => {
     {
       title: i18n.t('dop:work hours'),
       dataIndex: 'budgetMandayTotal',
+      sorter: (a: Report, b: Report) => a.budgetMandayTotal - b.budgetMandayTotal,
       render: (text) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'),
     },
     {
       title: i18n.t('dop:estimated work hours'),
       dataIndex: 'taskEstimatedManday',
+      sorter: (a: Report, b: Report) => a.taskEstimatedManday - b.taskEstimatedManday,
       render: (text) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'),
     },
     {
       title: i18n.t('dop:serious bug rate'),
       dataIndex: 'bugSeriousRate',
+      sorter: (a: Report, b: Report) => a.bugSeriousRate - b.bugSeriousRate,
       render: (text) =>
         text || text === 0 ? <Tooltip title={`${text * 100}%`}>{`${(text * 100).toFixed(2)}%`}</Tooltip> : '',
     },
     {
       title: i18n.t('dop:reopen bug rate'),
       dataIndex: 'bugReopenRate',
+      sorter: (a: Report, b: Report) => a.bugReopenRate - b.bugReopenRate,
       render: (text) =>
         text || text === 0 ? <Tooltip title={`${text * 100}%`}>{`${(text * 100).toFixed(2)}%`}</Tooltip> : '',
     },
