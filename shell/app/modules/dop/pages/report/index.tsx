@@ -12,15 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { Drawer, Card, Col, Row, Tooltip } from 'antd';
+import { Drawer, Card, Col, Row, Tooltip, Spin } from 'antd';
 import i18n from 'i18n';
 import moment from 'moment';
 import { ColumnProps } from 'antd/lib/table';
 import { goTo } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
-import { ConfigurableFilter, ErdaIcon } from 'common';
+import { ConfigurableFilter, ErdaIcon, ContractiveFilter } from 'common';
 import ErdaTable from 'common/components/table';
 import { getReports, Report } from 'dop/services';
+import { getProjectIterations } from 'project/services/project-iteration';
 import RateSelect from './rate-select';
 import ChartColumn from './chart-column';
 
@@ -39,6 +40,8 @@ const ProjectReport = () => {
   const [filterData, setFilterData] = useState<Obj>({
     time: [moment().subtract(7, 'day').startOf('day').valueOf(), moment().endOf('day').valueOf()],
   });
+  const [iterations, setIterations] = useState<ITERATION.Detail[]>([]);
+  const [detailLoading, setDetailLoading] = useState(false);
 
   useEffect(() => {
     init();
@@ -83,6 +86,35 @@ const ProjectReport = () => {
       setData([]);
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    detailData?.projectID && getIterations(detailData.projectID);
+  }, [detailData.projectID]);
+
+  const getIterations = async (projectID: number) => {
+    const res = await getProjectIterations({ projectID });
+    if (res.success) {
+      setIterations(res.data?.list || []);
+    }
+  };
+
+  const getDatail = async (iterationIDs: number[]) => {
+    setDetailLoading(true);
+    const { time } = filterData;
+    const { projectID } = detailData;
+    const payload = {
+      orgId,
+      start: moment(time[0]).format('YYYY-MM-DD HH:mm:ss'),
+      end: moment(time[1]).format('YYYY-MM-DD HH:mm:ss'),
+      projectIDs: [Number(projectID)],
+      iterationIDs,
+    };
+    const res = await getReports(payload);
+    if (res.success) {
+      res.data && setDetailData(res.data[res.data.length - 1]);
+    }
+    setDetailLoading(false);
   };
 
   const columns: Array<ColumnProps<Report>> = [
@@ -375,34 +407,54 @@ const ProjectReport = () => {
         width="90%"
         onClose={() => setVisible(false)}
       >
-        {fields.map((group, index) => (
-          <Row gutter={8} className="mb-4" key={index}>
-            {group.map((item) => (
-              <Col span={3} key={item.label}>
-                <Card
-                  title={
-                    <span>
-                      <Tooltip title={item.label}>{item.label}</Tooltip>
-                      {item.tip ? (
-                        <Tooltip title={item.tip}>
-                          <ErdaIcon type="help" className="ml-2 align-middle mb-1" />
-                        </Tooltip>
-                      ) : (
-                        ''
-                      )}
-                    </span>
-                  }
-                  hoverable={!!item.url}
-                  onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
-                  className="text-center"
-                  headStyle={{ backgroundColor: cardColorList[index] }}
-                >
-                  {item.render && typeof item.render === 'function' ? item.render(item.value) : item.value}
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        ))}
+        <Spin spinning={detailLoading}>
+          <div className="mb-2">
+            <ContractiveFilter
+              onChange={(value) => {
+                value.iteration && getDatail(value.iteration);
+              }}
+              conditions={[
+                {
+                  emptyText: i18n.t('common:All'),
+                  fixed: true,
+                  haveFilter: true,
+                  key: 'iteration',
+                  label: i18n.t('dop:iteration'),
+                  options: iterations.map((iteration) => ({ label: iteration.title, value: iteration.id })),
+                  type: 'select',
+                },
+              ]}
+            />
+          </div>
+          {fields.map((group, index) => (
+            <Row gutter={8} className="mb-4" key={index}>
+              {group.map((item) => (
+                <Col span={3} key={item.label}>
+                  <Card
+                    title={
+                      <span>
+                        <Tooltip title={item.label}>{item.label}</Tooltip>
+                        {item.tip ? (
+                          <Tooltip title={item.tip}>
+                            <ErdaIcon type="help" className="ml-2 align-middle mb-1" />
+                          </Tooltip>
+                        ) : (
+                          ''
+                        )}
+                      </span>
+                    }
+                    hoverable={!!item.url}
+                    onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
+                    className="text-center"
+                    headStyle={{ backgroundColor: cardColorList[index] }}
+                  >
+                    {item.render && typeof item.render === 'function' ? item.render(item.value) : item.value}
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          ))}
+        </Spin>
       </Drawer>
     </div>
   );
