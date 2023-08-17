@@ -15,7 +15,7 @@ import agent from 'agent';
 import { RES_BODY } from 'core/service';
 
 export interface Report {
-  projectID: string;
+  projectID: number;
   projectName: string;
   empProjectCode: string;
   budgetMandayTotal: number;
