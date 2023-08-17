@@ -18,7 +18,7 @@ import moment from 'moment';
 import { ColumnProps } from 'antd/lib/table';
 import { goTo } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
-import { ConfigurableFilter } from 'common';
+import { ConfigurableFilter, ErdaIcon } from 'common';
 import ErdaTable from 'common/components/table';
 import { getReports, Report } from 'dop/services';
 import RateSelect from './rate-select';
@@ -78,6 +78,9 @@ const ProjectReport = () => {
         }
       });
       setData(list.reverse()?.map((item) => ({ ...item, chart: item.chart.reverse() })));
+      setLoading(false);
+    } else {
+      setData([]);
       setLoading(false);
     }
   };
@@ -169,18 +172,21 @@ const ProjectReport = () => {
           value: detailData.requirementDoneRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:requirement done rate tip'),
         },
         {
           label: i18n.t('dop:requirement associated rate'),
           value: detailData.requirementAssociatedRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:requirement associated rate tip'),
         },
         {
           label: i18n.t('dop:requirement unassigned rate'),
           value: detailData.requirementUnassignedRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:requirement unassigned rate tip'),
         },
       ],
       [
@@ -196,12 +202,14 @@ const ProjectReport = () => {
           value: detailData.taskDoneRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:task done rate tip'),
         },
         {
           label: i18n.t('dop:task associated rate'),
           value: detailData.taskAssociatedRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:task associated rate tip'),
         },
       ],
       [
@@ -217,36 +225,42 @@ const ProjectReport = () => {
           value: detailData.bugDoneRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:bug undone rate tip'),
         },
         {
           label: i18n.t('dop:serious bug rate'),
           value: detailData.bugSeriousRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:serious bug rate tip'),
         },
         {
           label: i18n.t('dop:low level bug rate'),
           value: detailData.bugLowLevelRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:low level bug rate tip'),
         },
         {
           label: i18n.t('dop:demand design bug rate'),
           value: detailData.bugDemandDesignRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:demand design bug rate tip'),
         },
         {
           label: i18n.t('dop:online bug rate'),
           value: detailData.bugOnlineRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:online bug rate tip'),
         },
         {
           label: i18n.t('dop:reopen bug rate'),
           value: detailData.bugReopenRate,
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          tip: i18n.t('dop:reopen bug rate tip'),
         },
       ],
     ],
@@ -366,7 +380,18 @@ const ProjectReport = () => {
             {group.map((item) => (
               <Col span={3} key={item.label}>
                 <Card
-                  title={<Tooltip title={item.label}>{item.label}</Tooltip>}
+                  title={
+                    <span>
+                      <Tooltip title={item.label}>{item.label}</Tooltip>
+                      {item.tip ? (
+                        <Tooltip title={item.tip}>
+                          <ErdaIcon type="help" className="ml-2 align-middle mb-1" />
+                        </Tooltip>
+                      ) : (
+                        ''
+                      )}
+                    </span>
+                  }
                   hoverable={!!item.url}
                   onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
                   className="text-center"
