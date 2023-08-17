@@ -37,12 +37,12 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
     series: [
       {
         name: i18n.t('dop:work hours'),
-        data: data.map((item) => item.budgetMandayTotal),
+        data: data.map((item) => Number(item.budgetMandayTotal.toFixed(2))),
         type: 'line',
       },
       {
         name: i18n.t('dop:actual manday total'),
-        data: data.map((item) => item.actualMandayTotal),
+        data: data.map((item) => Number(item.actualMandayTotal.toFixed(2))),
         type: 'line',
       },
     ],

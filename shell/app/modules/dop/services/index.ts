@@ -20,7 +20,7 @@ export interface Report {
   empProjectCode: string;
   budgetMandayTotal: number;
   taskEstimatedManday: number;
-  actualMandayTotal: string;
+  actualMandayTotal: number;
   unfinishedAssigneeTotal: string;
   requirementTotal: string;
   requirementAssociatedRate: string;
