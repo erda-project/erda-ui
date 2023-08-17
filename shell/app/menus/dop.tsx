@@ -92,7 +92,7 @@ export const getDopMenu = () => {
           icon: <ErdaIcon type="yunweibaogao" />,
           text: i18n.t('dop:Project Report'),
           subtitle: i18n.t('dop:Project Report'),
-          show: orgPerm.dop.publisher.read.pass, // Use this permission point for now
+          show: orgPerm.dop.report.read.pass, // Use this permission point for now
         },
       ],
       (item) => item.show !== false,
