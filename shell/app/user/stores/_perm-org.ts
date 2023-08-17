@@ -53,6 +53,25 @@ export const orgPerm = {
         name: i18n.t('dop:view'),
       },
     },
+    report: {
+      name: i18n.t('dop:Project Report'),
+      read: {
+        pass: false,
+        role: [
+          'Manager',
+          'Support',
+          'Auditor',
+          'Dev',
+          'Ops',
+          'EdgeOps',
+          'DataManager',
+          'DataEngineer',
+          'PublisherManager',
+          'Reporter',
+        ],
+        name: i18n.t('dop:view'),
+      },
+    },
   },
   entryMsp: {
     pass: false,
@@ -147,6 +166,14 @@ export const orgPerm = {
       pass: false,
       role: ['Manager', 'Support'],
       name: i18n.t('user:view project management'),
+    },
+    report: {
+      name: i18n.t('dop:Project Report'),
+      read: {
+        pass: false,
+        role: ['Manager', 'Support'],
+        name: i18n.t('dop:view'),
+      },
     },
   },
 };

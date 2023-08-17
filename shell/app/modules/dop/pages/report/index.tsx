@@ -41,6 +41,10 @@ const ProjectReport = () => {
   });
 
   useEffect(() => {
+    init();
+  }, [filterData]);
+
+  const init = () => {
     const { projectName, empProjectCode, time, ...operations } = filterData;
     loadData({
       operations: Object.keys(operations)
@@ -54,7 +58,7 @@ const ProjectReport = () => {
         ...(empProjectCode ? [{ key: 'emp_project_code', val: empProjectCode, operation: '=' }] : []),
       ],
     });
-  }, [filterData]);
+  };
 
   const loadData = async (params: Obj) => {
     setLoading(true);
@@ -349,6 +353,7 @@ const ProjectReport = () => {
             },
           };
         }}
+        onReload={() => init()}
       />
       <Drawer
         title={i18n.t('dop:project report detail')}
@@ -361,7 +366,7 @@ const ProjectReport = () => {
             {group.map((item) => (
               <Col span={3} key={item.label}>
                 <Card
-                  title={item.label}
+                  title={<Tooltip title={item.label}>{item.label}</Tooltip>}
                   hoverable={!!item.url}
                   onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
                   className="text-center"
