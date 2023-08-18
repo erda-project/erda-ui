@@ -43,12 +43,12 @@ const ProjectReport = () => {
     time: [moment().subtract(7, 'day').startOf('day').valueOf(), moment().endOf('day').valueOf()],
   });
   const [iterations, setIterations] = useState<ITERATION.Detail[]>([]);
+  const [selectIterations, setSelectIterations] = useState<number[]>([]);
   const [detailLoading, setDetailLoading] = useState(false);
   const [states, setStates] = useState<ISSUE_WORKFLOW.IIssueStateItem[]>([]);
 
   useEffect(() => {
     init();
-    console.log(encode(`{"states":[4412,4538,4413,23376,4414,24797,4416],"assigneeIDs":["1001214"]}`));
   }, [filterData]);
 
   const init = () => {
@@ -127,7 +127,6 @@ const ProjectReport = () => {
   const getState = async () => {
     const { projectID } = detailData;
     const res = await getStatesByIssue({ projectID });
-    console.log(res);
     if (res.success) {
       setStates(res.data || []);
     }
@@ -175,8 +174,8 @@ const ProjectReport = () => {
     },
   ];
 
-  const fields = useMemo(
-    () => [
+  const fields = useMemo(() => {
+    return [
       [
         {
           label: i18n.t('default:Project name'),
@@ -214,7 +213,10 @@ const ProjectReport = () => {
           url: goTo.pages.issues,
           params: {
             projectId: detailData.projectID,
-            query: { tab: 'REQUIREMENT', issueFilter__urlQuery: encode(getAllTypeIssues(states, 'REQUIREMENT')) },
+            query: {
+              tab: 'REQUIREMENT',
+              issueFilter__urlQuery: encode(getIssuesStates(states, 'REQUIREMENT', selectIterations)),
+            },
           },
           render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
@@ -247,7 +249,7 @@ const ProjectReport = () => {
           url: goTo.pages.issues,
           params: {
             projectId: detailData.projectID,
-            query: { tab: 'TASK', issueFilter__urlQuery: encode(getAllTypeIssues(states, 'TASK')) },
+            query: { tab: 'TASK', issueFilter__urlQuery: encode(getIssuesStates(states, 'TASK', selectIterations)) },
           },
           render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
@@ -273,9 +275,15 @@ const ProjectReport = () => {
           url: goTo.pages.issues,
           params: {
             projectId: detailData.projectID,
-            query: { tab: 'BUG', issueFilter__urlQuery: encode(getAllTypeIssues(states, 'BUG')) },
+            query: {
+              tab: 'BUG',
+              issueFilter__urlQuery: encode(
+                getIssuesStates(states, 'BUG', selectIterations, ['OPEN', 'WORKING', 'RESOLVED', 'REOPEN', 'CLOSED']),
+              ),
+            },
           },
           render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
+          tip: i18n.t('dop:bug total tip'),
         },
         {
           label: i18n.t('dop:bug undone rate'),
@@ -283,7 +291,12 @@ const ProjectReport = () => {
           url: goTo.pages.issues,
           params: {
             projectId: detailData.projectID,
-            query: { tab: 'BUG', issueFilter__urlQuery: encode(getUndoneBugIssues(states)) },
+            query: {
+              tab: 'BUG',
+              issueFilter__urlQuery: encode(
+                getIssuesStates(states, 'BUG', selectIterations, ['OPEN', 'WORKING', 'REOPEN', 'RESOLVED']),
+              ),
+            },
           },
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
@@ -333,16 +346,18 @@ const ProjectReport = () => {
           url: goTo.pages.issues,
           params: {
             projectId: detailData.projectID,
-            query: { tab: 'BUG', issueFilter__urlQuery: encode(getReopenBugIssues(states)) },
+            query: {
+              tab: 'BUG',
+              issueFilter__urlQuery: encode(getIssuesStates(states, 'BUG', selectIterations, ['REOPEN'])),
+            },
           },
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
           tip: i18n.t('dop:reopen bug rate tip'),
         },
       ],
-    ],
-    [detailData, states],
-  );
+    ];
+  }, [detailData, states, selectIterations]);
 
   const filterConfig = [
     {
@@ -456,7 +471,10 @@ const ProjectReport = () => {
           <div className="mb-2">
             <ContractiveFilter
               onChange={(value) => {
-                value.iteration && getDatail(value.iteration);
+                if (value.iteration) {
+                  getDatail(value.iteration);
+                  setSelectIterations(value.iteration);
+                }
               }}
               conditions={[
                 {
@@ -477,11 +495,13 @@ const ProjectReport = () => {
                 <Col span={3} key={item.label}>
                   <Card
                     title={
-                      <span>
-                        <Tooltip title={item.label}>{item.label}</Tooltip>
+                      <span className="flex items-center">
+                        <Tooltip title={item.label} className={item.tip ? `truncate` : ''}>
+                          {item.label}
+                        </Tooltip>
                         {item.tip ? (
-                          <Tooltip title={item.tip}>
-                            <ErdaIcon type="help" className="ml-2 align-middle mb-1" />
+                          <Tooltip title={item.tip} className="flex-none w-[16px] ml-2">
+                            <ErdaIcon type="help" />
                           </Tooltip>
                         ) : (
                           ''
@@ -489,10 +509,7 @@ const ProjectReport = () => {
                       </span>
                     }
                     hoverable={!!item.url}
-                    onClick={() => {
-                      console.log(item.url);
-                      item.url && goTo(item.url, { ...item.params, jumpOut: true });
-                    }}
+                    onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
                     className="text-center"
                     headStyle={{ backgroundColor: cardColorList[index] }}
                   >
@@ -508,19 +525,14 @@ const ProjectReport = () => {
   );
 };
 
-const getAllTypeIssues = (states: ISSUE_WORKFLOW.IIssueStateItem[], type: string) => {
-  const list = states.filter((state) => state.issueType === type);
-  return `{"states":[${list.map((state) => state.stateID)}]}`;
-};
-
-const getUndoneBugIssues = (states: ISSUE_WORKFLOW.IIssueStateItem[]) => {
-  const list = states.filter((state) => state.issueType === 'BUG' && state.stateBelong !== 'CLOSED');
-  return `{"states":[${list.map((state) => state.stateID)}]}`;
-};
-
-const getReopenBugIssues = (states: ISSUE_WORKFLOW.IIssueStateItem[]) => {
-  const list = states.filter((state) => state.issueType === 'BUG' && state.stateBelong === 'REOPEN');
-  return `{"states":[${list.map((state) => state.stateID)}]}`;
+const getIssuesStates = (
+  states: ISSUE_WORKFLOW.IIssueStateItem[],
+  type: string,
+  iterations: number[],
+  belone?: string[],
+) => {
+  const list = states.filter((state) => state.issueType === type && (!belone || belone.includes(state.stateBelong)));
+  return `{"states":[${list.map((state) => state.stateID)}],"iterationIDs":[${iterations}]}`;
 };
 
 export default ProjectReport;
