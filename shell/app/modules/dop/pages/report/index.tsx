@@ -16,12 +16,14 @@ import { Drawer, Card, Col, Row, Tooltip, Spin } from 'antd';
 import i18n from 'i18n';
 import moment from 'moment';
 import { ColumnProps } from 'antd/lib/table';
+import { encode } from 'js-base64';
 import { goTo } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { ConfigurableFilter, ErdaIcon, ContractiveFilter } from 'common';
 import ErdaTable from 'common/components/table';
 import { getReports, Report } from 'dop/services';
 import { getProjectIterations } from 'project/services/project-iteration';
+import { getStatesByIssue } from 'project/services/issue-workflow';
 import RateSelect from './rate-select';
 import ChartColumn from './chart-column';
 
@@ -42,9 +44,11 @@ const ProjectReport = () => {
   });
   const [iterations, setIterations] = useState<ITERATION.Detail[]>([]);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [states, setStates] = useState<ISSUE_WORKFLOW.IIssueStateItem[]>([]);
 
   useEffect(() => {
     init();
+    console.log(encode(`{"states":[4412,4538,4413,23376,4414,24797,4416],"assigneeIDs":["1001214"]}`));
   }, [filterData]);
 
   const init = () => {
@@ -89,7 +93,10 @@ const ProjectReport = () => {
   };
 
   useEffect(() => {
-    detailData?.projectID && getIterations(detailData.projectID);
+    if (detailData?.projectID) {
+      getIterations(detailData.projectID);
+      getState();
+    }
   }, [detailData.projectID]);
 
   const getIterations = async (projectID: number) => {
@@ -115,6 +122,15 @@ const ProjectReport = () => {
       res.data && setDetailData(res.data[res.data.length - 1]);
     }
     setDetailLoading(false);
+  };
+
+  const getState = async () => {
+    const { projectID } = detailData;
+    const res = await getStatesByIssue({ projectID });
+    console.log(res);
+    if (res.success) {
+      setStates(res.data || []);
+    }
   };
 
   const columns: Array<ColumnProps<Report>> = [
@@ -195,8 +211,11 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:requirement total'),
           value: detailData.requirementTotal,
-          url: goTo.pages.requirementIssues,
-          params: { projectId: detailData.projectID },
+          url: goTo.pages.issues,
+          params: {
+            projectId: detailData.projectID,
+            query: { tab: 'REQUIREMENT', issueFilter__urlQuery: encode(getAllTypeIssues(states, 'REQUIREMENT')) },
+          },
           render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
@@ -225,8 +244,11 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:task total'),
           value: detailData.taskTotal,
-          url: goTo.pages.taskIssues,
-          params: { projectId: detailData.projectID },
+          url: goTo.pages.issues,
+          params: {
+            projectId: detailData.projectID,
+            query: { tab: 'TASK', issueFilter__urlQuery: encode(getAllTypeIssues(states, 'TASK')) },
+          },
           render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
@@ -248,13 +270,21 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:bug total'),
           value: detailData.bugTotal,
-          url: goTo.pages.bugIssues,
-          params: { projectId: detailData.projectID },
+          url: goTo.pages.issues,
+          params: {
+            projectId: detailData.projectID,
+            query: { tab: 'BUG', issueFilter__urlQuery: encode(getAllTypeIssues(states, 'BUG')) },
+          },
           render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
         },
         {
           label: i18n.t('dop:bug undone rate'),
           value: detailData.bugDoneRate,
+          url: goTo.pages.issues,
+          params: {
+            projectId: detailData.projectID,
+            query: { tab: 'BUG', issueFilter__urlQuery: encode(getUndoneBugIssues(states)) },
+          },
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
           tip: i18n.t('dop:bug undone rate tip'),
@@ -262,6 +292,11 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:serious bug rate'),
           value: detailData.bugSeriousRate,
+          url: goTo.pages.issues,
+          params: {
+            projectId: detailData.projectID,
+            query: { tab: 'BUG', issueFilter__urlQuery: encode(`{"severities":["FATAL","SERIOUS"]}`) },
+          },
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
           tip: i18n.t('dop:serious bug rate tip'),
@@ -276,6 +311,11 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:demand design bug rate'),
           value: detailData.bugDemandDesignRate,
+          url: goTo.pages.issues,
+          params: {
+            projectId: detailData.projectID,
+            query: { tab: 'BUG', issueFilter__urlQuery: encode(`{"bugStages":["demandDesign"]}`) },
+          },
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
           tip: i18n.t('dop:demand design bug rate tip'),
@@ -290,13 +330,18 @@ const ProjectReport = () => {
         {
           label: i18n.t('dop:reopen bug rate'),
           value: detailData.bugReopenRate,
+          url: goTo.pages.issues,
+          params: {
+            projectId: detailData.projectID,
+            query: { tab: 'BUG', issueFilter__urlQuery: encode(getReopenBugIssues(states)) },
+          },
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
           tip: i18n.t('dop:reopen bug rate tip'),
         },
       ],
     ],
-    [detailData],
+    [detailData, states],
   );
 
   const filterConfig = [
@@ -311,7 +356,7 @@ const ProjectReport = () => {
     },
     {
       label: i18n.t('dop:bug undone rate'),
-      key: 'bugUndoneRate',
+      key: 'bugDoneRate',
       type: 'custom',
       getComp: () => {
         return <RateSelect />;
@@ -444,7 +489,10 @@ const ProjectReport = () => {
                       </span>
                     }
                     hoverable={!!item.url}
-                    onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
+                    onClick={() => {
+                      console.log(item.url);
+                      item.url && goTo(item.url, { ...item.params, jumpOut: true });
+                    }}
                     className="text-center"
                     headStyle={{ backgroundColor: cardColorList[index] }}
                   >
@@ -458,6 +506,21 @@ const ProjectReport = () => {
       </Drawer>
     </div>
   );
+};
+
+const getAllTypeIssues = (states: ISSUE_WORKFLOW.IIssueStateItem[], type: string) => {
+  const list = states.filter((state) => state.issueType === type);
+  return `{"states":[${list.map((state) => state.stateID)}]}`;
+};
+
+const getUndoneBugIssues = (states: ISSUE_WORKFLOW.IIssueStateItem[]) => {
+  const list = states.filter((state) => state.issueType === 'BUG' && state.stateBelong !== 'CLOSED');
+  return `{"states":[${list.map((state) => state.stateID)}]}`;
+};
+
+const getReopenBugIssues = (states: ISSUE_WORKFLOW.IIssueStateItem[]) => {
+  const list = states.filter((state) => state.issueType === 'BUG' && state.stateBelong === 'REOPEN');
+  return `{"states":[${list.map((state) => state.stateID)}]}`;
 };
 
 export default ProjectReport;

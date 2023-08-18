@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { RES_BODY } from 'core/service';
 
 export const getIssueList = (query: { projectID: number }): ISSUE_WORKFLOW.IIssueItem[] => {
   return agent
@@ -20,7 +21,7 @@ export const getIssueList = (query: { projectID: number }): ISSUE_WORKFLOW.IIssu
     .then((response: any) => response.body);
 };
 
-export const getStatesByIssue = (query: ISSUE_WORKFLOW.IStateQuery): ISSUE_WORKFLOW.IIssueStateItem[] => {
+export const getStatesByIssue = (query: ISSUE_WORKFLOW.IStateQuery): RES_BODY<ISSUE_WORKFLOW.IIssueStateItem> => {
   return agent
     .get('/api/issues/actions/get-state-relations')
     .query(query)
