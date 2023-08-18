@@ -21,7 +21,7 @@ export const getIssueList = (query: { projectID: number }): ISSUE_WORKFLOW.IIssu
     .then((response: any) => response.body);
 };
 
-export const getStatesByIssue = (query: ISSUE_WORKFLOW.IStateQuery): RES_BODY<ISSUE_WORKFLOW.IIssueStateItem> => {
+export const getStatesByIssue = (query: ISSUE_WORKFLOW.IStateQuery): RES_BODY<ISSUE_WORKFLOW.IIssueStateItem[]> => {
   return agent
     .get('/api/issues/actions/get-state-relations')
     .query(query)
