@@ -308,7 +308,10 @@ const ProjectReport = () => {
           url: goTo.pages.issues,
           params: {
             projectId: detailData.projectID,
-            query: { tab: 'BUG', issueFilter__urlQuery: encode(`{"severities":["FATAL","SERIOUS"]}`) },
+            query: {
+              tab: 'BUG',
+              issueFilter__urlQuery: encode(`{"severities":["FATAL","SERIOUS"],"iterationIDs":[${selectIterations}]}`),
+            },
           },
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
@@ -327,7 +330,10 @@ const ProjectReport = () => {
           url: goTo.pages.issues,
           params: {
             projectId: detailData.projectID,
-            query: { tab: 'BUG', issueFilter__urlQuery: encode(`{"bugStages":["demandDesign"]}`) },
+            query: {
+              tab: 'BUG',
+              issueFilter__urlQuery: encode(`{"bugStages":["demandDesign"],"iterationIDs":[${selectIterations}]}`),
+            },
           },
           render: (text: number) =>
             text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
