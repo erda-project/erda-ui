@@ -33,7 +33,7 @@ interface listItem extends Report {
 
 const cardColorList = [undefined, '#16c2c3', '#697fff', '#f3b519'];
 
-const ProjectReport = () => {
+const ProjectReport = ({ route }: { route: { path: string } }) => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const [data, setData] = useState<Report[]>([]);
   const [visible, setVisible] = useState(false);
@@ -71,6 +71,7 @@ const ProjectReport = () => {
     setLoading(true);
     const payload = {
       orgId,
+      isAdmin: route?.path?.indexOf?.('orgCenter') !== -1,
       ...params,
     };
     const res = await getReports(payload);
