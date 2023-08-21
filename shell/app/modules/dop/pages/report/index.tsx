@@ -136,6 +136,12 @@ const ProjectReport = () => {
     {
       title: i18n.t('default:Project name'),
       dataIndex: 'projectName',
+      render: (text, record) => (
+        <div>
+          <div className="erda-table-td-title">{record.projectDisplayName || '-'}</div>
+          <div className="text-sub leading-none text-xs">{text}</div>
+        </div>
+      ),
     },
     {
       title: `EMP ${i18n.t('default:Project code')}`,

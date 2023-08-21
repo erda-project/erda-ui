@@ -38,6 +38,7 @@ export interface Report {
   requirementDoneRate: string;
   timestamp: string;
   bugDoneRate: string;
+  projectDisplayName: string;
 }
 
 export const getAddons = (query: {
