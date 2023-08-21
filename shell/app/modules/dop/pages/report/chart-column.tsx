@@ -45,6 +45,14 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
         data: data.map((item) => Number(item.actualMandayTotal.toFixed(2))),
         type: 'line',
       },
+      {
+        name: i18n.t('dop:task estimated manday'),
+        data: data.map((item) => Number(item.taskEstimatedManday.toFixed(2))),
+        type: 'line',
+        lineStyle: {
+          type: 'dashed',
+        },
+      },
     ],
   };
 
@@ -54,7 +62,7 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
       name: i18n.t('dop:man day'),
     },
     legend: {
-      data: [i18n.t('dop:work hours'), i18n.t('dop:actual manday total')],
+      data: [i18n.t('dop:work hours'), i18n.t('dop:actual manday total'), i18n.t('dop:task estimated manday')],
       right: 10,
     },
     tooltip: {

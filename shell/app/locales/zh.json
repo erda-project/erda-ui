@@ -2028,6 +2028,7 @@
     "task description": "任务描述",
     "task done rate": "任务完成进度",
     "task done rate tip": "已完成任务 + 已关闭任务 / 任务总数",
+    "task estimated manday": "项目预估人日",
     "task name": "任务名称",
     "task params": "任务参数",
     "task total": "任务总数",
