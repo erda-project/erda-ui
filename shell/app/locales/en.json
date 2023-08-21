@@ -2028,6 +2028,7 @@
     "task description": "task description",
     "task done rate": "task done rate",
     "task done rate tip": "completed tasks + closed tasks / total number of tasks",
+    "task estimated manday": "task estimated manday",
     "task name": "task name",
     "task params": "task params",
     "task total": "task total",
