@@ -28,8 +28,16 @@ export const getDopMenu = () => {
           key: 'projects',
           href: goTo.resolve.dopRoot(), // '/dop/projects',
           icon: <ErdaIcon type="xiangmuguanli" />,
-          text: i18n.t('dop:Projects'),
+          text: i18n.t('default:projects'),
           subtitle: i18n.t('Project'),
+        },
+        {
+          key: 'Project statement',
+          href: goTo.resolve.dopReport(), // '/dop/report',
+          icon: <ErdaIcon type="yunweibaogao" />,
+          text: i18n.t('dop:Project Report'),
+          subtitle: i18n.t('dop:Project Report'),
+          show: orgPerm.dop.report.read.pass, // Use this permission point for now
         },
         {
           icon: <ErdaIcon type="apisheji" />,
@@ -85,14 +93,6 @@ export const getDopMenu = () => {
           text: i18n.t('publisher:My Release'),
           subtitle: i18n.t('Release'),
           show: orgPerm.dop.publisher.read.pass,
-        },
-        {
-          key: 'Project statement',
-          href: goTo.resolve.dopReport(), // '/dop/report',
-          icon: <ErdaIcon type="yunweibaogao" />,
-          text: i18n.t('dop:Project Report'),
-          subtitle: i18n.t('dop:Project Report'),
-          show: orgPerm.dop.report.read.pass, // Use this permission point for now
         },
       ],
       (item) => item.show !== false,

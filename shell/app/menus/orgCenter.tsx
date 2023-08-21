@@ -34,6 +34,14 @@ export const getOrgCenterMenu = () => {
           show: orgPerm.orgCenter.viewProjects.pass,
         },
         {
+          key: 'Project statement',
+          href: goTo.resolve.orgReport(), // '/orgCenter/report',
+          icon: <ErdaIcon type="yunweibaogao" />,
+          text: i18n.t('dop:Project Report'),
+          subtitle: i18n.t('dop:Project Report'),
+          show: orgPerm.orgCenter.report.read.pass, // Use this permission point for now
+        },
+        {
           key: 'orgMarket',
           href: goTo.resolve.orgCenterPublisherSetting(),
           icon: <ErdaIcon type="yidongkaifa" />,
@@ -65,14 +73,6 @@ export const getOrgCenterMenu = () => {
           text: i18n.t('Settings-org'),
           subtitle: i18n.t('Org'),
           show: orgPerm.orgCenter.viewSetting.pass,
-        },
-        {
-          key: 'Project statement',
-          href: goTo.resolve.orgReport(), // '/orgCenter/report',
-          icon: <ErdaIcon type="yunweibaogao" />,
-          text: i18n.t('dop:Project Report'),
-          subtitle: i18n.t('dop:Project Report'),
-          show: orgPerm.orgCenter.report.read.pass, // Use this permission point for now
         },
       ],
       (item) => item.show !== false,
