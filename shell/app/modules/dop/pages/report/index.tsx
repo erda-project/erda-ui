@@ -472,6 +472,7 @@ const ProjectReport = () => {
         visible={visible}
         width="90%"
         onClose={() => setVisible(false)}
+        destroyOnClose
       >
         <Spin spinning={detailLoading}>
           <div className="mb-2">
@@ -480,6 +481,9 @@ const ProjectReport = () => {
                 if (value.iteration) {
                   getDatail(value.iteration);
                   setSelectIterations(value.iteration);
+                } else {
+                  getDatail([]);
+                  setSelectIterations([]);
                 }
               }}
               conditions={[
