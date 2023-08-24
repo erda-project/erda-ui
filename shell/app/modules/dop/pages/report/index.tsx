@@ -62,7 +62,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
       end: moment(time[1]).format('YYYY-MM-DD HH:mm:ss'),
       labelQuerys: [
         ...(projectName ? [{ key: 'project_name', val: projectName, operation: 'like' }] : []),
-        ...(empProjectCode ? [{ key: 'emp_project_code', val: empProjectCode, operation: '=' }] : []),
+        ...(empProjectCode ? [{ key: 'emp_project_code', val: empProjectCode, operation: 'like' }] : []),
       ],
     });
   };
@@ -517,7 +517,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
                           {item.label}
                         </Tooltip>
                         {item.tip ? (
-                          <Tooltip title={item.tip} className="flex-none w-[16px] ml-2">
+                          <Tooltip title={item.tip} className="flex-none w-[12px] ml-2">
                             <ErdaIcon type="help" />
                           </Tooltip>
                         ) : (
@@ -528,7 +528,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
                     hoverable={!!item.url}
                     onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
                     className="text-center"
-                    headStyle={{ backgroundColor: cardColorList[index] }}
+                    headStyle={{ backgroundColor: cardColorList[index], padding: '0 16px' }}
                   >
                     {item.render && typeof item.render === 'function' ? item.render(item.value) : item.value}
                   </Card>
