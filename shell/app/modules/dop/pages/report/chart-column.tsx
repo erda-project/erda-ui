@@ -32,7 +32,7 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
     grid: {
       bottom: 20,
       right: 10,
-      top: 10,
+      top: 50,
     },
     series: [
       {
