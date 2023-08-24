@@ -478,7 +478,11 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
         title={i18n.t('dop:project report detail')}
         visible={visible}
         width="90%"
-        onClose={() => setVisible(false)}
+        onClose={() => {
+          setVisible(false);
+          getDatail([]);
+          setSelectIterations([]);
+        }}
         destroyOnClose
       >
         <Spin spinning={detailLoading}>
