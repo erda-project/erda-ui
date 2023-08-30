@@ -55,12 +55,7 @@ const DefaultOp = ({ index, className = '', deleteIndex, ...rest }: any) => {
   return rest.disabled ? (
     <ErdaIcon type="delete1" className={`not-allowed ${className} mt-2.5`} {...rest} />
   ) : (
-    <ErdaIcon
-      type="delete1"
-      className={`${className} mt-2.5`}
-      onClick={() => deleteIndex(index)}
-      {...rest}
-    />
+    <ErdaIcon type="delete1" className={`${className} mt-2.5`} onClick={() => deleteIndex(index)} {...rest} />
   );
 };
 const getEmpty = (keyName: string, valueName: string, descName: string, keyDesc: string) => ({
