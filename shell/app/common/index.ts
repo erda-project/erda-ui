@@ -82,7 +82,7 @@ export { default as FilterGroup } from './components/filter-group';
 export { default as TimeSelector } from './components/monitor';
 export { default as TimeSelect } from './components/time-select';
 export { default as SimpleLog } from './components/simple-log';
-export { default as KVPair } from './components/k-v-pair';
+export { default as KVPair } from './components/kv-pair';
 export { default as Filter } from './components/filter';
 export { default as ContractiveFilter } from './components/contractive-filter';
 export { default as ConfigurableFilter } from './components/configurable-filter';
