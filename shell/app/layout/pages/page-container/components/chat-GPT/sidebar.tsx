@@ -12,8 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useEffect, useState } from 'react';
-import { Menu, Button, Modal, Form, Input, InputNumber, message } from 'antd';
+import { Menu, Button, Modal, Form, Input, InputNumber, message, Tooltip, Radio } from 'antd';
 import { ErdaIcon } from 'common';
+import i18n from 'i18n';
 import userStore from 'app/user/stores';
 import { getSessions, addSessions } from 'layout/services/ai-chat';
 
@@ -80,18 +81,32 @@ const Sidebar = ({ onChange }: { onChange: (current: string) => void }) => {
         }}
         onOk={newChat}
       >
-        <Form form={form}>
-          <Form.Item label={<span className="w-[80px]">会话名称</span>} name="name">
+        <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+          <Form.Item rules={[{ required: true }]} label={i18n.t('dop:session name')} name="name">
             <Input />
           </Form.Item>
-          <Form.Item label={<span className="w-[80px]">会话主题</span>} name="topic">
+          <Form.Item rules={[{ required: true }]} label={i18n.t('dop:session topic')} name="topic">
             <Input.TextArea />
           </Form.Item>
-          <Form.Item label={<span className="w-[80px]">上下文长度</span>} name="contextLength" initialValue={10}>
+          <Form.Item
+            rules={[{ required: true }]}
+            label={i18n.t('dop:context length')}
+            name="contextLength"
+            initialValue={10}
+          >
             <InputNumber />
           </Form.Item>
-          <Form.Item label={<span className="w-[80px]">温度</span>} name="temperature" initialValue={0.7}>
-            <InputNumber min={0} max={2} />
+          <Form.Item
+            label={i18n.t('dop:answer content')}
+            name="temperature"
+            initialValue={1}
+            rules={[{ required: true }]}
+          >
+            <Radio.Group>
+              <Radio value={2}>{i18n.t('dop:more creative')}</Radio>
+              <Radio value={1}>{i18n.t('dop:more balanced')}</Radio>
+              <Radio value={0}>{i18n.t('dop:more accurate')}</Radio>
+            </Radio.Group>
           </Form.Item>
         </Form>
       </Modal>

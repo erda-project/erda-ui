@@ -21,7 +21,7 @@ import Sidebar from './sidebar';
 import { ChatProvider, Chat as TChart } from '@terminus/ai-components';
 import { erdaEnv } from 'common/constants';
 
-const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL;
+const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.daily.terminus.io';
 
 const ChatGPT = () => {
   const [visible, setVisible] = useState(false);

@@ -64,7 +64,7 @@ interface ResetSessionPayload {
   id: number;
 }
 
-const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL;
+const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.daily.terminus.io';
 
 export const getSessions = (params: IGetSessionsParams): RAW_RESPONSE<ISessions> => {
   const { userId, name, phone, email } = params;
