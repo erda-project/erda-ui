@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { Drawer, Card, Col, Row, Tooltip, Spin } from 'antd';
+import { Drawer, Card, Col, Row, Tooltip, Spin, Progress } from 'antd';
 import i18n from 'i18n';
 import moment from 'moment';
 import { ColumnProps } from 'antd/lib/table';
@@ -225,27 +225,49 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               issueFilter__urlQuery: encode(getIssuesStates(states, 'REQUIREMENT', selectIterations)),
             },
           },
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
+          render: (text: number) => (
+            <span className="flex items-center justify-center h-[120px]">
+              {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
+            </span>
+          ),
         },
         {
           label: i18n.t('dop:requirement done rate'),
           value: detailData.requirementDoneRate,
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:requirement done rate tip'),
         },
         {
           label: i18n.t('dop:requirement associated rate'),
           value: detailData.requirementAssociatedRate,
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:requirement associated rate tip'),
         },
         {
           label: i18n.t('dop:requirement unassigned rate'),
           value: detailData.requirementUnassignedRate,
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:requirement unassigned rate tip'),
         },
       ],
@@ -258,20 +280,36 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             projectId: detailData.projectID,
             query: { tab: 'TASK', issueFilter__urlQuery: encode(getIssuesStates(states, 'TASK', selectIterations)) },
           },
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
+          render: (text: number) => (
+            <span className="flex items-center justify-center h-[120px]">
+              {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
+            </span>
+          ),
         },
         {
           label: i18n.t('dop:task done rate'),
           value: detailData.taskDoneRate,
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:task done rate tip'),
         },
         {
           label: i18n.t('dop:task associated rate'),
           value: detailData.taskAssociatedRate,
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:task associated rate tip'),
         },
       ],
@@ -289,7 +327,11 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               ),
             },
           },
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
+          render: (text: number) => (
+            <span className="flex items-center justify-center h-[120px]">
+              {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
+            </span>
+          ),
           tip: i18n.t('dop:bug total tip'),
         },
         {
@@ -305,8 +347,14 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               ),
             },
           },
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:bug undone rate tip'),
         },
         {
@@ -320,15 +368,27 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               issueFilter__urlQuery: encode(`{"severities":["FATAL","SERIOUS"],"iterationIDs":[${selectIterations}]}`),
             },
           },
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:serious bug rate tip'),
         },
         {
           label: i18n.t('dop:low level bug rate'),
           value: detailData.bugLowLevelRate,
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:low level bug rate tip'),
         },
         {
@@ -342,15 +402,27 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               issueFilter__urlQuery: encode(`{"bugStages":["demandDesign"],"iterationIDs":[${selectIterations}]}`),
             },
           },
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:demand design bug rate tip'),
         },
         {
           label: i18n.t('dop:online bug rate'),
           value: detailData.bugOnlineRate,
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:online bug rate tip'),
         },
         {
@@ -364,8 +436,14 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               issueFilter__urlQuery: encode(getIssuesStates(states, 'BUG', selectIterations, ['REOPEN'])),
             },
           },
-          render: (text: number) =>
-            text ? <Tooltip title={`${text * 100}%`}>{(text * 100).toFixed(2)}%</Tooltip> : '0',
+          render: (text: number) => (
+            <Progress
+              size="small"
+              percent={text ? Number((text * 100).toFixed(2)) : 0}
+              type="dashboard"
+              gapDegree={120}
+            />
+          ),
           tip: i18n.t('dop:reopen bug rate tip'),
         },
       ],
@@ -511,9 +589,9 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             />
           </div>
           {fields.map((group, index) => (
-            <Row gutter={8} className="mb-4" key={index}>
+            <Row gutter={[8, 16]} className="mb-4" key={index}>
               {group.map((item) => (
-                <Col span={3} key={item.label}>
+                <Col span={4} key={item.label}>
                   <Card
                     title={
                       <span className="flex items-center">
@@ -529,9 +607,8 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
                         )}
                       </span>
                     }
-                    hoverable={!!item.url}
                     onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}
-                    className="text-center"
+                    className={`text-center ${!!item.url && 'shadow-card-lg cursor-pointer'}`}
                     headStyle={{ backgroundColor: cardColorList[index], padding: '0 16px' }}
                   >
                     {item.render && typeof item.render === 'function' ? item.render(item.value) : item.value}
