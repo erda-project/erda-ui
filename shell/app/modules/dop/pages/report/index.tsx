@@ -195,22 +195,30 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
         {
           label: i18n.t('dop:work hours'),
           value: detailData.budgetMandayTotal,
-          render: (text: number) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'),
+          render: (text: number) => (
+            <span className="text-2xl">{text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'}</span>
+          ),
         },
         {
           label: i18n.t('dop:estimated work hours'),
           value: detailData.taskEstimatedManday,
-          render: (text: number) => (text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'),
+          render: (text: number) => (
+            <span className="text-2xl">{text ? <Tooltip title={text}>{text.toFixed(2)}</Tooltip> : '0'}</span>
+          ),
         },
         {
           label: i18n.t('dop:actual manday total'),
           value: detailData.actualMandayTotal,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
+          render: (text: number) => (
+            <span className="text-2xl">{text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}</span>
+          ),
         },
         {
           label: i18n.t('dop:unfinished assignee total'),
           value: detailData.unfinishedAssigneeTotal,
-          render: (text: number) => (text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'),
+          render: (text: number) => (
+            <span className="text-2xl">{text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}</span>
+          ),
         },
       ],
       [
@@ -226,7 +234,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             },
           },
           render: (text: number) => (
-            <span className="flex items-center justify-center h-[120px]">
+            <span className="flex items-center justify-center h-[120px] text-2xl">
               {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
             </span>
           ),
@@ -281,7 +289,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             query: { tab: 'TASK', issueFilter__urlQuery: encode(getIssuesStates(states, 'TASK', selectIterations)) },
           },
           render: (text: number) => (
-            <span className="flex items-center justify-center h-[120px]">
+            <span className="flex items-center justify-center h-[120px] text-2xl">
               {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
             </span>
           ),
@@ -328,7 +336,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             },
           },
           render: (text: number) => (
-            <span className="flex items-center justify-center h-[120px]">
+            <span className="flex items-center justify-center h-[120px] text-2xl">
               {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
             </span>
           ),
@@ -611,7 +619,11 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
                     className={`text-center ${!!item.url && 'shadow-card-lg cursor-pointer'}`}
                     headStyle={{ backgroundColor: cardColorList[index], padding: '0 16px' }}
                   >
-                    {item.render && typeof item.render === 'function' ? item.render(item.value) : item.value}
+                    {item.render && typeof item.render === 'function' ? (
+                      item.render(item.value)
+                    ) : (
+                      <span className="text-2xl">{item.value}</span>
+                    )}
                   </Card>
                 </Col>
               ))}

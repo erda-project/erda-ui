@@ -32,8 +32,6 @@ const ChatGPT = () => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const [list, setList] = useState<Array<{ time: string; content: string; role: string }>>([]);
 
-  console.log(currentChat);
-
   useEffect(() => {
     if (currentChat) {
       setList([]);
