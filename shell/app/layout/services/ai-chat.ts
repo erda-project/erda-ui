@@ -54,6 +54,8 @@ interface GetLogsPayload {
 interface Log {
   prompt: string;
   completion: string;
+  requestAt: string;
+  responseAt: string;
 }
 
 interface ResetSessionPayload {
