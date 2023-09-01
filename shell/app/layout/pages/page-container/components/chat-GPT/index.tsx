@@ -11,15 +11,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { encode } from 'js-base64';
 import { Modal } from 'antd';
+import moment from 'moment';
 import { ErdaIcon as CustomIcon } from 'common';
 import userStore from 'app/user/stores';
 import orgStore from 'app/org-home/stores/org';
 import Sidebar from './sidebar';
 import { ChatProvider, Chat as TChart } from '@terminus/ai-components';
 import { erdaEnv } from 'common/constants';
+import { getLogs } from 'layout/services/ai-chat';
 
 const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.daily.terminus.io';
 
@@ -28,6 +30,33 @@ const ChatGPT = () => {
   const [currentChat, setCurrentChat] = useState<number>();
   const { id: userId, nick: name, phone, email } = userStore.getState((s) => s.loginUser);
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  const [list, setList] = useState<Array<{ time: string; content: string; role: string }>>([]);
+
+  useEffect(() => {
+    if (currentChat) {
+      setList([]);
+      loadLogs(currentChat);
+    }
+  }, [currentChat]);
+
+  const loadLogs = async (chatId: number) => {
+    const res = await getLogs({ userId, name, phone, email, id: chatId });
+    if (res.success) {
+      const {
+        data: { list: _list },
+      } = res;
+      const messages = [] as Array<{ time: string; content: string; role: string }>;
+      _list.reverse().forEach((item) => {
+        messages.push({ role: 'user', content: item.prompt, time: moment(item.requestAt).format('YYYY-MM-DD') });
+        messages.push({
+          role: 'assistant',
+          content: item.completion,
+          time: moment(item.responseAt).format('YYYY-MM-DD'),
+        });
+      });
+      setList(messages);
+    }
+  };
 
   return (
     <>
@@ -82,6 +111,7 @@ const ChatGPT = () => {
                   promptConfig: { show: false },
                   chatConfig: { show: false },
                 }}
+                messages={list}
               />
             </ChatProvider>
           </div>
