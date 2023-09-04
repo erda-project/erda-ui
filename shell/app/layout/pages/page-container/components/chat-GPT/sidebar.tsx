@@ -12,13 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useEffect, useState } from 'react';
-import { Menu, Button, Modal, Form, Input, InputNumber, message, Tooltip, Radio } from 'antd';
+import { Menu, Button, Modal, Form, Input, InputNumber, message, Radio } from 'antd';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import userStore from 'app/user/stores';
-import { getSessions, addSessions } from 'layout/services/ai-chat';
+import { getSessions, addSessions, resetSession } from 'layout/services/ai-chat';
 
-const Sidebar = ({ onChange }: { onChange: (current: string) => void }) => {
+const Sidebar = ({
+  onChange,
+  resetMessage,
+}: {
+  onChange: (current: string) => void;
+  resetMessage: (id: string) => void;
+}) => {
   const [form] = Form.useForm();
   const { id: userId, nick: name, phone, email } = userStore.getState((s) => s.loginUser);
   const [items, setItems] = useState<Array<{ key: string; label: string }>>([]);
@@ -52,6 +58,18 @@ const Sidebar = ({ onChange }: { onChange: (current: string) => void }) => {
     }
   };
 
+  const reset = async (id: string) => {
+    if (!id) {
+      return;
+    }
+    const res = await resetSession({ userId, name, phone, email, id });
+
+    if (res.success) {
+      resetMessage(id);
+      message.success(i18n.t('{action} successfully', { action: i18n.t('reset') }));
+    }
+  };
+
   return (
     <div className="w-[256px] flex-none flex flex-col border-right">
       <div className="flex items-center pl-6 pr-2">
@@ -69,7 +87,27 @@ const Sidebar = ({ onChange }: { onChange: (current: string) => void }) => {
         }}
       >
         {items.map((item) => (
-          <Menu.Item key={item.key}>{item.label}</Menu.Item>
+          <Menu.Item key={item.key} className="group">
+            <div className="flex items-center">
+              <span className="flex-1">{item.label}</span>
+              <ErdaIcon
+                type="zhongzhi"
+                className="text-xl cursor-pointer flex-none hidden group-hover:inline h-[20px]"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  Modal.confirm({
+                    title: i18n.t('cmp:are you sure you want to reset?'),
+                    onOk() {
+                      reset(item.key);
+                    },
+                    onCancel() {
+                      console.log('Cancel');
+                    },
+                  });
+                }}
+              />
+            </div>
+          </Menu.Item>
         ))}
       </Menu>
       <Modal

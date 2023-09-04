@@ -48,7 +48,7 @@ interface GetLogsPayload {
   name: string;
   phone: string;
   email: string;
-  id: number;
+  id: string;
 }
 
 interface Log {
@@ -63,7 +63,7 @@ interface ResetSessionPayload {
   name: string;
   phone: string;
   email: string;
-  id: number;
+  id: string;
 }
 
 const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.daily.terminus.io';
