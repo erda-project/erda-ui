@@ -27,7 +27,7 @@ const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.daily.terminu
 
 const ChatGPT = () => {
   const [visible, setVisible] = useState(false);
-  const [currentChat, setCurrentChat] = useState<number>();
+  const [currentChat, setCurrentChat] = useState<string>();
   const { id: userId, nick: name, phone, email } = userStore.getState((s) => s.loginUser);
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const [list, setList] = useState<Array<{ time: string; content: string; role: string }>>([]);
@@ -39,7 +39,7 @@ const ChatGPT = () => {
     }
   }, [currentChat]);
 
-  const loadLogs = async (chatId: number) => {
+  const loadLogs = async (chatId: string) => {
     const res = await getLogs({ userId, name, phone, email, id: chatId });
     if (res.success) {
       const {
@@ -58,6 +58,12 @@ const ChatGPT = () => {
     }
   };
 
+  const reset = (id: string) => {
+    if (id === currentChat) {
+      setList([]);
+    }
+  };
+
   return (
     <>
       <div
@@ -68,7 +74,7 @@ const ChatGPT = () => {
       </div>
       <Modal visible={visible} width="60%" onCancel={() => setVisible(false)} footer={false} bodyStyle={{ padding: 0 }}>
         <div className="flex" style={{ height: '80vh' }}>
-          <Sidebar onChange={setCurrentChat} />
+          <Sidebar onChange={setCurrentChat} resetMessage={reset} />
 
           <div className="flex-1">
             <ChatProvider>
