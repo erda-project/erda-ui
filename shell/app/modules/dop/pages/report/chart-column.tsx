@@ -21,6 +21,8 @@ import { Report } from 'dop/services';
 const ChartColumn = ({ data }: { data: Report[] }) => {
   const [visible, setVisible] = useState(false);
 
+  const lastItem = data[data.length - 1];
+
   const option = {
     xAxis: {
       type: 'category',
@@ -53,6 +55,28 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
           type: 'dashed',
         },
       },
+      ...(lastItem && lastItem.budgetMandayTotal && lastItem.beginDate && (lastItem.actualEndDate || lastItem.endDate)
+        ? [
+            {
+              name: i18n.t('dop:emp estimated manday'),
+              data: () => {
+                let data = [];
+                const start = Number(lastItem.beginDate);
+                const end = Number(lastItem.actualEndDate || lastItem.endDate);
+                const value = lastItem.budgetMandayTotal;
+
+                for (let i = -200; i <= 200; i += 0.1) {
+                  data.push([i, value / (start - end)]);
+                }
+                return data;
+              },
+              type: 'line',
+              lineStyle: {
+                type: 'dashed',
+              },
+            },
+          ]
+        : []),
     ],
   };
 
@@ -62,7 +86,12 @@ const ChartColumn = ({ data }: { data: Report[] }) => {
       name: i18n.t('dop:man day'),
     },
     legend: {
-      data: [i18n.t('dop:work hours'), i18n.t('dop:actual manday total'), i18n.t('dop:task estimated manday')],
+      data: [
+        i18n.t('dop:work hours'),
+        i18n.t('dop:actual manday total'),
+        i18n.t('dop:task estimated manday'),
+        i18n.t('dop:emp estimated manday'),
+      ],
       right: 10,
     },
     tooltip: {

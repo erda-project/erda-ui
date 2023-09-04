@@ -230,7 +230,13 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             projectId: detailData.projectID,
             query: {
               tab: 'REQUIREMENT',
-              issueFilter__urlQuery: encode(getIssuesStates(states, 'REQUIREMENT', selectIterations)),
+              issueFilter__urlQuery: encode(
+                getIssuesStates(
+                  states,
+                  'REQUIREMENT',
+                  selectIterations.length ? selectIterations : iterations.map((item) => item.id),
+                ),
+              ),
             },
           },
           render: (text: number) => (
@@ -248,6 +254,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [30, 80])}
             />
           ),
           tip: i18n.t('dop:requirement done rate tip'),
@@ -261,6 +268,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [20, 80])}
             />
           ),
           tip: i18n.t('dop:requirement associated rate tip'),
@@ -286,7 +294,16 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
           url: goTo.pages.issues,
           params: {
             projectId: detailData.projectID,
-            query: { tab: 'TASK', issueFilter__urlQuery: encode(getIssuesStates(states, 'TASK', selectIterations)) },
+            query: {
+              tab: 'TASK',
+              issueFilter__urlQuery: encode(
+                getIssuesStates(
+                  states,
+                  'TASK',
+                  selectIterations.length ? selectIterations : iterations.map((item) => item.id),
+                ),
+              ),
+            },
           },
           render: (text: number) => (
             <span className="flex items-center justify-center h-[120px] text-2xl">
@@ -316,9 +333,19 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [30, 80])}
             />
           ),
           tip: i18n.t('dop:task associated rate tip'),
+        },
+        {
+          label: i18n.t('dop:tasks whose estimated duration is longer than 2 days'),
+          value: detailData.taskEstimatedDayGtTwoTotal,
+          render: (text: number) => (
+            <span className="flex items-center justify-center h-[120px] text-2xl">
+              {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
+            </span>
+          ),
         },
       ],
       [
@@ -331,7 +358,12 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             query: {
               tab: 'BUG',
               issueFilter__urlQuery: encode(
-                getIssuesStates(states, 'BUG', selectIterations, ['OPEN', 'WORKING', 'RESOLVED', 'REOPEN', 'CLOSED']),
+                getIssuesStates(
+                  states,
+                  'BUG',
+                  selectIterations.length ? selectIterations : iterations.map((item) => item.id),
+                  ['OPEN', 'WORKING', 'RESOLVED', 'REOPEN', 'CLOSED'],
+                ),
               ),
             },
           },
@@ -351,7 +383,12 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             query: {
               tab: 'BUG',
               issueFilter__urlQuery: encode(
-                getIssuesStates(states, 'BUG', selectIterations, ['OPEN', 'WORKING', 'REOPEN', 'RESOLVED']),
+                getIssuesStates(
+                  states,
+                  'BUG',
+                  selectIterations.length ? selectIterations : iterations.map((item) => item.id),
+                  ['OPEN', 'WORKING', 'REOPEN', 'RESOLVED'],
+                ),
               ),
             },
           },
@@ -361,6 +398,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [20, 80])}
             />
           ),
           tip: i18n.t('dop:bug undone rate tip'),
@@ -373,7 +411,11 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             projectId: detailData.projectID,
             query: {
               tab: 'BUG',
-              issueFilter__urlQuery: encode(`{"severities":["FATAL","SERIOUS"],"iterationIDs":[${selectIterations}]}`),
+              issueFilter__urlQuery: encode(
+                `{"severities":["FATAL","SERIOUS"],"iterationIDs":[${
+                  selectIterations.length ? selectIterations : iterations.map((item) => item.id)
+                }]}`,
+              ),
             },
           },
           render: (text: number) => (
@@ -382,6 +424,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [10, 20], [undefined, '#f5212d', '#f3b519'])}
             />
           ),
           tip: i18n.t('dop:serious bug rate tip'),
@@ -395,6 +438,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [5, 10], [undefined, '#f5212d', '#f3b519'])}
             />
           ),
           tip: i18n.t('dop:low level bug rate tip'),
@@ -407,7 +451,11 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             projectId: detailData.projectID,
             query: {
               tab: 'BUG',
-              issueFilter__urlQuery: encode(`{"bugStages":["demandDesign"],"iterationIDs":[${selectIterations}]}`),
+              issueFilter__urlQuery: encode(
+                `{"bugStages":["demandDesign"],"iterationIDs":[${
+                  selectIterations.length ? selectIterations : iterations.map((item) => item.id)
+                }]}`,
+              ),
             },
           },
           render: (text: number) => (
@@ -416,6 +464,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [5, 10], [undefined, '#f5212d', '#f3b519'])}
             />
           ),
           tip: i18n.t('dop:demand design bug rate tip'),
@@ -429,6 +478,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [2.5, 5], [undefined, '#f5212d', '#f3b519'])}
             />
           ),
           tip: i18n.t('dop:online bug rate tip'),
@@ -441,7 +491,14 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
             projectId: detailData.projectID,
             query: {
               tab: 'BUG',
-              issueFilter__urlQuery: encode(getIssuesStates(states, 'BUG', selectIterations, ['REOPEN'])),
+              issueFilter__urlQuery: encode(
+                getIssuesStates(
+                  states,
+                  'BUG',
+                  selectIterations.length ? selectIterations : iterations.map((item) => item.id),
+                  ['REOPEN'],
+                ),
+              ),
             },
           },
           render: (text: number) => (
@@ -450,6 +507,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [2.5, 5], [undefined, '#f5212d', '#f3b519'])}
             />
           ),
           tip: i18n.t('dop:reopen bug rate tip'),
@@ -643,6 +701,16 @@ const getIssuesStates = (
 ) => {
   const list = states.filter((state) => state.issueType === type && (!belone || belone.includes(state.stateBelong)));
   return `{"states":[${list.map((state) => state.stateID)}],"iterationIDs":[${iterations}]}`;
+};
+
+const rateColor = (rate: number, points: number[], colors: Array<string | undefined> = ['#f5212d', '#f3b519']) => {
+  for (let i = 0; i < points.length; i++) {
+    if (rate <= points[i]) {
+      return colors[i];
+    }
+  }
+
+  return colors[colors.length - 1];
 };
 
 export default ProjectReport;
