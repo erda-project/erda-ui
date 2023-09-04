@@ -39,6 +39,10 @@ export interface Report {
   timestamp: string;
   bugDoneRate: string;
   projectDisplayName: string;
+  taskEstimatedDayGtTwoTotal: string;
+  beginDate: string;
+  actualEndDate: string;
+  endDate: string;
 }
 
 export const getAddons = (query: {
