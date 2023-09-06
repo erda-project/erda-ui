@@ -1,0 +1,54 @@
+.ai-chat-modal {
+  .ant-modal-header {
+    padding: 9px 20px;
+  }
+
+  .ant-modal-close-x {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .ant-modal-body {
+    background-color: #f2f1f1;
+  }
+
+  .ai-chat-sidebar {
+    background-color: $color-table-head-bg;
+  }
+
+  .ant-menu-submenu-title {
+    padding-left: 1rem !important;
+  }
+
+  .ant-menu-inline,
+  .ant-menu-vertical,
+  .ant-menu-vertical-left {
+    border-right: none;
+  }
+}
+
+.no-border-right-menu {
+  .ant-menu-inline,
+  .ant-menu-vertical,
+  .ant-menu-vertical-left {
+    border-right: none;
+  }
+
+  .ant-popover-inner-content {
+    padding: 5px 0;
+    width: 120px;
+  }
+
+  .ant-menu-vertical > .ant-menu-item,
+  .ant-menu-vertical-left > .ant-menu-item,
+  .ant-menu-vertical-right > .ant-menu-item,
+  .ant-menu-inline > .ant-menu-item,
+  .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title,
+  .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title,
+  .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title,
+  .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+    height: 34px;
+    line-height: 34px;
+  }
+}

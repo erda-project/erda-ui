@@ -282,6 +282,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [20, 80], [undefined, '#f5212d', '#f3b519'])}
             />
           ),
           tip: i18n.t('dop:requirement unassigned rate tip'),
