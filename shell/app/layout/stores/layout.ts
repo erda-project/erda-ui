@@ -188,7 +188,9 @@ const layout = createStore({
       const { appList, currentApp, menusMap = {}, key } = (_payload as LAYOUT.IInitLayout) || {};
       const { user } = getGlobal('initData');
       if (key === 'sysAdmin' && !user.isSysAdmin) return;
-      let list = [...state.appList, ...(appList || [])];
+
+      const _applist = JSON.parse(JSON.stringify(state.appList));
+      let list = [..._applist, ...(appList || [])];
       // Some modules are loaded later, but in a fixed order
       const positionList = list.filter((item) => item.position);
       list = list.filter((item) => !item.position);
