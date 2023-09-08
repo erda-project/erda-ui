@@ -30,6 +30,11 @@ interface ISessions {
 interface Session {
   id: string;
   name: string;
+  clientId: string;
+  numOfCtxMsg: number;
+  temperature: number;
+  topic: string;
+  isArchived: boolean;
 }
 
 interface AddSessionsParams {
@@ -39,7 +44,20 @@ interface AddSessionsParams {
   email: string;
   name: string;
   topic: string;
-  contextLength: number;
+  numOfCtxMsg: number;
+  temperature: number;
+}
+
+interface UpdateSessionsParams {
+  id: string;
+  clientId: string;
+  userId: string;
+  userName: string;
+  phone: string;
+  email: string;
+  name: string;
+  topic: string;
+  numOfCtxMsg: number;
   temperature: number;
 }
 
@@ -67,23 +85,25 @@ interface ResetSessionPayload {
 }
 
 const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.daily.terminus.io';
+const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || 'd16e6749e55c4a51a10fc27747acab9a';
 
 export const getSessions = (params: IGetSessionsParams): RAW_RESPONSE<ISessions> => {
   const { userId, name, phone, email } = params;
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
-  const req = agent.get(`${AI_BACKEND_URL}/api/ai-proxy/sessions`);
+  const req = agent.get(`${AI_BACKEND_URL}/api/ai-proxy/sessions`, { pageSize: 999, pageNum: 1 });
   req.set('X-Ai-Proxy-User-Id', encode(userId));
   req.set('X-Ai-Proxy-Username', encode(name));
   req.set('X-Ai-Proxy-Phone', encode(phone));
   req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
   req.set('X-Ai-Proxy-Org-Id', encode(`${currentOrg.id}`));
+  req.set('Authorization', AI_PROXY_CLIENT_AK);
   return req.then((response: any) => response.body);
 };
 
 export const addSessions = (params: AddSessionsParams) => {
-  const { userId, userName, phone, email, name, topic, contextLength, temperature } = params;
+  const { userId, userName, phone, email, name, topic, numOfCtxMsg, temperature } = params;
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
   const req = agent.post(`${AI_BACKEND_URL}/api/ai-proxy/sessions`);
@@ -93,17 +113,50 @@ export const addSessions = (params: AddSessionsParams) => {
   req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
   req.set('X-Ai-Proxy-Org-Id', encode(`${currentOrg.id}`));
+  req.set('Authorization', AI_PROXY_CLIENT_AK);
+
   return req
     .send({
       userId,
       name,
       topic,
-      contextLength,
+      numOfCtxMsg,
       isArchived: false,
       source: hostname,
       resettAt: new Date(),
       model: 'gpt-35-turbo-16k',
       temperature,
+      scene: 'postman-test',
+    })
+    .then((response: any) => response.body);
+};
+
+export const updateSessions = (params: UpdateSessionsParams) => {
+  const { userId, userName, phone, email, name, topic, numOfCtxMsg, temperature, id, clientId } = params;
+  const { currentOrg } = getGlobal('initData');
+  const { hostname } = location;
+  const req = agent.put(`${AI_BACKEND_URL}/api/ai-proxy/sessions/${id}`);
+  req.set('X-Ai-Proxy-User-Id', encode(userId));
+  req.set('X-Ai-Proxy-Username', encode(userName));
+  req.set('X-Ai-Proxy-Phone', encode(phone));
+  req.set('X-Ai-Proxy-Email', encode(email));
+  req.set('X-Ai-Proxy-Source', hostname);
+  req.set('X-Ai-Proxy-Org-Id', encode(`${currentOrg.id}`));
+  req.set('Authorization', AI_PROXY_CLIENT_AK);
+
+  return req
+    .send({
+      userId,
+      name,
+      topic,
+      numOfCtxMsg,
+      isArchived: false,
+      source: hostname,
+      resettAt: new Date(),
+      model: 'gpt-35-turbo-16k',
+      temperature,
+      scene: 'postman-test',
+      clientId: clientId,
     })
     .then((response: any) => response.body);
 };
@@ -119,6 +172,7 @@ export const getLogs = (params: GetLogsPayload): RAW_RESPONSE<{ list: Log[] }> =
   req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
   req.set('X-Ai-Proxy-Org-Id', encode(`${currentOrg.id}`));
+  req.set('Authorization', AI_PROXY_CLIENT_AK);
   return req.then((response: any) => response.body);
 };
 
@@ -133,6 +187,37 @@ export const resetSession = (params: ResetSessionPayload) => {
   req.set('X-Ai-Proxy-Email', encode(email));
   req.set('X-Ai-Proxy-Source', hostname);
   req.set('X-Ai-Proxy-Org-Id', encode(`${currentOrg.id}`));
+  req.set('Authorization', AI_PROXY_CLIENT_AK);
+  return req.then((response: any) => response.body);
+};
+
+export const deleteMessage = (params: ResetSessionPayload) => {
+  const { userId, name, phone, email, id } = params;
+  const { currentOrg } = getGlobal('initData');
+  const { hostname } = location;
+  const req = agent.delete(`${AI_BACKEND_URL}/api/ai-proxy/sessions/${id}`);
+  req.set('X-Ai-Proxy-User-Id', encode(userId));
+  req.set('X-Ai-Proxy-Username', encode(name));
+  req.set('X-Ai-Proxy-Phone', encode(phone));
+  req.set('X-Ai-Proxy-Email', encode(email));
+  req.set('X-Ai-Proxy-Source', hostname);
+  req.set('X-Ai-Proxy-Org-Id', encode(`${currentOrg.id}`));
+  req.set('Authorization', AI_PROXY_CLIENT_AK);
+  return req.then((response: any) => response.body);
+};
+
+export const archiveMessage = (params: ResetSessionPayload) => {
+  const { userId, name, phone, email, id } = params;
+  const { currentOrg } = getGlobal('initData');
+  const { hostname } = location;
+  const req = agent.patch(`${AI_BACKEND_URL}/api/ai-proxy/sessions/${id}/actions/archive`);
+  req.set('X-Ai-Proxy-User-Id', encode(userId));
+  req.set('X-Ai-Proxy-Username', encode(name));
+  req.set('X-Ai-Proxy-Phone', encode(phone));
+  req.set('X-Ai-Proxy-Email', encode(email));
+  req.set('X-Ai-Proxy-Source', hostname);
+  req.set('X-Ai-Proxy-Org-Id', encode(`${currentOrg.id}`));
+  req.set('Authorization', AI_PROXY_CLIENT_AK);
   return req.then((response: any) => response.body);
 };
 

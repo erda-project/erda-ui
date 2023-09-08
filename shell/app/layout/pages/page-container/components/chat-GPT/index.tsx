@@ -22,8 +22,10 @@ import Sidebar from './sidebar';
 import { ChatProvider, Chat as TChart } from '@terminus/ai-components';
 import { erdaEnv } from 'common/constants';
 import { getLogs } from 'layout/services/ai-chat';
+import './index.scss';
 
 const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.daily.terminus.io';
+const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || 'd16e6749e55c4a51a10fc27747acab9a';
 
 const ChatGPT = () => {
   const [visible, setVisible] = useState(false);
@@ -72,11 +74,26 @@ const ChatGPT = () => {
       >
         <CustomIcon type="ai" className="text-xl mr-0" />
       </div>
-      <Modal visible={visible} width="60%" onCancel={() => setVisible(false)} footer={false} bodyStyle={{ padding: 0 }}>
-        <div className="flex" style={{ height: '80vh' }}>
-          <Sidebar onChange={setCurrentChat} resetMessage={reset} />
+      <Modal
+        title={
+          <div className="flex-1 font-medium flex items-center">
+            <CustomIcon type="ErdaAI" className="text-xl mr-2" />
+            Erda Assistant
+          </div>
+        }
+        visible={visible}
+        width="60%"
+        onCancel={() => setVisible(false)}
+        footer={false}
+        bodyStyle={{ padding: 0 }}
+        className="ai-chat-modal"
+      >
+        <div className="flex p-2" style={{ height: '80vh' }}>
+          <div className="mr-2 bg-white rounded-[5px]">
+            <Sidebar onChange={setCurrentChat} resetMessage={reset} />
+          </div>
 
-          <div className="flex-1">
+          <div className="flex-1 rounded-[5px]">
             <ChatProvider>
               <TChart
                 getMsgfetchConfig={{
@@ -98,7 +115,8 @@ const ChatGPT = () => {
                     'X-AI-Proxy-Email': encode(email),
                     'X-Ai-Proxy-Source': 'erda.cloud',
                     'X-Ai-Proxy-Org-Id': encode(`${orgId}`),
-                    'X-AI-Proxy-SessionId': `${currentChat}`,
+                    'X-AI-Proxy-Session-Id': `${currentChat}`,
+                    Authorization: AI_PROXY_CLIENT_AK,
                   },
                   formatResult: (msgData) => {
                     const { data } = msgData;
