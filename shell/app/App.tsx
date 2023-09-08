@@ -101,29 +101,45 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
     if (orgName) {
       await orgStore.effects.getOrgByDomain({ orgName, userData });
     }
-    [
-      import('layout/entry'),
-      import('org/entry'),
-      import('app/org-home/entry'),
-      import('dop/entry'),
-      import('runtime/entry'),
-      import('publisher/entry'),
-      import('project/entry'),
-      import('apiManagePlatform/entry'),
-      // import('msp/entry'),
-      ...insertWhen(erdaEnv.ENABLE_EDGE === 'true', [import('app/modules/ecp/entry')]),
-      import('application/entry'),
-      import('cmp/entry'),
-      import('user/entry'),
-      import('dcos/entry'),
-      import('addonPlatform/entry'),
-      import('gallery/entry'),
-      import('./modules/extra/entry'),
-    ].forEach((p) =>
-      p.then((m) => {
-        Array.isArray(m.default) ? m.default.forEach((mItem) => mItem(registerModule)) : m.default(registerModule);
-      }),
-    );
+
+    (async () => {
+      const firstGroup = [
+        import('layout/entry'),
+        import('org/entry'),
+        import('app/org-home/entry'),
+        import('dop/entry'),
+        import('runtime/entry'),
+        import('publisher/entry'),
+        import('project/entry'),
+        import('apiManagePlatform/entry'),
+        // import('msp/entry'),
+        ...insertWhen(erdaEnv.ENABLE_EDGE === 'true', [import('app/modules/ecp/entry')]),
+        import('application/entry'),
+        import('cmp/entry'),
+        import('user/entry'),
+        import('dcos/entry'),
+        import('addonPlatform/entry'),
+        import('gallery/entry'),
+      ];
+
+      const secondGroup = [import('./modules/extra/entry')];
+
+      await Promise.all(
+        firstGroup.map((p) =>
+          p.then((m) => {
+            Array.isArray(m.default) ? m.default.forEach((mItem) => mItem(registerModule)) : m.default(registerModule);
+          }),
+        ),
+      );
+
+      await Promise.all(
+        secondGroup.map((p) =>
+          p.then((m) => {
+            Array.isArray(m.default) ? m.default.forEach((mItem) => mItem(registerModule)) : m.default(registerModule);
+          }),
+        ),
+      );
+    })();
 
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
 
