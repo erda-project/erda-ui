@@ -200,17 +200,15 @@ const Sidebar = ({
         >
           <div className="flex items-center flex-1">
             <span className="flex-1">{item.label}</span>
-            <span className="flex-none hidden group-hover:inline h-[20px] leading-[20px] flex items-center">
-              <Tooltip title={i18n.t('default:Edit')}>
-                <ErdaIcon
-                  type="edit-unselected"
-                  className="text-xl cursor-pointer mr-1 text-purple hover:text-black"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    edit(item);
-                  }}
-                />
-              </Tooltip>
+            <span className="flex-none hidden group-hover:inline-flex w-[24px] h-[24px] rounded-full hover:bg-default-2 leading-[20px] flex items-center justify-center hover:text-default">
+              <ErdaIcon
+                type="edit-unselected"
+                className="cursor-pointer text-base text-purple"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  edit(item);
+                }}
+              />
             </span>
           </div>
         </Popover>
@@ -230,7 +228,7 @@ const Sidebar = ({
       <Menu
         selectedKeys={(current && [`${current}`]) || []}
         mode="inline"
-        className="flex-1 bg-white"
+        className="flex-1"
         onSelect={({ key }) => {
           setCurrent(key);
         }}

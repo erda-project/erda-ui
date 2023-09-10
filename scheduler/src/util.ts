@@ -70,6 +70,7 @@ const getEnv = () => {
       ENTERPRISE_URL: process.env.ENTERPRISE_UI_ADDR,
       FDP_URL: process.env.FDP_UI_ADDR,
       AI_BACKEND_URL: process.env.AI_BACKEND_URL,
+      AI_PROXY_CLIENT_AK: process.env.AI_PROXY_CLIENT_AK,
     };
   }
 
@@ -86,6 +87,7 @@ const getEnv = () => {
       SCHEDULER_URL?: string;
       SCHEDULER_PORT?: number;
       AI_BACKEND_URL?: string;
+      AI_PROXY_CLIENT_AK?: string;
     },
   };
 };
