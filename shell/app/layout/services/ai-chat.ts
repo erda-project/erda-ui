@@ -84,14 +84,14 @@ interface ResetSessionPayload {
   id: string;
 }
 
-const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.daily.terminus.io';
-const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || 'd16e6749e55c4a51a10fc27747acab9a';
+const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || '';
+const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || '';
 
 export const getSessions = (params: IGetSessionsParams): RAW_RESPONSE<ISessions> => {
   const { userId, name, phone, email } = params;
   const { currentOrg } = getGlobal('initData');
   const { hostname } = location;
-  const req = agent.get(`${AI_BACKEND_URL}/api/ai-proxy/sessions`, { pageSize: 999, pageNum: 1 });
+  const req = agent.get(`${AI_BACKEND_URL}/api/ai-proxy/sessions`, { pageSize: 999, pageNum: 1, userId });
   req.set('X-Ai-Proxy-User-Id', encode(userId));
   req.set('X-Ai-Proxy-Username', encode(name));
   req.set('X-Ai-Proxy-Phone', encode(phone));
@@ -126,7 +126,7 @@ export const addSessions = (params: AddSessionsParams) => {
       resettAt: new Date(),
       model: 'gpt-35-turbo-16k',
       temperature,
-      scene: 'postman-test',
+      scene: 'chat',
     })
     .then((response: any) => response.body);
 };
