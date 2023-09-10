@@ -24,8 +24,8 @@ import { erdaEnv } from 'common/constants';
 import { getLogs } from 'layout/services/ai-chat';
 import './index.scss';
 
-const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.daily.terminus.io';
-const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || 'd16e6749e55c4a51a10fc27747acab9a';
+const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || '';
+const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || '';
 
 const ChatGPT = () => {
   const [visible, setVisible] = useState(false);
@@ -99,7 +99,7 @@ const ChatGPT = () => {
                 getMsgfetchConfig={{
                   path: `${AI_BACKEND_URL}/v1/chat/completions`,
                   getBody: (messages) => ({
-                    model: 'gpt-35-turbo-16k',
+                    // model: 'gpt-35-turbo-16k',
                     messages: [
                       {
                         role: 'user',
@@ -116,6 +116,7 @@ const ChatGPT = () => {
                     'X-Ai-Proxy-Source': 'erda.cloud',
                     'X-Ai-Proxy-Org-Id': encode(`${orgId}`),
                     'X-AI-Proxy-Session-Id': `${currentChat}`,
+                    'X-AI-Proxy-Prompt-Id': '',
                     Authorization: AI_PROXY_CLIENT_AK,
                   },
                   formatResult: (msgData) => {
@@ -123,8 +124,8 @@ const ChatGPT = () => {
                     if (data !== '[DONE]') {
                       const dataObj = JSON.parse(data);
                       const { choices } = dataObj;
-                      const { delta } = choices[0];
-                      const { content } = delta;
+                      const { delta } = choices[0] || {};
+                      const { content } = delta || {};
                       return { data: content || '' };
                     }
                     return { data: '' };

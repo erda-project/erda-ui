@@ -198,7 +198,7 @@ const Sidebar = ({
           placement="bottomRight"
           overlayClassName="no-border-right-menu"
         >
-          <div className="flex items-center">
+          <div className="flex items-center flex-1">
             <span className="flex-1">{item.label}</span>
             <span className="flex-none hidden group-hover:inline h-[20px] leading-[20px] flex items-center">
               <Tooltip title={i18n.t('default:Edit')}>
@@ -219,7 +219,7 @@ const Sidebar = ({
   };
 
   return (
-    <div className="ai-chat-sidebar w-[256px] h-full flex-none flex flex-col border-right p-2">
+    <div className="ai-chat-sidebar w-[256px] h-full flex-none flex flex-col border-right p-2 overflow-auto">
       <div className="flex items-center mb-2 pl-2">
         <div className="flex-1 font-medium">{i18n.t('dop:session list')}</div>
         <Button size="small" className="flex items-center" type="primary" onClick={() => setVisible(true)}>
@@ -269,7 +269,7 @@ const Sidebar = ({
         }}
         onOk={newChat}
       >
-        <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+        <Form form={form} layout="vertical">
           <Form.Item rules={[{ required: true }]} label={i18n.t('dop:session name')} name="name">
             <Input />
           </Form.Item>

@@ -26,6 +26,41 @@
   .ant-menu-vertical-left {
     border-right: none;
   }
+
+  .ant-menu-title-content {
+    color: $darkblue;
+    opacity: 0.6;
+  }
+
+  .ant-menu-sub {
+    .ant-menu-title-content {
+      display: flex;
+      align-items: center;
+
+      &:before {
+        content: '';
+        display: block;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background-color: $darkblue;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: $color-default-06;
+    color: $purple;
+    opacity: 1;
+
+    &:after {
+      border-right: none;
+      border-bottom: 2px solid $purple;
+      left: 0;
+      top: auto;
+    }
+  }
 }
 
 .no-border-right-menu {
