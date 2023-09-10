@@ -17,8 +17,23 @@
     background-color: $color-table-head-bg;
   }
 
+  .ant-menu {
+    background-color: transparent;
+  }
+
+  .ant-menu-sub.ant-menu-inline {
+    background-color: transparent;
+  }
+
+  .ant-menu-submenu {
+    background-color: $white;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+
   .ant-menu-submenu-title {
     padding-left: 1rem !important;
+    border-bottom: 1px solid $color-default-06;
   }
 
   .ant-menu-inline,
@@ -29,7 +44,6 @@
 
   .ant-menu-title-content {
     color: $darkblue;
-    opacity: 0.6;
   }
 
   .ant-menu-sub {
@@ -51,8 +65,9 @@
 
   .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
     background-color: $color-default-06;
-    color: $purple;
+    color: $purple !important;
     opacity: 1;
+    font-weight: 500;
 
     &:after {
       border-right: none;
@@ -60,6 +75,39 @@
       left: 0;
       top: auto;
     }
+  }
+
+  .ant-menu-item:hover {
+    background-color: $color-default-06;
+  }
+
+  .ant-menu-vertical .ant-menu-item,
+  .ant-menu-vertical-left .ant-menu-item,
+  .ant-menu-vertical-right .ant-menu-item,
+  .ant-menu-inline .ant-menu-item,
+  .ant-menu-vertical .ant-menu-submenu-title,
+  .ant-menu-vertical-left .ant-menu-submenu-title,
+  .ant-menu-vertical-right .ant-menu-submenu-title,
+  .ant-menu-inline .ant-menu-submenu-title {
+    margin-top: 0;
+  }
+
+  .ant-menu-vertical .ant-menu-item:not(:last-child),
+  .ant-menu-vertical-left .ant-menu-item:not(:last-child),
+  .ant-menu-vertical-right .ant-menu-item:not(:last-child),
+  .ant-menu-inline .ant-menu-item:not(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .ant-menu-vertical .ant-menu-item,
+  .ant-menu-vertical-left .ant-menu-item,
+  .ant-menu-vertical-right .ant-menu-item,
+  .ant-menu-inline .ant-menu-item,
+  .ant-menu-vertical .ant-menu-submenu-title,
+  .ant-menu-vertical-left .ant-menu-submenu-title,
+  .ant-menu-vertical-right .ant-menu-submenu-title,
+  .ant-menu-inline .ant-menu-submenu-title {
+    margin-bottom: 0;
   }
 }
 
