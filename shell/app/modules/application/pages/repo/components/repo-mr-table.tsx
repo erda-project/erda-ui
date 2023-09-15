@@ -127,10 +127,11 @@ const RepoMrTable = ({ type }: IProps) => {
               const curActor = get(userMap, `${item[actorMap[item.state]]}`) || {};
               const assigneeUser = get(userMap, `${item.assigneeId}`) || {};
               const authorUser = get(userMap, `${item.authorId}`) || {};
+
               return (
                 <li key={item.id} className="mr-item hover-active-bg" onClick={() => goTo(`./${item.mergeId}`)}>
                   <div className="title font-bold">
-                    <a href={`${location.href}/${item.mergeId}`}>{item.title}</a>
+                    <a href={`${location.href.split('?')[0]}/${item.mergeId}`}>{item.title}</a>
                     <span className="text-sm desc ml-3 font-normal">
                       {item.sourceBranch} <CustomIcon type="arrow-right" />
                       {item.targetBranch}
