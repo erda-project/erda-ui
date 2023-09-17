@@ -144,7 +144,7 @@ declare namespace ISSUE {
     iterationID?: number;
     label?: number[];
     title?: string;
-    notIncluded: boolean;
+    notIncluded?: boolean;
   }
   interface IssueStreamListQuery {
     pageSize?: number;

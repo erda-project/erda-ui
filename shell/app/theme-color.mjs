@@ -45,6 +45,7 @@ const colors = {
   cultured: '#f6f4f9',
   magnolia: '#f2f1fc',
   mask: 'rgba(0,0,0,0.45)',
+  card: 'rgba(251, 251, 251, 0.8)',
 
   black: 'rgba(0,0,0,1)',
   'black-1': 'rgba(0,0,0,0.1)',
