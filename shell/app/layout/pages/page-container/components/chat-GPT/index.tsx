@@ -15,16 +15,16 @@ import React, { useState } from 'react';
 import { Modal, Tabs } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon as CustomIcon } from 'common';
-import projectStore from 'project/stores/project';
+import routeInfoStore from 'core/stores/route';
 import Chat from './chat';
 import FunctionalTestCases from './functional-test-cases';
 
 import './index.scss';
 
 const ChatGPT = () => {
-  const { id: projectID } = projectStore.useStore((s) => s.info);
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
   const [visible, setVisible] = useState(false);
-  console.log(projectID);
+
   return (
     <>
       <div
@@ -53,7 +53,7 @@ const ChatGPT = () => {
             <Tabs.TabPane tab={i18n.t('common:chat')} key="chat">
               <Chat />
             </Tabs.TabPane>
-            {(projectID && (
+            {(projectId && (
               <Tabs.TabPane tab={i18n.t('common:functional test cases')} key="functional test">
                 <FunctionalTestCases />
               </Tabs.TabPane>
