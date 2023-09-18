@@ -84,8 +84,8 @@ interface ResetSessionPayload {
   id: string;
 }
 
-const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || '';
-const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || '';
+const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.erda.cloud';
+const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || '21b58e59f4ad4c46b0c7c70f6b76d8f5';
 
 export const getSessions = (params: IGetSessionsParams): RAW_RESPONSE<ISessions> => {
   const { userId, name, phone, email } = params;

@@ -10,7 +10,7 @@
   }
 
   .ant-modal-body {
-    background-color: #f2f1f1;
+    background-color: $color-modal-bg;
   }
 
   .ai-chat-sidebar {
@@ -108,6 +108,40 @@
   .ant-menu-vertical-right .ant-menu-submenu-title,
   .ant-menu-inline .ant-menu-submenu-title {
     margin-bottom: 0;
+  }
+
+  .ant-tabs-nav {
+    margin: 0 0 10px 18px;
+  }
+
+  .ant-tabs-tab {
+    padding: 8px 5px;
+  }
+
+  .ant-tabs-content {
+    height: 100%;
+  }
+
+  .ant-table-thead > tr > th {
+    background-color: $white;
+  }
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td,
+  .ant-table tfoot > tr > th,
+  .ant-table tfoot > tr > td {
+    padding: 4px 16px;
+  }
+
+  .ant-table-tbody > tr.ant-table-row-selected > td {
+    background-color: $white;
+  }
+
+  .markdown-editor.markdown-border-none .markdown-editor-content .rc-md-editor {
+    border: none;
+  }
+
+  .ant-divider-horizontal {
+    margin: 8px 0;
   }
 }
 
