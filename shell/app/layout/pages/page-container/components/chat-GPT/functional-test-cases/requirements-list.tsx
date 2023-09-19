@@ -19,7 +19,15 @@ import projectStore from 'project/stores/project';
 import { getIssues } from 'app/modules/project/services/issue';
 import { IRow } from 'layout/services/ai-test';
 
-const RequirementsList = ({ onSelect }: { onSelect: (rows: IRow[]) => void }) => {
+const RequirementsList = ({
+  onSelect,
+  onExpand,
+  expanded,
+}: {
+  onSelect: (rows: IRow[]) => void;
+  onExpand: (expanded: boolean) => void;
+  expanded: boolean;
+}) => {
   const { id: projectID } = projectStore.useStore((s) => s.info);
   const [requirementsList, setRequirementsList] = useState<ISSUE.IssueType[]>([]);
   const [total, setTotal] = useState(0);
@@ -61,7 +69,6 @@ const RequirementsList = ({ onSelect }: { onSelect: (rows: IRow[]) => void }) =>
   ];
   return (
     <div className="p-4">
-      <div className="mb-2">{i18n.t('common:requirements list')}</div>
       <div>
         <Input
           className={`bg-default-06 border-none config-filter-item w-[200px]`}
@@ -90,6 +97,17 @@ const RequirementsList = ({ onSelect }: { onSelect: (rows: IRow[]) => void }) =>
           }}
         />
       </div>
+      {!expanded ? (
+        <div
+          className="absolute right-0 top-2 bg-blue-light py-1 pl-4 rounded-l-2xl flex-h-center text-blue-deep border-blue-mid border-solid border cursor-pointer pr-2"
+          onClick={() => onExpand(true)}
+        >
+          <span className="mr-1">{i18n.t('system prompt word')}</span>
+          <ErdaIcon type="fold" />
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
