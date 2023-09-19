@@ -896,6 +896,7 @@
     "recertification": "recertification",
     "refresh": "refresh",
     "refuse": "refuse",
+    "regenerate": "regenerate",
     "regexp": "regexp",
     "reject": "reject",
     "related Client": "related Client",
