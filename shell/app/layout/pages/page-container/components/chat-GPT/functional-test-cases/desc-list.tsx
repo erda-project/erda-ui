@@ -42,7 +42,7 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
     );
   }, [_rows]);
 
-  const getTestCase = async (items: IRow[]) => {
+  const getTestCase = async (items: IRow[], cb: (data: Case[]) => void) => {
     setLoading(true);
     const res = await getAddonList({
       userId,
@@ -53,7 +53,7 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
     });
 
     if (res.success) {
-      setCases(res.data || []);
+      cb?.(res.data);
     }
     setLoading(false);
   };
@@ -86,7 +86,7 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
     }
   };
 
-  const renderItem = (item: Obj, index: number) => {
+  const renderItem = (item: IRow, index: number) => {
     return (
       <div className="bg-white rounded-[4px] p-2 mb-4">
         <div className="flex-h-center">
@@ -106,13 +106,21 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
             }}
           />
         </div>
-        {(cases.length && (
+        {(cases[index] && (
           <>
             <Divider />
             <div className="flex-h-center">
               <ErdaIcon type="quexian" className="text-xl mr-1" />
               <div className="flex-1">{i18n.t('test case preview')}</div>
-              <Button>{i18n.t('apply')}</Button>
+              <Button
+                onClick={() =>
+                  getTestCase([item], (data) => {
+                    setCases(cases.map((item) => (item.requirementID === data[0]?.requirementID ? data[0] : item)));
+                  })
+                }
+              >
+                {i18n.t('regenerate')}
+              </Button>
             </div>
             <Divider />
             <div>
@@ -180,7 +188,9 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
               {i18n.t('default:test case description and preview')}
             </div>
             <div className="flex-none mb-2">
-              <Button onClick={() => getTestCase(rows)}>{i18n.t('default:batch generation')}</Button>
+              <Button onClick={() => getTestCase(rows, (data) => setCases(data || []))}>
+                {i18n.t('default:batch generation')}
+              </Button>
               <Button className="ml-1" onClick={() => apply()}>
                 {i18n.t('default:batch apply')}
               </Button>
