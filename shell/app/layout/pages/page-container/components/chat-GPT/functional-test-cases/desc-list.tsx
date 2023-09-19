@@ -13,7 +13,7 @@
 
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n';
-import { Button, Divider, message } from 'antd';
+import { Button, Divider, message, Spin } from 'antd';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { ErdaIcon, MarkdownEditor } from 'common';
@@ -25,11 +25,12 @@ import { getAddonList, Case, IRow } from 'layout/services/ai-test';
 
 import 'project/pages/test-manage/case/case-drawer/index.scss';
 
-const DescList = ({ rows: _rows }: { rows: IRow[] }) => {
+const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number }) => {
   const { id: projectID, name: projectName } = projectStore.useStore((s) => s.info);
   const { id: userId } = userStore.getState((s) => s.loginUser);
   const [cases, setCases] = useState<Case[]>([]);
   const [rows, setRows] = useState<IRow[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setRows(
@@ -42,16 +43,19 @@ const DescList = ({ rows: _rows }: { rows: IRow[] }) => {
   }, [_rows]);
 
   const getTestCase = async (items: IRow[]) => {
+    setLoading(true);
     const res = await getAddonList({
       userId,
       projectID,
       projectName,
       requirements: items.map((item) => ({ issueID: item.id, prompt: `${item.title},${item.content}` })),
+      testSetID,
     });
 
     if (res.success) {
       setCases(res.data || []);
     }
+    setLoading(false);
   };
 
   const apply = async () => {
@@ -73,6 +77,7 @@ const DescList = ({ rows: _rows }: { rows: IRow[] }) => {
       projectName,
       requirements,
       needAdjust: false,
+      testSetID,
     };
     const res = await getAddonList(param);
 
@@ -169,16 +174,20 @@ const DescList = ({ rows: _rows }: { rows: IRow[] }) => {
   return (
     <div className="p-4 flex flex-col h-full overflow-auto case-drawer-body">
       <DndProvider backend={HTML5Backend}>
-        <div className="flex-h-center flex-none">
-          <div className="flex-1 font-medium test-base">{i18n.t('default:test case description and preview')}</div>
-          <div className="flex-none">
-            <Button className="mr-1" onClick={() => apply()}>
-              {i18n.t('default:batch apply')}
-            </Button>
-            <Button onClick={() => getTestCase(rows)}>{i18n.t('default:batch generation')}</Button>
+        <Spin spinning={loading}>
+          <div className="flex-h-center flex-none flex-wrap bg-table-head-bg">
+            <div className="flex-1 font-medium test-base min-w-[130px] mb-2">
+              {i18n.t('default:test case description and preview')}
+            </div>
+            <div className="flex-none mb-2">
+              <Button onClick={() => getTestCase(rows)}>{i18n.t('default:batch generation')}</Button>
+              <Button className="ml-1" onClick={() => apply()}>
+                {i18n.t('default:batch apply')}
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className="flex-1 mt-4">{rows.map(renderItem)}</div>
+          <div className="flex-1 mt-2">{rows.map(renderItem)}</div>
+        </Spin>
       </DndProvider>
     </div>
   );

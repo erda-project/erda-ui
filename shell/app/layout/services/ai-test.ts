@@ -20,6 +20,7 @@ export interface getAddonListPayload {
   projectName: string;
   requirements: IRequirement[];
   needAdjust?: boolean;
+  testSetID: number;
 }
 
 export interface IRequirement {
@@ -58,13 +59,14 @@ export const getAddonList = ({
   projectName,
   requirements,
   needAdjust = true,
+  testSetID,
 }: getAddonListPayload): RAW_RESPONSE<Case[]> => {
   const { currentOrg } = getGlobal('initData');
 
   const params = {
     functionName: 'create-test-case',
     functionParams: {
-      testSetID: 0,
+      testSetID,
       requirements,
     },
     background: {
@@ -76,7 +78,7 @@ export const getAddonList = ({
     },
     needAdjust,
   };
-  console.log(params);
+
   return agent
     .post(`/api/ai-functions/create-test-case/actions/apply`)
     .send(params)
