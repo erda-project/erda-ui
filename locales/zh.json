@@ -327,6 +327,7 @@
     "Please enter the number of {min}-{max} decimal": "请填写{min}-{max}位小数的数字",
     "Please enter the {name}": "请输入{name}",
     "Please enter version number, such as x.y.z.": "请输入版本号，如：x.y.z",
+    "Please select requirements!": "请选择需求!",
     "Please select the member label": "请选择成员标签",
     "Please select the role": "请选择成员角色",
     "Pod Details": "POD详情",

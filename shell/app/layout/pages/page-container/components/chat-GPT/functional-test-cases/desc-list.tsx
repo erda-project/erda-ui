@@ -59,6 +59,7 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
   };
 
   const apply = async () => {
+    setLoading(true);
     const error = cases.map((item) => doCheck(item)).find((item) => item);
 
     if (error) {
@@ -66,7 +67,15 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
       return false;
     }
 
-    const requirements = cases.map((item, index) => ({
+    const list = cases.length
+      ? cases
+      : rows.map((item) => ({ requirementID: item.id, ...item, testCaseCreateReq: undefined }));
+
+    if (!list.length) {
+      message.error(i18n.t('Please select requirements!'));
+    }
+
+    const requirements = list.map((item, index) => ({
       issueID: item.requirementID,
       prompt: `${rows[index]?.title},${rows[index]?.content}`,
       testCaseCreateReq: item.testCaseCreateReq,
@@ -84,6 +93,7 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
     if (res.success) {
       message.success(i18n.t('{action} successfully', { action: i18n.t('apply') }));
     }
+    setLoading(false);
   };
 
   const renderItem = (item: IRow, index: number) => {
@@ -188,10 +198,13 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
               {i18n.t('default:test case description and preview')}
             </div>
             <div className="flex-none mb-2">
-              <Button onClick={() => getTestCase(rows, (data) => setCases(data || []))}>
+              <Button
+                onClick={() => getTestCase(rows, (data) => setCases(data || []))}
+                disabled={!_rows.length || loading}
+              >
                 {i18n.t('default:batch generation')}
               </Button>
-              <Button className="ml-1" onClick={() => apply()}>
+              <Button className="ml-1" onClick={() => apply()} disabled={!_rows.length || loading}>
                 {i18n.t('default:batch apply')}
               </Button>
             </div>

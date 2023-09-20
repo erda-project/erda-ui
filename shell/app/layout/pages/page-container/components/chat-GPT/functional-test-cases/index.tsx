@@ -41,6 +41,7 @@ const FunctionalTestCases = () => {
           needRecycled
           mode="testCase"
           onSelect={(test) => setTestSetID(test.testSetID)}
+          readOnly
         />
       </div>
       <div className="flex-[1] bg-white rounded-[4px] w-0 overflow-auto relative">
