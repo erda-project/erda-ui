@@ -54,7 +54,7 @@ const ChatGPT = () => {
               <Chat />
             </Tabs.TabPane>
             {(projectId && (
-              <Tabs.TabPane tab={i18n.t('common:functional test cases')} key="functional test">
+              <Tabs.TabPane tab={i18n.t('common:intelligent test cases')} key="functional test">
                 <FunctionalTestCases />
               </Tabs.TabPane>
             )) ||
