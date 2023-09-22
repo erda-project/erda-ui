@@ -44,7 +44,7 @@ const FunctionalTestCases = () => {
           readOnly
         />
       </div>
-      <div className="flex-[1] bg-white rounded-[4px] w-0 overflow-auto relative">
+      <div className="bg-white rounded-[4px] w-0 overflow-auto relative" style={expanded ? { flex: 1 } : { flex: 2 }}>
         <div className="bg-table-head-bg font-medium test-base p-4">{i18n.t('common:requirements list')}</div>
         <RequirementsList onSelect={tableSelect} onExpand={setExpanded} expanded={expanded} />
       </div>
@@ -63,7 +63,7 @@ const FunctionalTestCases = () => {
       ) : (
         ''
       )}
-      <div className={`flex-[${expanded ? '2' : '1'}] bg-card rounded-[4px]`}>
+      <div className={`bg-card rounded-[4px]`} style={{ flex: 3 }}>
         <DescList rows={rows} testSetID={testSetID} />
       </div>
     </div>
