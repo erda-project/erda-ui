@@ -49,7 +49,7 @@ const FunctionalTestCases = () => {
         <RequirementsList onSelect={tableSelect} onExpand={setExpanded} expanded={expanded} />
       </div>
       {expanded ? (
-        <div className="flex-[1] bg-white rounded-[4px] relative">
+        <div className="flex-[1] bg-white rounded-[4px] relative overflow-y-auto">
           <div className="bg-table-head-bg font-medium test-base p-4">{i18n.t('system prompt word')}</div>
           <MarkdownRender value={content} />
           <div
