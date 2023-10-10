@@ -163,6 +163,7 @@ const Export = (props: ExportProps) => {
       projectID: +projectId,
       type: getRealIssueType(issueType),
       IsDownload: false,
+      exportType: { condition: 'byFilter', all: 'full' }[exportType],
       ...extraQuery,
     };
     if (exportType === 'condition') {
