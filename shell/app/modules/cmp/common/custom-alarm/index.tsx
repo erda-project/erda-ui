@@ -645,7 +645,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
 
   const beforeSubmit = (data: any) => {
     return new Promise((resolve, reject) => {
-      if (isEmpty(editingFields)) {
+      if (selectedMetric && isEmpty(editingFields)) {
         message.warning(i18n.t('cmp:field rules are required'));
         return reject();
       }
