@@ -227,8 +227,11 @@ const Import = (props: ImportProps) => {
 
   const { importIssueFile } = issueStore.effects;
 
+  const lang = getCurrentLocale().key === 'zh' ? 'zh-CN' : 'en-US';
   const templateUrl = setApiWithOrg(
-    `/api/issues/actions/export-excel?IsDownload=true&type=${getRealIssueType(issueType)}&projectID=${projectId}`,
+    `/api/issues/actions/export-excel?IsDownload=true&type=${getRealIssueType(issueType)}&projectID=${projectId}&Lang=${
+      lang || 'zh-CN'
+    }`,
   );
 
   const uploadProps = getUploadProps({
@@ -396,13 +399,12 @@ const Record = ({ projectId }: { projectId: string }) => {
 
   const actions = {
     render: (record: IMPORT_EXPORT_FILE_LIST.FileRecord) => {
-      const lang = getCurrentLocale().key === 'zh' ? 'zh-CN' : 'en-US';
       return record.apiFileUUID
         ? [
             {
               title: i18n.t('Download'),
               onClick: () => {
-                window.open(`/api/files/${record.apiFileUUID}?Lang=${lang || 'zh-CN'}`);
+                window.open(`/api/files/${record.apiFileUUID}`);
               },
             },
           ]
