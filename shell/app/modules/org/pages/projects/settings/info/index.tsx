@@ -126,6 +126,20 @@ const Info = () => {
       label: i18n.t('Project name'),
       name: 'displayName',
     },
+    {
+      label: i18n.t('Project label'),
+      name: 'labels',
+      required: false,
+      rules: [
+        {
+          pattern: /^[\u4e00-\u9fa5a-zA-Z0-9,]+$/,
+          message: i18n.t('project-labels-tip'),
+        },
+      ],
+      itemProps: {
+        placeholder: i18n.t('project-labels-tip'),
+      },
+    },
     ...insertWhen(notMSP, [
       {
         label: i18n.t('Public or private'),
@@ -456,12 +470,12 @@ const Info = () => {
       </Card>
 
       <FormModal
-        onOk={(result) =>
-          updatePrj(result).then(() => {
+        onOk={({ labels, ...result }) => {
+          updatePrj({ ...result, labels: labels?.split(',') }).then(() => {
             updater.projectInfoEditVisible(false);
             updater.projectInfoSaveDisabled(true);
-          })
-        }
+          });
+        }}
         onCancel={() => {
           updater.projectInfoEditVisible(false);
           updater.projectInfoSaveDisabled(true);

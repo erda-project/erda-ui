@@ -107,6 +107,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
     {
       label: i18n.t('Project label'),
       name: 'labels',
+      required: false,
       customRender: (value: string[]) => (
         <div>
           {value?.map((item) => (
