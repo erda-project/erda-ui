@@ -918,7 +918,7 @@
     "project": "项目",
     "project time distribution": "项目工时分布",
     "project-app-name-tip": "只能包含小写字母、数字和链接符号 -",
-    "project-labels-tip": "只能包含中英文，数字，由,分割",
+    "project-labels-tip": "只能包含中英文，数字及符号:=-_，由,分割",
     "projects": "项目列表",
     "province": "省市区",
     "public": "公有",

@@ -359,7 +359,7 @@ const CreationForm = ({ createType }: { createType: string }) => {
       required: false,
       rules: [
         {
-          pattern: /^[\u4e00-\u9fa5a-zA-Z0-9,]+$/,
+          pattern: /^[\u4e00-\u9fa5a-zA-Z0-9,:=\-_]+$/,
           message: i18n.t('project-labels-tip'),
         },
       ],
