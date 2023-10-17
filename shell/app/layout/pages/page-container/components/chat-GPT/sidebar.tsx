@@ -135,17 +135,47 @@ const Sidebar = ({
   const renderMenuItem = (item: Session) => {
     return (
       <Menu.Item key={item.key} className="group pl-4">
-        <Popover
-          content={
-            <div>
-              <Menu>
-                {!item.isArchived && (
+        <div className="flex items-center flex-1">
+          <span className="flex-1">{item.label}</span>
+          <span className="mr-1 flex-none hidden group-hover:inline-flex w-[24px] h-[24px] rounded-full hover:bg-default-2 leading-[20px] flex items-center justify-center hover:text-default">
+            <ErdaIcon
+              type="edit-unselected"
+              className="cursor-pointer text-base text-purple"
+              onClick={(e) => {
+                e.stopPropagation();
+                edit(item);
+              }}
+            />
+          </span>
+          <Popover
+            content={
+              <div>
+                <Menu>
+                  {!item.isArchived && (
+                    <Menu.Item
+                      onClick={() => {
+                        Modal.confirm({
+                          title: i18n.t('dop:confirm to archive?'),
+                          onOk() {
+                            archive(item.key);
+                          },
+                          onCancel() {
+                            console.log('Cancel');
+                          },
+                          zIndex: 1040,
+                        });
+                      }}
+                    >
+                      {i18n.t('default:Archive')}
+                    </Menu.Item>
+                  )}
+
                   <Menu.Item
                     onClick={() => {
                       Modal.confirm({
-                        title: i18n.t('dop:confirm to archive?'),
+                        title: i18n.t('cmp:are you sure you want to reset?'),
                         onOk() {
-                          archive(item.key);
+                          reset(item.key);
                         },
                         onCancel() {
                           console.log('Cancel');
@@ -154,64 +184,37 @@ const Sidebar = ({
                       });
                     }}
                   >
-                    {i18n.t('default:Archive')}
+                    {i18n.t('default:reset')}
                   </Menu.Item>
-                )}
-
-                <Menu.Item
-                  onClick={() => {
-                    Modal.confirm({
-                      title: i18n.t('cmp:are you sure you want to reset?'),
-                      onOk() {
-                        reset(item.key);
-                      },
-                      onCancel() {
-                        console.log('Cancel');
-                      },
-                      zIndex: 1040,
-                    });
-                  }}
-                >
-                  {i18n.t('default:reset')}
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item
-                  onClick={() => {
-                    Modal.confirm({
-                      title: i18n.t('dop:confirm to delete?'),
-                      onOk() {
-                        deleteItem(item.key);
-                      },
-                      onCancel() {
-                        console.log('Cancel');
-                      },
-                      zIndex: 1040,
-                    });
-                  }}
-                >
-                  {i18n.t('default:Delete')}
-                </Menu.Item>
-              </Menu>
-            </div>
-          }
-          trigger="contextMenu"
-          placement="bottomRight"
-          overlayClassName="no-border-right-menu"
-        >
-          <div className="flex items-center flex-1">
-            <span className="flex-1">{item.label}</span>
+                  <Menu.Divider />
+                  <Menu.Item
+                    onClick={() => {
+                      Modal.confirm({
+                        title: i18n.t('dop:confirm to delete?'),
+                        onOk() {
+                          deleteItem(item.key);
+                        },
+                        onCancel() {
+                          console.log('Cancel');
+                        },
+                        zIndex: 1040,
+                      });
+                    }}
+                  >
+                    {i18n.t('default:Delete')}
+                  </Menu.Item>
+                </Menu>
+              </div>
+            }
+            trigger="click"
+            placement="bottomRight"
+            overlayClassName="no-border-right-menu"
+          >
             <span className="flex-none hidden group-hover:inline-flex w-[24px] h-[24px] rounded-full hover:bg-default-2 leading-[20px] flex items-center justify-center hover:text-default">
-              <ErdaIcon
-                type="edit-unselected"
-                className="cursor-pointer text-base text-purple"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  edit(item);
-                }}
-              />
+              <ErdaIcon type="more" className="cursor-pointer text-base text-purple" />
             </span>
-          </div>
-        </Popover>
+          </Popover>
+        </div>
       </Menu.Item>
     );
   };
