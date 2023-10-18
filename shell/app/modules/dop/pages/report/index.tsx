@@ -94,11 +94,11 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
   };
 
   useEffect(() => {
-    if (detailData?.projectID) {
+    if (detailData?.projectID && visible) {
       getIterations(detailData.projectID);
       getState();
     }
-  }, [detailData.projectID]);
+  }, [detailData.projectID, visible]);
 
   const getIterations = async (projectID: number) => {
     setLoading(true);
@@ -257,6 +257,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [30, 80])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:requirement done rate tip'),
@@ -271,6 +272,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [20, 80])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:requirement associated rate tip'),
@@ -285,6 +287,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [20, 80], [undefined, '#f3b519', '#f5212d'])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:requirement unassigned rate tip'),
@@ -323,6 +326,8 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               percent={text ? Number((text * 100).toFixed(2)) : 0}
               type="dashboard"
               gapDegree={120}
+              strokeColor={rateColor(Number((text * 100).toFixed(2)), [30, 80])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:task done rate tip'),
@@ -337,6 +342,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [30, 80])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:task associated rate tip'),
@@ -402,6 +408,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [20, 80])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:bug undone rate tip'),
@@ -428,6 +435,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [10, 20], [undefined, '#f3b519', '#f5212d'])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:serious bug rate tip'),
@@ -442,6 +450,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [5, 10], [undefined, '#f3b519', '#f5212d'])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:low level bug rate tip'),
@@ -468,6 +477,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [5, 10], [undefined, '#f3b519', '#f5212d'])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:demand design bug rate tip'),
@@ -482,6 +492,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [2.5, 5], [undefined, '#f3b519', '#f5212d'])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:online bug rate tip'),
@@ -511,6 +522,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
               type="dashboard"
               gapDegree={120}
               strokeColor={rateColor(Number((text * 100).toFixed(2)), [2.5, 5], [undefined, '#f3b519', '#f5212d'])}
+              status="normal"
             />
           ),
           tip: i18n.t('dop:reopen bug rate tip'),
@@ -707,7 +719,11 @@ const getIssuesStates = (
   return `{"states":[${list.map((state) => state.stateID)}],"iterationIDs":[${iterations}]}`;
 };
 
-const rateColor = (rate: number, points: number[], colors: Array<string | undefined> = ['#f5212d', '#f3b519']) => {
+const rateColor = (
+  rate: number,
+  points: number[],
+  colors: Array<string | undefined> = ['#f5212d', '#f3b519', '#1990ff'],
+) => {
   for (let i = 0; i < points.length; i++) {
     if (rate <= points[i]) {
       return colors[i];
