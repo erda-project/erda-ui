@@ -529,7 +529,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
         },
       ],
     ];
-  }, [detailData, states, selectIterations]);
+  }, [detailData, states, selectIterations, iterations]);
 
   const filterConfig = [
     {
