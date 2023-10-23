@@ -28,7 +28,7 @@ import RateSelect from './rate-select';
 import ChartColumn from './chart-column';
 
 interface listItem extends Report {
-  chart: Report[];
+  chart?: Report[];
 }
 
 const cardColorList = [undefined, '#16c2c3', '#697fff', '#f3b519'];
@@ -37,7 +37,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const [data, setData] = useState<Report[]>([]);
   const [visible, setVisible] = useState(false);
-  const [detailData, setDetailData] = useState<Report>({} as Report);
+  const [detailData, setDetailData] = useState<listItem>({} as listItem);
   const [loading, setLoading] = useState(false);
   const [filterData, setFilterData] = useState<Obj>({
     time: [moment().subtract(7, 'day').startOf('day').valueOf(), moment().endOf('day').valueOf()],
@@ -97,6 +97,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
     if (detailData?.projectID && visible) {
       getIterations(detailData.projectID);
       getState();
+      getDatail([]);
     }
   }, [detailData.projectID, visible]);
 
@@ -111,12 +112,17 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
 
   const getDatail = async (iterationIDs: number[]) => {
     setDetailLoading(true);
-    const { time } = filterData;
-    const { projectID } = detailData;
+    const { projectID, beginDate, endDate, chart } = detailData;
+    const end = endDate || moment().format('YYYY-MM-DD HH:mm:ss');
+    const start =
+      beginDate ||
+      chart?.find((item) => item.beginDate)?.beginDate ||
+      moment(end).subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss');
+
     const payload = {
       orgId,
-      start: moment(time[0]).format('YYYY-MM-DD HH:mm:ss'),
-      end: moment(time[1]).format('YYYY-MM-DD HH:mm:ss'),
+      start,
+      end,
       projectIDs: [Number(projectID)],
       iterationIDs,
     };
