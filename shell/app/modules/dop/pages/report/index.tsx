@@ -31,7 +31,7 @@ interface listItem extends Report {
   chart?: Report[];
 }
 
-const cardColorList = [undefined, '#16c2c3', '#697fff', '#f3b519'];
+const cardColorList = [undefined, '#16c2c3', '#697fff', '#52C41A', '#f3b519'];
 
 const ProjectReport = ({ route }: { route: { path: string } }) => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
@@ -356,6 +356,53 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
         {
           label: i18n.t('dop:tasks whose estimated duration is longer than 2 days'),
           value: detailData.taskEstimatedDayGtTwoTotal,
+          render: (text: number) => (
+            <span className="flex items-center justify-center h-[120px] text-2xl">
+              {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
+            </span>
+          ),
+        },
+      ],
+      [
+        {
+          label: '负责的功能点数',
+          value: detailData.responsibleFuncPointsTotal,
+          render: (text: number) => (
+            <span className="flex items-center justify-center h-[120px] text-2xl">
+              {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
+            </span>
+          ),
+        },
+        {
+          label: '需求的功能点数',
+          value: detailData.requirementFuncPointsTotal,
+          render: (text: number) => (
+            <span className="flex items-center justify-center h-[120px] text-2xl">
+              {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
+            </span>
+          ),
+        },
+        {
+          label: '开发功能点数',
+          value: detailData.devFuncPointsTotal,
+          render: (text: number) => (
+            <span className="flex items-center justify-center h-[120px] text-2xl">
+              {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
+            </span>
+          ),
+        },
+        {
+          label: '设计功能点数',
+          value: detailData.demandFuncPointsTotal,
+          render: (text: number) => (
+            <span className="flex items-center justify-center h-[120px] text-2xl">
+              {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}
+            </span>
+          ),
+        },
+        {
+          label: '测试功能点数',
+          value: detailData.testFuncPointsTotal,
           render: (text: number) => (
             <span className="flex items-center justify-center h-[120px] text-2xl">
               {text ? <Tooltip title={text}>{Math.round(text)}</Tooltip> : '0'}

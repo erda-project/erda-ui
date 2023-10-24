@@ -43,6 +43,11 @@ export interface Report {
   beginDate: string;
   actualEndDate: string;
   endDate: string;
+  responsibleFuncPointsTotal: string;
+  requirementFuncPointsTotal: string;
+  devFuncPointsTotal: string;
+  demandFuncPointsTotal: string;
+  testFuncPointsTotal: string;
 }
 
 export const getAddons = (query: {
