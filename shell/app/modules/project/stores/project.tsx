@@ -105,13 +105,16 @@ const project = createStore({
             id: projectId,
             routeMark: 'project',
             cb() {
+              layoutStore.reducers.setSubSiderInfoMap({
+                key: 'project',
+                menu: getProjectMenu(projectId, location.pathname),
+                getHeadName: () => <HeadProjectSelector />,
+              });
               project.effects.getProjectInfo(projectId, true).then((detail) => {
                 loadingInProject = false;
                 layoutStore.reducers.setSubSiderInfoMap({
                   key: 'project',
                   detail: { ...detail, icon: theme.projectIcon },
-                  menu: getProjectMenu(projectId, location.pathname),
-                  getHeadName: () => <HeadProjectSelector />,
                 });
                 checkIsProjectIndex();
               });
