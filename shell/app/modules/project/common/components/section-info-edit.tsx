@@ -60,7 +60,9 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
   };
 
   handleSubmit = ({ labels, ...rest }: Obj) => {
-    return Promise.resolve(this.props.updateInfo({ ...rest, labels: labels ? labels.split(',') : [] })).then(() => {
+    return Promise.resolve(
+      this.props.updateInfo({ ...rest, labels: (Array.isArray(labels) ? labels : labels?.split(',')) || [] }),
+    ).then(() => {
       this.toggleModal();
     });
   };

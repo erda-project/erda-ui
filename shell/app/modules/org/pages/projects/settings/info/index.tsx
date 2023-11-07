@@ -471,7 +471,7 @@ const Info = () => {
 
       <FormModal
         onOk={({ labels, ...result }) => {
-          updatePrj({ ...result, labels: labels?.split(',') }).then(() => {
+          updatePrj({ ...result, labels: (Array.isArray(labels) ? labels : labels?.split(',')) || [] }).then(() => {
             updater.projectInfoEditVisible(false);
             updater.projectInfoSaveDisabled(true);
           });
