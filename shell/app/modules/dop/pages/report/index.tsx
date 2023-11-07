@@ -564,6 +564,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
                   'BUG',
                   selectIterations.length ? selectIterations : iterations.map((item) => item.id),
                   ['REOPEN'],
+                  `,"reopenedCount":[1]`,
                 ),
               ),
             },
@@ -767,9 +768,10 @@ const getIssuesStates = (
   type: string,
   iterations: number[],
   belone?: string[],
+  other?: string,
 ) => {
   const list = states.filter((state) => state.issueType === type && (!belone || belone.includes(state.stateBelong)));
-  return `{"states":[${list.map((state) => state.stateID)}],"iterationIDs":[${iterations}]}`;
+  return `{"states":[${list.map((state) => state.stateID)}],"iterationIDs":[${iterations}]${other || ''}}`;
 };
 
 const rateColor = (
