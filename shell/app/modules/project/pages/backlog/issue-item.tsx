@@ -217,7 +217,7 @@ export const IssueItem = (props: IIssueProps) => {
         <span key="planFinishedAt" className="mr-6 w-20 truncate">
           <DatePicker
             bordered={false}
-            value={data.planFinishedAt ? moment(data.planFinishedAt) : null}
+            value={data.planFinishedAt ? moment.utc(data.planFinishedAt) : null}
             suffixIcon={false}
             allowClear={false}
             format={'YYYY/MM/DD'}
