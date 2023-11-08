@@ -100,7 +100,7 @@ export const TimeInput = React.forwardRef(
     }, [showErrTip, value]);
 
     React.useEffect(() => {
-      changeOnInput && onChange(_value || '');
+      (value !== undefined || _value) && changeOnInput && onChange(_value || '');
     }, [_value]);
 
     const triggerSave = (v: string | number, pass: boolean) => {
