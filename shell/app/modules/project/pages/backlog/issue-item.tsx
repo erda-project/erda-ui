@@ -475,7 +475,7 @@ export const IssueForm = (props: IIssueFormProps) => {
   };
 
   return (
-    <div className={`${className} relative flex justify-between items-center`}>
+    <div className={`${className} issues-add-form relative flex justify-between items-center`}>
       <Input
         key={className} // for keep autoFocus
         value={formData.title}
@@ -491,7 +491,7 @@ export const IssueForm = (props: IIssueFormProps) => {
         }
         autoFocus
         onChange={(e) => updater.title(e.target.value)}
-        style={{ height: '42px', paddingRight: '180px', paddingLeft: `${typeSelectWidth}px` }}
+        style={{ height: '42px', paddingRight: '220px', paddingLeft: `${typeSelectWidth}px` }}
       />
       <div className="absolute leading-none" ref={selectRef}>
         <Select
@@ -506,8 +506,9 @@ export const IssueForm = (props: IIssueFormProps) => {
         </Select>
       </div>
 
-      <div className="absolute right-2 flex items-center space-x-2">
+      <div className="absolute right-2 flex items-center space-x-2 w-[220px]">
         <MemberSelector
+          className="flex-1 w-0"
           dropdownMatchSelectWidth={false}
           scopeType="project"
           scopeId={String(projectId)}
