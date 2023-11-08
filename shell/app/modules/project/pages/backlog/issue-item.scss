@@ -102,3 +102,23 @@
     }
   }
 }
+
+.issues-add-form .member-selector .values {
+  width: 100%;
+
+  .value-item {
+    display: inline-flex;
+    width: 100%;
+
+    .ant-avatar {
+      flex: none;
+    }
+
+    .member-selector-value-item {
+      flex: 1;
+      width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
