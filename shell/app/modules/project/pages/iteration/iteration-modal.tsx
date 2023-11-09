@@ -43,6 +43,8 @@ export default ({ visible, data, onClose }: IProps) => {
       } else {
         updater.detail(null);
       }
+    } else {
+      updater.detail(null);
     }
   }, [data, updater, visible]);
 
