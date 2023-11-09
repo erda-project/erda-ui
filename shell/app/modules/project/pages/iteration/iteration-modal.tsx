@@ -82,6 +82,10 @@ export default ({ visible, data, onClose }: IProps) => {
               callback(checkMsg);
             }
 
+            if (value === 0) {
+              callback(`${i18n.t('Please enter')}${i18n.t('dop:work hours')}`);
+            }
+
             callback();
           },
         },
