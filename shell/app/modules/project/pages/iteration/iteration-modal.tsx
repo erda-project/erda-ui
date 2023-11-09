@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import iterationStore from 'app/modules/project/stores/iteration';
+import { cloneDeep } from 'lodash';
 import { FormModal } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
@@ -126,7 +127,7 @@ export default ({ visible, data, onClose }: IProps) => {
       name={i18n.t('dop:iteration')}
       visible={visible}
       fieldsList={fieldsList}
-      formData={state.detail}
+      formData={cloneDeep(state.detail)}
       onOk={handleSubmit}
       onCancel={() => onClose(false)}
     />
