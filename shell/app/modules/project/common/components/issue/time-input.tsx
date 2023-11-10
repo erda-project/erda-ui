@@ -138,7 +138,7 @@ export const TimeInput = React.forwardRef(
             ref={ref}
             value={transToStr(_value)}
             onChange={(e) => onInputChange(e.target.value)}
-            onBlur={() => setTimeout(onBlur, 200)}
+            onBlur={() => !changeOnInput && setTimeout(onBlur, 200)}
           />
           {showTip ? <span className="absolute text-xs text-red left-0 bottom-[-16px]">{checkMsg}</span> : null}
         </div>
