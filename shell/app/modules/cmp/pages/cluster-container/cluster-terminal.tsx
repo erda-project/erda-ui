@@ -147,7 +147,7 @@ export const K8sPodTerminalLog = (
     let end = start.valueOf() + duration * 60 * 1000;
     end = Math.min(end, now) * 1000000;
     const _start = start.valueOf() * 1000000; // ns
-    const logFile = `/api/orgCenter/logs/actions/download?clusterName=${clusterName}&end=${end}&id=${containerId}&source=container&start=${_start}`;
+    const logFile = `/api/orgCenter/logs/actions/download?clusterName=${clusterName}&end=${end}&id=${containerId}&source=container&start=${_start}&live=true&containerName=${containerName}&podName=${podName}&namespace=${namespace}&isFallBack=true`;
     window.open(setApiWithOrg(logFile));
     setDownloadVis(false);
   };
