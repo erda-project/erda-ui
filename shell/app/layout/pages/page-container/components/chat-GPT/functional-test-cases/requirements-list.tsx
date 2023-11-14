@@ -51,11 +51,6 @@ const RequirementsList = ({
 
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 120,
-    },
-    {
       title: i18n.t('default:Title'),
       dataIndex: 'title',
       render: (text: string) => (
