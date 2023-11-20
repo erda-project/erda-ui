@@ -15,7 +15,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Table } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon } from 'common';
-import projectStore from 'project/stores/project';
+import routeInfoStore from 'core/stores/route';
 import { getIssues } from 'app/modules/project/services/issue';
 import { IRow } from 'layout/services/ai-test';
 
@@ -28,7 +28,7 @@ const RequirementsList = ({
   onExpand: (expanded: boolean) => void;
   expanded: boolean;
 }) => {
-  const { id: projectID } = projectStore.useStore((s) => s.info);
+  const { projectId: projectID } = routeInfoStore.useStore((s) => s.params);
   const [requirementsList, setRequirementsList] = useState<ISSUE.IssueType[]>([]);
   const [total, setTotal] = useState(0);
   const [current, setCurrent] = useState(1);
@@ -41,7 +41,13 @@ const RequirementsList = ({
 
   const getRequirements = async () => {
     setLoading(true);
-    const res = await getIssues({ pageSize: 10, type: 'REQUIREMENT', pageNo: current, projectID, title: searchValue });
+    const res = await getIssues({
+      pageSize: 10,
+      type: 'REQUIREMENT',
+      pageNo: current,
+      projectID: +projectID,
+      title: searchValue,
+    });
     if (res.success) {
       setRequirementsList(res.data?.list || []);
       setTotal(res.data?.total || 0);
