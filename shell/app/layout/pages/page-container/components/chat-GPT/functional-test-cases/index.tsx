@@ -31,7 +31,7 @@ const FunctionalTestCases = () => {
 
   return (
     <div className="flex gap-x-2 h-full functional-test-cases">
-      <div className="flex-[1] bg-white rounded-[4px]">
+      <div className="flex-[1] bg-white rounded-[4px] overflow-y-auto">
         <div className="bg-table-head-bg font-medium test-base p-4">{i18n.t('dop:Test set')}</div>
         <CaseTree
           ref={(e) => {
