@@ -134,7 +134,9 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
       hideLog,
       withoutDrawer = false,
       configParams,
+      clusterName,
     } = this.props;
+
     const { isStdErr } = this.state;
     const switchLog = (
       <Switch
@@ -156,6 +158,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
           taskID,
           id,
           stream: isStdErr ? 'stderr' : 'stdout',
+          clusterName,
         }}
         logKey={logId}
         extraButton={switchLog}

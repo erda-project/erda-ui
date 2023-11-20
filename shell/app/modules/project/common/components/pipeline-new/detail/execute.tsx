@@ -124,7 +124,7 @@ export const PureExecute = (props: PureExecuteProps) => {
     return <EmptyHolder relative style={{ justifyContent: 'start' }} />;
   }
 
-  const { id: pipelineID, env, branch, extra, needApproval, pipelineButton } = pipelineDetail;
+  const { id: pipelineID, env, branch, extra, needApproval, pipelineButton, clusterName } = pipelineDetail;
 
   const runBuild = (v?: Obj) => {
     updater.startStatus('pending');
@@ -152,6 +152,7 @@ export const PureExecute = (props: PureExecuteProps) => {
         logId: node.extra.uuid,
         taskContainers: node.extra.taskContainers,
         showLog: true,
+        clusterName,
       });
     } else {
       updater.logProps({ showLog: false });
