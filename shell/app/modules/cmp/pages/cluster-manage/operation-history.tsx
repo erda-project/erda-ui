@@ -197,7 +197,7 @@ export const OperationHistory = () => {
           current: operationPaging.pageNo,
           pageSize: operationPaging.pageSize,
           total: operationPaging.total,
-          onChange: (no: number) => getList({ pageNo: no, ...filters }),
+          onChange: (no: number, size?: number) => getList({ pageNo: no, pageSize: size, ...filters }),
         }}
         // scroll={{ x: 1100 }}
       />
