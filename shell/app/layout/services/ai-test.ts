@@ -21,6 +21,7 @@ export interface getAddonListPayload {
   requirements: IRequirement[];
   needAdjust?: boolean;
   testSetID: number;
+  systemPrompt: string;
 }
 
 export interface IRequirement {
@@ -60,6 +61,7 @@ export const getAddonList = ({
   requirements,
   needAdjust = true,
   testSetID,
+  systemPrompt,
 }: getAddonListPayload): RAW_RESPONSE<Case[]> => {
   const { currentOrg } = getGlobal('initData');
 
@@ -68,6 +70,7 @@ export const getAddonList = ({
     functionParams: {
       testSetID,
       requirements,
+      systemPrompt,
     },
     background: {
       userID: userId,
@@ -83,4 +86,8 @@ export const getAddonList = ({
     .post(`/api/ai-functions/create-test-case/actions/apply`)
     .send(params)
     .then((response: any) => response.body);
+};
+
+export const getSystemPrompt = (): RAW_RESPONSE<string> => {
+  return agent.get(`/api/ai-functions/create-test-case/system-prompt`).then((response: any) => response.body);
 };
