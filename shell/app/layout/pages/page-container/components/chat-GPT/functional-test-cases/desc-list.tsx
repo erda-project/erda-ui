@@ -25,7 +25,15 @@ import { getAddonList, Case, IRow } from 'layout/services/ai-test';
 
 import 'project/pages/test-manage/case/case-drawer/index.scss';
 
-const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number }) => {
+const DescList = ({
+  rows: _rows,
+  testSetID,
+  systemPrompt,
+}: {
+  rows: IRow[];
+  testSetID: number;
+  systemPrompt: string;
+}) => {
   const { id: projectID, name: projectName } = projectStore.useStore((s) => s.info);
   const { id: userId } = userStore.getState((s) => s.loginUser);
   const [cases, setCases] = useState<Case[]>([]);
@@ -50,6 +58,7 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
       projectName,
       requirements: items.map((item) => ({ issueID: item.id, prompt: `${item.title},${item.content}` })),
       testSetID,
+      systemPrompt,
     });
 
     if (res.success) {
@@ -87,6 +96,7 @@ const DescList = ({ rows: _rows, testSetID }: { rows: IRow[]; testSetID: number 
       requirements,
       needAdjust: false,
       testSetID,
+      systemPrompt,
     };
     const res = await getAddonList(param);
 
