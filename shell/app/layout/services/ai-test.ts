@@ -18,8 +18,7 @@ export interface getAddonListPayload {
   userId: string;
   projectID: number;
   projectName: string;
-  requirements: IRequirement[];
-  needAdjust?: boolean;
+  requirements: IRequirement[] | Obj[];
   testSetID: number;
   systemPrompt: string;
 }
@@ -54,15 +53,24 @@ export interface IRow {
   content: string;
 }
 
+export interface TestSet {
+  requirementId: number;
+  subDirs: TestDir[];
+}
+
+interface TestDir {
+  dir: string;
+  count: number;
+}
+
 export const getAddonList = ({
   userId,
   projectID,
   projectName,
   requirements,
-  needAdjust = true,
   testSetID,
   systemPrompt,
-}: getAddonListPayload): RAW_RESPONSE<Case[]> => {
+}: getAddonListPayload): RAW_RESPONSE<{ testSetsInfo: { subdirs: TestSet[] }; testcases: Obj[] }> => {
   const { currentOrg } = getGlobal('initData');
 
   const params = {
@@ -79,7 +87,6 @@ export const getAddonList = ({
       projectID: projectID,
       projectName: projectName,
     },
-    needAdjust,
   };
 
   return agent
@@ -90,4 +97,26 @@ export const getAddonList = ({
 
 export const getSystemPrompt = (): RAW_RESPONSE<string> => {
   return agent.get(`/api/ai-functions/create-test-case/system-prompt`).then((response: any) => response.body);
+};
+
+export const exportXMind = ({
+  projectID,
+  cases,
+}: {
+  projectID: number;
+  cases: Obj[];
+}): { apiFileUUID: string; recordId: number } => {
+  const params = {
+    testCasePagingRequest: {
+      projectID,
+      recycled: false,
+    },
+    fileType: 'xmind',
+    testSetCasesMetas: cases,
+  };
+
+  return agent
+    .post(`/api/testcases/actions/export-ai-testcases`)
+    .send(params)
+    .then((response: any) => response.body);
 };
