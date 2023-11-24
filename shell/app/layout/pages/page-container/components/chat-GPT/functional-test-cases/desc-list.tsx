@@ -16,41 +16,26 @@ import i18n from 'i18n';
 import { Button, Divider, message, Spin } from 'antd';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { ErdaIcon, MarkdownEditor } from 'common';
-import ContentPanel from 'project/pages/test-manage/case/case-drawer/content-panel';
-import CaseStep from 'project/pages/test-manage/case/case-drawer/case-step';
+import { ErdaIcon } from 'common';
 import projectStore from 'project/stores/project';
 import userStore from 'app/user/stores';
-import { getAddonList, Case, IRow } from 'layout/services/ai-test';
+import { getAddonList, exportXMind, IRow, TestSet } from 'layout/services/ai-test';
 
 import 'project/pages/test-manage/case/case-drawer/index.scss';
 
-const DescList = ({
-  rows: _rows,
-  testSetID,
-  systemPrompt,
-}: {
-  rows: IRow[];
-  testSetID: number;
-  systemPrompt: string;
-}) => {
+const DescList = ({ rows, testSetID, systemPrompt }: { rows: IRow[]; testSetID: number; systemPrompt: string }) => {
   const { id: projectID, name: projectName } = projectStore.useStore((s) => s.info);
   const { id: userId } = userStore.getState((s) => s.loginUser);
-  const [cases, setCases] = useState<Case[]>([]);
-  const [rows, setRows] = useState<IRow[]>([]);
+  const [sets, setSets] = useState<TestSet[]>([]);
+  const [cases, setCases] = useState<Obj[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setRows(
-      _rows.map((item) => ({
-        id: item.id,
-        title: item.title,
-        content: rows.find((row) => row.id === item.id)?.content || item.content,
-      })),
-    );
-  }, [_rows]);
+    setSets(sets.filter((set) => rows.find((row) => row.id === set.requirementId)));
+    setCases(cases.filter((item) => rows.find((row) => row.id === item.issueID)));
+  }, [rows]);
 
-  const getTestCase = async (items: IRow[], cb: (data: Case[]) => void) => {
+  const getTestCase = async (items: IRow[], cb: (data: { sets: TestSet[]; testcases: Obj[] }) => void) => {
     setLoading(true);
     const res = await getAddonList({
       userId,
@@ -62,39 +47,18 @@ const DescList = ({
     });
 
     if (res.success) {
-      cb?.(res.data);
+      cb?.({ testcases: res.data.testcases, sets: res.data.testSetsInfo.subdirs });
     }
     setLoading(false);
   };
 
   const apply = async () => {
     setLoading(true);
-    const error = cases.map((item) => doCheck(item)).find((item) => item);
-
-    if (error) {
-      message.error(error);
-      return false;
-    }
-
-    const list = cases.length
-      ? cases
-      : rows.map((item) => ({ requirementID: item.id, ...item, testCaseCreateReq: undefined }));
-
-    if (!list.length) {
-      message.error(i18n.t('Please select requirements!'));
-    }
-
-    const requirements = list.map((item, index) => ({
-      issueID: item.requirementID,
-      prompt: `${rows[index]?.title},${rows[index]?.content}`,
-      testCaseCreateReq: item.testCaseCreateReq,
-    }));
     const param = {
       userId,
       projectID,
       projectName,
-      requirements,
-      needAdjust: false,
+      requirements: cases,
       testSetID,
       systemPrompt,
     };
@@ -106,97 +70,41 @@ const DescList = ({
     setLoading(false);
   };
 
-  const renderItem = (item: IRow, index: number) => {
+  const renderItem = (item: TestSet) => {
     return (
       <div className="bg-white rounded-[4px] p-2 mb-4">
         <div className="flex-h-center">
           <div className="flex items-start flex-1">
             <ErdaIcon type="xuqiu" className="text-xl mr-1 relative top-0.5" />
-            {item.title}
+            {i18n.t('Requirement')}ID: {item.requirementId}
           </div>
         </div>
         <Divider />
-        <div className="my-2">
-          <MarkdownEditor
-            value={item.content}
-            className="markdown-border-none"
-            onChange={(val) => {
-              rows[index].content = val;
-              setRows([...rows]);
-            }}
-          />
+        <div className="my-2 ml-1">
+          {item.subDirs.map((subDir) => (
+            <div className="mb-1" key={subDir.dir}>
+              <div>
+                {i18n.t('Test set')}: {subDir.dir}
+              </div>
+              <div>
+                {i18n.t('number of use cases')}: {subDir.count}
+              </div>
+            </div>
+          ))}
         </div>
-        {(cases[index] && (
-          <>
-            <Divider />
-            <div className="flex-h-center">
-              <ErdaIcon type="quexian" className="text-xl mr-1" />
-              <div className="flex-1">{i18n.t('test case preview')}</div>
-              <Button
-                onClick={() =>
-                  getTestCase([item], (data) => {
-                    setCases(cases.map((item) => (item.requirementID === data[0]?.requirementID ? data[0] : item)));
-                  })
-                }
-              >
-                {i18n.t('regenerate')}
-              </Button>
-            </div>
-            <Divider />
-            <div>
-              <ContentPanel title={i18n.t('dop:Preconditions')}>
-                <MarkdownEditor
-                  value={cases[index]?.testCaseCreateReq?.preCondition}
-                  onBlur={(v: string) => {
-                    if (cases[index]) {
-                      cases[index].testCaseCreateReq.preCondition = v;
-                      setCases([...cases]);
-                    }
-                  }}
-                  placeholder={i18n.t('dop:No content')}
-                />
-              </ContentPanel>
-              <ContentPanel
-                title={i18n.t('dop:Steps and results')}
-                mode="add"
-                onClick={() => {
-                  if (cases[index]) {
-                    cases[index].testCaseCreateReq.stepAndResults = [
-                      ...cases[index].testCaseCreateReq.stepAndResults,
-                      { step: '', result: '' },
-                    ];
-                    setCases([...cases]);
-                  }
-                }}
-              >
-                <CaseStep
-                  value={cases[index]?.testCaseCreateReq?.stepAndResults}
-                  onChange={(stepsData) => {
-                    if (cases[index]) {
-                      cases[index].testCaseCreateReq.stepAndResults = stepsData;
-                      setCases([...cases]);
-                    }
-                  }}
-                />
-              </ContentPanel>
-              <ContentPanel title={i18n.t('Description')}>
-                <MarkdownEditor
-                  value={cases[index]?.testCaseCreateReq?.desc}
-                  onBlur={(v: string) => {
-                    if (cases[index]) {
-                      cases[index].testCaseCreateReq.desc = v;
-                      setCases([...cases]);
-                    }
-                  }}
-                  placeholder={i18n.t('dop:Additional description')}
-                />
-              </ContentPanel>
-            </div>
-          </>
-        )) ||
-          ''}
       </div>
     );
+  };
+
+  const exportTest = async () => {
+    const params = {
+      projectID,
+      cases,
+    };
+    const res = await exportXMind(params);
+
+    res && window.open(`/api/files/${res.apiFileUUID}`);
+    res && message.success(`${i18n.t('Export success! Record ID is')}: ${res.recordId}`);
   };
 
   return (
@@ -205,45 +113,33 @@ const DescList = ({
         <Spin spinning={loading}>
           <div className="flex-h-center flex-none flex-wrap bg-table-head-bg">
             <div className="flex-1 font-medium test-base min-w-[130px] mb-2">
-              {i18n.t('default:test case description and preview')}
+              {i18n.t('generate an overview of test cases')}
             </div>
             <div className="flex-none mb-2">
               <Button
-                onClick={() => getTestCase(rows, (data) => setCases(data || []))}
-                disabled={!_rows.length || loading}
+                onClick={() =>
+                  getTestCase(rows, (data) => {
+                    setSets(data.sets);
+                    setCases(data.testcases);
+                  })
+                }
+                disabled={!rows.length || loading}
               >
-                {i18n.t('default:batch generation')}
+                {sets.length ? i18n.t('regenerate') : i18n.t('generate')}
               </Button>
-              <Button className="ml-1" onClick={() => apply()} disabled={!_rows.length || loading}>
-                {i18n.t('default:batch apply')}
+              <Button className="ml-1" onClick={() => exportTest()} disabled={!sets.length || loading}>
+                {i18n.t('Export')}
+              </Button>
+              <Button className="ml-1" onClick={() => apply()} disabled={!sets.length || loading}>
+                {i18n.t('save')}
               </Button>
             </div>
           </div>
-          <div className="flex-1 mt-2">{rows.map(renderItem)}</div>
+          <div className="flex-1 mt-2">{sets.map(renderItem)}</div>
         </Spin>
       </DndProvider>
     </div>
   );
-};
-
-const doCheck = (data: Case) => {
-  const { testCaseCreateReq } = data;
-  const { stepAndResults = [] } = testCaseCreateReq;
-  if (!(stepAndResults || []).length) {
-    return i18n.t('dop:steps and results are not filled out');
-  }
-  const inValidNum = [] as number[];
-  stepAndResults.forEach((item, i) => {
-    if (!item.step || !item.result) {
-      inValidNum.push(i + 1);
-    }
-  });
-  if (inValidNum.length) {
-    return i18n.t('dop:the {index} step in the steps and results is not completed', {
-      index: inValidNum.join(','),
-    });
-  }
-  return '';
 };
 
 export default DescList;
