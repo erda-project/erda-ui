@@ -343,3 +343,34 @@ export const setRepoLock = ({ repoPrefix, isLocked }: { repoPrefix: string; isLo
     .send({ isLocked })
     .then((response: any) => response.body);
 };
+
+export const aiCodeReview = ({
+  id,
+  type,
+  oldCommitId,
+  newCommitId,
+  oldPath,
+  newPath,
+  repoPrefix,
+}: {
+  id: string;
+  type: string;
+  oldCommitId: string;
+  newCommitId: string;
+  oldPath: string;
+  newPath: string;
+  repoPrefix: string;
+}) => {
+  return agent
+    .post(`/api/repo/${repoPrefix}/merge-requests/${id}/ai-code-review`)
+    .send({
+      type,
+      noteLocation: {
+        oldCommitId,
+        newCommitId,
+        oldPath,
+        newPath,
+      },
+    })
+    .then((response: any) => response.body);
+};

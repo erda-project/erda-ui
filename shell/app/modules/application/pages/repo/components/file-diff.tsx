@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Tooltip, Radio, Button } from 'antd';
+import { Tooltip, Radio, Button, Modal, Empty, message } from 'antd';
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { diff_match_patch as Diff } from 'diff-match-patch';
-import { EmptyListHolder, Icon as CustomIcon, IF, BackToTop, ErdaIcon } from 'common';
+import { EmptyListHolder, Icon as CustomIcon, IF, BackToTop, ErdaIcon, MarkdownRender } from 'common';
 import { last, map, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import { getFileCommentMap } from './mr-comments';
@@ -27,6 +27,7 @@ import './file-diff.scss';
 import repoStore from 'application/stores/repo';
 import appStore from 'application/stores/application';
 import routeInfoStore from 'core/stores/route';
+import { aiCodeReview } from 'application/services/repo';
 
 const diffTool = new Diff();
 const { ELSE } = IF;
@@ -105,6 +106,7 @@ interface IProps {
   };
   forwardRef?: React.Ref<HTMLDivElement>;
   addComment: (data: object) => Promise<any>;
+  titleSlot?: React.ReactNode;
 }
 
 const generateDiffFilePath = (oldName: string, name: string) => {
@@ -156,6 +158,7 @@ export const FileDiff = ({
   mode,
   forwardRef,
   appDetail,
+  titleSlot,
 }: IProps) => {
   const [expandedFile, setExpandedFile] = React.useState(null);
   const memoFile = React.useMemo(() => {
@@ -256,6 +259,7 @@ export const FileDiff = ({
             </IF>
             <ErdaIcon type="file-code-one" size="14" className="mr-2" />
             {name}
+            {titleSlot}
           </div>
         )}
       </div>
@@ -323,7 +327,7 @@ export const FileDiff = ({
                   const isUnfoldLine = oldLineNo === -1 && newLineNo === -1;
                   const unfoldClassName = isUnfoldLine && getBlobRange ? 'unfold-btn' : '';
                   const oldPrefix = oldLineNo > 0 ? oldLineNo : '';
-                  const newPrefix = newLineNo > 0 ? newLineNo : '';
+                  const newPrefix = actionType && newLineNo > 0 ? newLineNo : '';
                   const actionPrefix = prefixMap[actionType] || '';
                   const codeStyle: React.CSSProperties = {
                     paddingLeft: `${paddingLeft}em`,
@@ -339,7 +343,7 @@ export const FileDiff = ({
                     setExpandedFile(updatedFile);
                   };
                   const lineKey = `${oldLineNo}_${newLineNo}`;
-                  const comments = commentMap[lineKey];
+                  const comments = actionType && commentMap[lineKey];
                   // 编辑框显示条件：只判断icon点击后的状态
                   const showLeftCommentEdit = leftCommentEditVisible[lineKey];
                   // icon显示条件：未禁用、无数据（有的话通过回复按钮显示编辑框）、lineNo不为-1、编辑框未显示
@@ -404,7 +408,7 @@ export const FileDiff = ({
                             onClick={handleExpand}
                             data-prefix={oldPrefix}
                           >
-                            <IF check={showLeftCommentIcon || showRightCommentIcon}>
+                            <IF check={actionType && (showLeftCommentIcon || showRightCommentIcon)}>
                               <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
                             </IF>
                           </td>
@@ -424,33 +428,37 @@ export const FileDiff = ({
                             <td colSpan={2} />
                             <td className="comment-box-td">
                               <CommentListBox comments={comments} />
-                              <IF check={showCommentEdit}>
-                                <MarkdownEditor
-                                  value={isShowLS[lineKey] ? tsComment.content : null}
-                                  operationBtns={[
-                                    {
-                                      text: i18n.t('dop:post comment'),
-                                      type: 'primary',
-                                      onClick: (v) =>
-                                        addCommentFn({
-                                          note: v,
-                                        }).then(() => {
+                              {actionType ? (
+                                <IF check={showCommentEdit}>
+                                  <MarkdownEditor
+                                    value={isShowLS[lineKey] ? tsComment.content : null}
+                                    operationBtns={[
+                                      {
+                                        text: i18n.t('dop:post comment'),
+                                        type: 'primary',
+                                        onClick: (v) =>
+                                          addCommentFn({
+                                            note: v,
+                                          }).then(() => {
+                                            toggleLeftCommentEdit(lineKey, false);
+                                            toggleRightCommentEdit(lineKey, false);
+                                          }),
+                                      },
+                                      {
+                                        text: i18n.t('Cancel'),
+                                        onClick: () => {
                                           toggleLeftCommentEdit(lineKey, false);
                                           toggleRightCommentEdit(lineKey, false);
-                                        }),
-                                    },
-                                    {
-                                      text: i18n.t('Cancel'),
-                                      onClick: () => {
-                                        toggleLeftCommentEdit(lineKey, false);
-                                        toggleRightCommentEdit(lineKey, false);
+                                        },
                                       },
-                                    },
-                                  ]}
-                                />
-                                <ELSE />
-                                <Button onClick={() => toggleEditFn(lineKey, true)}>{i18n.t('dop:reply')}</Button>
-                              </IF>
+                                    ]}
+                                  />
+                                  <ELSE />
+                                  <Button onClick={() => toggleEditFn(lineKey, true)}>{i18n.t('dop:reply')}</Button>
+                                </IF>
+                              ) : (
+                                ''
+                              )}
                             </td>
                           </tr>
                         </IF>
@@ -587,9 +595,13 @@ const FilesDiff = (props: IDiffProps) => {
   const [showStyle, setShowStyle] = React.useState('inline');
   const [expandDiffFiles, setExpandDiffFiles] = React.useState(false);
   const [diffFileRefs, setDiffFileRefs] = React.useState({});
-  const { getBlobRange, addComment: addCommentFunc } = repoStore.effects;
+  const { getBlobRange, addComment: addCommentFunc, getComments } = repoStore.effects;
   const [renderList, setRenderList] = React.useState([] as REPOSITORY.IFile[]);
   const appDetail = appStore.useStore((s) => s.detail);
+  const [visible, setVisible] = useState(false);
+  const [currentfile, setCurrentFile] = useState<{ name: string; oldName: string }>();
+  const { mergeId } = routeInfoStore.useStore((s) => s.params);
+  const [reviewContent, setReviewContent] = React.useState('');
 
   React.useEffect(() => {
     if (props.diff) {
@@ -660,7 +672,30 @@ const FilesDiff = (props: IDiffProps) => {
     return <EmptyListHolder />;
   }
   const { filesChanged, totalAddition, totalDeletion } = diff;
+
   const fileCommentMap = getFileCommentMap(comments);
+
+  const reviewFile = async () => {
+    if (currentfile?.name) {
+      const { from, to } = props;
+      const params = {
+        id: mergeId,
+        type: 'MR_FILE',
+        oldCommitId: to,
+        newCommitId: from,
+        oldPath: currentfile.oldName,
+        newPath: currentfile.name,
+        repoPrefix: appDetail.gitRepoAbbrev,
+      };
+      const res = await aiCodeReview(params);
+
+      if (res.success) {
+        message.success(i18n.t('{action} successfully', { action: i18n.t('review') }));
+        getComments();
+        setVisible(false);
+      }
+    }
+  };
 
   return (
     <div>
@@ -724,10 +759,37 @@ const FilesDiff = (props: IDiffProps) => {
               mode={props.mode}
               ref={ref}
               appDetail={appDetail}
+              titleSlot={
+                <Button
+                  className="ml-4"
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setVisible(true);
+                    setCurrentFile(file);
+                    commentMap['0_0']?.[0]?.note && setReviewContent(commentMap['0_0']?.[0]?.note);
+                  }}
+                >
+                  {i18n.t('AI review')}
+                </Button>
+              }
             />
           );
         })}
       </div>
+      <Modal
+        title={`${currentfile?.name ? `${currentfile.name}` : ''} ${i18n.t('AI review')}`}
+        visible={visible}
+        onCancel={() => setVisible(false)}
+        footer={null}
+      >
+        <div>
+          {reviewContent ? <MarkdownRender value={reviewContent} /> : <Empty />}
+          <div className="text-center mt-4">
+            <Button onClick={reviewFile}>{reviewContent ? i18n.t('re-examine') : i18n.t('review')}</Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

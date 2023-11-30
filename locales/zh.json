@@ -1,6 +1,7 @@
 {
   "default": {
     "1 Month": "1月",
+    "AI review": "AI审查",
     "API Management": "API 管理",
     "API Market": "API 集市",
     "API description": "API 描述",
@@ -931,6 +932,7 @@
     "queuing": "排队中",
     "queuing for resources": "排队等待资源中",
     "quota and usage": "配额及使用率",
+    "re-examine": "重新审查",
     "ready to execute": "准备执行",
     "reason for rejection": "拒绝原因",
     "recent import and export records": "最近的导入导出记录",
@@ -969,6 +971,7 @@
     "restore": "恢复",
     "result": "结果",
     "revert deprecated version": "撤销弃用版本",
+    "review": "审查",
     "revoked": "已撤销",
     "role permissions description": "角色权限说明",
     "rolled back": "已回滚",
