@@ -425,6 +425,7 @@ declare namespace REPOSITORY {
       newLine: number;
       oldCommitId: string;
       newCommitId: string;
+      aiCodeReviewType?: string;
     };
     authorId: string;
     author: {

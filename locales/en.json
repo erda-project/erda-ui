@@ -1,6 +1,7 @@
 {
   "default": {
     "1 Month": "1 Month",
+    "AI review": "AI review",
     "API Management": "API Management",
     "API Market": "API Market",
     "API description": "API description",
@@ -931,6 +932,7 @@
     "queuing": "queuing",
     "queuing for resources": "queuing for resources",
     "quota and usage": "quota and usage",
+    "re-examine": "re-examine",
     "ready to execute": "ready to execute",
     "reason for rejection": "reason for rejection",
     "recent import and export records": "recent import and export records",
@@ -969,6 +971,7 @@
     "restore": "restore",
     "result": "result",
     "revert deprecated version": "revert deprecated version",
+    "review": "review",
     "revoked": "revoked",
     "role permissions description": "role permissions description",
     "rolled back": "rolled back",

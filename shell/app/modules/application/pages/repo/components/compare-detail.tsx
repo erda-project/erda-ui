@@ -36,6 +36,10 @@ const CompareDetail = ({ hideComment, disableComment = false, hideWorkflow = fal
   const [compareDetail, comments, mrDetail] = repoStore.useStore((s) => [s.compareDetail, s.comments, s.mrDetail]);
   const { commits = [], diff, from, to } = compareDetail || {};
   const [isFetching] = useLoading(repoStore, ['getCompareDetail']);
+  const actualCommits = comments.filter(
+    (commit) => !commit.data?.aiCodeReviewType || commit.data?.aiCodeReviewType === 'MR',
+  );
+
   return (
     <Spin spinning={isFetching}>
       <Tabs
@@ -50,11 +54,11 @@ const CompareDetail = ({ hideComment, disableComment = false, hideWorkflow = fal
             tab={
               <span>
                 {allWordsFirstLetterUpper(i18n.t('comment'))}
-                <span className="dice-badge">{comments.length}</span>{' '}
+                <span className="dice-badge">{actualCommits.length}</span>{' '}
               </span>
             }
           >
-            <CommentList comments={comments} />
+            <CommentList comments={actualCommits} />
           </TabPane>
         )}
         <TabPane
