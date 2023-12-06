@@ -130,7 +130,7 @@ const RuntimeOverView = () => {
           };
           const frontPath = getMSFrontPathByKey('LogAnalyze', pathParams);
           onClick = () =>
-            goTo(frontPath, { jumpOut: true, query: { query: `tags.application_id: "${params.appId}"` } });
+            goTo(frontPath, { jumpOut: true, query: { query: `tags.dice_application_id: "${params.appId}"` } });
         } else {
           if (!consoleUrl) {
             return {};
