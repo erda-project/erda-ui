@@ -90,6 +90,7 @@ declare namespace REPOSITORY {
     };
     createdAt: string;
     updatedAt: string;
+    role?: string;
   }
 
   interface IBlob {
