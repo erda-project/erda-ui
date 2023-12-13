@@ -160,7 +160,7 @@ export const PureCommentList = ({ comments = [] }: ICommentList) => {
           return (
             <CommentBox
               key={comment.id}
-              user={comment.author.nickName}
+              user={comment.role === 'AI' ? 'AI' : comment.author.nickName}
               time={comment.createdAt}
               action={i18n.t('dop:commented at')}
               content={comment.note || ''}

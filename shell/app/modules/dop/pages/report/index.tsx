@@ -103,11 +103,14 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
 
   const getIterations = async (projectID: number) => {
     setLoading(true);
-    const res = await getProjectIterations({ projectID, pageSize: 999, pageNo: 1 });
-    if (res.success) {
-      setIterations(res.data?.list || []);
+    try {
+      const res = await getProjectIterations({ projectID, pageSize: 999, pageNo: 1 });
+      if (res.success) {
+        setIterations(res.data?.list || []);
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const getDatail = async (iterationIDs: number[]) => {
