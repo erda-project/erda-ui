@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Tooltip, Radio, Button, Modal, Empty, message } from 'antd';
+import { Tooltip, Radio, Button, Modal, Empty, message, Spin } from 'antd';
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { diff_match_patch as Diff } from 'diff-match-patch';
@@ -601,7 +601,8 @@ const FilesDiff = (props: IDiffProps) => {
   const [visible, setVisible] = useState(false);
   const [currentfile, setCurrentFile] = useState<{ name: string; oldName: string }>();
   const { mergeId } = routeInfoStore.useStore((s) => s.params);
-  const [reviewContent, setReviewContent] = React.useState('');
+  const [reviewFileName, setReviewFileName] = React.useState('');
+  const [reviewLoading, setReviewLoading] = React.useState(false);
 
   React.useEffect(() => {
     if (props.diff) {
@@ -677,6 +678,7 @@ const FilesDiff = (props: IDiffProps) => {
 
   const reviewFile = async () => {
     if (currentfile?.name) {
+      setReviewLoading(true);
       const { from, to } = props;
       const params = {
         id: mergeId,
@@ -692,10 +694,13 @@ const FilesDiff = (props: IDiffProps) => {
       if (res.success) {
         message.success(i18n.t('{action} successfully', { action: i18n.t('review') }));
         getComments();
-        setVisible(false);
       }
+      setReviewLoading(false);
     }
   };
+
+  const reviewCommentMap = fileCommentMap[reviewFileName] || {};
+  const reviewComment = reviewCommentMap['0_0']?.[0]?.note;
 
   return (
     <div>
@@ -767,7 +772,7 @@ const FilesDiff = (props: IDiffProps) => {
                     e.stopPropagation();
                     setVisible(true);
                     setCurrentFile(file);
-                    commentMap['0_0']?.[0]?.note && setReviewContent(commentMap['0_0']?.[0]?.note);
+                    setReviewFileName(file.name);
                   }}
                 >
                   {i18n.t('AI review')}
@@ -784,10 +789,12 @@ const FilesDiff = (props: IDiffProps) => {
         footer={null}
       >
         <div>
-          {reviewContent ? <MarkdownRender value={reviewContent} /> : <Empty />}
-          <div className="text-center mt-4">
-            <Button onClick={reviewFile}>{reviewContent ? i18n.t('re-examine') : i18n.t('review')}</Button>
-          </div>
+          <Spin spinning={reviewLoading}>
+            {reviewComment ? <MarkdownRender value={reviewComment} /> : <Empty />}
+            <div className="text-center mt-4">
+              <Button onClick={reviewFile}>{reviewComment ? i18n.t('re-examine') : i18n.t('review')}</Button>
+            </div>
+          </Spin>
         </div>
       </Modal>
     </div>
