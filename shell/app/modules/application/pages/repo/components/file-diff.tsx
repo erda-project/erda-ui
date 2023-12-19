@@ -12,7 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Tooltip, Radio, Button, Modal, Empty, message, Spin } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { encode } from 'js-base64';
+import moment from 'moment';
 import i18n from 'i18n';
 import { diff_match_patch as Diff } from 'diff-match-patch';
 import { EmptyListHolder, Icon as CustomIcon, IF, BackToTop, ErdaIcon, MarkdownRender } from 'common';
@@ -22,12 +24,17 @@ import { getFileCommentMap } from './mr-comments';
 import MarkdownEditor from 'common/components/markdown-editor';
 import { isImage, setApiWithOrg, getOrgFromPath } from 'common/utils';
 import { CommentBox } from 'application/common/components/comment-box';
+import { erdaEnv } from 'common/constants';
+import { ChatProvider, Chat as TChart } from '@terminus/ai-components';
 import 'requestidlecallback-polyfill';
 import './file-diff.scss';
 import repoStore from 'application/stores/repo';
 import appStore from 'application/stores/application';
 import routeInfoStore from 'core/stores/route';
+import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { aiCodeReview } from 'application/services/repo';
+import { getLogs } from 'layout/services/ai-chat';
 
 const diffTool = new Diff();
 const { ELSE } = IF;
@@ -69,24 +76,153 @@ const getExpandParams = (path: string, sections: any[], content: string) => {
 };
 
 const CommentIcon = ({ disableComment, onClick }: { disableComment?: boolean; onClick: () => void }) =>
-  disableComment ? null : <CustomIcon className="hover-active comment-icon" type="message" onClick={onClick} />;
+  disableComment ? null : (
+    <ErdaIcon className="hover-active comment-icon select-none" type="add-one" onClick={onClick} />
+  );
+
+const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.erda.cloud';
+const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || '21b58e59f4ad4c46b0c7c70f6b76d8f5';
 
 const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
   if (!comments) {
     return null;
   }
+
   return (
     <>
-      {comments.map((comment: REPOSITORY.IComment) => (
-        <CommentBox
-          key={comment.id}
-          user={comment.author.nickName}
-          time={comment.createdAt}
-          action={i18n.t('dop:commented at')}
-          content={comment.note || ''}
-        />
-      ))}
+      {comments.map((comment: REPOSITORY.IComment) => {
+        console.log(comment);
+        const { data } = comment;
+        const { newLine, newLineTo, oldLine, oldLineTo } = data;
+        return (
+          <div>
+            <div className="mb-2 text-base">
+              {i18n.t('comment')}
+              {i18n.t('line')}{' '}
+              {i18n.t('from {start} to {end}', { start: `${oldLine}_${newLine}`, end: `${oldLineTo}_${newLineTo}` })}
+            </div>
+            {comment.data.aiSessionID ? (
+              <AICommentBox comment={comment} />
+            ) : (
+              <CommentBox
+                key={comment.id}
+                user={comment.role === 'AI' ? 'AI' : comment.author.nickName}
+                time={comment.createdAt}
+                action={i18n.t('dop:commented at')}
+                content={comment.note || ''}
+              />
+            )}
+          </div>
+        );
+      })}
     </>
+  );
+};
+
+const AICommentBox = ({ comment }: { comment: REPOSITORY.IComment }) => {
+  const { id: userId, nick: name, phone, email } = userStore.getState((s) => s.loginUser);
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  const [isEdit, setIsEdit] = useState(false);
+  const [list, setList] = useState<Array<{ time: string; content: string; role: string }>>([]);
+
+  useEffect(() => {
+    if (isEdit && comment.data.aiSessionID) {
+      loadLogs(comment.data.aiSessionID);
+    }
+  }, [isEdit, comment.data.aiSessionID]);
+
+  const loadLogs = async (chatId: string) => {
+    const res = await getLogs({ userId, name, phone, email, id: chatId });
+    if (res.success) {
+      const {
+        data: { list: _list },
+      } = res;
+      const messages = [] as Array<{ time: string; content: string; role: string }>;
+      _list.reverse().forEach((item) => {
+        messages.push({ role: 'user', content: item.prompt, time: moment(item.requestAt).format('YYYY-MM-DD') });
+        messages.push({
+          role: 'assistant',
+          content: item.completion,
+          time: moment(item.responseAt).format('YYYY-MM-DD'),
+        });
+      });
+      setList(messages);
+    }
+  };
+
+  return isEdit ? (
+    <div>
+      <div className="border-all my-2 mr-4">
+        <ChatProvider>
+          <TChart
+            getMsgfetchConfig={{
+              path: `${AI_BACKEND_URL}/v1/chat/completions`,
+              getBody: (messages) => ({
+                // model: 'gpt-35-turbo-16k',
+                messages: [
+                  {
+                    role: 'user',
+                    content: messages[messages?.length - 1].content,
+                  },
+                ],
+                stream: true,
+              }),
+              headers: {
+                'X-Ai-Proxy-User-Id': encode(userId),
+                'X-Ai-Proxy-Username': encode(name),
+                'X-Ai-Proxy-Phone': encode(phone),
+                'X-AI-Proxy-Email': encode(email),
+                'X-Ai-Proxy-Source': 'erda.cloud',
+                'X-Ai-Proxy-Org-Id': encode(`${orgId}`),
+                'X-AI-Proxy-Session-Id': `${comment.data.aiSessionID}`,
+                'X-AI-Proxy-Prompt-Id': '',
+                Authorization: AI_PROXY_CLIENT_AK,
+              },
+              formatResult: (msgData) => {
+                const { data } = msgData;
+                if (data !== '[DONE]') {
+                  const dataObj = JSON.parse(data);
+                  const { choices } = dataObj;
+                  const { delta } = choices[0] || {};
+                  const { content } = delta || {};
+                  return { data: content || '' };
+                }
+                return { data: '' };
+              },
+            }}
+            toolbarConfig={{
+              historyConfig: { show: false },
+              promptConfig: { show: false },
+              chatConfig: { show: false },
+            }}
+            messages={
+              comment.note
+                ? [
+                    {
+                      role: 'assistant',
+                      time: moment(comment.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+                      content: comment.note,
+                    },
+                    ...list,
+                  ]
+                : list
+            }
+          />
+        </ChatProvider>
+      </div>
+      <Button onClick={() => setIsEdit(false)}>{i18n.t('Cancel')}</Button>
+    </div>
+  ) : (
+    <div className="">
+      <CommentBox
+        key={comment.id}
+        user={comment.role === 'AI' ? 'AI' : comment.author.nickName}
+        time={comment.createdAt}
+        action={i18n.t('dop:commented at')}
+        content={comment.note || ''}
+      />
+      <Button onClick={() => setIsEdit(true)}>{i18n.t('Details')}</Button>
+    </div>
   );
 };
 
@@ -240,6 +376,59 @@ export const FileDiff = ({
       ...rightCommentEditVisible,
       [lineKey]: visible,
     });
+
+    updateRowSelection(false);
+    setStartRowIndex(0);
+    setEndRowIndex(0);
+  };
+
+  const [tableData, setTableData] = useState<Obj[]>(sections);
+  const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
+  const [startRowIndex, setStartRowIndex] = useState<number>(0);
+  const [endRowIndex, setEndRowIndex] = useState<number>(0);
+  const [commentLineKey, setCommentLineKey] = useState<string>('');
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+
+  React.useEffect(() => {
+    setTableData(sections);
+  }, [sections]);
+
+  const handleMouseDown = (i: number, index: number) => {
+    setCurrentSectionIndex(i);
+    setIsMouseDown(true);
+    setStartRowIndex(index);
+  };
+
+  const handleMouseEnter = (index: number, i: number, lineKey: string) => {
+    if (isMouseDown) {
+      setCurrentSectionIndex(i);
+      setEndRowIndex(index);
+      setCommentLineKey(lineKey);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsMouseDown(false);
+    toggleLeftCommentEdit(commentLineKey, true);
+  };
+
+  React.useEffect(() => {
+    startRowIndex !== endRowIndex && updateRowSelection(true);
+  }, [endRowIndex]);
+
+  const updateRowSelection = (isSelected: boolean) => {
+    setTableData((prevData) => {
+      const newSections = [...prevData];
+      const newData = [...newSections[currentSectionIndex].lines];
+      newData.forEach((item, index) => {
+        if (index >= startRowIndex && index <= endRowIndex) {
+          item.selected = isSelected;
+        } else {
+          item.selected = false;
+        }
+      });
+      return newSections;
+    });
   };
 
   return (
@@ -277,7 +466,7 @@ export const FileDiff = ({
         </div>
         <ELSE />
         <table>
-          {sections.map((section, i) => {
+          {tableData.map((section, i) => {
             const prefixMap = {
               delete: '-',
               add: '+',
@@ -285,8 +474,8 @@ export const FileDiff = ({
 
             const fileKey = `${name}_${i}`;
             return (
-              <tbody key={fileKey} className="file-diff-section">
-                {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }, lineIndex) => {
+              <tbody key={fileKey} className="file-diff-section" onMouseUp={handleMouseUp}>
+                {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content, selected }, lineIndex) => {
                   if (hideSectionTitle && actionType === 'section') {
                     return null;
                   }
@@ -363,12 +552,15 @@ export const FileDiff = ({
                   const showRightCommentLine = comments || showRightCommentEdit;
 
                   const addCommentFn = (_data: object) => {
+                    const startLine = section.lines[startRowIndex] || {};
                     let data = {
                       type: 'diff_note',
                       oldPath: oldName,
                       newPath: name,
-                      oldLine: oldLineNo,
-                      newLine: newLineNo,
+                      oldLine: startLine.oldLineNo,
+                      newLine: startLine.newLineNo,
+                      oldLineTo: oldLineNo,
+                      newLineTo: newLineNo,
                       ..._data,
                     } as any;
                     if (comments) {
@@ -389,6 +581,13 @@ export const FileDiff = ({
                     [actionType]: true,
                     'issue-line': lineIssue,
                   });
+
+                  const startLine = section.lines[startRowIndex];
+                  const endLine = section.lines[endRowIndex];
+
+                  const startLineKey = `${startLine.oldLineNo}_${startLine.newLineNo}`;
+                  const endLineKey = `${endLine.oldLineNo}_${endLine.newLineNo}`;
+
                   if (showStyle === 'inline') {
                     const showCommentEdit = showLeftCommentEdit || showRightCommentEdit;
                     const showCommentLine = comments || showCommentEdit;
@@ -399,7 +598,11 @@ export const FileDiff = ({
 
                     return (
                       <React.Fragment key={`${lineKey}_${lineIndex}`}>
-                        <tr className={lineCls}>
+                        <tr
+                          className={`${lineCls} ${selected ? 'selected' : ''}`}
+                          onMouseDown={() => handleMouseDown(i, lineIndex)}
+                          onMouseEnter={() => handleMouseEnter(lineIndex, i, lineKey)}
+                        >
                           {/* <td className={lineIssue ? 'issue-td' : 'none-issue-td'}>
                                 {lineIssue ? <Icon className="issue-icon" type="exclamation-circle" /> : null}
                               </td> */}
@@ -430,31 +633,39 @@ export const FileDiff = ({
                               <CommentListBox comments={comments} />
                               {actionType ? (
                                 <IF check={showCommentEdit}>
-                                  <MarkdownEditor
-                                    value={isShowLS[lineKey] ? tsComment.content : null}
-                                    operationBtns={[
-                                      {
-                                        text: i18n.t('dop:post comment'),
-                                        type: 'primary',
-                                        onClick: (v) =>
-                                          addCommentFn({
-                                            note: v,
-                                          }).then(() => {
-                                            toggleLeftCommentEdit(lineKey, false);
-                                            toggleRightCommentEdit(lineKey, false);
-                                          }),
-                                      },
-                                      {
-                                        text: i18n.t('Cancel'),
-                                        onClick: () => {
-                                          toggleLeftCommentEdit(lineKey, false);
-                                          toggleRightCommentEdit(lineKey, false);
-                                        },
-                                      },
-                                    ]}
+                                  <div className="mb-2 text-base">
+                                    {i18n.t('comment')}
+                                    {i18n.t('line')}{' '}
+                                    {i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                                  </div>
+                                  <CommentEditBox
+                                    markdownValue={isShowLS[lineKey] ? tsComment.content : null}
+                                    onPostComment={(v) => {
+                                      addCommentFn({
+                                        note: v,
+                                      }).then(() => {
+                                        toggleLeftCommentEdit(lineKey, false);
+                                        toggleRightCommentEdit(lineKey, false);
+                                      });
+                                    }}
+                                    onCancel={() => {
+                                      toggleLeftCommentEdit(lineKey, false);
+                                      toggleRightCommentEdit(lineKey, false);
+                                    }}
+                                    onStartAI={() => {
+                                      return addCommentFn({
+                                        startAISession: true,
+                                        aiCodeReviewType: 'MR_CODE_SNIPPET',
+                                      }).then(() => {
+                                        toggleLeftCommentEdit(lineKey, false);
+                                        toggleRightCommentEdit(lineKey, false);
+                                      });
+                                    }}
                                   />
                                   <ELSE />
-                                  <Button onClick={() => toggleEditFn(lineKey, true)}>{i18n.t('dop:reply')}</Button>
+                                  <IF check={!(comments?.length && comments[comments.length - 1].data.aiSessionID)}>
+                                    <Button onClick={() => toggleEditFn(lineKey, true)}>{i18n.t('dop:reply')}</Button>
+                                  </IF>
                                 </IF>
                               ) : (
                                 ''
@@ -465,6 +676,7 @@ export const FileDiff = ({
                       </React.Fragment>
                     );
                   }
+
                   return (
                     <React.Fragment key={`${lineKey}`}>
                       <tr className={lineCls}>
@@ -511,22 +723,19 @@ export const FileDiff = ({
                               </IF>
                             </IF>
                             <IF check={showLeftCommentEdit}>
-                              <MarkdownEditor
-                                value={isShowLS[lineKey] ? tsComment.content : null}
-                                operationBtns={[
-                                  {
-                                    text: i18n.t('dop:post comment'),
-                                    type: 'primary',
-                                    onClick: (v) =>
-                                      addCommentFn({
-                                        note: v,
-                                      }).then(() => toggleLeftCommentEdit(lineKey, false)),
-                                  },
-                                  {
-                                    text: i18n.t('Cancel'),
-                                    onClick: () => toggleLeftCommentEdit(lineKey, false),
-                                  },
-                                ]}
+                              <div className="mb-2 text-base">
+                                {i18n.t('comment')}
+                                {i18n.t('line')}{' '}
+                                {i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                              </div>
+                              <CommentEditBox
+                                markdownValue={isShowLS[lineKey] ? tsComment.content : null}
+                                onPostComment={(v) => {
+                                  addCommentFn({
+                                    note: v,
+                                  }).then(() => toggleLeftCommentEdit(lineKey, false));
+                                }}
+                                onCancel={() => toggleRightCommentEdit(lineKey, false)}
                               />
                             </IF>
                           </td>
@@ -541,22 +750,19 @@ export const FileDiff = ({
                               </IF>
                             </IF>
                             <IF check={showRightCommentEdit}>
-                              <MarkdownEditor
-                                value={isShowLS[lineKey] ? tsComment.content : null}
-                                operationBtns={[
-                                  {
-                                    text: i18n.t('dop:post comment'),
-                                    type: 'primary',
-                                    onClick: (v) =>
-                                      addCommentFn({
-                                        note: v,
-                                      }).then(() => toggleRightCommentEdit(lineKey, false)),
-                                  },
-                                  {
-                                    text: i18n.t('Cancel'),
-                                    onClick: () => toggleRightCommentEdit(lineKey, false),
-                                  },
-                                ]}
+                              <div className="mb-2 text-base">
+                                {i18n.t('comment')}
+                                {i18n.t('line')}{' '}
+                                {i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                              </div>
+                              <CommentEditBox
+                                markdownValue={isShowLS[lineKey] ? tsComment.content : null}
+                                onPostComment={(v) => {
+                                  addCommentFn({
+                                    note: v,
+                                  }).then(() => toggleRightCommentEdit(lineKey, false));
+                                }}
+                                onCancel={() => toggleRightCommentEdit(lineKey, false)}
                               />
                             </IF>
                           </td>
@@ -797,6 +1003,47 @@ const FilesDiff = (props: IDiffProps) => {
           </Spin>
         </div>
       </Modal>
+    </div>
+  );
+};
+
+interface CommentEditBoxProps {
+  markdownValue: string;
+  onPostComment: (v: string) => void;
+  onCancel: () => void;
+  onStartAI: () => Promise<any>;
+}
+
+const CommentEditBox = ({ markdownValue, onPostComment, onCancel, onStartAI }: CommentEditBoxProps) => {
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <div>
+      <Spin spinning={loading}>
+        <MarkdownEditor
+          value={markdownValue}
+          operationBtns={[
+            {
+              text: i18n.t('dop:post comment'),
+              type: 'primary',
+              onClick: onPostComment,
+            },
+            {
+              text: i18n.t('Cancel'),
+              onClick: () => onCancel(),
+            },
+            {
+              text: i18n.t('Enable AI conversational comments'),
+              type: 'primary',
+              onClick: async () => {
+                setLoading(true);
+                await onStartAI();
+                setLoading(false);
+              },
+            },
+          ]}
+        />
+      </Spin>
     </div>
   );
 };

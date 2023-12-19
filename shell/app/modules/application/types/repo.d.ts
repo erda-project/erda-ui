@@ -79,6 +79,9 @@ declare namespace REPOSITORY {
       newLine: number;
       oldCommitId: string;
       newCommitId: string;
+      aiSessionID?: string;
+      newLineTo: string;
+      oldLineTo: string;
     };
     authorId: string;
     author: {
