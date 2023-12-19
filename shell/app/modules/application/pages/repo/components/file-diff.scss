@@ -78,7 +78,7 @@
       }
 
       .comment-icon {
-        display: inline-block;
+        display: flex;
       }
     }
 
@@ -155,14 +155,16 @@
 
     .comment-icon {
       position: absolute;
-      right: -4px;
-      bottom: 18px;
+      left: 2px;
+      bottom: 0;
       display: none;
-      padding: 6px;
       font-size: 20px;
-      background-color: $white;
       border-radius: $radius;
     }
+  }
+
+  .selected {
+    background-color: $lightnavy;
   }
 
   .diff-line-num {
