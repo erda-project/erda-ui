@@ -33,7 +33,6 @@ import appStore from 'application/stores/application';
 import routeInfoStore from 'core/stores/route';
 import userStore from 'app/user/stores';
 import orgStore from 'app/org-home/stores/org';
-import { aiCodeReview } from 'application/services/repo';
 import { getLogs } from 'layout/services/ai-chat';
 
 const diffTool = new Diff();
@@ -91,7 +90,6 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
   return (
     <>
       {comments.map((comment: REPOSITORY.IComment) => {
-        console.log(comment);
         const { data } = comment;
         const { newLine, newLineTo, oldLine, oldLineTo } = data;
         return (
@@ -99,7 +97,9 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
             <div className="mb-2 text-base">
               {i18n.t('comment')}
               {i18n.t('line')}{' '}
-              {i18n.t('from {start} to {end}', { start: `${oldLine}_${newLine}`, end: `${oldLineTo}_${newLineTo}` })}
+              {`${newLineTo}` === '0' && `${oldLineTo}` === '0'
+                ? `${oldLine}_${newLine}`
+                : i18n.t('from {start} to {end}', { start: `${oldLine}_${newLine}`, end: `${oldLineTo}_${newLineTo}` })}
             </div>
             {comment.data.aiSessionID ? (
               <AICommentBox comment={comment} />
@@ -369,6 +369,12 @@ export const FileDiff = ({
       ...isShowLS,
       [lineKey]: false,
     });
+
+    if (!visible) {
+      setStartRowIndex(0);
+      setEndRowIndex(0);
+      updateRowSelection(false);
+    }
   };
 
   const toggleRightCommentEdit = (lineKey: string, visible: boolean) => {
@@ -377,9 +383,11 @@ export const FileDiff = ({
       [lineKey]: visible,
     });
 
-    updateRowSelection(false);
-    setStartRowIndex(0);
-    setEndRowIndex(0);
+    if (!visible) {
+      setStartRowIndex(0);
+      setEndRowIndex(0);
+      updateRowSelection(false);
+    }
   };
 
   const [tableData, setTableData] = useState<Obj[]>(sections);
@@ -408,8 +416,10 @@ export const FileDiff = ({
   };
 
   const handleMouseUp = () => {
-    setIsMouseDown(false);
-    toggleLeftCommentEdit(commentLineKey, true);
+    if (isMouseDown && endRowIndex) {
+      setIsMouseDown(false);
+      toggleLeftCommentEdit(commentLineKey, true);
+    }
   };
 
   React.useEffect(() => {
@@ -600,7 +610,7 @@ export const FileDiff = ({
                       <React.Fragment key={`${lineKey}_${lineIndex}`}>
                         <tr
                           className={`${lineCls} ${selected ? 'selected' : ''}`}
-                          onMouseDown={() => handleMouseDown(i, lineIndex)}
+                          // onMouseDown={() => handleMouseDown(i, lineIndex)}
                           onMouseEnter={() => handleMouseEnter(lineIndex, i, lineKey)}
                         >
                           {/* <td className={lineIssue ? 'issue-td' : 'none-issue-td'}>
@@ -612,7 +622,9 @@ export const FileDiff = ({
                             data-prefix={oldPrefix}
                           >
                             <IF check={actionType && (showLeftCommentIcon || showRightCommentIcon)}>
-                              <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
+                              <div onMouseDown={() => handleMouseDown(i, lineIndex)}>
+                                <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
+                              </div>
                             </IF>
                           </td>
                           <td
@@ -636,7 +648,9 @@ export const FileDiff = ({
                                   <div className="mb-2 text-base">
                                     {i18n.t('comment')}
                                     {i18n.t('line')}{' '}
-                                    {i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                                    {endRowIndex === 0
+                                      ? startLineKey
+                                      : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
                                   </div>
                                   <CommentEditBox
                                     markdownValue={isShowLS[lineKey] ? tsComment.content : null}
@@ -679,7 +693,11 @@ export const FileDiff = ({
 
                   return (
                     <React.Fragment key={`${lineKey}`}>
-                      <tr className={lineCls}>
+                      <tr
+                        className={`${lineCls} ${selected ? 'selected' : ''}`}
+                        onMouseDown={() => handleMouseDown(i, lineIndex)}
+                        onMouseEnter={() => handleMouseEnter(lineIndex, i, lineKey)}
+                      >
                         {/* <td data-prefix={oldPrefix} className={lineIssue ? 'issue-td' : 'none-issue-td'}>
                               {lineIssue ? <Icon className="issue-icon" type="exclamation-circle" /> : null}
                             </td> */}
@@ -726,16 +744,24 @@ export const FileDiff = ({
                               <div className="mb-2 text-base">
                                 {i18n.t('comment')}
                                 {i18n.t('line')}{' '}
-                                {i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                                {endRowIndex === 0
+                                  ? startLineKey
+                                  : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
                               </div>
                               <CommentEditBox
                                 markdownValue={isShowLS[lineKey] ? tsComment.content : null}
                                 onPostComment={(v) => {
                                   addCommentFn({
                                     note: v,
-                                  }).then(() => toggleLeftCommentEdit(lineKey, false));
+                                  }).then(() => {
+                                    toggleLeftCommentEdit(lineKey, false);
+                                    toggleRightCommentEdit(lineKey, false);
+                                  });
                                 }}
-                                onCancel={() => toggleRightCommentEdit(lineKey, false)}
+                                onCancel={() => {
+                                  toggleLeftCommentEdit(lineKey, false);
+                                  toggleRightCommentEdit(lineKey, false);
+                                }}
                               />
                             </IF>
                           </td>
@@ -753,16 +779,24 @@ export const FileDiff = ({
                               <div className="mb-2 text-base">
                                 {i18n.t('comment')}
                                 {i18n.t('line')}{' '}
-                                {i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                                {endRowIndex === 0
+                                  ? startLineKey
+                                  : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
                               </div>
                               <CommentEditBox
                                 markdownValue={isShowLS[lineKey] ? tsComment.content : null}
                                 onPostComment={(v) => {
                                   addCommentFn({
                                     note: v,
-                                  }).then(() => toggleRightCommentEdit(lineKey, false));
+                                  }).then(() => {
+                                    toggleLeftCommentEdit(lineKey, false);
+                                    toggleRightCommentEdit(lineKey, false);
+                                  });
                                 }}
-                                onCancel={() => toggleRightCommentEdit(lineKey, false)}
+                                onCancel={() => {
+                                  toggleLeftCommentEdit(lineKey, false);
+                                  toggleRightCommentEdit(lineKey, false);
+                                }}
                               />
                             </IF>
                           </td>
@@ -885,22 +919,17 @@ const FilesDiff = (props: IDiffProps) => {
   const reviewFile = async () => {
     if (currentfile?.name) {
       setReviewLoading(true);
-      const { from, to } = props;
+
       const params = {
-        id: mergeId,
-        type: 'MR_FILE',
-        oldCommitId: to,
-        newCommitId: from,
+        type: 'diff_note',
         oldPath: currentfile.oldName,
         newPath: currentfile.name,
-        repoPrefix: appDetail.gitRepoAbbrev,
+        startAISession: true,
+        aiCodeReviewType: 'MR_FILE',
       };
-      const res = await aiCodeReview(params);
 
-      if (res.success) {
-        message.success(i18n.t('{action} successfully', { action: i18n.t('review') }));
-        getComments();
-      }
+      await addComment(params);
+      message.success(i18n.t('{action} successfully', { action: i18n.t('review') }));
       setReviewLoading(false);
     }
   };
