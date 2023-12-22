@@ -93,7 +93,7 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
         const { data } = comment;
         const { newLine, newLineTo, oldLine, oldLineTo } = data;
         return (
-          <div>
+          <>
             <div className="mb-2 text-base">
               {i18n.t('comment')}
               {i18n.t('line')}{' '}
@@ -112,7 +112,7 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
                 content={comment.note || ''}
               />
             )}
-          </div>
+          </>
         );
       })}
     </>
@@ -598,6 +598,10 @@ export const FileDiff = ({
                   const startLineKey = `${startLine?.oldLineNo}_${startLine?.newLineNo}`;
                   const endLineKey = `${endLine?.oldLineNo}_${endLine?.newLineNo}`;
 
+                  const isCommentEditVisible =
+                    Object.keys(leftCommentEditVisible).find((key) => leftCommentEditVisible[key]) ||
+                    Object.keys(rightCommentEditVisible).find((key) => rightCommentEditVisible[key]);
+
                   if (showStyle === 'inline') {
                     const showCommentEdit = showLeftCommentEdit || showRightCommentEdit;
                     const showCommentLine = comments || showCommentEdit;
@@ -620,7 +624,11 @@ export const FileDiff = ({
                             onClick={handleExpand}
                             data-prefix={oldPrefix}
                           >
-                            <IF check={actionType && (showLeftCommentIcon || showRightCommentIcon)}>
+                            <IF
+                              check={
+                                !isCommentEditVisible && actionType && (showLeftCommentIcon || showRightCommentIcon)
+                              }
+                            >
                               <div
                                 onMouseDown={() => handleMouseDown(i, lineIndex)}
                                 onMouseUp={() => {
@@ -699,7 +707,6 @@ export const FileDiff = ({
                     <React.Fragment key={`${lineKey}`}>
                       <tr
                         className={`${lineCls} ${selected ? 'selected' : ''}`}
-                        onMouseDown={() => handleMouseDown(i, lineIndex)}
                         onMouseEnter={() => handleMouseEnter(lineIndex, i, lineKey)}
                       >
                         {/* <td data-prefix={oldPrefix} className={lineIssue ? 'issue-td' : 'none-issue-td'}>
@@ -710,7 +717,16 @@ export const FileDiff = ({
                           onClick={handleExpand}
                           data-prefix={oldPrefix}
                         >
-                          {showLeftCommentIcon && <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />}
+                          <IF check={!isCommentEditVisible && showLeftCommentIcon}>
+                            <div
+                              onMouseDown={() => handleMouseDown(i, lineIndex)}
+                              onMouseUp={() => {
+                                setIsMouseDown(false);
+                              }}
+                            >
+                              <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
+                            </div>
+                          </IF>
                         </td>
                         <td className="diff-line-content" data-prefix={leftContent === '' ? '' : actionPrefix}>
                           <pre>
@@ -722,9 +738,16 @@ export const FileDiff = ({
                           onClick={handleExpand}
                           data-prefix={newPrefix}
                         >
-                          {showRightCommentIcon && (
-                            <CommentIcon onClick={() => toggleRightCommentEdit(lineKey, true)} />
-                          )}
+                          <IF check={!isCommentEditVisible && showRightCommentIcon}>
+                            <div
+                              onMouseDown={() => handleMouseDown(i, lineIndex)}
+                              onMouseUp={() => {
+                                setIsMouseDown(false);
+                              }}
+                            >
+                              <CommentIcon onClick={() => toggleRightCommentEdit(lineKey, true)} />
+                            </div>
+                          </IF>
                         </td>
                         <td className="diff-line-content" data-prefix={rightContent === '' ? '' : actionPrefix}>
                           <pre>
@@ -738,7 +761,13 @@ export const FileDiff = ({
                           <td className="comment-box-td">
                             <IF check={oldLineNo > 0}>
                               <CommentListBox comments={comments} />
-                              <IF check={comments && !showLeftCommentEdit}>
+                              <IF
+                                check={
+                                  comments &&
+                                  !showLeftCommentEdit &&
+                                  !(comments?.length && comments[comments.length - 1].data.aiSessionID)
+                                }
+                              >
                                 <Button onClick={() => toggleLeftCommentEdit(lineKey, true)}>
                                   {i18n.t('dop:reply')}
                                 </Button>
@@ -766,6 +795,15 @@ export const FileDiff = ({
                                   toggleLeftCommentEdit(lineKey, false);
                                   toggleRightCommentEdit(lineKey, false);
                                 }}
+                                onStartAI={() => {
+                                  return addCommentFn({
+                                    startAISession: true,
+                                    aiCodeReviewType: 'MR_CODE_SNIPPET',
+                                  }).then(() => {
+                                    toggleLeftCommentEdit(lineKey, false);
+                                    toggleRightCommentEdit(lineKey, false);
+                                  });
+                                }}
                               />
                             </IF>
                           </td>
@@ -773,7 +811,13 @@ export const FileDiff = ({
                           <td className="comment-box-td">
                             <IF check={newLineNo > 0}>
                               <CommentListBox comments={comments} />
-                              <IF check={comments && !showRightCommentEdit}>
+                              <IF
+                                check={
+                                  comments &&
+                                  !showRightCommentEdit &&
+                                  !(comments?.length && comments[comments.length - 1].data.aiSessionID)
+                                }
+                              >
                                 <Button onClick={() => toggleRightCommentEdit(lineKey, true)}>
                                   {i18n.t('dop:reply')}
                                 </Button>
@@ -800,6 +844,15 @@ export const FileDiff = ({
                                 onCancel={() => {
                                   toggleLeftCommentEdit(lineKey, false);
                                   toggleRightCommentEdit(lineKey, false);
+                                }}
+                                onStartAI={() => {
+                                  return addCommentFn({
+                                    startAISession: true,
+                                    aiCodeReviewType: 'MR_CODE_SNIPPET',
+                                  }).then(() => {
+                                    toggleLeftCommentEdit(lineKey, false);
+                                    toggleRightCommentEdit(lineKey, false);
+                                  });
                                 }}
                               />
                             </IF>
@@ -1008,18 +1061,22 @@ const FilesDiff = (props: IDiffProps) => {
               ref={ref}
               appDetail={appDetail}
               titleSlot={
-                <Button
-                  className="ml-4"
-                  size="small"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setVisible(true);
-                    setCurrentFile(file);
-                    setReviewFileName(file.name);
-                  }}
-                >
-                  {i18n.t('AI review')}
-                </Button>
+                mergeId ? (
+                  <Button
+                    className="ml-4"
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setVisible(true);
+                      setCurrentFile(file);
+                      setReviewFileName(file.name);
+                    }}
+                  >
+                    {i18n.t('AI review')}
+                  </Button>
+                ) : (
+                  ''
+                )
               }
             />
           );
