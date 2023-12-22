@@ -595,8 +595,8 @@ export const FileDiff = ({
                   const startLine = section.lines[startRowIndex];
                   const endLine = section.lines[endRowIndex];
 
-                  const startLineKey = `${startLine.oldLineNo}_${startLine.newLineNo}`;
-                  const endLineKey = `${endLine.oldLineNo}_${endLine.newLineNo}`;
+                  const startLineKey = `${startLine?.oldLineNo}_${startLine?.newLineNo}`;
+                  const endLineKey = `${endLine?.oldLineNo}_${endLine?.newLineNo}`;
 
                   if (showStyle === 'inline') {
                     const showCommentEdit = showLeftCommentEdit || showRightCommentEdit;
@@ -610,7 +610,6 @@ export const FileDiff = ({
                       <React.Fragment key={`${lineKey}_${lineIndex}`}>
                         <tr
                           className={`${lineCls} ${selected ? 'selected' : ''}`}
-                          // onMouseDown={() => handleMouseDown(i, lineIndex)}
                           onMouseEnter={() => handleMouseEnter(lineIndex, i, lineKey)}
                         >
                           {/* <td className={lineIssue ? 'issue-td' : 'none-issue-td'}>
@@ -622,7 +621,12 @@ export const FileDiff = ({
                             data-prefix={oldPrefix}
                           >
                             <IF check={actionType && (showLeftCommentIcon || showRightCommentIcon)}>
-                              <div onMouseDown={() => handleMouseDown(i, lineIndex)}>
+                              <div
+                                onMouseDown={() => handleMouseDown(i, lineIndex)}
+                                onMouseUp={() => {
+                                  setIsMouseDown(false);
+                                }}
+                              >
                                 <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
                               </div>
                             </IF>
