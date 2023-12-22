@@ -93,7 +93,7 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
         const { data } = comment;
         const { newLine, newLineTo, oldLine, oldLineTo } = data;
         return (
-          <div>
+          <>
             <div className="mb-2 text-base">
               {i18n.t('comment')}
               {i18n.t('line')}{' '}
@@ -112,7 +112,7 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
                 content={comment.note || ''}
               />
             )}
-          </div>
+          </>
         );
       })}
     </>
@@ -761,7 +761,13 @@ export const FileDiff = ({
                           <td className="comment-box-td">
                             <IF check={oldLineNo > 0}>
                               <CommentListBox comments={comments} />
-                              <IF check={comments && !showLeftCommentEdit}>
+                              <IF
+                                check={
+                                  comments &&
+                                  !showLeftCommentEdit &&
+                                  !(comments?.length && comments[comments.length - 1].data.aiSessionID)
+                                }
+                              >
                                 <Button onClick={() => toggleLeftCommentEdit(lineKey, true)}>
                                   {i18n.t('dop:reply')}
                                 </Button>
@@ -805,7 +811,13 @@ export const FileDiff = ({
                           <td className="comment-box-td">
                             <IF check={newLineNo > 0}>
                               <CommentListBox comments={comments} />
-                              <IF check={comments && !showRightCommentEdit}>
+                              <IF
+                                check={
+                                  comments &&
+                                  !showRightCommentEdit &&
+                                  !(comments?.length && comments[comments.length - 1].data.aiSessionID)
+                                }
+                              >
                                 <Button onClick={() => toggleRightCommentEdit(lineKey, true)}>
                                   {i18n.t('dop:reply')}
                                 </Button>
