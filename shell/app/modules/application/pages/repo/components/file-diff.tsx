@@ -930,6 +930,10 @@ const FilesDiff = (props: IDiffProps) => {
         newPath: currentfile.name,
         startAISession: true,
         aiCodeReviewType: 'MR_FILE',
+        oldLine: 0,
+        newLine: 0,
+        oldLineTo: 0,
+        newLineTo: 0,
       };
 
       await addComment(params);
