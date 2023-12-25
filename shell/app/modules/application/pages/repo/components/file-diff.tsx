@@ -199,6 +199,11 @@ const AICommentBox = ({ comment }: { comment: REPOSITORY.IComment }) => {
               comment.note
                 ? [
                     {
+                      role: 'user',
+                      time: moment(comment.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+                      content: i18n.t('code review'),
+                    },
+                    {
                       role: 'assistant',
                       time: moment(comment.createdAt).format('YYYY-MM-DD HH:mm:ss'),
                       content: comment.note,
