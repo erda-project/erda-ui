@@ -89,18 +89,24 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
 
   return (
     <>
-      {comments.map((comment: REPOSITORY.IComment) => {
+      {comments.map((comment: REPOSITORY.IComment, index) => {
         const { data } = comment;
         const { newLine, newLineTo, oldLine, oldLineTo } = data;
         return (
           <>
-            <div className="mb-2 text-base">
-              {i18n.t('comment')}
-              {i18n.t('line')}{' '}
-              {`${newLineTo}` === '0' && `${oldLineTo}` === '0'
-                ? `${oldLine}_${newLine}`
-                : i18n.t('from {start} to {end}', { start: `${oldLine}_${newLine}`, end: `${oldLineTo}_${newLineTo}` })}
-            </div>
+            <IF check={index === 0}>
+              <div className="mb-2 text-base">
+                {i18n.t('comment')}
+                {i18n.t('line')}{' '}
+                {`${newLineTo}` === '0' && `${oldLineTo}` === '0'
+                  ? `${oldLine}_${newLine}`
+                  : i18n.t('from {start} to {end}', {
+                      start: `${oldLine}_${newLine}`,
+                      end: `${oldLineTo}_${newLineTo}`,
+                    })}
+              </div>
+            </IF>
+
             {comment.data.aiSessionID ? (
               <AICommentBox comment={comment} />
             ) : (
@@ -226,7 +232,7 @@ const AICommentBox = ({ comment }: { comment: REPOSITORY.IComment }) => {
         action={i18n.t('dop:commented at')}
         content={comment.note || ''}
       />
-      <Button onClick={() => setIsEdit(true)}>{i18n.t('Details')}</Button>
+      <Button onClick={() => setIsEdit(true)}>{i18n.t('Continue the AI conversation')}</Button>
     </div>
   );
 };
@@ -308,6 +314,8 @@ export const FileDiff = ({
   const { oldName, name, type, sections, issues = [], isBin = false, index: commitId } = memoFile;
   const diffSize = (sections || []).reduce((size, value) => size + value.lines.length, 0);
   const DIFF_SIZE_LIMIT = 200;
+  const mrDetail = repoStore.useStore((s) => s.mrDetail);
+  const { state } = mrDetail;
   const [leftCommentEditVisible, setLeftCommentEditVisible] = useState({});
   const [rightCommentEditVisible, setRightCommentEditVisible] = useState({});
   const [isExpanding, setFileExpanding] = useState(diffSize < DIFF_SIZE_LIMIT);
@@ -551,7 +559,8 @@ export const FileDiff = ({
                   // 编辑框显示条件：只判断icon点击后的状态
                   const showLeftCommentEdit = leftCommentEditVisible[lineKey];
                   // icon显示条件：未禁用、无数据（有的话通过回复按钮显示编辑框）、lineNo不为-1、编辑框未显示
-                  const showLeftCommentIcon = !disableComment && !comments && oldLineNo !== -1 && !showLeftCommentEdit;
+                  const showLeftCommentIcon =
+                    state === 'open' && !disableComment && !comments && oldLineNo !== -1 && !showLeftCommentEdit;
                   // 如果有数据或者编辑框，显示追加行
                   const showLeftCommentLine = comments || showLeftCommentEdit;
                   // 暂存key
@@ -563,7 +572,7 @@ export const FileDiff = ({
 
                   const showRightCommentEdit = rightCommentEditVisible[lineKey];
                   const showRightCommentIcon =
-                    !disableComment && !comments && newLineNo !== -1 && !showRightCommentEdit;
+                    state === 'open' && !disableComment && !comments && newLineNo !== -1 && !showRightCommentEdit;
                   const showRightCommentLine = comments || showRightCommentEdit;
 
                   const addCommentFn = (_data: object) => {
@@ -662,13 +671,15 @@ export const FileDiff = ({
                               <CommentListBox comments={comments} />
                               {actionType ? (
                                 <IF check={showCommentEdit}>
-                                  <div className="mb-2 text-base">
-                                    {i18n.t('comment')}
-                                    {i18n.t('line')}{' '}
-                                    {endRowIndex === 0
-                                      ? startLineKey
-                                      : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
-                                  </div>
+                                  <IF check={!comments?.length}>
+                                    <div className="mb-2 text-base">
+                                      {i18n.t('comment')}
+                                      {i18n.t('line')}{' '}
+                                      {endRowIndex === 0
+                                        ? startLineKey
+                                        : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                                    </div>
+                                  </IF>
                                   <CommentEditBox
                                     markdownValue={isShowLS[lineKey] ? tsComment.content : null}
                                     onPostComment={(v) => {
@@ -779,13 +790,16 @@ export const FileDiff = ({
                               </IF>
                             </IF>
                             <IF check={showLeftCommentEdit}>
-                              <div className="mb-2 text-base">
-                                {i18n.t('comment')}
-                                {i18n.t('line')}{' '}
-                                {endRowIndex === 0
-                                  ? startLineKey
-                                  : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
-                              </div>
+                              <IF check={!comments?.length}>
+                                <div className="mb-2 text-base">
+                                  {i18n.t('comment')}
+                                  {i18n.t('line')}{' '}
+                                  {endRowIndex === 0
+                                    ? startLineKey
+                                    : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                                </div>
+                              </IF>
+
                               <CommentEditBox
                                 markdownValue={isShowLS[lineKey] ? tsComment.content : null}
                                 onPostComment={(v) => {
@@ -829,13 +843,15 @@ export const FileDiff = ({
                               </IF>
                             </IF>
                             <IF check={showRightCommentEdit}>
-                              <div className="mb-2 text-base">
-                                {i18n.t('comment')}
-                                {i18n.t('line')}{' '}
-                                {endRowIndex === 0
-                                  ? startLineKey
-                                  : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
-                              </div>
+                              <IF check={!comments?.length}>
+                                <div className="mb-2 text-base">
+                                  {i18n.t('comment')}
+                                  {i18n.t('line')}{' '}
+                                  {endRowIndex === 0
+                                    ? startLineKey
+                                    : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                                </div>
+                              </IF>
                               <CommentEditBox
                                 markdownValue={isShowLS[lineKey] ? tsComment.content : null}
                                 onPostComment={(v) => {
@@ -903,6 +919,8 @@ const FilesDiff = (props: IDiffProps) => {
   const [visible, setVisible] = useState(false);
   const [currentfile, setCurrentFile] = useState<{ name: string; oldName: string }>();
   const { mergeId } = routeInfoStore.useStore((s) => s.params);
+  const mrDetail = repoStore.useStore((s) => s.mrDetail);
+  const { state } = mrDetail;
   const [reviewFileName, setReviewFileName] = React.useState('');
   const [reviewLoading, setReviewLoading] = React.useState(false);
 
@@ -1066,7 +1084,7 @@ const FilesDiff = (props: IDiffProps) => {
               ref={ref}
               appDetail={appDetail}
               titleSlot={
-                mergeId ? (
+                mergeId && state === 'open' ? (
                   <Button
                     className="ml-4"
                     size="small"
@@ -1128,17 +1146,17 @@ const CommentEditBox = ({ markdownValue, onPostComment, onCancel, onStartAI }: C
               onClick: onPostComment,
             },
             {
-              text: i18n.t('Cancel'),
-              onClick: () => onCancel(),
-            },
-            {
-              text: i18n.t('Enable AI conversational comments'),
+              text: i18n.t('AI dialogue'),
               type: 'primary',
               onClick: async () => {
                 setLoading(true);
                 await onStartAI();
                 setLoading(false);
               },
+            },
+            {
+              text: i18n.t('Cancel'),
+              onClick: () => onCancel(),
             },
           ]}
         />
