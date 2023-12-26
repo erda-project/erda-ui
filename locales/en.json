@@ -1,6 +1,7 @@
 {
   "default": {
     "1 Month": "1 Month",
+    "AI dialogue": "AI dialogue",
     "AI review": "AI review",
     "API Management": "API Management",
     "API Market": "API Market",
@@ -122,6 +123,7 @@
     "Container IP": "Container IP",
     "Container Monitoring": "Container Monitoring",
     "Container Resource": "Container Resource",
+    "Continue the AI conversation": "Continue the AI conversation",
     "Copy": "Copy",
     "Copy All": "Copy All",
     "Creation time": "Creation time",
@@ -160,7 +162,6 @@
     "Edit members and set member roles. See Role Permission Description for details.": "Edit members and set member roles. See [Role Permission Description] for details.",
     "Email": "Email",
     "Enable": "Enable",
-    "Enable AI conversational comments": "Enable AI conversational comments",
     "Enable-open": "Enable",
     "End date": "End date",
     "End time": "End time",
