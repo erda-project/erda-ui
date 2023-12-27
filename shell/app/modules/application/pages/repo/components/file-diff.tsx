@@ -1084,7 +1084,7 @@ const FilesDiff = (props: IDiffProps) => {
               ref={ref}
               appDetail={appDetail}
               titleSlot={
-                mergeId && state === 'open' ? (
+                mergeId ? (
                   <Button
                     className="ml-4"
                     size="small"
@@ -1106,6 +1106,7 @@ const FilesDiff = (props: IDiffProps) => {
         })}
       </div>
       <Modal
+        width="60%"
         title={`${currentfile?.name ? `${currentfile.name}` : ''} ${i18n.t('AI review')}`}
         visible={visible}
         onCancel={() => setVisible(false)}
@@ -1115,7 +1116,9 @@ const FilesDiff = (props: IDiffProps) => {
           <Spin spinning={reviewLoading}>
             {reviewComment ? <MarkdownRender value={reviewComment} /> : <Empty />}
             <div className="text-center mt-4">
-              <Button onClick={reviewFile}>{reviewComment ? i18n.t('re-examine') : i18n.t('review')}</Button>
+              <Button disabled={state !== 'open'} onClick={reviewFile}>
+                {reviewComment ? i18n.t('re-examine') : i18n.t('review')}
+              </Button>
             </div>
           </Spin>
         </div>
