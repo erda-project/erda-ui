@@ -114,7 +114,10 @@ export const getFileCommentMap = (comments: REPOSITORY.IComment[] = []) => {
     discussionMap[a.discussionId] = discussionMap[a.discussionId] || [];
     if (a.type === 'diff_note' || a.data.aiCodeReviewType === 'MR_FILE') {
       const name = a.data.newPath;
-      const lineKey = `${a.data.oldLine}_${a.data.newLine}`;
+      const lineKey =
+        a.data.oldLineTo && a.data.newLineTo
+          ? `${a.data.oldLineTo}_${a.data.newLineTo}`
+          : `${a.data.oldLine}_${a.data.newLine}`;
       fileCommentMap[name] = fileCommentMap[name] || {};
       fileCommentMap[name][lineKey] = fileCommentMap[name][lineKey] || [];
       fileCommentMap[name][lineKey].push(a, ...discussionMap[a.discussionId]);
