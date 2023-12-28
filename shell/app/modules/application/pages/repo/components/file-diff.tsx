@@ -99,11 +99,8 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
                 {i18n.t('comment')}
                 {i18n.t('line')}{' '}
                 {`${newLineTo}` === '0' && `${oldLineTo}` === '0'
-                  ? `${oldLine}_${newLine}`
-                  : i18n.t('from {start} to {end}', {
-                      start: `${oldLine}_${newLine}`,
-                      end: `${oldLineTo}_${newLineTo}`,
-                    })}
+                  ? getSingleLineIndex(oldLine, newLine)
+                  : i18n.t('from {start} to {end}', getTwoLineIndex(oldLine, newLine, oldLineTo, newLineTo))}
               </div>
             </IF>
 
@@ -676,8 +673,16 @@ export const FileDiff = ({
                                       {i18n.t('comment')}
                                       {i18n.t('line')}{' '}
                                       {endRowIndex === 0
-                                        ? startLineKey
-                                        : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                                        ? getSingleLineIndex(startLine?.oldLineNo, startLine?.newLineNo)
+                                        : i18n.t(
+                                            'from {start} to {end}',
+                                            getTwoLineIndex(
+                                              startLine?.oldLineNo,
+                                              startLine?.newLineNo,
+                                              endLine?.oldLineNo,
+                                              endLine?.newLineNo,
+                                            ),
+                                          )}
                                     </div>
                                   </IF>
                                   <CommentEditBox
@@ -795,8 +800,16 @@ export const FileDiff = ({
                                   {i18n.t('comment')}
                                   {i18n.t('line')}{' '}
                                   {endRowIndex === 0
-                                    ? startLineKey
-                                    : i18n.t('from {start} to {end}', { start: startLineKey, end: endLineKey })}
+                                    ? getSingleLineIndex(startLine?.oldLineNo, startLine?.newLineNo)
+                                    : i18n.t(
+                                        'from {start} to {end}',
+                                        getTwoLineIndex(
+                                          startLine?.oldLineNo,
+                                          startLine?.newLineNo,
+                                          endLine?.oldLineNo,
+                                          endLine?.newLineNo,
+                                        ),
+                                      )}
                                 </div>
                               </IF>
 
@@ -1163,6 +1176,17 @@ const CommentEditBox = ({ markdownValue, onPostComment, onCancel, onStartAI }: C
       </Spin>
     </div>
   );
+};
+
+const getSingleLineIndex = (oldLine: number, newLine: number) => {
+  return oldLine !== -1 ? `-${oldLine}` : `+${newLine}`;
+};
+
+const getTwoLineIndex = (oldLine: number, newLine: number, oldLineTo: number, newLineTo: number) => {
+  return {
+    start: oldLine !== -1 ? `-${oldLine}` : `+${newLine}`,
+    end: oldLineTo !== -1 ? `-${oldLineTo}` : `+${newLineTo}`,
+  };
 };
 
 export default FilesDiff;
