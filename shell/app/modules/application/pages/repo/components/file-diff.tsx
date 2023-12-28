@@ -497,7 +497,7 @@ export const FileDiff = ({
 
             const fileKey = `${name}_${i}`;
             return (
-              <tbody key={fileKey} className="file-diff-section" onMouseUp={handleMouseUp}>
+              <tbody key={`${showStyle}_${fileKey}`} className="file-diff-section" onMouseUp={handleMouseUp}>
                 {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content, selected }, lineIndex) => {
                   if (hideSectionTitle && actionType === 'section') {
                     return null;
