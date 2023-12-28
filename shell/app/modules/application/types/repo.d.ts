@@ -80,8 +80,8 @@ declare namespace REPOSITORY {
       oldCommitId: string;
       newCommitId: string;
       aiSessionID?: string;
-      newLineTo: string;
-      oldLineTo: string;
+      newLineTo: number;
+      oldLineTo: number;
     };
     authorId: string;
     author: {
