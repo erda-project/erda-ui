@@ -1110,6 +1110,7 @@ const FilesDiff = (props: IDiffProps) => {
         visible={visible}
         onCancel={() => setVisible(false)}
         footer={null}
+        bodyStyle={{ height: '80vh', overflowY: 'auto' }}
       >
         <div>
           <Spin spinning={reviewLoading}>
