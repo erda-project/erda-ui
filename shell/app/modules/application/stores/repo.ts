@@ -643,6 +643,7 @@ const repoStore = createStore({
         mergeId,
       });
       update({ comments });
+      return comments;
     },
     async addComment({ getParams, call }, payload: Obj) {
       const appDetail = await getAppDetail();
