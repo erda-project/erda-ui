@@ -172,6 +172,9 @@ const RepoMRForm = (props: IProps) => {
   const form = React.useRef<FormInstance>();
   const issueRef = React.useRef<{ getChosenIssues: () => ISSUE.IssueType[] }>();
 
+  const aiCreatingMRList = repoStore.useStore((s) => s.aiCreatingMRList);
+  const { updateAiCreatingMRList } = repoStore.reducers;
+
   const isEdit = !!formData && formData.id;
 
   useEffectOnce(() => {
@@ -435,6 +438,12 @@ const RepoMRForm = (props: IProps) => {
             form.current?.resetFields();
             clearMRStats();
           };
+
+          if (result.success && result.data?.aiMRCRCreating) {
+            const aiCreatingMRList = window.localStorage.getItem('aiCreatingMRList')?.split(',') || [];
+            window.localStorage.setItem('aiCreatingMRList', [...aiCreatingMRList, result.data.mergeId].join(','));
+          }
+
           const curChosenIssue = issueRef.current?.getChosenIssues() || [];
 
           if (curChosenIssue.length) {
