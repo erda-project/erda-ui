@@ -11,9 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Tabs } from 'antd';
+import { Spin, Tabs, Alert } from 'antd';
 import React from 'react';
 import i18n from 'i18n';
+import { ErdaIcon } from 'common';
 import { CommitList } from '../repo-commit';
 import { CommentList } from './mr-comments';
 import FileDiff from './file-diff';
@@ -32,16 +33,60 @@ interface IProps {
 }
 
 const CompareDetail = ({ hideComment, disableComment = false, hideWorkflow = false }: IProps) => {
-  const { projectId } = routeInfoStore.useStore((s) => s.params);
-  const [compareDetail, comments, mrDetail] = repoStore.useStore((s) => [s.compareDetail, s.comments, s.mrDetail]);
+  const { projectId, mergeId } = routeInfoStore.useStore((s) => s.params);
+  const [compareDetail, comments, mrDetail] = repoStore.useStore((s) => [
+    s.compareDetail,
+    s.comments,
+    s.mrDetail,
+    s.aiCreatingMRList,
+  ]);
+  const { getComments } = repoStore.effects;
   const { commits = [], diff, from, to } = compareDetail || {};
   const [isFetching] = useLoading(repoStore, ['getCompareDetail']);
   const actualCommits = comments.filter(
     (commit) => !commit.data?.aiCodeReviewType || commit.data?.aiCodeReviewType === 'MR',
   );
+  const [aiCreatingMRList, setAiCreatingMRList] = React.useState(
+    window.localStorage.getItem('aiCreatingMRList')?.split(',') || [],
+  );
+
+  const isAiMRCRCreating =
+    aiCreatingMRList.includes(mergeId) && !comments.find((comment) => comment.data.aiCodeReviewType === 'MR');
+
+  React.useEffect(() => {
+    let inter: NodeJS.Timer;
+    if (isAiMRCRCreating) {
+      inter = setInterval(async () => {
+        const comments = await getComments();
+
+        if (comments.find((comment) => comment.data.aiCodeReviewType === 'MR')) {
+          clearInterval(inter);
+          const newList = aiCreatingMRList.filter((item) => item !== mergeId);
+          setAiCreatingMRList(newList);
+          window.localStorage.setItem('aiCreatingMRList', newList.join(','));
+        }
+      }, 5000);
+    }
+    return () => {
+      clearInterval(inter);
+    };
+  }, [isAiMRCRCreating]);
 
   return (
     <Spin spinning={isFetching}>
+      {isAiMRCRCreating ? (
+        <Alert
+          message={
+            <span className="flex-h-center">
+              <ErdaIcon type="zhongshi" className="animate-spin mr-1" />
+              {i18n.t('Generating AI review')}
+            </span>
+          }
+          type="warning"
+        />
+      ) : (
+        ''
+      )}
       <Tabs
         className="dice-tab"
         defaultActiveKey={!hideComment ? 'comment' : 'commit'}
