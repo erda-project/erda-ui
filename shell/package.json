@@ -48,7 +48,7 @@
     "@erda-ui/react-markdown-editor-lite": "^1.4.9",
     "@formily/core": "^2.1.9",
     "@formily/reactive": "^2.1.7",
-    "@terminus/ai-components": "0.0.1-beta.32",
+    "@terminus/ai-components": "0.0.1-beta.175",
     "ace-builds": "^1.4.7",
     "ansi_up": "^5.0.1",
     "antd": "^4.16.13",
