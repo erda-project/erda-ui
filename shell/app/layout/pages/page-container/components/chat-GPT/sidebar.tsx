@@ -83,8 +83,12 @@ const Sidebar = ({
   const loadSessions = async () => {
     const res = await getSessions({ userId, name, phone, email });
     if (res.success) {
-      setItems(res.data?.list?.map((item) => ({ key: item.id, label: item.name, ...item })));
-      const first = res.data.list.filter((item) => !item.isArchived)?.[0] || {};
+      setItems(
+        res.data?.list
+          ?.filter((item) => item.scene === 'chat')
+          ?.map((item) => ({ key: item.id, label: item.name, ...item })),
+      );
+      const first = res.data.list.filter((item) => !item.isArchived && item.scene === 'chat')?.[0] || {};
       first && setCurrent(first.id);
     }
   };

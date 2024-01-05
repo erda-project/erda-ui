@@ -201,23 +201,7 @@ const AICommentBox = ({ comment }: { comment: REPOSITORY.IComment }) => {
               promptConfig: { show: false },
               chatConfig: { show: false },
             }}
-            messages={
-              comment.note
-                ? [
-                    {
-                      role: 'user',
-                      time: moment(comment.createdAt).format('YYYY-MM-DD HH:mm:ss'),
-                      content: i18n.t('code review'),
-                    },
-                    {
-                      role: 'assistant',
-                      time: moment(comment.createdAt).format('YYYY-MM-DD HH:mm:ss'),
-                      content: comment.note,
-                    },
-                    ...list,
-                  ]
-                : list
-            }
+            messages={list}
           />
         </ChatProvider>
       </div>
