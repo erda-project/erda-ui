@@ -35,6 +35,7 @@ interface Session {
   temperature: number;
   topic: string;
   isArchived: boolean;
+  scene: 'chat' | 'ai-cr-session';
 }
 
 interface AddSessionsParams {
