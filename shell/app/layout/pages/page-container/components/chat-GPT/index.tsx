@@ -18,6 +18,7 @@ import { ErdaIcon as CustomIcon } from 'common';
 import routeInfoStore from 'core/stores/route';
 import Chat from './chat';
 import FunctionalTestCases from './functional-test-cases';
+import KnowledgeBase from './knowledge-base';
 
 import './index.scss';
 
@@ -59,6 +60,9 @@ const ChatGPT = () => {
               </Tabs.TabPane>
             )) ||
               ''}
+            <Tabs.TabPane tab={i18n.t('common:knowledge base')} key="knowledge">
+              <KnowledgeBase />
+            </Tabs.TabPane>
           </Tabs>
         </div>
       </Modal>
