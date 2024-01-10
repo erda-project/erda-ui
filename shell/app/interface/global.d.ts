@@ -121,6 +121,7 @@ interface Window {
     LINKS_AK: string;
     UC_PUBLIC_URL: string; // 包含protocol
     AI_BACKEND_URL: string;
+    ERDA_AI_BACKEND_URL: string;
     AI_PROXY_CLIENT_AK: string;
   };
   refreshApiGateway: RefreshApiGateway | null;

@@ -19,7 +19,7 @@ import { some } from 'lodash';
 import errorHandler from './error-handler';
 
 const isExcludeOrgHeaderApi = (url) => {
-  const excludeApis = ['/api/files', '/api/uc', '/api/-/orgs', '/api/ai-proxy'];
+  const excludeApis = ['/api/files', '/api/uc', '/api/-/orgs', '/api/ai-proxy', '/api/knowledgebase', '/api/query'];
   return some(excludeApis, (api) => url.startsWith(api));
 };
 
