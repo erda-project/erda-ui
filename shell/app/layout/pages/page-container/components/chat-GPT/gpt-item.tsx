@@ -36,7 +36,12 @@ const GPTItem = ({ message, links }: { message?: React.ReactNode; links?: string
         <div className="text-left w-full mt-4">
           <div>{i18n.t('List of reference documents')}: </div>
           {links.map((link) => (
-            <div className="text-blue my-1 cursor-pointer truncate" title={link} key={link}>
+            <div
+              className="text-blue my-1 cursor-pointer truncate"
+              title={link}
+              key={link}
+              onClick={() => window.open(link)}
+            >
               {link}
             </div>
           ))}

@@ -45,6 +45,12 @@ const SimpleChat = ({}, ref) => {
     setLoading(false);
   };
 
+  React.useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current?.scrollHeight;
+    }
+  }, [list]);
+
   React.useImperativeHandle(ref, () => ({
     enter,
   }));
