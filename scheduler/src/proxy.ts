@@ -147,7 +147,7 @@ export const createProxyService = (app: INestApplication) => {
       },
       {
         target: ERDA_AI_URL,
-        changeOrigin: !isProd,
+        changeOrigin: true,
         onError,
       },
     ),
