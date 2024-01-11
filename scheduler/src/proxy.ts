@@ -142,12 +142,13 @@ export const createProxyService = (app: INestApplication) => {
     createProxyMiddleware(
       (pathname: string, req: Request) => {
         if (pathname.startsWith('/api/knowledgebase/') || pathname.startsWith('/api/query')) {
+          console.log('**********/api/knowledgebase/*****', pathname);
           return true;
         }
       },
       {
         target: ERDA_AI_URL,
-        changeOrigin: !isProd,
+        changeOrigin: true,
         onError,
       },
     ),
