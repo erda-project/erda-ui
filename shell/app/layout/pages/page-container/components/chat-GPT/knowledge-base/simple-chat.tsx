@@ -35,6 +35,7 @@ const SimpleChat = ({}, ref) => {
   const enter = async (val: string) => {
     setLoading(true);
     setList((prev) => [...prev, { type: 'user', message: val }]);
+    setInputVal('');
     const res = await queryKnowledge(val, userId);
 
     if (res.success && res.data) {
