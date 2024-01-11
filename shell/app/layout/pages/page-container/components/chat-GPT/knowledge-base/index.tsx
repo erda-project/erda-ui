@@ -93,6 +93,7 @@ const KnowledgeBase = () => {
           titleRender={(data) => <div className="font-medium">{data.title}</div>}
           selectedKeys={[kind, source].filter(Boolean) as []}
           onSelect={(_key, { node: { isLeaf, key, source } }) => {
+            setPageNum(1);
             if (isLeaf) {
               setKind(`${key}`);
               setSource(source);
@@ -112,7 +113,15 @@ const KnowledgeBase = () => {
             </div>
           ))}
         </div>
-        <Pagination total={total} current={pageNum} pageSize={PAGE_SIZE} simple onChange={(page) => setPageNum(page)} />
+        <Pagination
+          className="mt-2"
+          size="small"
+          showTotal={() => ''}
+          total={total}
+          current={pageNum}
+          pageSize={PAGE_SIZE}
+          onChange={(page) => setPageNum(page)}
+        />
       </div>
       <div className="flex-[2] bg-white rounded-[4px] overflow-y-auto">
         <SimpleChat ref={chatRef} />
