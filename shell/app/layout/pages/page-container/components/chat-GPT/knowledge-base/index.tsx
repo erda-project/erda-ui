@@ -16,7 +16,7 @@ import { Tree, TreeDataNode, Pagination } from 'antd';
 import SimpleChat from './simple-chat';
 import { getFileSources, getQuestionKinds, getQuestions, Question } from 'layout/services/ai-knowledge';
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 10;
 
 const KnowledgeBase = () => {
   const [tree, setTree] = React.useState<
@@ -108,7 +108,7 @@ const KnowledgeBase = () => {
       <div className="flex-[2] bg-white rounded-[4px] flex flex-col">
         <div className="flex-1 overflow-y-auto m-4">
           {questions.map((item) => (
-            <div className="text-blue my-1 cursor-pointer" onClick={() => enter(item.question)} key={item.question}>
+            <div className="text-blue my-3 cursor-pointer" onClick={() => enter(item.question)} key={item.question}>
               {item.question}
             </div>
           ))}
