@@ -105,8 +105,8 @@ const KnowledgeBase = () => {
           loadData={onLoadData}
         />
       </div>
-      <div className="flex-[1] bg-white rounded-[4px] p-4 flex flex-col">
-        <div className="flex-1 overflow-y-auto">
+      <div className="flex-[2] bg-white rounded-[4px] flex flex-col">
+        <div className="flex-1 overflow-y-auto m-4">
           {questions.map((item) => (
             <div className="text-blue my-1 cursor-pointer" onClick={() => enter(item.question)} key={item.question}>
               {item.question}
@@ -114,7 +114,7 @@ const KnowledgeBase = () => {
           ))}
         </div>
         <Pagination
-          className="mt-2"
+          className="mb-4"
           size="small"
           showTotal={() => ''}
           total={total}
@@ -123,7 +123,7 @@ const KnowledgeBase = () => {
           onChange={(page) => setPageNum(page)}
         />
       </div>
-      <div className="flex-[2] bg-white rounded-[4px] overflow-y-auto">
+      <div className="flex-[3] bg-white rounded-[4px] overflow-y-auto">
         <SimpleChat ref={chatRef} />
       </div>
     </div>
