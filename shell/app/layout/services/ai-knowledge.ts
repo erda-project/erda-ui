@@ -66,6 +66,7 @@ export const getQuestions = ({
 export const queryKnowledge = (
   messages: string,
   userId: string,
+  extension?: boolean,
 ): RAW_RESPONSE<{ answer: string; references: string[] }> => {
   const { currentOrg } = getGlobal('initData');
   const params = {
@@ -81,6 +82,9 @@ export const queryKnowledge = (
   req.set('Erda-AI-Module', 'KnowledgeBase');
   req.set('Org-ID', currentOrg.id);
   req.set('User-ID', userId);
+  if (extension) {
+    req.set('Erda-AI-Response-Widely', extension);
+  }
 
   return req.send(params).then((response: any) => response.body);
 };
