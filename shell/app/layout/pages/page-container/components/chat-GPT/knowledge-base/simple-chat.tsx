@@ -33,6 +33,9 @@ const SimpleChat = ({}, ref) => {
   const [inputVal, setInputVal] = React.useState('');
 
   const enter = async (val: string) => {
+    if (loading) {
+      return;
+    }
     setLoading(true);
     setList((prev) => [...prev, { type: 'user', message: val }]);
     setInputVal('');
