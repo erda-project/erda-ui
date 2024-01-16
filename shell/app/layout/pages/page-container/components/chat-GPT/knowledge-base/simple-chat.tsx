@@ -32,14 +32,14 @@ const SimpleChat = ({}, ref) => {
   const [loading, setLoading] = React.useState(false);
   const [inputVal, setInputVal] = React.useState('');
 
-  const enter = async (val: string) => {
+  const enter = async (val: string, extension?: boolean) => {
     if (loading) {
       return;
     }
     setLoading(true);
     setList((prev) => [...prev, { type: 'user', message: val }]);
     setInputVal('');
-    const res = await queryKnowledge(val, userId);
+    const res = await queryKnowledge(val, userId, extension);
 
     if (res.success && res.data) {
       const { answer, references } = res.data;
@@ -62,14 +62,20 @@ const SimpleChat = ({}, ref) => {
     <div className="flex flex-col h-full items-cente p-4">
       <div className="flex-1 w-full text-center ml-auto mr-auto mb-10 overflow-y-auto" ref={listRef}>
         {list.length ? (
-          list.map((item) => {
+          list.map((item, index) => {
             const { type, message, links } = item;
 
             switch (type) {
               case 'user':
                 return <UserItem message={message} />;
               case 'gpt':
-                return <GPTItem message={message} links={links} />;
+                return (
+                  <GPTItem
+                    message={message}
+                    links={links}
+                    onExtension={list[index - 1].message ? () => enter(list[index - 1].message, true) : undefined}
+                  />
+                );
               default:
                 return '';
             }

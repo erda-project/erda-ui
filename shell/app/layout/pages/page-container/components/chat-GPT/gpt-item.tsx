@@ -12,10 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Button } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon as CustomIcon, MarkdownRender } from 'common';
 
-const GPTItem = ({ message, links }: { message?: React.ReactNode; links?: string[] }) => {
+const GPTItem = ({
+  message,
+  links,
+  onExtension,
+}: {
+  message?: React.ReactNode;
+  links?: string[];
+  onExtension?: () => void;
+}) => {
   return (
     <div className="py-6 px-4 border-bottom bg-grey">
       <div className="m-auto flex justify-between">
@@ -46,6 +55,13 @@ const GPTItem = ({ message, links }: { message?: React.ReactNode; links?: string
             </div>
           ))}
         </div>
+      ) : (
+        ''
+      )}
+      {onExtension ? (
+        <Button className="mt-4 font-medium" onClick={onExtension}>
+          {i18n.t('extended answer')}
+        </Button>
       ) : (
         ''
       )}
