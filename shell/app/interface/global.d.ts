@@ -123,6 +123,7 @@ interface Window {
     AI_BACKEND_URL: string;
     ERDA_AI_BACKEND_URL: string;
     AI_PROXY_CLIENT_AK: string;
+    DICE_CLUSTER_NAME: string;
   };
   refreshApiGateway: RefreshApiGateway | null;
   previewFun: (el: HTMLElement) => void;
