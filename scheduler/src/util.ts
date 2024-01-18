@@ -72,6 +72,7 @@ const getEnv = () => {
       AI_BACKEND_URL: process.env.AI_BACKEND_URL,
       ERDA_AI_BACKEND_URL: process.env.ERDA_AI_BACKEND_URL,
       AI_PROXY_CLIENT_AK: process.env.AI_PROXY_CLIENT_AK,
+      DICE_CLUSTER_NAME: process.env.DICE_CLUSTER_NAME,
     };
   }
 
@@ -90,6 +91,7 @@ const getEnv = () => {
       AI_BACKEND_URL?: string;
       ERDA_AI_BACKEND_URL?: string;
       AI_PROXY_CLIENT_AK?: string;
+      DICE_CLUSTER_NAME?: string;
     },
   };
 };
