@@ -96,6 +96,7 @@ const SimpleChat = ({}, ref) => {
           value={inputVal}
           onPressEnter={(e) => {
             if (!e.currentTarget?.value) {
+              setInputVal('');
               e.preventDefault();
               return;
             }
