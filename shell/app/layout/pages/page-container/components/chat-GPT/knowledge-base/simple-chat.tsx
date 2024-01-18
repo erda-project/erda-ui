@@ -73,7 +73,9 @@ const SimpleChat = ({}, ref) => {
                   <GPTItem
                     message={message}
                     links={links}
-                    onExtension={list[index - 1].message ? () => enter(list[index - 1].message, true) : undefined}
+                    onExtension={
+                      !links?.length && list[index - 1].message ? () => enter(list[index - 1].message, true) : undefined
+                    }
                   />
                 );
               default:

@@ -52,15 +52,19 @@ export const getQuestions = ({
   pageSize,
   pageNum,
   kind,
+  filter,
 }: {
   source: string;
   pageSize: number;
   pageNum: number;
   kind?: string;
+  filter: string;
 }): RAW_RESPONSE<{ list: Question[]; total: number }> => {
-  return agent.get(`/api/knowledgebase/questions`, { pageSize, pageNum, source, kind }).then((response: any) => {
-    return JSON.parse(response.text);
-  });
+  return agent
+    .get(`/api/knowledgebase/questions`, { pageSize, pageNum, source, kind, filter })
+    .then((response: any) => {
+      return JSON.parse(response.text);
+    });
 };
 
 export const queryKnowledge = (
