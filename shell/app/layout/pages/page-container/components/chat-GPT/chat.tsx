@@ -21,8 +21,9 @@ import orgStore from 'app/org-home/stores/org';
 import Sidebar from './sidebar';
 import { getLogs } from 'layout/services/ai-chat';
 
-const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL || 'https://ai-proxy.erda.cloud';
-const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK || '21b58e59f4ad4c46b0c7c70f6b76d8f5';
+const AI_BACKEND_URL = erdaEnv.AI_BACKEND_URL;
+const AI_PROXY_CLIENT_AK = erdaEnv.AI_PROXY_CLIENT_AK;
+const DICE_CLUSTER_NAME = erdaEnv.DICE_CLUSTER_NAME;
 
 const Chat = () => {
   const [currentChat, setCurrentChat] = useState<string>();
@@ -88,11 +89,11 @@ const Chat = () => {
                 'X-Ai-Proxy-Username': encode(name),
                 'X-Ai-Proxy-Phone': encode(phone),
                 'X-AI-Proxy-Email': encode(email),
-                'X-Ai-Proxy-Source': 'erda.cloud',
                 'X-Ai-Proxy-Org-Id': encode(`${orgId}`),
                 'X-AI-Proxy-Session-Id': `${currentChat}`,
                 'X-AI-Proxy-Prompt-Id': '',
                 Authorization: AI_PROXY_CLIENT_AK,
+                ...(DICE_CLUSTER_NAME ? { 'X-Ai-Proxy-Source': DICE_CLUSTER_NAME } : {}),
               },
               formatResult: (msgData) => {
                 const { data } = msgData;
