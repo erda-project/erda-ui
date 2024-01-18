@@ -93,7 +93,7 @@ const Chat = () => {
                 'X-AI-Proxy-Session-Id': `${currentChat}`,
                 'X-AI-Proxy-Prompt-Id': '',
                 Authorization: AI_PROXY_CLIENT_AK,
-                ...(DICE_CLUSTER_NAME ? { 'X-Ai-Proxy-Source': DICE_CLUSTER_NAME } : {}),
+                ...(DICE_CLUSTER_NAME ? { 'X-Ai-Proxy-Source': `web_chat___${DICE_CLUSTER_NAME}` } : {}),
               },
               formatResult: (msgData) => {
                 const { data } = msgData;
