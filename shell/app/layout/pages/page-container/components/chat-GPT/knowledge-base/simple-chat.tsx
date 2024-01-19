@@ -95,7 +95,7 @@ const SimpleChat = ({}, ref) => {
           autoSize={{ minRows: 1, maxRows: 4 }}
           value={inputVal}
           onPressEnter={(e) => {
-            if (!e.currentTarget?.value) {
+            if (!e.currentTarget?.value.trim()) {
               setInputVal('');
               e.preventDefault();
               return;
