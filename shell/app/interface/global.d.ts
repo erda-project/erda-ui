@@ -122,6 +122,7 @@ interface Window {
     UC_PUBLIC_URL: string; // 包含protocol
     AI_BACKEND_URL: string;
     AI_PROXY_CLIENT_AK: string;
+    DICE_CLUSTER_NAME: string;
   };
   refreshApiGateway: RefreshApiGateway | null;
   previewFun: (el: HTMLElement) => void;
