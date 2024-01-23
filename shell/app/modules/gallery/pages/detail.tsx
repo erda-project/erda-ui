@@ -51,7 +51,7 @@ const Detail = () => {
       onClick={(e) => {
         setCurVersion(data?.versions?.find((item) => item.version === e.key) || null);
       }}
-      className="p-3 w-[200px] h-[310px] overflow-y-auto"
+      className="p-3 w-[200px] max-h-[310px] overflow-y-auto"
     >
       <Menu.Item key={'chosen'} disabled className="text-default-6 text-xs mb-3">
         {i18n.t('please select version')}
