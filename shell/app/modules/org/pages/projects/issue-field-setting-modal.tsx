@@ -14,6 +14,7 @@
 import i18n from 'i18n';
 import React from 'react';
 import { useUpdate } from 'common/use-hooks';
+import routeInfoStore from 'core/stores/route';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
 import { FIELD_TYPE_ICON_MAP, DEFAULT_ISSUE_FIELDS_MAP } from 'org/common/config';
@@ -38,6 +39,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
   const [fieldList] = issueFieldStore.useStore((s) => [s.fieldList]);
   const { clearFieldList } = issueFieldStore.reducers;
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
+  const { projectId } = routeInfoStore.getState((s) => s.params);
 
   const [{ selectedField, filedOptions }, updater, update] = useUpdate({
     selectedField: {} as ISSUE_FIELD.IFiledItem,
@@ -45,7 +47,11 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
   });
 
   useEffectOnce(() => {
-    getFieldOptions({ propertyIssueType: 'COMMON', orgID }).then(({ data }) => {
+    getFieldOptions({
+      propertyIssueType: 'COMMON',
+      orgID,
+      ...(projectId ? { ScopeType: 'project', ScopeID: projectId } : {}),
+    }).then(({ data }) => {
       updater.filedOptions(data || []);
     });
   });

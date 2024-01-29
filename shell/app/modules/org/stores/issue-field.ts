@@ -44,31 +44,40 @@ const issueFieldStore = createStore({
   name: 'issueField',
   state: initState,
   effects: {
-    async getIssueTime({ call, update }, payload: ISSUE_FIELD.IProjectIssueQuery) {
-      const issueTimeMap = await call(getIssueTime, payload);
+    async getIssueTime({ call, update, getParams }, payload: ISSUE_FIELD.IProjectIssueQuery) {
+      const { projectId } = getParams();
+      const issueTimeMap = await call(getIssueTime, addProjectId(projectId)(payload));
       update({ issueTimeMap });
     },
-    async getFieldsByIssue({ call, update }, payload: ISSUE_FIELD.IFieldsByIssueQuery) {
-      const fieldList = await call(getFieldsByIssue, payload);
+    async getFieldsByIssue({ call, update, getParams }, payload: ISSUE_FIELD.IFieldsByIssueQuery) {
+      const { projectId } = getParams();
+      const fieldList = await call(getFieldsByIssue, addProjectId(projectId)(payload));
       update({ fieldList: fieldList || [] });
       return fieldList || [];
     },
-    async addFieldItem({ call }, payload: Omit<ISSUE_FIELD.IFiledItem, 'propertyID' | 'index'>) {
-      return call(addFieldItem, payload, { successMsg: i18n.t('saved successfully') });
+    async addFieldItem({ call, getParams }, payload: Omit<ISSUE_FIELD.IFiledItem, 'propertyID' | 'index'>) {
+      const { projectId } = getParams();
+      return call(addFieldItem, addProjectId(projectId)(payload), { successMsg: i18n.t('saved successfully') });
     },
-    async updateFieldItem({ call }, payload: Omit<ISSUE_FIELD.IFiledItem, 'index'>) {
-      return call(updateFieldItem, payload, { successMsg: i18n.t('updated successfully') });
+    async updateFieldItem({ call, getParams }, payload: Omit<ISSUE_FIELD.IFiledItem, 'index'>) {
+      const { projectId } = getParams();
+      return call(updateFieldItem, addProjectId(projectId)(payload), { successMsg: i18n.t('updated successfully') });
     },
-    async deleteFieldItem({ call }, payload: { propertyID: number }) {
-      return call(deleteFieldItem, payload, { successMsg: i18n.t('deleted successfully') });
+    async deleteFieldItem({ call, getParams }, payload: { propertyID: number }) {
+      const { projectId } = getParams();
+      return call(deleteFieldItem, addProjectId(projectId)(payload), { successMsg: i18n.t('deleted successfully') });
     },
-    async batchUpdateFieldsOrder({ call, update }, payload: ISSUE_FIELD.IFiledItem[]) {
-      const fieldList = await call(batchUpdateFieldsOrder, payload, { successMsg: i18n.t('updated successfully') });
+    async batchUpdateFieldsOrder({ call, update, getParams }, payload: ISSUE_FIELD.IFiledItem[]) {
+      const { projectId } = getParams();
+      const fieldList = await call(batchUpdateFieldsOrder, addProjectId(projectId)(payload), {
+        successMsg: i18n.t('updated successfully'),
+      });
       update({ fieldList });
     },
-    async getSpecialFieldOptions({ call, update }, payload: ISSUE_FIELD.ISpecialFieldQuery) {
+    async getSpecialFieldOptions({ call, update, getParams }, payload: ISSUE_FIELD.ISpecialFieldQuery) {
+      const { projectId } = getParams();
       const { issueType } = payload;
-      let list = await call(getSpecialFieldOptions, payload);
+      let list = await call(getSpecialFieldOptions, addProjectId(projectId)(payload));
       list = list || [];
       if (issueType === ISSUE_TYPE.BUG) {
         update({ bugStageList: list });
@@ -78,8 +87,9 @@ const issueFieldStore = createStore({
 
       return list;
     },
-    async updateSpecialFieldOptions({ call }, payload: ISSUE_FIELD.ISpecialFieldQuery) {
-      const list = await call(updateSpecialFieldOptions, payload);
+    async updateSpecialFieldOptions({ call, getParams }, payload: ISSUE_FIELD.ISpecialFieldQuery) {
+      const { projectId } = getParams();
+      const list = await call(updateSpecialFieldOptions, addProjectId(projectId)(payload));
 
       return list;
     },
@@ -91,4 +101,12 @@ const issueFieldStore = createStore({
     },
   },
 });
+
+const addProjectId = (projectId: string) => {
+  return (params: any) => ({
+    ...params,
+    ...(projectId ? { ScopeType: 'project', ScopeID: projectId } : {}),
+  });
+};
+
 export default issueFieldStore;
