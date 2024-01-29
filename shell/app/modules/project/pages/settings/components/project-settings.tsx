@@ -29,6 +29,8 @@ import ScanRule from 'project/common/components/scan-rule';
 import { replaceWithLink } from 'app/common/utils';
 import BranchPolicy from './workflow-setting/branch-policy';
 import DevOpsWorkflow from './workflow-setting/devops-workflow';
+import IssueFieldManage from 'org/pages/projects/issue-field-manage';
+import IssueTypeManage from 'org/pages/projects/issue-type-manage';
 
 const ProjectSettings = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
@@ -188,6 +190,22 @@ const ProjectSettings = () => {
               ]}
             />
           ),
+        },
+      ],
+    },
+    {
+      groupTitle: i18n.t('project'),
+      groupKey: 'project',
+      tabGroup: [
+        {
+          tabTitle: i18n.t('dop:Issue Type'),
+          tabKey: 'issueType',
+          content: <IssueTypeManage />,
+        },
+        {
+          tabTitle: i18n.t('dop:Custom Issue Field'),
+          tabKey: 'issueField',
+          content: <IssueFieldManage />,
         },
       ],
     },
