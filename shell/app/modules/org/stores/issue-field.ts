@@ -105,7 +105,7 @@ const issueFieldStore = createStore({
 const addProjectId = (projectId: string) => {
   return (params: any) => ({
     ...params,
-    ...(projectId ? { ScopeType: 'project', ScopeID: projectId } : {}),
+    ...(projectId ? { scopeType: 'project', scopeID: projectId } : {}),
   });
 };
 

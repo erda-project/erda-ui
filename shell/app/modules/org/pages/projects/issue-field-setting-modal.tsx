@@ -50,7 +50,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
     getFieldOptions({
       propertyIssueType: 'COMMON',
       orgID,
-      ...(projectId ? { ScopeType: 'project', ScopeID: projectId } : {}),
+      ...(projectId ? { scopeType: 'project', scopeID: projectId } : {}),
     }).then(({ data }) => {
       updater.filedOptions(data || []);
     });
