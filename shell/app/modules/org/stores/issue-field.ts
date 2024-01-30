@@ -51,7 +51,7 @@ const issueFieldStore = createStore({
     },
     async getFieldsByIssue({ call, update, getParams }, payload: ISSUE_FIELD.IFieldsByIssueQuery) {
       const { projectId } = getParams();
-      const fieldList = await call(getFieldsByIssue, addProjectId(projectId)(payload));
+      const fieldList = await call(getFieldsByIssue, addProjectId(projectId)({ ...payload, onlyProject: true }));
       update({ fieldList: fieldList || [] });
       return fieldList || [];
     },
