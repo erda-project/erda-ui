@@ -51,7 +51,10 @@ const issueFieldStore = createStore({
     },
     async getFieldsByIssue({ call, update, getParams }, payload: ISSUE_FIELD.IFieldsByIssueQuery) {
       const { projectId } = getParams();
-      const fieldList = await call(getFieldsByIssue, addProjectId(projectId)({ ...payload, onlyProject: true }));
+      const fieldList = await call(
+        getFieldsByIssue,
+        addProjectId(projectId)({ ...payload, ...(projectId ? { onlyProject: true } : {}) }),
+      );
       update({ fieldList: fieldList || [] });
       return fieldList || [];
     },
@@ -77,7 +80,10 @@ const issueFieldStore = createStore({
     async getSpecialFieldOptions({ call, update, getParams }, payload: ISSUE_FIELD.ISpecialFieldQuery) {
       const { projectId } = getParams();
       const { issueType } = payload;
-      let list = await call(getSpecialFieldOptions, addProjectId(projectId)(payload));
+      let list = await call(
+        getSpecialFieldOptions,
+        addProjectId(projectId)({ ...payload, ...(projectId ? { onlyProject: true } : {}) }),
+      );
       list = list || [];
       if (issueType === ISSUE_TYPE.BUG) {
         update({ bugStageList: list });
