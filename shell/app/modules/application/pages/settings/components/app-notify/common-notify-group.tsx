@@ -267,7 +267,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       title: i18n.t('dop:are you sure you want to delete this item?'),
       content: i18n.t('dop:the notification group will be permanently deleted'),
       onOk() {
-        deleteNotifyGroups({ id, scopeType: commonPayload.scopeType }).then(() => {
+        deleteNotifyGroups({ id, scopeType: commonPayload.scopeType, scopeId: commonPayload.scopeId }).then(() => {
           handleGetNotifyGroups({ name: searchValue });
         });
       },
@@ -305,6 +305,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
             values: _values,
           },
         ],
+        scopeId: commonPayload.scopeId,
       }).then(() => {
         handleCancel();
         handleGetNotifyGroups({ name: searchValue });
