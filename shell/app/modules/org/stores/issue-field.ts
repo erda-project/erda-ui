@@ -53,7 +53,7 @@ const issueFieldStore = createStore({
       const { projectId } = getParams();
       const fieldList = await call(
         getFieldsByIssue,
-        addProjectId(projectId)({ ...payload, ...(projectId ? { onlyProject: true } : {}) }),
+        addProjectId(projectId)({ ...payload, ...(projectId ? { onlyProject: true } : { scopeType: 'org' }) }),
       );
       update({ fieldList: fieldList || [] });
       return fieldList || [];
