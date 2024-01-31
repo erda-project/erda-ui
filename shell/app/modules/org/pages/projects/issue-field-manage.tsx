@@ -16,6 +16,7 @@ import { Button, Input, message, Modal, Tooltip } from 'antd';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
 import issueFieldStore from 'org/stores/issue-field';
+import routeInfoStore from 'core/stores/route';
 import { WithAuth } from 'app/user/common';
 import { Filter, Table, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -30,6 +31,7 @@ import { IActions } from 'common/components/table/interface';
 
 const IssueFieldManage = () => {
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
   const tableData = issueFieldStore.useStore((s) => s.fieldList);
   const { getFieldsByIssue, deleteFieldItem, getSpecialFieldOptions } = issueFieldStore.effects;
   const { clearFieldList } = issueFieldStore.reducers;
@@ -55,9 +57,11 @@ const IssueFieldManage = () => {
   });
 
   const tableList = React.useMemo(() => {
-    const tempList = [taskSpecialField, bugSpecialField]?.filter(({ propertyName }) => {
-      return filterData.propertyName === undefined || propertyName?.indexOf(filterData?.propertyName) !== -1;
-    });
+    const tempList = !projectId
+      ? [taskSpecialField, bugSpecialField]?.filter(({ propertyName }) => {
+          return filterData.propertyName === undefined || propertyName?.indexOf(filterData?.propertyName) !== -1;
+        })
+      : [];
     return [...tempList, ...tableData];
   }, [bugSpecialField, filterData, tableData, taskSpecialField]);
 
