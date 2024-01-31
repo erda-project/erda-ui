@@ -65,7 +65,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
 
     await addFieldItem(params);
     update({ selectedField: undefined });
-    getFieldsByIssue({ propertyIssueType: issueType, orgID });
+    getFieldsByIssue({ propertyIssueType: issueType, orgID, ...(projectId ? { onlyProject: true } : {}) });
   }, [addFieldItem, getFieldsByIssue, issueType, orgID, selectedField, update]);
 
   const onCloseModal = () => {
@@ -88,7 +88,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
         });
 
         await batchUpdateFieldsOrder(tempList);
-        getFieldsByIssue({ propertyIssueType: issueType, orgID });
+        getFieldsByIssue({ propertyIssueType: issueType, orgID, ...(projectId ? { onlyProject: true } : {}) });
       }
     },
     [batchUpdateFieldsOrder, fieldList, getFieldsByIssue, issueType, orgID],
@@ -97,7 +97,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
   const onDelete = React.useCallback(
     async (propertyID) => {
       await deleteFieldItem({ propertyID });
-      getFieldsByIssue({ propertyIssueType: issueType, orgID });
+      getFieldsByIssue({ propertyIssueType: issueType, orgID, ...(projectId ? { onlyProject: true } : {}) });
     },
     [deleteFieldItem, getFieldsByIssue, issueType, orgID],
   );
