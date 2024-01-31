@@ -92,7 +92,12 @@ const IssueFieldManage = () => {
       }
 
       await deleteFieldItem({ propertyID });
-      getFieldsByIssue({ ...filterData, propertyIssueType: 'COMMON', orgID });
+      getFieldsByIssue({
+        ...filterData,
+        propertyIssueType: 'COMMON',
+        orgID,
+        ...(projectId ? { onlyProject: true } : {}),
+      });
     },
     [deleteFieldItem, filterData, getFieldsByIssue, orgID],
   );
@@ -189,7 +194,7 @@ const IssueFieldManage = () => {
 
   const onFilter = (query: Obj) => {
     updater.filterData(query);
-    getFieldsByIssue({ ...query, propertyIssueType: 'COMMON', orgID });
+    getFieldsByIssue({ ...query, propertyIssueType: 'COMMON', orgID, ...(projectId ? { onlyProject: true } : {}) });
   };
 
   const onClose = React.useCallback(() => {
@@ -203,7 +208,12 @@ const IssueFieldManage = () => {
     formData?.isSpecialField && getSpecialField();
 
     onClose();
-    getFieldsByIssue({ ...filterData, propertyIssueType: 'COMMON', orgID });
+    getFieldsByIssue({
+      ...filterData,
+      propertyIssueType: 'COMMON',
+      orgID,
+      ...(projectId ? { onlyProject: true } : {}),
+    });
   }, [filterData, formData, getFieldsByIssue, getSpecialField, onClose, orgID]);
 
   const readonlyForm = (
@@ -227,7 +237,12 @@ const IssueFieldManage = () => {
         rowKey="propertyName"
         dataSource={tableList}
         onReload={() => {
-          getFieldsByIssue({ ...filterData, propertyIssueType: 'COMMON', orgID });
+          getFieldsByIssue({
+            ...filterData,
+            propertyIssueType: 'COMMON',
+            orgID,
+            ...(projectId ? { onlyProject: true } : {}),
+          });
         }}
         columns={columns}
         pagination={false}

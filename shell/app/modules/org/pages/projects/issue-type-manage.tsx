@@ -15,6 +15,7 @@ import React from 'react';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
 import issueFieldStore from 'org/stores/issue-field';
+import routeInfoStore from 'core/stores/route';
 import { map, keys } from 'lodash';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { ISSUE_LIST_MAP } from 'org/common/config';
@@ -28,6 +29,7 @@ const IssueTypeManage = () => {
   const { getIssueTime, getFieldsByIssue } = issueFieldStore.effects;
   const { clearFieldList } = issueFieldStore.reducers;
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
+  const { projectId } = routeInfoStore.getState((s) => s.params);
 
   useMount(() => {
     getIssueTime({ orgID });
@@ -64,7 +66,7 @@ const IssueTypeManage = () => {
             className="panel hover-active-bg"
             key={item.type}
             onClick={() => {
-              getFieldsByIssue({ propertyIssueType: item.type, orgID });
+              getFieldsByIssue({ propertyIssueType: item.type, orgID, ...(projectId ? { onlyProject: true } : {}) });
               update({
                 modalVisible: true,
                 issueType: item.type as ISSUE_FIELD.IIssueType,
