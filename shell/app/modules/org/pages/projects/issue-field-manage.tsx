@@ -96,7 +96,7 @@ const IssueFieldManage = () => {
         ...filterData,
         propertyIssueType: 'COMMON',
         orgID,
-        ...(projectId ? { onlyProject: true } : {}),
+        ...(projectId ? { onlyProject: true } : { scopeType: 'org' }),
       });
     },
     [deleteFieldItem, filterData, getFieldsByIssue, orgID],
@@ -194,7 +194,12 @@ const IssueFieldManage = () => {
 
   const onFilter = (query: Obj) => {
     updater.filterData(query);
-    getFieldsByIssue({ ...query, propertyIssueType: 'COMMON', orgID, ...(projectId ? { onlyProject: true } : {}) });
+    getFieldsByIssue({
+      ...query,
+      propertyIssueType: 'COMMON',
+      orgID,
+      ...(projectId ? { onlyProject: true } : { scopeType: 'org' }),
+    });
   };
 
   const onClose = React.useCallback(() => {
@@ -212,7 +217,7 @@ const IssueFieldManage = () => {
       ...filterData,
       propertyIssueType: 'COMMON',
       orgID,
-      ...(projectId ? { onlyProject: true } : {}),
+      ...(projectId ? { onlyProject: true } : { scopeType: 'org' }),
     });
   }, [filterData, formData, getFieldsByIssue, getSpecialField, onClose, orgID]);
 
@@ -241,7 +246,7 @@ const IssueFieldManage = () => {
             ...filterData,
             propertyIssueType: 'COMMON',
             orgID,
-            ...(projectId ? { onlyProject: true } : {}),
+            ...(projectId ? { onlyProject: true } : { scopeType: 'org' }),
           });
         }}
         columns={columns}
