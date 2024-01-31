@@ -25,8 +25,18 @@ export const getNotifyGroups = (
     .then((response: any) => response.body);
 };
 
-export const deleteNotifyGroups = ({ id, scopeType }: { id: string; scopeType: COMMON_NOTIFY.ScopeType }) => {
-  return agent.delete(`${getUrl(scopeType)}/${id}`).then((response: any) => response.body);
+export const deleteNotifyGroups = ({
+  id,
+  scopeType,
+  ...payload
+}: {
+  id: string;
+  scopeType: COMMON_NOTIFY.ScopeType;
+}) => {
+  return agent
+    .delete(`${getUrl(scopeType)}/${id}`)
+    .query(payload)
+    .then((response: any) => response.body);
 };
 
 export const createNotifyGroups = (payload: COMMON_NOTIFY.ICreateNotifyGroupQuery) => {
