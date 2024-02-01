@@ -66,7 +66,11 @@ const IssueTypeManage = () => {
             className="panel hover-active-bg"
             key={item.type}
             onClick={() => {
-              getFieldsByIssue({ propertyIssueType: item.type, orgID, ...(projectId ? { onlyProject: true } : {}) });
+              getFieldsByIssue({
+                propertyIssueType: item.type,
+                orgID,
+                ...(projectId ? { onlyProject: true } : { scopeType: 'org' }),
+              });
               update({
                 modalVisible: true,
                 issueType: item.type as ISSUE_FIELD.IIssueType,
