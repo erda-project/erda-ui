@@ -196,7 +196,14 @@ export const EditIssueDrawer = (props: IProps) => {
   }, [iterationID]);
 
   const getCustomFields = React.useCallback(() => {
-    id && getFieldsByIssue({ issueID: id, propertyIssueType: issueType, orgID });
+    id &&
+      getFieldsByIssue({
+        issueID: id,
+        propertyIssueType: issueType,
+        orgID,
+        scopeType: 'project',
+        scopeId: addRelatedMattersProjectId,
+      });
   }, [getFieldsByIssue, id, issueType, orgID]);
 
   React.useEffect(() => {
