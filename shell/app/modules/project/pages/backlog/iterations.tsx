@@ -52,7 +52,7 @@ const Iterations = () => {
   };
 
   const onDelete = (val: ITERATION.Detail) => {
-    deleteIteration(val.id).then(() => {
+    deleteIteration({ id: val.id, onlyItreration: 'true' }).then(() => {
       getList();
     });
   };

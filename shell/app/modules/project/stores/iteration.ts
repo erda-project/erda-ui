@@ -94,8 +94,8 @@ const iteration = createStore({
         { successMsg: i18n.t('updated successfully') },
       );
     },
-    async deleteIteration({ call }, id: number) {
-      await call(deleteIteration, id, { successMsg: i18n.t('deleted successfully') });
+    async deleteIteration({ call }, { id, onlyItreration }: { id: number; onlyItreration: string }) {
+      await call(deleteIteration, { id, onlyItreration }, { successMsg: i18n.t('deleted successfully') });
     },
     async getUndoneIterations({ call, getParams, update }) {
       const { projectId: projectID } = getParams();

@@ -13,18 +13,19 @@
 
 import { goTo } from 'common/utils';
 import iterationStore from 'app/modules/project/stores/iteration';
-import { Ellipsis, RadioTabs, TopButtonGroup } from 'common';
+import { Ellipsis, RadioTabs, TopButtonGroup, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Button, Progress, Modal } from 'antd';
+import { Button, Progress, Modal, Radio, RadioChangeEvent } from 'antd';
 import ErdaTable from 'common/components/table';
 import React from 'react';
 import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
 import { WithAuth, usePerm } from 'user/common';
 import routeInfoStore from 'core/stores/route';
+import permStore from 'user/stores/permission';
 import { dayMin } from 'project/common/components/issue/time-input';
 
 const options = [
@@ -37,6 +38,7 @@ export const Iteration = () => {
   const [list, paging] = iterationStore.useStore((s) => [s.iterationList, s.iterationPaging]);
 
   const projectId = routeInfoStore.useStore((s) => s.params.projectId);
+  const permProject = permStore.useStore((s) => s.project);
   const { getIterations, deleteIteration, editIteration: handleFiledIteration } = iterationStore.effects;
   const [isFetching] = useLoading(iterationStore, ['getIterations']);
   const { total, pageNo, pageSize } = paging;
@@ -44,6 +46,9 @@ export const Iteration = () => {
     modalVisible: false,
     curDetail: null,
   });
+  const [deleteType, setDeleteType] = React.useState('true');
+  const [deleteVisible, setDeleteVisible] = React.useState(false);
+  const [deleteId, setDeleteId] = React.useState();
 
   const query = React.useMemo(() => {
     const iterationStateMap = {
@@ -65,8 +70,9 @@ export const Iteration = () => {
   }, [getList]);
 
   const onDelete = (id: number) => {
-    deleteIteration(id).then(() => {
+    deleteIteration({ id, onlyItreration: deleteType }).then(() => {
       getList({ pageNo: 1 });
+      afterDelete();
     });
   };
 
@@ -188,18 +194,15 @@ export const Iteration = () => {
         },
         {
           title: (
-            <WithAuth pass={operationAuth}>
+            <WithAuth
+              pass={operationAuth && permProject?.roles?.some((item: string) => ['Owner', 'PM'].includes(item))}
+            >
               <span>{i18n.t('Delete')}</span>
             </WithAuth>
           ),
           onClick: () => {
-            Modal.confirm({
-              title: `${i18n.t('common:confirm to delete')}？`,
-              content: `${i18n.t('common:confirm this action')}？`,
-              onOk() {
-                onDelete(record.id);
-              },
-            });
+            setDeleteId(record.id);
+            setDeleteVisible(true);
           },
         },
       ];
@@ -207,6 +210,12 @@ export const Iteration = () => {
   };
 
   const addAuth = usePerm((s) => s.project.iteration.operation.pass);
+
+  const afterDelete = () => {
+    setDeleteId();
+    setDeleteVisible(false);
+    setDeleteType('true');
+  };
 
   return (
     <div className="iteration">
@@ -254,6 +263,32 @@ export const Iteration = () => {
         }}
       />
       <IterationModal visible={state.modalVisible} data={state.curDetail as ITERATION.Detail} onClose={handleClose} />
+      <Modal
+        title={
+          <div className="flex-h-center">
+            <ErdaIcon type="attention" className="text-yellow text-[22px] mr-4" />
+            {`${i18n.t('common:confirm to delete')}？`}
+          </div>
+        }
+        visible={deleteVisible}
+        onOk={() => {
+          onDelete(deleteId);
+        }}
+        onCancel={afterDelete}
+        bodyStyle={{ paddingTop: 0 }}
+        closable={false}
+      >
+        <div className="pl-10">
+          <div>{`${i18n.t('common:confirm this action')}？`}</div>
+          <div className="mt-1">
+            <Radio.Group onChange={(e: RadioChangeEvent) => setDeleteType(e.target.value)} value={deleteType}>
+              <Radio value="true">{i18n.t('dop:Retain the transaction under the iteration')}</Radio>
+              <br />
+              <Radio value="false">{i18n.t('dop:Delete the transaction under the iteration')}</Radio>
+            </Radio.Group>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
