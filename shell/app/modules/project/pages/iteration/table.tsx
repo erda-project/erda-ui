@@ -25,6 +25,7 @@ import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
 import { WithAuth, usePerm } from 'user/common';
 import routeInfoStore from 'core/stores/route';
+import permStore from 'user/stores/permission';
 import { dayMin } from 'project/common/components/issue/time-input';
 
 const options = [
@@ -37,6 +38,7 @@ export const Iteration = () => {
   const [list, paging] = iterationStore.useStore((s) => [s.iterationList, s.iterationPaging]);
 
   const projectId = routeInfoStore.useStore((s) => s.params.projectId);
+  const permProject = permStore.useStore((s) => s.project);
   const { getIterations, deleteIteration, editIteration: handleFiledIteration } = iterationStore.effects;
   const [isFetching] = useLoading(iterationStore, ['getIterations']);
   const { total, pageNo, pageSize } = paging;
@@ -192,7 +194,9 @@ export const Iteration = () => {
         },
         {
           title: (
-            <WithAuth pass={operationAuth}>
+            <WithAuth
+              pass={operationAuth && permProject?.roles?.some((item: string) => ['Owner', 'PM'].includes(item))}
+            >
               <span>{i18n.t('Delete')}</span>
             </WithAuth>
           ),
