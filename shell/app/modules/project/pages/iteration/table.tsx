@@ -194,9 +194,7 @@ export const Iteration = () => {
         },
         {
           title: (
-            <WithAuth
-              pass={operationAuth && permProject?.roles?.some((item: string) => ['Owner', 'PM'].includes(item))}
-            >
+            <WithAuth pass={operationAuth && permProject?.roles?.some((item: string) => ['Owner'].includes(item))}>
               <span>{i18n.t('Delete')}</span>
             </WithAuth>
           ),
@@ -282,9 +280,9 @@ export const Iteration = () => {
           <div>{`${i18n.t('common:confirm this action')}？`}</div>
           <div className="mt-1">
             <Radio.Group onChange={(e: RadioChangeEvent) => setDeleteType(e.target.value)} value={deleteType}>
-              <Radio value="true">{i18n.t('dop:Retain the transaction under the iteration')}</Radio>
+              <Radio value="true">{i18n.t('dop:Only iterations are deleted, and iterations are retained')}</Radio>
               <br />
-              <Radio value="false">{i18n.t('dop:Delete the transaction under the iteration')}</Radio>
+              <Radio value="false">{i18n.t('dop:Delete iterations and iteration events')}</Radio>
             </Radio.Group>
           </div>
         </div>
