@@ -194,7 +194,9 @@ export const Iteration = () => {
         },
         {
           title: (
-            <WithAuth pass={operationAuth && permProject?.roles?.some((item: string) => ['Owner'].includes(item))}>
+            <WithAuth
+              pass={operationAuth && permProject?.roles?.some((item: string) => ['Owner', 'PM', 'Lead'].includes(item))}
+            >
               <span>{i18n.t('Delete')}</span>
             </WithAuth>
           ),
