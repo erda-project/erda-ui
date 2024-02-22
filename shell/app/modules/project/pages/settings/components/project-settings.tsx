@@ -23,6 +23,7 @@ import memberStore from 'common/stores/project-member';
 import i18n from 'i18n';
 import { MemberScope } from 'common/stores/member-scope';
 import routeInfoStore from 'core/stores/route';
+import permStore from 'user/stores/permission';
 import IssueWorkflow from 'project/common/components/issue-workflow';
 import { usePerm } from 'app/user/common';
 import ScanRule from 'project/common/components/scan-rule';
@@ -34,6 +35,7 @@ import IssueTypeManage from 'org/pages/projects/issue-type-manage';
 
 const ProjectSettings = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
+  const permProject = permStore.useStore((s) => s.project);
   const permMap = usePerm((s) => s.project);
 
   const dataSource = [
@@ -193,22 +195,26 @@ const ProjectSettings = () => {
         },
       ],
     },
-    {
-      groupTitle: i18n.t('project'),
-      groupKey: 'project',
-      tabGroup: [
-        {
-          tabTitle: i18n.t('dop:Issue Type'),
-          tabKey: 'issueType',
-          content: <IssueTypeManage />,
-        },
-        {
-          tabTitle: i18n.t('dop:Custom Issue Field'),
-          tabKey: 'issueField',
-          content: <IssueFieldManage />,
-        },
-      ],
-    },
+    ...(permProject?.roles?.some((item: string) => ['Owner', 'PM', 'Lead'].includes(item))
+      ? [
+          {
+            groupTitle: i18n.t('project'),
+            groupKey: 'project',
+            tabGroup: [
+              {
+                tabTitle: i18n.t('dop:Issue Type'),
+                tabKey: 'issueType',
+                content: <IssueTypeManage />,
+              },
+              {
+                tabTitle: i18n.t('dop:Custom Issue Field'),
+                tabKey: 'issueField',
+                content: <IssueFieldManage />,
+              },
+            ],
+          },
+        ]
+      : []),
     {
       groupTitle: i18n.t('dop:workflow'),
       groupKey: 'workflow',
