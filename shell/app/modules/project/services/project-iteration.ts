@@ -49,6 +49,6 @@ export function editProjectIteration({ id, ...rest }: ITERATION.UpdateBody) {
 
 export function deleteIteration({ id, onlyItreration }: { id: number; onlyItreration: string }) {
   return agent
-    .delete(`/api/iterations/${id}${onlyItreration ? `/${onlyItreration}` : ''}`)
+    .delete(`/api/iterations/${id}${onlyItreration ? `?onlyIteration=${onlyItreration}` : ''}`)
     .then((response: any) => response.body);
 }
