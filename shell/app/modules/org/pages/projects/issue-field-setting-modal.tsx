@@ -189,10 +189,15 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
       ]}
     >
       <div className="issue-field-layout">
-        <div className="default-field-panel">
-          <div className="name">{i18n.t('dop:default field')}</div>
-          <div className="field-grid mb-4 pl-2">{renderDefaultContent}</div>
-        </div>
+        {!projectId ? (
+          <div className="default-field-panel">
+            <div className="name">{i18n.t('dop:default field')}</div>
+            <div className="field-grid mb-4 pl-2">{renderDefaultContent}</div>
+          </div>
+        ) : (
+          ''
+        )}
+
         <div className="custom-field-panel">
           <div className="name">{i18n.t('dop:custom fields')}</div>
           <div className="custom-field-list">{renderCustomFields()}</div>
