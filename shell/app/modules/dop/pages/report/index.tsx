@@ -368,7 +368,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
       ],
       [
         {
-          label: '负责的功能点数',
+          label: i18n.t('dop:responsible for function points'),
           value: detailData.responsibleFuncPointsTotal,
           render: (text: number) => (
             <span className="flex items-center justify-center h-[120px] text-2xl">
@@ -377,7 +377,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
           ),
         },
         {
-          label: '需求的功能点数',
+          label: i18n.t('dop:function points required'),
           value: detailData.requirementFuncPointsTotal,
           render: (text: number) => (
             <span className="flex items-center justify-center h-[120px] text-2xl">
@@ -386,7 +386,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
           ),
         },
         {
-          label: '开发功能点数',
+          label: i18n.t('dop:development function points'),
           value: detailData.devFuncPointsTotal,
           render: (text: number) => (
             <span className="flex items-center justify-center h-[120px] text-2xl">
@@ -395,7 +395,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
           ),
         },
         {
-          label: '设计功能点数',
+          label: i18n.t('dop:design function points'),
           value: detailData.demandFuncPointsTotal,
           render: (text: number) => (
             <span className="flex items-center justify-center h-[120px] text-2xl">
@@ -404,7 +404,7 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
           ),
         },
         {
-          label: '测试功能点数',
+          label: i18n.t('dop:test function points'),
           value: detailData.testFuncPointsTotal,
           render: (text: number) => (
             <span className="flex items-center justify-center h-[120px] text-2xl">
