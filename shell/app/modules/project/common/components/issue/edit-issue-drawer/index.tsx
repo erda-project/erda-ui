@@ -201,8 +201,6 @@ export const EditIssueDrawer = (props: IProps) => {
         issueID: id,
         propertyIssueType: issueType,
         orgID,
-        scopeType: 'project',
-        scopeId: addRelatedMattersProjectId,
       });
   }, [getFieldsByIssue, id, issueType, orgID]);
 
@@ -222,6 +220,7 @@ export const EditIssueDrawer = (props: IProps) => {
       getCustomFieldsByProject({
         propertyIssueType: issueType,
         orgID,
+        noScopeType: true,
       }).then((res) => {
         updateCustomFieldDetail({
           property: res,

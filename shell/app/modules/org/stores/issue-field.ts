@@ -49,9 +49,13 @@ const issueFieldStore = createStore({
       const issueTimeMap = await call(getIssueTime, addProjectId(projectId)(payload));
       update({ issueTimeMap });
     },
-    async getFieldsByIssue({ call, update, getParams }, payload: ISSUE_FIELD.IFieldsByIssueQuery) {
+    async getFieldsByIssue(
+      { call, update, getParams },
+      payload: ISSUE_FIELD.IFieldsByIssueQuery & { noScopeType: boolean },
+    ) {
+      const { noScopeType, ...rest } = payload;
       const { projectId } = getParams();
-      const fieldList = await call(getFieldsByIssue, addProjectId(projectId)(payload));
+      const fieldList = await call(getFieldsByIssue, noScopeType ? rest : addProjectId(projectId)(payload));
       update({ fieldList: fieldList || [] });
       return fieldList || [];
     },

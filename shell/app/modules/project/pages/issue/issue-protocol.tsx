@@ -52,6 +52,7 @@ const IssueProtocol = ({ issueType, hideImport }: IProps) => {
     issueFieldStore.effects.getFieldsByIssue({
       propertyIssueType: issueType,
       orgID,
+      noScopeType: true,
     });
   });
 

@@ -106,6 +106,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
       getCustomFieldsByProject({
         propertyIssueType: issueType,
         orgID,
+        noScopeType: true,
       });
   }, [issueType]);
 

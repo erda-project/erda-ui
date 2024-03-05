@@ -251,8 +251,8 @@ declare namespace ISSUE {
     issueID: number;
     orgID: number;
     propertyIssueType: string;
-    scopeType: 'org' | 'project';
-    scopeId: number;
+    scopeType?: 'org' | 'project';
+    scopeId?: number;
   }
   interface IFieldInstanceBody {
     issueID: number;
