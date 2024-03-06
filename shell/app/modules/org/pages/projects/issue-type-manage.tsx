@@ -69,7 +69,7 @@ const IssueTypeManage = () => {
               getFieldsByIssue({
                 propertyIssueType: item.type,
                 orgID,
-                ...(projectId ? { onlyProject: true } : { scopeType: 'org' }),
+                ...(projectId ? { onlyCurrentScopeType: 'true' } : { scopeType: 'org' }),
               });
               update({
                 modalVisible: true,
