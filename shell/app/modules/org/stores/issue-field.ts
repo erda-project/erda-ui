@@ -79,7 +79,7 @@ const issueFieldStore = createStore({
       const { issueType } = payload;
       let list = await call(
         getSpecialFieldOptions,
-        addProjectId(projectId)({ ...payload, ...(projectId ? { onlyProject: true } : {}) }),
+        addProjectId(projectId)({ ...payload, ...(projectId ? { onlyCurrentScopeType: 'true' } : {}) }),
       );
       list = list || [];
       if (issueType === ISSUE_TYPE.BUG) {
