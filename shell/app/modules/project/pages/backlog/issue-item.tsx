@@ -450,7 +450,7 @@ export const IssueForm = (props: IIssueFormProps) => {
         orgID,
         propertyIssueType: data.type as ISSUE_FIELD.IIssueType,
         scopeType: 'project',
-        scopeId: projectId,
+        scopeID: projectId,
       }).then((res) => {
         const fieldList = res.data?.property;
         if (fieldList) {
