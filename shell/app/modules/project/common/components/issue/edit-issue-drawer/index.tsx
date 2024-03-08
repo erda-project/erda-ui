@@ -202,7 +202,7 @@ export const EditIssueDrawer = (props: IProps) => {
         propertyIssueType: issueType,
         orgID,
         scopeType: 'project',
-        scopeId: addRelatedMattersProjectId,
+        scopeID: addRelatedMattersProjectId,
       });
   }, [getFieldsByIssue, id, issueType, orgID]);
 

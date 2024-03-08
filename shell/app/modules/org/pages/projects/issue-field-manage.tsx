@@ -96,7 +96,7 @@ const IssueFieldManage = () => {
         ...filterData,
         propertyIssueType: 'COMMON',
         orgID,
-        ...(projectId ? { onlyCurrentScopeType: 'true' } : { scopeType: 'org' }),
+        ...(projectId ? { onlyProject: 'true' } : { scopeType: 'org' }),
       });
     },
     [deleteFieldItem, filterData, getFieldsByIssue, orgID],
@@ -198,7 +198,7 @@ const IssueFieldManage = () => {
       ...query,
       propertyIssueType: 'COMMON',
       orgID,
-      ...(projectId ? { onlyCurrentScopeType: 'true' } : { scopeType: 'org' }),
+      ...(projectId ? { onlyProject: 'true' } : { scopeType: 'org' }),
     });
   };
 
@@ -217,7 +217,7 @@ const IssueFieldManage = () => {
       ...filterData,
       propertyIssueType: 'COMMON',
       orgID,
-      ...(projectId ? { onlyCurrentScopeType: 'true' } : { scopeType: 'org' }),
+      ...(projectId ? { onlyProject: 'true' } : { scopeType: 'org' }),
     });
   }, [filterData, formData, getFieldsByIssue, getSpecialField, onClose, orgID]);
 
@@ -246,7 +246,7 @@ const IssueFieldManage = () => {
             ...filterData,
             propertyIssueType: 'COMMON',
             orgID,
-            ...(projectId ? { onlyCurrentScopeType: 'true' } : { scopeType: 'org' }),
+            ...(projectId ? { onlyProject: 'true' } : { scopeType: 'org' }),
           });
         }}
         columns={columns}

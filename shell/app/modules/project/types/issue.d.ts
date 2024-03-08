@@ -252,7 +252,7 @@ declare namespace ISSUE {
     orgID: number;
     propertyIssueType: string;
     scopeType: 'org' | 'project';
-    scopeId: number;
+    scopeID?: number | string;
   }
   interface IFieldInstanceBody {
     issueID: number;
