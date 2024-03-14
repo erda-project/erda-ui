@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'core/cube';
-import { inviteToOrg } from 'layout/services';
+import { inviteToOrg, getLicenses } from 'layout/services';
 import * as DiceWebSocket from 'core/utils/ws';
-import { enableIconfont, setApiWithOrg } from 'common/utils';
+import { enableIconfont, setApiWithOrg, goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { find, merge } from 'lodash';
+import JSEncrypt from 'jsencrypt';
 import orgStore from 'app/org-home/stores/org';
 import { on, emit } from 'core/event-hub';
 import React from 'react';
@@ -151,6 +152,67 @@ const layout = createStore({
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         emit('pressEsc', { event: e, stack: layout.getState((s) => s.escStack) });
+      }
+    });
+
+    // Gets the authorized path
+    let features: string[] = [];
+
+    // if (currentOrg.id) {
+    //   const res = await getLicenses({ scope: 'PLATFORM' });
+    // }
+
+    listenRoute(async ({ params }) => {
+      const { orgName } = params;
+
+      if (orgName && orgName !== '-' && !features.length) {
+        const res = await getLicenses({ scope: 'PLATFORM' });
+
+        if (res.success) {
+          if (res.data) {
+            const jse = new JSEncrypt();
+
+            jse.setPrivateKey(PRIVATE_KEY);
+            const data = jse.decrypt(res.data);
+            if (data) {
+              const parseData = JSON.parse(data);
+              features = parseData.features;
+            }
+          } else {
+            const orgRes = await getLicenses({ scope: 'ORG' });
+            const jse = new JSEncrypt();
+
+            jse.setPrivateKey(PRIVATE_KEY);
+            const data = jse.decrypt(orgRes.data);
+            if (data) {
+              const parseData = JSON.parse(data);
+              features = parseData.features;
+            }
+          }
+        }
+      }
+    });
+
+    // Check whether the current path has permission
+    listenRoute(async ({ currentRoute, params }) => {
+      const { path } = currentRoute;
+      const { orgName } = params;
+      if (features.length) {
+        if (/\/:orgName\//.test(path)) {
+          const isMatch = features.some((feature) => {
+            const regexStr = feature.replace(/\*/g, '.+');
+            const regex = new RegExp('^' + regexStr + '$');
+            const remainingStr = path.replace(/^\/:orgName\//, '');
+            return regex.test(remainingStr);
+          });
+          if (!isMatch) {
+            goTo(goTo.pages.noAuth);
+          }
+        }
+      } else {
+        if (/^\/:orgName\//.test(path) && orgName !== '-') {
+          goTo(goTo.pages.noAuth);
+        }
       }
     });
   },
@@ -314,5 +376,35 @@ export const useEscScope = (key: string, onPressEscape: (e: React.KeyboardEvent)
 
   return () => layout.reducers.unshiftEscStack(key);
 };
+
+const PRIVATE_KEY = `
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEAwqjO6sYlprkL0ex4o8bbvrNoJjIdxTBWuDD1aTZvV/kCBDCG
+26hAlUZ2vsCJ8IUeqR/9gaB3acw8nMX1phARyQPEvCCCmtEUk7ak5i+DU+VRKM3k
+NrQf2+Tc35RnZf4K/MQGovSLSFtjnQgBhX7KswB1zFD+xxuOrixCsdAv4TKh3vGX
+mnqcIBvSH+84g8/+l6UudOtma7ps6wrJ0IiClkary02szUdsiF5RpltTIYo+9ZYd
+KfHoJ2xdZLqCMmijwk7xmvzGx09OlZeYDni/4yqwjc1BRbgYMDBFFmcN9BKvGz66
+w8mAb4glN59rjbD6gpv9q3VKMXWek5D3EIL1XQIDAQABAoIBAQC18mVdypHc0W/7
+6qUkqDYzfKvnr8ZlzvXvuktY6XmPZ/97fQRAgnbDUJajW4JTX4o2GOGybRPQvwcU
+nnAqpTCKjEwyb8zD+pPaMcjWIykEnP6MPk6G1zxEJBpTnPo8ugT5GBz/6cXafxmP
+6LDLX6UFRXPV4wsRfm+R22sHmwl12mHI6KhtNXSk9CIqQT6ZnRMw07ZaM+RyhWmV
+SdSACV+14bKhzqdI55veygsL0KZJ17exUDyqxY53LKfMSZDEoYWcWeF83m5adiD9
+zM6pm/UgRQfHyxT8JDURmMU28o3l4Y9y4dvUpkDf4jGKVkq8liM6nkObr7yHeLzJ
+XIJl+FA9AoGBAMO/NfL5UbfzICOEiVR1iFJ1i8BST/N6h2g35UnZMg90KFIO8PVy
+QBU+0ccoZkCPqyHHx1xpSvp33F3I5yHE5zReVDI7jO9d4k8BxPiKEQe9Vq6FWpMu
+E5UDSeNIhlIAh0LdIYJGjTA/Ekyq8wYJYxAPSUyqu0xtRt8tJ0aMIq9bAoGBAP6T
+5vMo6iFG3pc7SxuFhiSCQcmEG+7idt2n0+UrC+DxTxkGNtt05MbFmRZeGNZDXNg1
+/IfyIK6JTEryIZjPwV/i9bZfPaUqsfw68kUFW4R1o+XUMnPBUnzw43YtttseC1cH
+EMjpwAhVQdSz1z2SxvO8zFLW2J+PVAdI2k0KJYOnAoGBAJ3sANFi1cvrSQ1+mvDZ
+1b54+OOTRM9xFhc9qS14HgwbsX/qb/oFT7AUO1hKvpvtjKo3LB7hD82cr9u1/sre
+uY0lYRYZty1SeAc3rTq64Nx2o50vFxDQxpmcypqkY0F7DaUjFCqvUq8O42uZK3G+
+Vv6Y5pEE2RDixJ+/JQWkf0MrAoGAK+cJvwlhRxfXrzD0hOyD86va+Iul3Y6EfTlC
+G5VO2R4ETAZ8U2BXS8gr3GWh1uGLE2ZMBI3HARKAa7RSAu5hJM4ZHbhTAzbXtu3b
+dfe0jqVS/IGZqci/Fvjb4TeE/0ixH/MB/AQDr+w0DCBvkBjN4p6+hdKzTOEE1rTD
+oOGNEqUCgYEAsP6JzXQZwKdbxiyrF6gxy2tc9eJ05+HUWTT2zlciBMw1pLmAj+j+
+JhEGXpznkPQtVtWWqDu0urfgySQvHc2GQHpvrQNvrbGna+BJvvwwVT3cri+cg1a6
+LgZBsRR9GPbpNHW6ClJU+2Ao24tvIeyN2kHR2yUFFWeoR117FY7KtIk=
+-----END RSA PRIVATE KEY-----
+`;
 
 export default layout;
