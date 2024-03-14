@@ -13,16 +13,22 @@
 
 import agent from 'agent';
 
-export const inviteToOrg = (payload: LAYOUT.InviteToOrgPayload) => {
+export interface License {
+  licenseType: string;
+  expiryTimestamp: number;
+  features: string[];
+}
+
+export const getLicense = (): RAW_RESPONSE<{ data: License }> => {
   return agent
-    .post('/api/members/actions/create-by-invitecode')
-    .send(payload)
+    .get('/api/licenses')
+    .query({ scope: 'ORG' })
     .then((response: any) => response.body);
 };
 
-export const getLicenses = ({ scope }: { scope: string }) => {
+export const importLicense = (license: string): RAW_RESPONSE<{ id: number }> => {
   return agent
-    .get('/api/licenses/features')
-    .query({ scope })
+    .post('/api/licenses/actions/register')
+    .send({ scope: 'ORG', license })
     .then((response: any) => response.body);
 };
