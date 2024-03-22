@@ -50,7 +50,9 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
     getFieldOptions({
       propertyIssueType: 'COMMON',
       orgID,
-      ...(projectId ? { scopeType: 'project', scopeID: projectId, onlyProject: 'true' } : { scopeType: 'org' }),
+      ...(projectId
+        ? { scopeType: 'project', scopeID: projectId, onlyCurrentScopeType: 'true' }
+        : { scopeType: 'org' }),
     }).then(({ data }) => {
       updater.filedOptions(data || []);
     });
@@ -68,7 +70,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
     getFieldsByIssue({
       propertyIssueType: issueType,
       orgID,
-      ...(projectId ? { onlyProject: 'true' } : { scopeType: 'org' }),
+      ...(projectId ? { onlyCurrentScopeType: 'true' } : { scopeType: 'org' }),
     });
   }, [addFieldItem, getFieldsByIssue, issueType, orgID, selectedField, update]);
 
@@ -95,7 +97,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
         getFieldsByIssue({
           propertyIssueType: issueType,
           orgID,
-          ...(projectId ? { onlyProject: 'true' } : { scopeType: 'org' }),
+          ...(projectId ? { onlyCurrentScopeType: 'true' } : { scopeType: 'org' }),
         });
       }
     },
@@ -108,7 +110,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
       getFieldsByIssue({
         propertyIssueType: issueType,
         orgID,
-        ...(projectId ? { onlyProject: 'true' } : { scopeType: 'org' }),
+        ...(projectId ? { onlyCurrentScopeType: 'true' } : { scopeType: 'org' }),
       });
     },
     [deleteFieldItem, getFieldsByIssue, issueType, orgID],

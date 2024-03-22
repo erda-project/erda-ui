@@ -156,7 +156,7 @@ const layout = createStore({
     });
 
     // Gets the authorized path
-    let features: string[] = [];
+    let features: string[] | null = null;
 
     // if (currentOrg.id) {
     //   const res = await getLicenses({ scope: 'PLATFORM' });
@@ -165,7 +165,7 @@ const layout = createStore({
     listenRoute(async ({ params }) => {
       const { orgName } = params;
 
-      if (orgName && orgName !== '-' && !features.length) {
+      if (orgName && orgName !== '-' && !features) {
         const res = await getLicenses({ scope: 'PLATFORM' });
 
         if (res.success) {
@@ -197,6 +197,9 @@ const layout = createStore({
     listenRoute(async ({ currentRoute, params }) => {
       const { path } = currentRoute;
       const { orgName } = params;
+      if (!features) {
+        return;
+      }
       if (features.length) {
         if (/\/:orgName\//.test(path)) {
           const isMatch = features.some((feature) => {
