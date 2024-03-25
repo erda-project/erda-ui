@@ -97,9 +97,9 @@ export default ({
     const list = isEmpty(iterationList)
       ? []
       : !disabledBacklog
-      ? [{ title: i18n.t('dop:Backlog'), id: -1 }, ...iterationList]
+      ? [{ title: i18n.t('dop:Backlog'), id: -1, state: 'UNFILED' }, ...iterationList]
       : [...iterationList];
-    return addAllOption ? [{ title: i18n.t('dop:all iterations'), id: 'ALL' }, ...list] : list;
+    return addAllOption ? [{ title: i18n.t('dop:all iterations'), id: 'ALL', state: 'UNFILED' }, ...list] : list;
   }, [addAllOption, iterationList, disabledBacklog]);
 
   React.useEffect(() => {
@@ -123,11 +123,14 @@ export default ({
       allowClear={allowClear}
       mode={mode}
     >
-      {map(iterationOption, ({ id, title }) => (
-        <Option key={id} value={String(id)}>
-          {title}
-        </Option>
-      ))}
+      {map(
+        iterationOption.filter((item) => item.state !== 'FILED'),
+        ({ id, title }) => (
+          <Option key={id} value={String(id)}>
+            {title}
+          </Option>
+        ),
+      )}
     </Select>
   );
 };
