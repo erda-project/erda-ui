@@ -28,6 +28,7 @@ import IssueFieldManage from '../projects/issue-field-manage';
 import IssueTypeManage from '../projects/issue-type-manage';
 import Announcement from 'org/pages/announcement';
 import permStore from 'user/stores/permission';
+import LicenseInfo from './license-info';
 
 import './org-setting.scss';
 import { replaceWithLink } from 'app/common/utils';
@@ -89,6 +90,11 @@ export const OrgSetting = () => {
             content: <Announcement />,
           },
         ]),
+        {
+          tabTitle: i18n.t('License'),
+          tabKey: 'license',
+          content: <LicenseInfo />,
+        },
       ],
     },
     {

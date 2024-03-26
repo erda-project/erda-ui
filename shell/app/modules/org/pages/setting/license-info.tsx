@@ -37,7 +37,7 @@ const LicenseInfo = () => {
     setLoading(true);
     const res = await getLicense();
     if (res.success) {
-      setInfo(res.data.data);
+      setInfo(res.data);
       setLoading(false);
     }
   };

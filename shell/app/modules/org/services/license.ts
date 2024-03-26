@@ -19,7 +19,7 @@ export interface License {
   features: string[];
 }
 
-export const getLicense = (): RAW_RESPONSE<{ data: License }> => {
+export const getLicense = (): RAW_RESPONSE<License> => {
   return agent
     .get('/api/licenses')
     .query({ scope: 'ORG' })
