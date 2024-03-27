@@ -181,12 +181,13 @@ const layout = createStore({
           } else {
             const orgRes = await getLicenses({ scope: 'ORG' });
             const jse = new JSEncrypt();
-
             jse.setPrivateKey(PRIVATE_KEY);
             const data = jse.decrypt(orgRes.data);
             if (data) {
               const parseData = JSON.parse(data);
               features = parseData.features;
+            } else {
+              features = [];
             }
           }
         }
