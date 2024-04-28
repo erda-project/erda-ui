@@ -170,8 +170,8 @@ export const PureCommentList = ({ comments = [] }: ICommentList) => {
             />
           );
         }
-        const { newPath, oldLine, newLine } = comment.data;
-        const lineKey = `${oldLine}_${newLine}`;
+        const { newPath, oldLine, newLine, oldLineTo, newLineTo } = comment.data;
+        const lineKey = oldLineTo && newLineTo ? `${oldLineTo}_${newLineTo}` : `${oldLine}_${newLine}`;
         // 每个文件块只显示一行相关的评论
         const curCommentMap = {
           [lineKey]: fileCommentMap[newPath][lineKey],
