@@ -107,21 +107,28 @@ module.exports = (api) => {
           },
           'common',
         ], //  -------------------------- vite used --------------------------
-        [
-          'i18next',
-          {
-            localePath: [path.resolve(__dirname, '..', 'locales'), path.resolve(__dirname, 'app', 'locales')],
-            languages: [{ code: 'en' }, { code: 'zh' }],
-            primaryLng: 'en',
-            defaultNS: 'default',
-            include: [`${path.resolve(__dirname, 'app')}/**/*.{js,jsx,ts,tsx}`],
-            translateApi: { type: 'youdao', secretFile: path.resolve(__dirname, '.translaterc') },
-            interpolation: {
-              prefix: '{',
-              suffix: '}',
-            },
-          },
-        ],
+        // [
+        //   'i18next',
+        //   {
+        //     localePath: [
+        //       path.resolve(__dirname, '..', 'locales'),
+        //       path.resolve(__dirname, 'app', 'locales'),
+        //       path.resolve(__dirname, '../../erda-ui-enterprise/admin/src/locales'),
+        //     ],
+        //     languages: [{ code: 'en' }, { code: 'zh' }],
+        //     primaryLng: 'en',
+        //     defaultNS: 'default',
+        //     include: [
+        //       `${path.resolve(__dirname, 'app')}/**/*.{js,jsx,ts,tsx}`,
+        //       `${path.resolve(__dirname, '../../erda-ui-enterprise')}/**/*.{js,jsx,ts,tsx}`,
+        //     ],
+        //     translateApi: { type: 'youdao', secretFile: path.resolve(__dirname, '.translaterc') },
+        //     interpolation: {
+        //       prefix: '{',
+        //       suffix: '}',
+        //     },
+        //   },
+        // ],
         [
           'import',
           {

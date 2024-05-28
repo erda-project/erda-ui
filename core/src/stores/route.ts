@@ -170,6 +170,10 @@ const routeInfoStore = createStore({
         ...state.markedRoutePreview,
         ...(currentRoute?.searchMark ? { [currentRoute.searchMark]: search } : {}),
       };
+
+      if (pathname.includes('/fdp/') && currentRoute.path === '/:orgName/(.*)') {
+        currentRoute.path = '/:orgName/fdp/*';
+      }
       const routeInfo = {
         prevRouteInfo,
         params,
