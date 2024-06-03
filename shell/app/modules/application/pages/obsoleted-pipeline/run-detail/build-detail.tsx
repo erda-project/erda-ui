@@ -453,7 +453,7 @@ const BuildDetail = (props: IProps) => {
     const cronRunBtn = (
       <div className="build-operator">
         <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
-          <Tooltip title={i18n.t('dop:start cron')}>
+          <Tooltip title={i18n.t('dop:start cron')} placement="left">
             <CustomIcon
               type="js"
               onClick={() => {
@@ -477,7 +477,7 @@ const BuildDetail = (props: IProps) => {
               }}
             >
               <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
-                <Tooltip title={i18n.t('dop:cancel cron build')}>
+                <Tooltip title={i18n.t('dop:cancel cron build')} placement="left">
                   <CustomIcon type="qxjs" />
                 </Tooltip>
               </WithAuth>
@@ -582,7 +582,7 @@ const BuildDetail = (props: IProps) => {
             <ELSE />
             <IF check={canRerunFailed}>
               {deployAuth.hasAuth ? (
-                <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
+                <Dropdown overlay={renderReRunMenu()} placement="bottomLeft">
                   <ErdaIcon size="21" fill="black-4" type="redo" className="mr-1.5" />
                 </Dropdown>
               ) : (
@@ -593,7 +593,10 @@ const BuildDetail = (props: IProps) => {
               <ELSE />
               <IF check={canRerun}>
                 <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
-                  <Tooltip title={`${i18n.t('dop:rerun whole pipeline')}(commit ${i18n.t('unchanged')})`}>
+                  <Tooltip
+                    title={`${i18n.t('dop:rerun whole pipeline')}(commit ${i18n.t('unchanged')})`}
+                    placement="left"
+                  >
                     <CustomIcon
                       onClick={() => {
                         reRunPipeline(true);

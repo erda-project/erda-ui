@@ -423,14 +423,16 @@ export const FileDiff = ({
   const updateRowSelection = (isSelected: boolean) => {
     setTableData((prevData) => {
       const newSections = [...prevData];
-      const newData = [...newSections[currentSectionIndex].lines];
-      newData.forEach((item, index) => {
+      const newData = [...newSections[currentSectionIndex].lines].map((item, index) => {
+        const curItem = { ...item };
         if (index >= startRowIndex && index <= endRowIndex) {
-          item.selected = isSelected;
+          curItem.selected = isSelected;
         } else {
-          item.selected = false;
+          curItem.selected = false;
         }
+        return curItem;
       });
+      newSections[currentSectionIndex].lines = newData;
       return newSections;
     });
   };

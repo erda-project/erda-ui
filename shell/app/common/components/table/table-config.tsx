@@ -70,7 +70,6 @@ function TableConfig<T extends object = any>({
             trigger="click"
             placement="bottomRight"
             overlayClassName="erda-table-columns-filter"
-            // getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
           >
             <ErdaIcon type="config" size="20" className={`ml-3 icon-hover bg-hover p-1`} />
           </Popover>

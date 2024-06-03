@@ -19,7 +19,7 @@ import { ColumnProps } from 'antd/lib/table';
 import { encode } from 'js-base64';
 import { goTo } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
-import { ConfigurableFilter, ErdaIcon, ContractiveFilter } from 'common';
+import { ConfigurableFilter, ErdaIcon, ContractiveFilter, Ellipsis } from 'common';
 import ErdaTable from 'common/components/table';
 import { getReports, Report } from 'dop/services';
 import { getProjectIterations } from 'project/services/project-iteration';
@@ -734,16 +734,12 @@ const ProjectReport = ({ route }: { route: { path: string } }) => {
                   <Card
                     title={
                       <span className="flex items-center">
-                        <Tooltip title={item.label} className={item.tip ? `truncate` : ''}>
-                          {item.label}
-                        </Tooltip>
+                        <Ellipsis title={item.label} className={item.tip ? `truncate` : ''} />
                         {item.tip ? (
                           <Tooltip title={item.tip} className="flex-none w-[12px] ml-2">
                             <ErdaIcon type="help" />
                           </Tooltip>
-                        ) : (
-                          ''
-                        )}
+                        ) : null}
                       </span>
                     }
                     onClick={() => item.url && goTo(item.url, { ...item.params, jumpOut: true })}

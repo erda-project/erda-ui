@@ -24,6 +24,7 @@ interface ITextProps {
   displayName: string;
   disabled?: boolean;
   showErrTip?: boolean;
+  required?: boolean;
   passAndTrigger?: boolean;
   rule?: any;
   triggerChangeOnButton?: boolean;
@@ -40,6 +41,7 @@ export const TextFieldInput = React.forwardRef(
       showErrTip = false,
       passAndTrigger = false,
       triggerChangeOnButton = false,
+      required,
       rule = {},
       ...rest
     }: ITextProps,
@@ -55,9 +57,14 @@ export const TextFieldInput = React.forwardRef(
 
     React.useEffect(() => {
       setValue(value);
-      const pass = value && value.length ? checkReg?.test(value) : true;
-      showErrTip && setShowTip(!pass);
-    }, [checkReg, showErrTip, value]);
+
+      if (!value && !required) {
+        setShowTip(false);
+      } else {
+        const pass = value && value.length ? checkReg?.test(value) : true;
+        showErrTip && setShowTip(!pass);
+      }
+    }, [checkReg, showErrTip, value, required]);
 
     const triggerSave = (v: string | number, pass: boolean) => {
       showErrTip && setShowTip(!pass);
@@ -69,7 +76,8 @@ export const TextFieldInput = React.forwardRef(
     };
 
     const onInputChange = (_v: string) => {
-      const pass = _v && _v.length ? checkReg?.test(_v) : true;
+      let pass = _v && _v.length ? checkReg?.test(_v) : true;
+      pass = !_v && !required ? true : pass;
       showErrTip && setShowTip(!pass);
       setValue(_v);
       if (!triggerChangeOnButton) {
@@ -78,7 +86,8 @@ export const TextFieldInput = React.forwardRef(
     };
 
     const onBlur = () => {
-      const pass = _value !== '' ? checkReg?.test(_value) : true;
+      let pass = _value !== '' ? checkReg?.test(_value) : true;
+      pass = !_value && !required ? true : pass;
       if (!clickBtn.current) {
         triggerSave(_value, pass);
         setShowBtn(false);
@@ -88,7 +97,8 @@ export const TextFieldInput = React.forwardRef(
 
     const onSave = () => {
       clickBtn.current = true;
-      const pass = _value !== '' ? checkReg?.test(_value) : true;
+      let pass = _value !== '' ? checkReg?.test(_value) : true;
+      pass = !_value && !required ? true : pass;
       triggerSave(_value, pass);
       setShowBtn(false);
     };
@@ -154,6 +164,7 @@ export const NumberFieldInput = React.forwardRef(({ value, onChange = () => {}, 
         {...rest}
         value={_value}
         ref={ref}
+        size="small"
         onChange={(v) => onInputChange(v)}
         onBlur={(e) => onSave(e.target.value)}
       />
