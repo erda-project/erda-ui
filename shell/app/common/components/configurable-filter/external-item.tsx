@@ -78,7 +78,8 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
 
   const debouncedChange = React.useRef(
     debounce((v) => {
-      setCurValue(v?.trim());
+      // setCurValue(v?.trim());
+      // onChange(v?.trim());
       onChange(v?.trim());
     }, 1000),
   );
