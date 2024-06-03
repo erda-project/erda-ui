@@ -317,7 +317,6 @@ const IssueMetaFields = React.forwardRef(
     const customFieldList = React.useMemo(() => {
       return map(customFieldDetail?.property, (filedData: ISSUE_FIELD.IFiledItem) => {
         const { propertyName, displayName = '', required, propertyType, enumeratedValues } = filedData;
-
         return {
           className: `mb-3`,
           name: propertyName,
@@ -369,6 +368,7 @@ const IssueMetaFields = React.forwardRef(
                   _refMap && (_refMap[propertyName] = r);
                 }}
                 value={value}
+                required={required}
                 displayName={displayName}
                 rule={(FIELD_TYPE_ICON_MAP[propertyType] as Obj)?.rule}
                 passAndTrigger

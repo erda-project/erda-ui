@@ -355,7 +355,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
     // @ts-ignore
     let plans = [];
     if (getFieldValue?.('version') && !isEmpty(versionMap)) {
-      plans = map(versionMap[getFieldValue?.('version')].spec.plan || { basic: {} }, (_, k) => ({
+      plans = map(versionMap[getFieldValue?.('version')]?.spec?.plan || { basic: {} }, (_, k) => ({
         plan: k,
         planCnName: PLAN_NAME[k],
       }));

@@ -674,6 +674,7 @@ export const AddIssueRelation = ({
             updater.filterData({
               ...filterData,
               ...value,
+              pageNo: 1,
               startFinishedAt: finishedAt?.[0],
               endFinishedAt: finishedAt?.[1],
               startCreatedAt: createdAt?.[0],

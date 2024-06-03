@@ -76,7 +76,12 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
   const [active, setActive] = React.useState(false);
   const [hasMore, setHasMore] = React.useState((options?.length || 0) > firstShowLength);
 
-  const debouncedChange = React.useRef(debounce(onChange, 1000));
+  const debouncedChange = React.useRef(
+    debounce((v) => {
+      setCurValue(v?.trim());
+      onChange(v?.trim());
+    }, 1000),
+  );
 
   useUpdateEffect(() => {
     setCurValue(value);
