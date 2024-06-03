@@ -80,7 +80,7 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
     debounce((v) => {
       // setCurValue(v?.trim());
       // onChange(v?.trim());
-      onChange(v?.trim());
+      onChange(v);
     }, 1000),
   );
 
