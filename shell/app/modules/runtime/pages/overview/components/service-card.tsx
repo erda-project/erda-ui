@@ -680,6 +680,13 @@ const StopedPods = ({
       render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
+      title: i18n.t('Finish Time'),
+      width: 176,
+      dataIndex: 'finishedAt',
+      className: 'th-time nowrap',
+      render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+    },
+    {
       title: i18n.t('Operations'),
       dataIndex: 'Operations',
       render: (_, record: RUNTIME.ServicePod) => {
