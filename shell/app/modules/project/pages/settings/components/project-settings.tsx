@@ -120,16 +120,15 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.s('branch policy', 'dop'),
+          tabTitle: i18n.t('dop:Branch Policy'),
           tabKey: 'branchPolicy',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.s('Branch policy', 'dop'),
-                  desc: i18n.s(
-                    'The project branch management specification mainly regulates which branch different branches are cut from and finally merged into that branch.',
-                    'dop',
+                  title: i18n.t('dop:Branch Policy'),
+                  desc: i18n.t(
+                    'dop:The project branch management specification mainly regulates which branch different branches are cut from and finally merged into that branch.',
                   ),
                   children: (
                     <BranchPolicy projectId={projectId} editAuth={permMap.setting.customWorkflow.operation.pass} />

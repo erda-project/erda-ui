@@ -128,7 +128,7 @@ const DevOpsWorkflow = (props: IProps) => {
       dataIndex: 'name',
     },
     {
-      title: i18n.s('Branch policy', 'dop'),
+      title: i18n.t('dop:Branch Policy'),
       dataIndex: 'targetBranch',
       render: (_v: string) => {
         const curPolicy = (data?.branchPolicies || []).find((item) => item.branch === _v);
@@ -140,7 +140,7 @@ const DevOpsWorkflow = (props: IProps) => {
                 {curPolicy ? (
                   <div>
                     <div className="flex-h-center">
-                      <span className="text-default-6">{i18n.s('Branch policy', 'dop')}</span>
+                      <span className="text-default-6">{i18n.t('dop:Branch Policy')}</span>
                     </div>
                     <BranchPolicyCard data={policyObj} />
                   </div>
