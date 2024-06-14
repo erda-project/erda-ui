@@ -93,6 +93,11 @@ const ReleaseProjectDetail = () => {
     },
   ];
 
+  // 下载制品，列表页中是后端返回的下载路径，详情里暂时是前端拼接的
+  const handleDownload = () => {
+    goTo(`/api/terminus/releases/${releaseID}/actions/download`, { jumpOut: true });
+  };
+
   return (
     <div className="text-default">
       <Tabs defaultActiveKey="1" className="h-full">
@@ -121,6 +126,9 @@ const ReleaseProjectDetail = () => {
             {i18n.t('dop:To Formal')}
           </Button>
         ) : null}
+        <Button className="mr-3 br-default" type="primary" onClick={handleDownload}>
+          {i18n.t('Download')}
+        </Button>
       </div>
     </div>
   );
