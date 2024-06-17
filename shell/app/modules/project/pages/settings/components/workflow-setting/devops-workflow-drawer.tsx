@@ -226,7 +226,7 @@ const FlowDrawer = ({
       },
     },
     {
-      label: i18n.s('Branch policy', 'dop'),
+      label: i18n.t('dop:Branch Policy'),
       showRequiredMark: true,
       name: 'targetBranch',
       icon: 'daimafenzhi',
@@ -263,7 +263,7 @@ const FlowDrawer = ({
                     }}
                   >
                     <div className="mx-3 text-purple-deep">
-                      {i18n.t('edit {name}', { name: i18n.t('dop:branch policy') })}
+                      {i18n.t('edit {name}', { name: i18n.t('dop:Branch Policy') })}
                     </div>
                   </Link>
                 </div>

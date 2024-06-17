@@ -313,6 +313,9 @@ const layout = createStore({
       }
       siderInfoMap[key] = { ...siderInfoMap[key], ...rest };
     },
+    clearSubSiderInfoMap(state, key) {
+      delete state.subSiderInfoMap[key];
+    },
     setSubSiderSubList(state, payload: Obj) {
       state.subList = { ...state.subList, ...payload };
     },

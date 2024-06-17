@@ -223,7 +223,7 @@ const BranchPolicyItem = ({
             style={{ height: 100 }}
             tip={
               <div className="text-sm">
-                {i18n.s('current branch has no policy', 'dop')}
+                {i18n.t('dop:current branch has no policy')}
                 <If condition={editAuth}>
                   {', '}
                   <span
@@ -238,7 +238,7 @@ const BranchPolicyItem = ({
                     }}
                     className="text-purple-deep cursor-pointer"
                   >
-                    {i18n.s('Click to add a branch policy', 'dop')}
+                    {i18n.t('dop:Click to add a branch policy')}
                   </span>
                 </If>
               </div>

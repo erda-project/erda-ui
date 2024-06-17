@@ -142,6 +142,7 @@ const project = createStore({
       if (isLeaving('project')) {
         userStore.reducers.clearProjectList();
         project.reducers.updateCurProjectId();
+        layoutStore.reducers.clearSubSiderInfoMap('project');
       }
     });
   },
