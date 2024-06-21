@@ -256,7 +256,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                 return (
                   <span key={idx}>
                     {val.showIcon === false ? null : (
-                      <Avatar src={cU.avatar} size="small">
+                      <Avatar src={cU.avatar || undefined} size="small">
                         {cU.nick ? getAvatarChars(cU.nick) : i18n.t('None')}
                       </Avatar>
                     )}
@@ -289,7 +289,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                     const { avatar, nick, name, id } = item;
                     return (
                       <div key={id} className="flex-h-center pr-3">
-                        <Avatar src={avatar} size="small">
+                        <Avatar src={avatar || undefined} size="small">
                           {nick ? getAvatarChars(nick) : i18n.t('None')}
                         </Avatar>
                         <span className="ml-2" title={name}>

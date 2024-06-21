@@ -59,6 +59,10 @@ export const getServiceList = ({
     }
   }
 
+  if (!clusterName) {
+    return Promise.resolve([]) as any;
+  }
+
   return agent
     .get(`/api/cmdb/clusters/${clusterName}/instances-usage`)
     .query(query)

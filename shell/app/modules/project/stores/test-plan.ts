@@ -140,7 +140,9 @@ const testPlan = createStore({
     },
     async addTestPlan({ call, getParams }, payload: TEST_PLAN.PlanSubmitBody) {
       const { projectId } = getParams();
-      await call(addTestPlan, { ...payload, projectID: +projectId });
+
+      const res = await call(addTestPlan, { ...payload, projectID: +projectId });
+      return res;
     },
     async updateTestPlan({ call, getParams }, payload: TEST_PLAN.PlanSubmitBody) {
       const { testPlanId } = getParams();

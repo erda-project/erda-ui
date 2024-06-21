@@ -201,13 +201,20 @@ const layout = createStore({
       if (!features) {
         return;
       }
+
       if (features.length) {
         if (/\/:orgName\//.test(path)) {
           const isMatch = features.some((feature) => {
             const regexStr = feature.replace(/\*/g, '.+');
             const regex = new RegExp('^' + regexStr + '$');
-            const remainingStr = path.replace(/^\/:orgName\//, '');
-            return regex.test(remainingStr);
+            let remainingStr = path.replace(/^\/:orgName\//, '');
+            if (!remainingStr.includes('/')) {
+              remainingStr = `${remainingStr}/*`;
+            }
+            if (feature) {
+              return regex.test(remainingStr);
+            }
+            return false;
           });
           if (!isMatch) {
             goTo(goTo.pages.noAuth);
