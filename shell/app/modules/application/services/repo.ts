@@ -162,7 +162,7 @@ export const getAddonInstanceList = (): DEPLOY.ExtensionAction[] => {
 };
 
 export const getAddonVersions = ({ addonName }: { addonName: string }): DEPLOY.ActionConfig[] => {
-  return agent.get(`/api/extensions/${addonName}?all=true`).then((response: any) => response.body);
+  return agent.get(`/api/extensions/${addonName}`).then((response: any) => response.body);
 };
 
 export const getTags = ({ repoPrefix, ...rest }: { repoPrefix: string; findTags?: string }): REPOSITORY.ITag[] => {

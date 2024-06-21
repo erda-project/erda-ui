@@ -60,9 +60,9 @@ interface IAddOnProps {
 const getGroupData = (props: any) => {
   const { addOn } = props;
   if (!addOn) return null;
-  const splits = addOn.plan.split(':');
+  const splits = addOn.plan?.split(':') || [];
   const config = splits[1];
-  let addonName = splits[0];
+  let addonName = splits[0] || '';
 
   if (addonName === 'zookeeper') {
     addonName = 'terminus-zookeeper';

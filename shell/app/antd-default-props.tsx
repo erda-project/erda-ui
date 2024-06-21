@@ -14,10 +14,10 @@
 import React from 'react';
 import { Pagination, Modal, Spin } from 'antd';
 import { Loading } from 'common';
-import { isZh } from 'i18n';
+import i18n, { isZh } from 'i18n';
 import { PAGINATION } from './constants';
 
-const setAntdDefault = () => {
+export const setAntdDefault = () => {
   Pagination.defaultProps = {
     showSizeChanger: false,
     ...Pagination.defaultProps,
@@ -39,4 +39,32 @@ const setAntdDefault = () => {
   Spin.setDefaultIndicator(<Loading />);
 };
 
-export default setAntdDefault;
+export const antdZhCNExtra = {
+  DatePicker: {
+    lang: {
+      shortWeekDays: [
+        i18n.t('Sun'),
+        i18n.t('Mon'),
+        i18n.t('Tue'),
+        i18n.t('Wed'),
+        i18n.t('Thu'),
+        i18n.t('Fri'),
+        i18n.t('Sat'),
+      ],
+      shortMonths: [
+        i18n.t('January'),
+        i18n.t('February'),
+        i18n.t('March'),
+        i18n.t('April'),
+        i18n.t('May'),
+        i18n.t('June'),
+        i18n.t('July'),
+        i18n.t('August'),
+        i18n.t('September'),
+        i18n.t('October'),
+        i18n.t('November'),
+        i18n.t('December'),
+      ],
+    },
+  },
+};

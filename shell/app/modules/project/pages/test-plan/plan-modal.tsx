@@ -15,6 +15,7 @@ import { map } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
 import { FormModal, MemberSelector } from 'common';
+import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import testPlanStore from 'project/stores/test-plan';
 import iterationStore from 'project/stores/iteration';
@@ -55,7 +56,12 @@ const TestPlanModal = (props: IProps) => {
     if (mode === 'edit') {
       updateTestPlan({ ...copy, id: testPlanId, status: planItem.status }).then(close);
     } else {
-      addTestPlan(copy).then(close);
+      addTestPlan(copy).then((d) => {
+        close();
+        if (d) {
+          goTo(`../${d}`);
+        }
+      });
     }
   };
 

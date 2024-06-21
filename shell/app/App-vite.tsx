@@ -14,7 +14,7 @@
 // external modules
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { get } from 'lodash';
+import { get, merge } from 'lodash';
 import moment from 'moment';
 import 'moment/dist/locale/zh-cn';
 import { ConfigProvider as AntConfigProvider, message } from 'antd';
@@ -41,7 +41,7 @@ import userStore from './user/stores';
 import permStore from 'user/stores/permission';
 import { getJoinedOrgs, getOrgByDomain } from 'app/org-home/services/org';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
-import setAntdDefault from './antd-default-props';
+import { setAntdDefault, antdZhCNExtra } from './antd-default-props';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
@@ -122,7 +122,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
         <AntConfigProvider
           autoInsertSpaceInButton={false}
           renderEmpty={EmptyListHolder}
-          locale={isZh() ? antd_zhCN : antd_enUS}
+          locale={isZh() ? merge(antdZhCNExtra, antd_zhCN) : antd_enUS}
         >
           <ConfigProvider locale={isZh() ? zhCN : enUS}>
             <App />
