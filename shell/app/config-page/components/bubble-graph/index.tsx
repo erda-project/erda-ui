@@ -170,7 +170,7 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
         {option.series.length && option.yAxis.length ? (
           <Echarts onEvents={onEvents} option={option} style={style} />
         ) : (
-          <EmptyHolder relative />
+          <EmptyHolder relative style={{ height: 170 }} />
         )}
       </div>
     </div>

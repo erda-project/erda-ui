@@ -281,7 +281,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       },
     },
     {
-      label: i18n.s('default pipeline', 'dop'),
+      label: i18n.t('dop:default pipeline'),
       name: 'isDefault',
       type: 'switch',
       itemProps: {
@@ -302,7 +302,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       },
     },
     {
-      label: i18n.s('pipeline name', 'dop'),
+      label: i18n.t('dop:pipeline name'),
       name: 'pipelineName',
       itemProps: {
         disabled: disabledName,
@@ -314,14 +314,13 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
             let errMsg;
             if (value) {
               if (!value.endsWith('.yml')) {
-                errMsg = i18n.s('pipeline name must end with .yml', 'dop');
+                errMsg = i18n.t('dop:pipeline name must end with .yml');
               } else if (
                 pipelineCategoryKey === 'others' &&
                 ['pipeline.yml', 'ci-artifact.yml', 'combine-artifact.yml', 'integration.yml'].includes(value)
               ) {
-                errMsg = i18n.s(
-                  'can not be special name：pipeline.yml, ci-artifact.yml, combine-artifact.yml, integration.yml',
-                  'dop',
+                errMsg = i18n.t(
+                  'dop:can not be special name：pipeline.yml, ci-artifact.yml, combine-artifact.yml, integration.yml',
                 );
               }
             }
@@ -535,7 +534,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                               treeTitle ? 'text-default-8' : 'text-default-4'
                             } h-[32px] rounded bg-default-06 w-full px-3 py-[5px]`}
                           >
-                            {treeTitle || (curApp ? i18n.s('Please choose a pipeline', 'dop') : '')}
+                            {treeTitle || (curApp ? i18n.t('dop:Please choose a pipeline') : '')}
                           </div>
                         </div>
                       );

@@ -70,7 +70,7 @@ const Info = (props: IProps) => {
       },
     },
     {
-      label: i18n.s('Owner', 'dop'),
+      label: i18n.t('dop:Owner'),
       valueKey: 'owner',
       valueItem: ({ value: val }: { value: string }) => {
         const curUser = userMap[val];

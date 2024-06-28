@@ -122,7 +122,7 @@ const Info = ({ appId }: { appId: string }) => {
           )}
           <Col span={12}>
             {ownerName ? <Avatar name={ownerName} showName className="mb-1" size={20} /> : '-'}
-            <div className="info-label">{i18n.s('Owner', 'dop')}：</div>
+            <div className="info-label">{i18n.t('dop:Owner')}：</div>
           </Col>
         </Row>
         <div className="trigger-btn" onClick={toggleExpandInfo}>

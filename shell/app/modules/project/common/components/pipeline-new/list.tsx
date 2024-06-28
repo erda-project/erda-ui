@@ -169,15 +169,15 @@ const PipelineProtocol = React.forwardRef(
       },
       { title: i18n.t('dop:branch'), dataIndex: 'branch' },
       {
-        title: i18n.s('Trigger infor', 'dop'),
+        title: i18n.t('dop:Trigger infor'),
         dataIndex: 'executor',
         render: (val: string, record: PipelineRecord) => {
           const { triggerMode } = record;
           const { nick, name } = userMap[val] || {};
           const text =
             triggerMode === 'cron'
-              ? i18n.s('automatic execution', 'dop')
-              : `${nick || name || i18n.t('common:None')} ${i18n.s('manually execution', 'dop')}`;
+              ? i18n.t('dop:automatic execution')
+              : `${nick || name || i18n.t('common:None')} ${i18n.t('dop:manually execution')}`;
           return text;
         },
       },
@@ -423,7 +423,7 @@ const PipelineProtocol = React.forwardRef(
                                   }
                                 }}
                               >
-                                {i18n.s('Check more records', 'dop')}
+                                {i18n.t('dop:Check more records')}
                               </span>
                             </div>
                           ) : null}
@@ -433,7 +433,7 @@ const PipelineProtocol = React.forwardRef(
                       <div className="flex-h-center group text-sm cursor-pointer">
                         <Badge
                           showDot={false}
-                          text={isLatestPipeline ? i18n.s('newest', 'dop') : i18n.s('history', 'dop')}
+                          text={isLatestPipeline ? i18n.t('dop:newest') : i18n.t('dop:history')}
                           status={isLatestPipeline ? 'processing' : 'warning'}
                           className="mr-1"
                         />
