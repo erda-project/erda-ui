@@ -19,8 +19,10 @@ import { getCSRFToken } from 'core/config';
 import i18n from 'i18n';
 import './upload-plugin.scss';
 
+let isLoading = false;
+let hideLoading: any;
 const UploadPlugin = (props: any) => {
-  let hideLoading: any;
+  // let hideLoading: any;
   const getUploadProps = (isImage?: boolean) => ({
     action: '/api/files',
     showUploadList: false,
@@ -38,7 +40,8 @@ const UploadPlugin = (props: any) => {
     },
     onChange: ({ file }: any) => {
       const { status, response } = file;
-      if (status === 'uploading' && !hideLoading) {
+      if (status === 'uploading' && !hideLoading && !isLoading) {
+        isLoading = true;
         hideLoading = message.loading(`${i18n.t('uploading')}...`, 0);
       }
       if (!response) {
@@ -47,6 +50,7 @@ const UploadPlugin = (props: any) => {
       hideLoading && hideLoading();
       hideLoading = undefined;
       const { success, err, data } = response;
+      isLoading = false;
       if (!success) {
         message.error(err.msg);
       } else {
