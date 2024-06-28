@@ -50,9 +50,8 @@ const AppPipeline = () => {
         type="info"
         message={
           <span>
-            {i18n.s(
-              'The new pipeline page is in the trial stage, and you can still manually switch to the old version for use.',
-              'dop',
+            {i18n.t(
+              'dop:The new pipeline page is in the trial stage, and you can still manually switch to the old version for use.',
             )}
             <span
               onClick={() => {
@@ -60,7 +59,7 @@ const AppPipeline = () => {
               }}
               className="text-purple-deep cursor-pointer"
             >
-              {i18n.s('Switch to old version', 'dop')}
+              {i18n.t('dop:Switch to old version')}
             </span>
           </span>
         }

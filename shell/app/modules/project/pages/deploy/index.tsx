@@ -340,9 +340,8 @@ const DeployContent = ({
                 type="info"
                 message={
                   <span>
-                    {i18n.s(
-                      'Current environment only supports {supportedBranches} branch for deployment, and there are no restrictions on product deployment. For detailed settings, please refer to Project Settings-R&D Workflow Settings',
-                      'dop',
+                    {i18n.t(
+                      'dop:Current environment only supports {supportedBranches} branch for deployment, and there are no restrictions on product deployment. For detailed settings, please refer to Project Settings-R&D Workflow Settings',
                       { supportedBranches, interpolation: { escapeValue: false } },
                     )}
                   </span>

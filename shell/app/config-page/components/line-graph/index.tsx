@@ -224,7 +224,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
             }}
           />
         ) : (
-          <EmptyHolder relative />
+          <EmptyHolder relative style={{ height: 170 }} />
         )}
       </div>
     </div>

@@ -715,7 +715,7 @@ export const EditIssueDrawer = (props: IProps) => {
       confirmCloseTip={
         isEditMode
           ? isContentChanged
-            ? i18n.s('The edit data will be lost if closed. Continue?', 'dop')
+            ? i18n.t('dop:The edit data will be lost if closed. Continue?')
             : undefined
           : i18n.t('dop:The new data will be lost if closed. Continue?')
       }

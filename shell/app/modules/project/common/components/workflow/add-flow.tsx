@@ -89,7 +89,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, issueId, flow, children }) => {
                     <Badge
                       size="small"
                       showDot={false}
-                      text={i18n.s('exist', 'dop')}
+                      text={i18n.t('dop:exist')}
                       status={'success'}
                       className="mr-1"
                     />

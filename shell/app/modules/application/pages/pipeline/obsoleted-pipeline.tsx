@@ -24,9 +24,8 @@ const Pipeline = () => {
         type="info"
         message={
           <span className="">
-            {i18n.s(
-              'The new pipeline page is in the trial stage, you can manually switch to the new version to experience.',
-              'dop',
+            {i18n.t(
+              'dop:The new pipeline page is in the trial stage, you can manually switch to the new version to experience.',
             )}
             <span
               onClick={() => {
@@ -34,7 +33,7 @@ const Pipeline = () => {
               }}
               className="text-purple-deep cursor-pointer"
             >
-              {i18n.s('Try it right now', 'dop')}
+              {i18n.t('dop:Try it right now')}
             </span>
           </span>
         }
