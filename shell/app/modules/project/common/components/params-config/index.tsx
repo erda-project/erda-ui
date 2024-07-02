@@ -285,13 +285,11 @@ const Config = ({
               updater.editing(isEdit);
             }}
             updateConfig={(data) => {
-              const [curEncrypt, curData, batch] = Array.isArray(data)
-                ? [data?.[0]?.encrypt, data, true]
-                : [data.encrypt, [data], false];
+              const [curData, batch] = Array.isArray(data) ? [data, true] : [[data], false];
 
               configStore.updateConfigs(
                 {
-                  query: { namespace_name: namespace, encrypt: curEncrypt, appID: `${selectedApp.id}` },
+                  query: { namespace_name: namespace, encrypt: false, appID: `${selectedApp.id}` },
                   configs: curData,
                   batch,
                 },
