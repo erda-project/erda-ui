@@ -15,6 +15,7 @@ import { createStore } from 'core/cube';
 import { inviteToOrg, getLicenses } from 'layout/services';
 import * as DiceWebSocket from 'core/utils/ws';
 import { enableIconfont, setApiWithOrg, goTo } from 'common/utils';
+import { erdaEnv } from 'common/constants';
 import routeInfoStore from 'core/stores/route';
 import { find, merge } from 'lodash';
 import JSEncrypt from 'jsencrypt';
@@ -155,77 +156,80 @@ const layout = createStore({
       }
     });
 
-    // Gets the authorized path
-    let features: string[] | null = null;
+    const enableLicense = `${erdaEnv.ENABLE_ERDA_LICENSE}` === 'true';
+    if (enableLicense) {
+      // Gets the authorized path
+      let features: string[] | null = null;
 
-    // if (currentOrg.id) {
-    //   const res = await getLicenses({ scope: 'PLATFORM' });
-    // }
+      // if (currentOrg.id) {
+      //   const res = await getLicenses({ scope: 'PLATFORM' });
+      // }
 
-    listenRoute(async ({ params }) => {
-      const { orgName } = params;
+      listenRoute(async ({ params }) => {
+        const { orgName } = params;
 
-      if (orgName && orgName !== '-' && !features) {
-        const res = await getLicenses({ scope: 'PLATFORM' });
+        if (orgName && orgName !== '-' && !features) {
+          const res = await getLicenses({ scope: 'PLATFORM' });
 
-        if (res.success) {
-          if (res.data) {
-            const jse = new JSEncrypt();
+          if (res.success) {
+            if (res.data) {
+              const jse = new JSEncrypt();
 
-            jse.setPrivateKey(PRIVATE_KEY);
-            const data = jse.decrypt(res.data);
-            if (data) {
-              const parseData = JSON.parse(data);
-              features = parseData.features;
-            }
-          } else {
-            const orgRes = await getLicenses({ scope: 'ORG' });
-            const jse = new JSEncrypt();
-            jse.setPrivateKey(PRIVATE_KEY);
-            const data = jse.decrypt(orgRes.data);
-            if (data) {
-              const parseData = JSON.parse(data);
-              features = parseData.features;
+              jse.setPrivateKey(PRIVATE_KEY);
+              const data = jse.decrypt(res.data);
+              if (data) {
+                const parseData = JSON.parse(data);
+                features = parseData.features;
+              }
             } else {
-              features = [];
+              const orgRes = await getLicenses({ scope: 'ORG' });
+              const jse = new JSEncrypt();
+              jse.setPrivateKey(PRIVATE_KEY);
+              const data = jse.decrypt(orgRes.data);
+              if (data) {
+                const parseData = JSON.parse(data);
+                features = parseData.features;
+              } else {
+                features = [];
+              }
             }
           }
         }
-      }
-    });
+      });
 
-    // Check whether the current path has permission
-    listenRoute(async ({ currentRoute, params }) => {
-      const { path } = currentRoute;
-      const { orgName } = params;
-      if (!features) {
-        return;
-      }
+      // Check whether the current path has permission
+      listenRoute(async ({ currentRoute, params }) => {
+        const { path } = currentRoute;
+        const { orgName } = params;
+        if (!features) {
+          return;
+        }
 
-      if (features.length) {
-        if (/\/:orgName\//.test(path)) {
-          const isMatch = features.some((feature) => {
-            const regexStr = feature.replace(/\*/g, '.+');
-            const regex = new RegExp('^' + regexStr + '$');
-            let remainingStr = path.replace(/^\/:orgName\//, '');
-            if (!remainingStr.includes('/')) {
-              remainingStr = `${remainingStr}/*`;
+        if (features.length) {
+          if (/\/:orgName\//.test(path)) {
+            const isMatch = features.some((feature) => {
+              const regexStr = feature.replace(/\*/g, '.+');
+              const regex = new RegExp('^' + regexStr + '$');
+              let remainingStr = path.replace(/^\/:orgName\//, '');
+              if (!remainingStr.includes('/')) {
+                remainingStr = `${remainingStr}/*`;
+              }
+              if (feature) {
+                return regex.test(remainingStr);
+              }
+              return false;
+            });
+            if (!isMatch) {
+              goTo(goTo.pages.noAuth);
             }
-            if (feature) {
-              return regex.test(remainingStr);
-            }
-            return false;
-          });
-          if (!isMatch) {
+          }
+        } else {
+          if (/^\/:orgName\//.test(path) && orgName !== '-') {
             goTo(goTo.pages.noAuth);
           }
         }
-      } else {
-        if (/^\/:orgName\//.test(path) && orgName !== '-') {
-          goTo(goTo.pages.noAuth);
-        }
-      }
-    });
+      });
+    }
   },
   effects: {
     async notifyWs(_, payload: { ws: any; command: '__detach' | '__attach' }) {
