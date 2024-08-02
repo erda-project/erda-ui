@@ -147,7 +147,7 @@ const PipelineNode = (props: IProps) => {
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="app-pipeline-chart-msg-item">
-              <span className="app-pipeline-chart-msg-item-name error">{error.name || 'error'}</span>
+              <span className="app-pipeline-chart-msg-item-name error">{error.name || error.code || 'error'}</span>
               <pre>{error.value || error.msg}</pre>
             </div>
           )),
