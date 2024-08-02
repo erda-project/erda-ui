@@ -59,7 +59,9 @@ const TestPlanModal = (props: IProps) => {
       addTestPlan(copy).then((d) => {
         close();
         if (d) {
-          goTo(`../${d}`);
+          goTo(goTo.pages.testPlanDetail, {
+            testPlanID: d,
+          });
         }
       });
     }
