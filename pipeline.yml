@@ -61,7 +61,7 @@ stages:
           version: "1.0"
           params:
             build_cmd:
-              - cd ${{ dirs.erda-ui-enterprise }}/admin && npm i
+              - cd ${{ dirs.erda-ui-enterprise }}/admin && npm ci
               - npm run build
               - cp -r ${{ dirs.erda-ui-enterprise }}/{public,server} $WORKDIR
             node_version: 14
