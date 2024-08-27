@@ -328,9 +328,8 @@ const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj; isStopped: boo
           type="info"
           message={
             <div className="overflow-auto whitespace-nowrap">
-              {i18n.s(
-                'The current log has entered degraded mode (only all types will enter the degraded mode), log loading may be slow, please be patient',
-                'dop',
+              {i18n.t(
+                'dop:The current log has entered degraded mode (only all types will enter the degraded mode), log loading may be slow, please be patient',
               )}
             </div>
           }

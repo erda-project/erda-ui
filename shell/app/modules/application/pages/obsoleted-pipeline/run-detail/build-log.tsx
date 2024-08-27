@@ -182,25 +182,25 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
       <div className="h-full">
         <Tabs className="log-content">
           {this.props.showLog && (
-            <TabPane tab={i18n.s('execution log')} key="log">
+            <TabPane tab={i18n.t('execution log')} key="log">
               {logRollerComp}
             </TabPane>
           )}
-          <TabPane tab={i18n.s('configuration info')} key="config">
+          <TabPane tab={i18n.t('configuration info')} key="config">
             <div>
               <div className="grid grid-cols-12 gap-y-2">
                 <div className="text-default-6 col-span-2 flex items-center">
                   <ErdaIcon type="diedai" className="mr-2" />
-                  {i18n.s('name')}
+                  {i18n.t('name')}
                 </div>
                 <div className="col-span-10">{configParams?.actionName ?? '-'}</div>
                 <div className="text-default-6 col-span-2 flex items-center">
                   <ErdaIcon type="diedai" className="mr-2" />
-                  {i18n.s('version')}
+                  {i18n.t('version')}
                 </div>
                 <div className="col-span-10">{configParams?.version ?? '-'}</div>
               </div>
-              <div className="mt-4">{i18n.s('task parameters')}</div>
+              <div className="mt-4">{i18n.t('task parameters')}</div>
               <div className="grid grid-cols-12 gap-y-2 mt-4">
                 {map(configParams?.params, ({ name, value }) => {
                   return (

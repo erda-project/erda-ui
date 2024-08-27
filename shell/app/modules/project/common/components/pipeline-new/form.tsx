@@ -379,7 +379,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
         );
         setTreeValue(treeId);
         form.setFieldsValue({ tree: treeId });
-        notification.success({ message: i18n.s('added successfully') });
+        notification.success({ message: i18n.t('added successfully') });
         setVisible(false);
       });
     });

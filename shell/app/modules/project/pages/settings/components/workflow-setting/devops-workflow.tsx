@@ -70,7 +70,7 @@ const DevOpsWorkflow = (props: IProps) => {
             drawerVis: true,
             flowData: curFlowData,
           })
-        : message.error(i18n.s('The workflow was not found, it may be deleted, you can add it again.', 'dop'));
+        : message.error(i18n.t('dop:The workflow was not found, it may be deleted, you can add it again.'));
 
       updateSearch({ flowName: undefined });
     }
@@ -146,9 +146,8 @@ const DevOpsWorkflow = (props: IProps) => {
                   </div>
                 ) : (
                   <span className="text-default-6">
-                    {i18n.s(
-                      'Could not found the policy of the branch, it may be deleted or modified, please select again.',
-                      'dop',
+                    {i18n.t(
+                      'dop:Could not found the policy of the branch, it may be deleted or modified, please select again.',
                     )}
                   </span>
                 )}

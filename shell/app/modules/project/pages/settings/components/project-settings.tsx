@@ -179,9 +179,8 @@ const ProjectSettings = () => {
                       </div>
 
                       <div>
-                        {i18n.s(
-                          'It is recommended to use the form of type/scope. For example, type is kind: indicates the item type team: indicates the team, src: indicates the source, area: indicates the field or module, and highlight: indicates the focus. Combinations such as: kind/security; team/test; src/customer appeal; area/unified authentication; highlight/delay risk',
-                          'dop',
+                        {i18n.t(
+                          'dop:It is recommended to use the form of type/scope. For example, type is kind: indicates the item type team: indicates the team, src: indicates the source, area: indicates the field or module, and highlight: indicates the focus. Combinations such as: kind/security; team/test; src/customer appeal; area/unified authentication; highlight/delay risk',
                         )}
                       </div>
                     </div>

@@ -47,7 +47,7 @@ interface IProps {
 
 const typeOptions = [
   { value: 'cpu', label: 'CPU' },
-  { value: 'memory', label: i18n.s('memory') },
+  { value: 'memory', label: i18n.t('memory') },
   { value: 'cron', label: 'Cron' },
 ];
 
@@ -68,31 +68,31 @@ const getCycleType = (cronConfig: string[]) => {
 };
 
 const monthOfYearOptions = [
-  { label: i18n.s('January'), value: '1' },
-  { label: i18n.s('February'), value: '2' },
-  { label: i18n.s('March'), value: '3' },
-  { label: i18n.s('April'), value: '4' },
-  { label: i18n.s('May'), value: '5' },
-  { label: i18n.s('June'), value: '6' },
-  { label: i18n.s('July'), value: '7' },
-  { label: i18n.s('August'), value: '8' },
-  { label: i18n.s('September'), value: '9' },
-  { label: i18n.s('October'), value: '10' },
-  { label: i18n.s('November'), value: '11' },
-  { label: i18n.s('December'), value: '12' },
+  { label: i18n.t('January'), value: '1' },
+  { label: i18n.t('February'), value: '2' },
+  { label: i18n.t('March'), value: '3' },
+  { label: i18n.t('April'), value: '4' },
+  { label: i18n.t('May'), value: '5' },
+  { label: i18n.t('June'), value: '6' },
+  { label: i18n.t('July'), value: '7' },
+  { label: i18n.t('August'), value: '8' },
+  { label: i18n.t('September'), value: '9' },
+  { label: i18n.t('October'), value: '10' },
+  { label: i18n.t('November'), value: '11' },
+  { label: i18n.t('December'), value: '12' },
 ];
 
 const cycleField = (name: string) => ({
   name,
-  title: name.endsWith('Start') ? i18n.s('Cycle for start', 'dop') : i18n.s('Cycle for end', 'dop'),
+  title: name.endsWith('Start') ? i18n.t('dop:Cycle for start') : i18n.t('dop:Cycle for end'),
   component: Select,
   required: true,
   customProps: {
     options: [
-      { label: i18n.s('Every Day'), value: 'day' },
-      { label: i18n.s('Every Week'), value: 'week' },
-      { label: i18n.s('Every Month'), value: 'month' },
-      { label: i18n.s('Every Year'), value: 'year' },
+      { label: i18n.t('Every Day'), value: 'day' },
+      { label: i18n.t('Every Week'), value: 'week' },
+      { label: i18n.t('Every Month'), value: 'month' },
+      { label: i18n.t('Every Year'), value: 'year' },
     ],
     disabled: name.endsWith('End'),
   },
@@ -116,18 +116,18 @@ const cycleField = (name: string) => ({
 
 const dayOfWeekField = (name: string) => ({
   name,
-  title: i18n.s('Date'),
+  title: i18n.t('Date'),
   component: Select,
   required: true,
   customProps: {
     options: [
-      { label: i18n.s('Monday'), value: '1' },
-      { label: i18n.s('Tuesday'), value: '2' },
-      { label: i18n.s('Wednesday'), value: '3' },
-      { label: i18n.s('Thursday'), value: '4' },
-      { label: i18n.s('Friday'), value: '5' },
-      { label: i18n.s('Saturday'), value: '6' },
-      { label: i18n.s('Sunday'), value: '0' },
+      { label: i18n.t('Monday'), value: '1' },
+      { label: i18n.t('Tuesday'), value: '2' },
+      { label: i18n.t('Wednesday'), value: '3' },
+      { label: i18n.t('Thursday'), value: '4' },
+      { label: i18n.t('Friday'), value: '5' },
+      { label: i18n.t('Saturday'), value: '6' },
+      { label: i18n.t('Sunday'), value: '0' },
     ],
     mode: 'multiple',
   },
@@ -148,7 +148,7 @@ const dayOfWeekField = (name: string) => ({
 
 const monthOfYearField = (name: string) => ({
   name,
-  title: i18n.s('Month of year'),
+  title: i18n.t('Month of year'),
   component: Select,
   required: true,
   customProps: {
@@ -172,7 +172,7 @@ const monthOfYearField = (name: string) => ({
 
 const dayOfMonthField = (name: string) => ({
   name,
-  title: i18n.s('Date'),
+  title: i18n.t('Date'),
   component: Select,
   required: true,
   customProps: {
@@ -209,7 +209,7 @@ const StatusTitle = ({
     await applyCancelRules({
       runtimeId,
       actions: [{ ruleId: ruleId!, action: isCancel ? 'cancel' : 'apply' }],
-      $options: { successMsg: i18n.s('operate successfully') },
+      $options: { successMsg: i18n.t('operate successfully') },
     });
     toggleStatus();
   };
@@ -217,11 +217,11 @@ const StatusTitle = ({
   return (
     <div className="flex justify-between items-center">
       <div className="flex">
-        <div>{i18n.s('Automatic elastic scaling', 'dop')}</div>
+        <div>{i18n.t('dop:Automatic elastic scaling')}</div>
         <div className="ml-4">
           {!ruleId ? null : (
             <Tag className={cn('border-0 text-white', { 'bg-green-deep': started, 'bg-red-deep': !started })}>
-              {started ? i18n.s('activated') : i18n.s('stopped')}
+              {started ? i18n.t('activated') : i18n.t('stopped')}
             </Tag>
           )}
         </div>
@@ -229,11 +229,11 @@ const StatusTitle = ({
       <div className="mr-8">
         {!ruleId ? null : started ? (
           <Button type="primary" onClick={() => takeAction(true)}>
-            {i18n.s('stop')}
+            {i18n.t('stop')}
           </Button>
         ) : (
           <Button type="primary" onClick={() => takeAction(false)}>
-            {i18n.s('activate')}
+            {i18n.t('activate')}
           </Button>
         )}
       </div>
@@ -264,7 +264,7 @@ const TriggersConfig = observer(
         }
         return {
           index,
-          type: item.type === 'cpu' ? 'CPU' : i18n.s('memory'),
+          type: item.type === 'cpu' ? 'CPU' : i18n.t('memory'),
           value: (item.metadata as RUNTIME.Metadata).value,
         };
       }).filter((item): item is { type: string; value: string; index: number } => !!item);
@@ -304,14 +304,14 @@ const TriggersConfig = observer(
     const columns = [
       {
         dataIndex: 'type',
-        title: i18n.s('type'),
+        title: i18n.t('type'),
       },
       {
         dataIndex: 'value',
         title: (
           <span className="flex items-center">
-            {i18n.s('target value', 'dop')}
-            <Tooltip title={i18n.s('Target values are CPU usage, memory usage', 'dop')}>
+            {i18n.t('dop:target value')}
+            <Tooltip title={i18n.t('dop:Target values are CPU usage, memory usage')}>
               <ErdaIcon type="info" className="ml-1" />
             </Tooltip>
           </span>
@@ -346,7 +346,7 @@ const TriggersConfig = observer(
       render: (_record: unknown, index: number) => {
         return [
           {
-            title: i18n.s('edit'),
+            title: i18n.t('edit'),
             onClick: () => {
               setPreviousValue(toJS(field.value));
               setVisible(true);
@@ -355,7 +355,7 @@ const TriggersConfig = observer(
             },
           },
           {
-            title: i18n.s('delete'),
+            title: i18n.t('delete'),
             onClick: () => {
               field.remove(index);
               setCurrentIndex(-1);
@@ -370,10 +370,10 @@ const TriggersConfig = observer(
     return (
       <div>
         <Button type="ghost" onClick={onAddRule} className="mb-4" disabled={btnDisabled}>
-          {i18n.s('Add trigger', 'dop')}
+          {i18n.t('dop:Add trigger')}
         </Button>
         {btnDisabled && (
-          <Tooltip title={i18n.s('All trigger types are appended', 'dop')}>
+          <Tooltip title={i18n.t('dop:All trigger types are appended')}>
             <ErdaIcon type="info" className="ml-2" />
           </Tooltip>
         )}
@@ -391,7 +391,7 @@ const TriggersConfig = observer(
             onCancel={onClose}
             onOk={onOk}
             closable={false}
-            title={isEditing ? i18n.s('Edit trigger', 'dop') : i18n.s('Create trigger', 'dop')}
+            title={isEditing ? i18n.t('dop:Edit trigger') : i18n.t('dop:Create trigger')}
           >
             <RecursionField schema={schema.items as Schema} name={currentIndex} />
           </Modal>
@@ -406,12 +406,12 @@ const ReplicaCount = observer(() => {
 
   return (
     <>
-      <div className="mt-4 mb-2">{i18n.s('Number of service instances', 'dop')}</div>
+      <div className="mt-4 mb-2">{i18n.t('dop:Number of service instances')}</div>
       <div className="flex items-center replicas-count mb-8">
         <div className="w-32">
           <RecursionField schema={properties?.minReplicaCount as Schema} name="minReplicaCount" />
         </div>
-        <div className="leading-[30px] px-2">{i18n.s('to')}</div>
+        <div className="leading-[30px] px-2">{i18n.t('to')}</div>
         <div className="w-32">
           <RecursionField schema={properties?.maxReplicaCount as Schema} name="maxReplicaCount" />
         </div>
@@ -515,14 +515,14 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
       validator: [
         {
           required: true,
-          message: i18n.s('At least one trigger', 'dop'),
+          message: i18n.t('dop:At least one trigger'),
         },
       ],
       items: [
         {
           component: Select,
           name: 'type',
-          title: i18n.s('type'),
+          title: i18n.t('type'),
           required: true,
         },
         {
@@ -548,7 +548,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             {
               name: 'value',
               component: InputNumber,
-              title: i18n.s('target value', 'dop'),
+              title: i18n.t('dop:target value'),
               required: true,
               customProps: {
                 min: 0,
@@ -556,7 +556,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
               },
               validator: {
                 validator: (v: string) => +v > 0 && +v < 100,
-                message: i18n.s('The value must be greater than 0 and less than 100', 'dop'),
+                message: i18n.t('dop:The value must be greater than 0 and less than 100'),
               },
               reactions: (field: Field) => {
                 const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
@@ -575,7 +575,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             dayOfMonthField('dayOfMonthStart'),
             {
               name: 'startTime',
-              title: i18n.s('Start time'),
+              title: i18n.t('Start time'),
               component: TimePicker,
               required: true,
               customProps: {
@@ -598,7 +598,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             dayOfMonthField('dayOfMonthEnd'),
             {
               name: 'endTime',
-              title: i18n.s('End time', 'common'),
+              title: i18n.t('common:End time'),
               component: TimePicker,
               required: true,
               customProps: {
@@ -618,7 +618,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             {
               name: 'desiredReplicas',
               component: InputNumber,
-              title: i18n.s('Number of service instances expand to', 'dop'),
+              title: i18n.t('dop:Number of service instances expand to'),
               required: true,
               reactions: (field: Field) => {
                 const typeField = field.query(`triggers.${field.address.slice(3, 4).entire}.type`).take();
@@ -639,7 +639,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
       component: ReplicaCount,
       type: 'void',
       name: 'void',
-      title: i18n.s('Expansion and shrinkage range', 'dop'),
+      title: i18n.t('dop:Expansion and shrinkage range'),
       noPropertyLayoutWrapper: true,
       properties: [
         {
@@ -651,11 +651,11 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           validator: [
             {
               required: true,
-              message: i18n.s('The minimum number of service instances is required', 'dop'),
+              message: i18n.t('dop:The minimum number of service instances is required'),
             },
           ],
           customProps: {
-            placeholder: i18n.s('minimum'),
+            placeholder: i18n.t('minimum'),
             min: 0,
             max: 100,
           },
@@ -670,11 +670,11 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
           validator: [
             {
               required: true,
-              message: i18n.s('The maximum number of service instances is required', 'dop'),
+              message: i18n.t('dop:The maximum number of service instances is required'),
             },
           ],
           customProps: {
-            placeholder: i18n.s('maximum'),
+            placeholder: i18n.t('maximum'),
             min: 1,
             max: 100,
           },
@@ -738,7 +738,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             scaledConfig: formData,
           },
         ],
-        $options: { successMsg: i18n.s('update successfully') },
+        $options: { successMsg: i18n.t('update successfully') },
       });
     } else {
       await createScaledRules({
@@ -749,7 +749,7 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
             scaledConfig: formData,
           },
         ],
-        $options: { successMsg: i18n.s('create successfully') },
+        $options: { successMsg: i18n.t('create successfully') },
       });
     }
     onClose();
@@ -775,9 +775,9 @@ const ElasticScaling = ({ visible, onClose, serviceName }: IProps) => {
         <Form form={form} fieldsConfig={fieldsConfig} />
         <div className="flex justify-end items-center">
           <Button onClick={onSubmit} className="mr-2" type="primary">
-            {i18n.s('save')}
+            {i18n.t('save')}
           </Button>
-          <Button onClick={onClose}>{i18n.s('close')}</Button>
+          <Button onClick={onClose}>{i18n.t('close')}</Button>
         </div>
       </div>
     </Drawer>

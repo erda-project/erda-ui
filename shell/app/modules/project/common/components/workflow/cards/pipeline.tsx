@@ -69,13 +69,13 @@ const PipelineCard = (props: CardProps) => {
   if (!tempBranch) {
     subContent = (
       <div className="text-xs text-default-8">
-        {i18n.s('The temporary merge is not enabled, and there is no pipeline', 'dop')}
+        {i18n.t('dop:The temporary merge is not enabled, and there is no pipeline')}
       </div>
     );
   } else if (!inode) {
     subContent = (
       <div className="text-xs text-default-8">
-        {i18n.s('There is no pipeline for the temporary branch, please contact the administrator to create', 'dop')}
+        {i18n.t('dop:There is no pipeline for the temporary branch, please contact the administrator to create')}
       </div>
     );
   } else if (!hasOnPushBranch) {
@@ -97,7 +97,7 @@ const PipelineCard = (props: CardProps) => {
           <Ellipsis className="text-default-8 group-hover:text-purple-deep" title={pipelineName} />
         </div>
         <div className="text-xs mt-2 text-default-8">
-          <span>{i18n.s('The pipeline is not configured with triggers yet.', 'dop')}</span>
+          <span>{i18n.t('dop:The pipeline is not configured with triggers yet.')}</span>
           <Popover
             content={
               <div>
@@ -108,7 +108,7 @@ const PipelineCard = (props: CardProps) => {
               </div>
             }
           >
-            <span className="text-purple-deep cursor-pointer">{i18n.s('How to configure?', 'dop')}</span>
+            <span className="text-purple-deep cursor-pointer">{i18n.t('dop:How to configure?')}</span>
           </Popover>
         </div>
       </>
@@ -146,9 +146,8 @@ const PipelineCard = (props: CardProps) => {
         <div className="mb-3 flex-h-center">
           <span>{i18n.t('Pipeline')}</span>
           <Tooltip
-            title={i18n.s(
-              'This is a temporary merge pipeline. If you need to modify it, please contact the application administrator',
-              'dop',
+            title={i18n.t(
+              'dop:This is a temporary merge pipeline. If you need to modify it, please contact the application administrator',
             )}
           >
             <ErdaIcon type="help" className="text-default-3 ml-1" />

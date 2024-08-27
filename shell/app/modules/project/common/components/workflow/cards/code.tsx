@@ -41,12 +41,12 @@ const CodeCard = (props: CardProps) => {
         <div className="mb-3 flex-h-center justify-between">
           <div className="flex-h-center">
             <span>{i18n.t('dop:Code')}</span>
-            <Tooltip title={i18n.s('All development code of this task is managed in this branch', 'dop')}>
+            <Tooltip title={i18n.t('dop:All development code of this task is managed in this branch')}>
               <ErdaIcon type="help" className="text-default-3 ml-1" />
             </Tooltip>
           </div>
           <Tooltip
-            title={!canJoin ? i18n.s('The temporary merge is not enabled, please set it before merging', 'dop') : ''}
+            title={!canJoin ? i18n.t('dop:The temporary merge is not enabled, please set it before merging') : ''}
           >
             <div
               onClick={() => {
@@ -59,7 +59,7 @@ const CodeCard = (props: CardProps) => {
                 canJoin ? ' bg-purple-deep text-white' : 'bg-default-08 text-default-4'
               }`}
             >
-              {canJoin ? i18n.s('Merge into temporary branch', 'dop') : i18n.s('Merged into temporary branch', 'dop')}
+              {canJoin ? i18n.t('dop:Merge into temporary branch') : i18n.t('dop:Merged into temporary branch')}
             </div>
           </Tooltip>
         </div>
@@ -75,7 +75,7 @@ const CodeCard = (props: CardProps) => {
             ) : null}
           </div>
         ) : (
-          <div className="text-danger text-xs">{i18n.s('Branch does not exist or has been deleted', 'dop')}</div>
+          <div className="text-danger text-xs">{i18n.t('dop:Branch does not exist or has been deleted')}</div>
         )}
       </div>
     </div>
