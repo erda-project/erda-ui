@@ -67,13 +67,13 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id }) => {
         </If>
       ) : flowUseable ? (
         <div className="py-4 px-8">
-          <span className=" text-default-6">{i18n.s('No workflow has been added yet, please click + Add', 'dop')}</span>
+          <span className=" text-default-6">{i18n.t('dop:No workflow has been added yet, please click + Add')}</span>
         </div>
       ) : (
         <div className="py-4 px-8  text-default-6">
-          <span>{i18n.s('Workflow {name} not exist', 'dop', { name: TASK_FLOW })}</span>
+          <span>{i18n.t('dop:Workflow {name} not exist', { name: TASK_FLOW })}</span>
           <span>
-            <span>{i18n.s('Please contact the project administrator, go to', 'dop')}</span> &nbsp;
+            <span>{i18n.t('dop:Please contact the project administrator, go to')}</span> &nbsp;
             <span
               className="text-purple-deep cursor-pointer"
               onClick={() => {
@@ -83,7 +83,7 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id }) => {
               {i18n.t('dop:R&D Workflow')}
             </span>
             &nbsp;
-            <span>{i18n.s('to set', 'dop')}</span>
+            <span>{i18n.t('dop:to set')}</span>
           </span>
         </div>
       )}

@@ -135,7 +135,7 @@ const ServiceDropdown = (props: IProps) => {
       ]),
       ...insertWhen(clusterType === 'k8s', [
         {
-          title: i18n.s('Elastic scaling', 'dop'),
+          title: i18n.t('dop:Elastic scaling'),
           onClick: () => {
             onElasticScaling();
           },

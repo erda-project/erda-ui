@@ -59,7 +59,7 @@ const mrStatus = {
     icon: (
       <div className="text-xs text-yellow flex-h-center">
         <ErdaIcon type="tishi" fill={'yellow'} size={14} />
-        {i18n.s('Not create', 'dop')}
+        {i18n.t('dop:Not create')}
       </div>
     ),
     stepStates: 'uncreate',
@@ -112,14 +112,14 @@ const MergeRequestCard = (props: CardProps) => {
               }}
               className={`px-3 rounded cursor-pointer bg-purple-deep text-white`}
             >
-              {mergeRequestInfo ? i18n.s('check merge request', 'dop') : i18n.s('create merge request', 'dop')}
+              {mergeRequestInfo ? i18n.t('dop:check merge request', 'dop') : i18n.t('dop:create merge request')}
             </div>
           ) : null}
         </div>
         {targetBranch ? (
           <Branch className="mb-2" appId={appID} projectId={projectID} branch={targetBranch} />
         ) : (
-          <div className="text-xs text-default-8">{i18n.s('target branch is empty', 'dop')}</div>
+          <div className="text-xs text-default-8">{i18n.t('dop:target branch is empty')}</div>
         )}
         <div className="flex-h-center text-xs">
           {mergeRequestInfo ? (

@@ -276,7 +276,7 @@ const SourceBranchCard = (props: CardProps) => {
   return (
     <div className={`flex-col w-[180px] ${className}`}>
       <div className="text-default-4 mr-2 text-center mb-2 flex-h-center justify-center">
-        {i18n.s('source branch', 'dop')}
+        {i18n.t('dop:source branch')}
         <Tooltip
           title={`${i18n.t('dop:Merge change branch')}, ${i18n.t(
             'start with letters and can contain characters that are not wildcard',
@@ -339,15 +339,15 @@ const CurrentBranchCard = (props: CardProps) => {
         <If condition={editing}>
           <span data-required="* " className="ml-1 before:required" />
         </If>
-        {i18n.s('current branch', 'dop')}
+        {i18n.t('dop:current branch')}
         <Tooltip
           title={
             <div>
               <div>{i18n.t('dop:A branch for feature development')}</div>
-              <div className="mt-1">{`${i18n.s('current branch', 'dop')}: ${i18n.t(
+              <div className="mt-1">{`${i18n.t('dop:current branch')}: ${i18n.t(
                 'start with letters and can contain',
               )}`}</div>
-              <div className="mt-1">{`${i18n.s('temporary branch', 'dop')}: ${i18n.t(
+              <div className="mt-1">{`${i18n.t('dop:temporary branch')}: ${i18n.t(
                 'start with letters and can contain characters that are not wildcard',
               )}`}</div>
             </div>
@@ -380,7 +380,7 @@ const CurrentBranchCard = (props: CardProps) => {
       <If condition={data.branchType === FlowType.MULTI_BRANCH}>
         <div className="flex-col mt-2">
           <div className="flex-h-center">
-            <span className="text-default-6 mr-2">{i18n.s('temporary merge', 'dop')}</span>
+            <span className="text-default-6 mr-2">{i18n.t('dop:temporary merge')}</span>
             <Switch
               checked={data.openTempMerge}
               unCheckedChildren={i18n.t('off')}

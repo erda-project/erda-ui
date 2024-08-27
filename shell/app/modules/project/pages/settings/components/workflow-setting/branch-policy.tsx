@@ -190,8 +190,8 @@ const getValid = (policyData: BranchPolicyData, fullData: BranchPolicyData[]) =>
       let t = '';
       const _vArr = _v?.split(',') || [];
       if (_vArr.length) {
-        if (compact(_vArr).length !== _vArr.length) t = i18n.s('can not exist a empty value', 'dop');
-        if (uniq(_vArr).length !== _vArr.length) t = i18n.s('there are duplicates', 'dop');
+        if (compact(_vArr).length !== _vArr.length) t = i18n.t('dop:can not exist a empty value');
+        if (uniq(_vArr).length !== _vArr.length) t = i18n.t('dop:there are duplicates');
       }
 
       if (!t && _v) {
@@ -204,14 +204,14 @@ const getValid = (policyData: BranchPolicyData, fullData: BranchPolicyData[]) =>
 
   return {
     sourceBranch: rules.sourceBranch(
-      i18n.s('source branch', 'dop'),
+      i18n.t('dop:source branch'),
       policyData?.policy?.sourceBranch,
       policyData.branchType === FlowType.MULTI_BRANCH,
     ),
     // currentBranch: branchValid rules.currentBranch('当前分支', policyData?.policy?.currentBranch),
     branch: rules.branch(i18n.t('dop:branch'), policyData?.branch),
     tempBranch: policyData?.openTempMerge
-      ? rules.tempBranch(i18n.s('temporary branch', 'dop'), policyData?.policy?.tempBranch)
+      ? rules.tempBranch(i18n.t('dop:temporary branch'), policyData?.policy?.tempBranch)
       : '',
     mergeRequest: rules.mergeRequest(
       i18n.t('dop:target branch'),

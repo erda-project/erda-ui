@@ -128,7 +128,7 @@ const FlowDrawer = ({
     <div className="mt-6 flex items-start">
       <div className="flex-h-center w-[120px]">
         <ErdaIcon type="setting-config" className="text-default-4 mr-1" />
-        <span className="text-default-6">{i18n.s('policy config', 'dop')}</span>
+        <span className="text-default-6">{i18n.t('dop:policy config')}</span>
       </div>
 
       {curPolicy ? (
@@ -149,10 +149,7 @@ const FlowDrawer = ({
         </div>
       ) : (
         <span className="text-default-6">
-          {i18n.s(
-            'Could not found the policy of the branch, it may be deleted or modified, please select again.',
-            'dop',
-          )}
+          {i18n.t('dop:Could not found the policy of the branch, it may be deleted or modified, please select again.')}
         </span>
       )}
     </div>

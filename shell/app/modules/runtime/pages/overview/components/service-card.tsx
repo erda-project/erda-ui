@@ -458,7 +458,7 @@ const ServiceCard = (props: IProps) => {
               <span className="name text-base">{name}</span>
               {resourceInfo}
               {runtimeDetail.services[name].hpaEnabled === 'Y' && (
-                <span className="mr-4">{i18n.s('Elastic scaling policy is enabled', 'dop')}</span>
+                <span className="mr-4">{i18n.t('dop:Elastic scaling policy is enabled')}</span>
               )}
             </div>
             <div className="error-msg text-xs nowrap">{errorMsg}</div>
@@ -573,14 +573,14 @@ const RunningPods = ({
     },
     {
       dataIndex: 'ipAddress',
-      title: firstCharToUpper(i18n.s('instance IP', 'runtime')),
+      title: firstCharToUpper(i18n.t('runtime:instance IP')),
     },
     {
       dataIndex: 'phase',
       title: i18n.t('Status'),
       render: (text: string) => {
         const phaseMap = {
-          Creating: { status: 'processing', name: i18n.s('creating', 'dop') },
+          Creating: { status: 'processing', name: i18n.t('dop:creating') },
           Healthy: { status: 'success', name: i18n.t('healthy') },
           Unhealthy: { status: 'error', name: i18n.t('unhealthy') },
           default: { status: 'default', name: text },

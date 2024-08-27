@@ -77,11 +77,10 @@ const MergeCard = (props: CardProps) => {
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center justify-between">
           <div className="flex-h-center">
-            <span>{i18n.s('Temporary merge', 'dop')}</span>
+            <span>{i18n.t('dop:Temporary merge')}</span>
             <Tooltip
-              title={i18n.s(
-                'Code branches of different tasks can be temporarily merged and deployed to the corresponding environment',
-                'dop',
+              title={i18n.t(
+                'dop:Code branches of different tasks can be temporarily merged and deployed to the corresponding environment',
               )}
             >
               <ErdaIcon type="help" className="text-default-3 ml-1" />
@@ -98,7 +97,7 @@ const MergeCard = (props: CardProps) => {
                 isJoinTempBranch ? 'cursor-pointer bg-purple-deep text-white' : 'bg-default-08 text-default-4'
               }`}
             >
-              {i18n.s('Revoke temporary merge', 'dop')}
+              {i18n.t('dop:Revoke temporary merge')}
             </div>
           ) : null}
         </div>
@@ -108,7 +107,7 @@ const MergeCard = (props: CardProps) => {
               <Branch appId={appID} projectId={projectID} branch={tempBranch} className="overflow-hidden" />
               <Popover content={ChangeList}>
                 <span className="text-purple-deep cursor-pointer ml-2 whitespace-nowrap">
-                  {i18n.s('More merger information', 'dop')}
+                  {i18n.t('dop:More merger information')}
                 </span>
               </Popover>
             </div>
@@ -124,7 +123,7 @@ const MergeCard = (props: CardProps) => {
                   <ErdaIcon type="commitID" className="mr-1 text-default-4" />
                   <Ellipsis
                     className="flex-1 text-default-8"
-                    title={i18n.s('This task branch has no content merged', 'dop')}
+                    title={i18n.t('dop:This task branch has no content merged')}
                   />
                 </>
               )}
@@ -132,7 +131,7 @@ const MergeCard = (props: CardProps) => {
           </>
         ) : (
           <div className="text-xs text-default-8">
-            <span>{i18n.s('The temporary merge function is not currently enabled, please go to', 'dop')}</span>
+            <span>{i18n.t('dop:The temporary merge function is not currently enabled, please go to')}</span>
             &nbsp;
             <span
               className="text-purple-deep cursor-pointer"
@@ -146,7 +145,7 @@ const MergeCard = (props: CardProps) => {
               {i18n.t('dop:R&D Workflow')}
             </span>
             &nbsp;
-            <span>{i18n.s('to set', 'dop')}</span>
+            <span>{i18n.t('dop:to set')}</span>
           </div>
         )}
       </div>

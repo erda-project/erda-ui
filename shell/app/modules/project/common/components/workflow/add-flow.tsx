@@ -104,7 +104,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, issueId, flow, children }) => {
             label: (
               <div className="flex-h-center">
                 <span>{`${item}`}</span>
-                <Badge size="small" showDot={false} text={i18n.s('exist', 'dop')} status={'success'} className="mr-1" />
+                <Badge size="small" showDot={false} text={i18n.t('dop:exist')} status={'success'} className="mr-1" />
               </div>
             ),
             value: item,
@@ -219,10 +219,9 @@ const AddFlow: React.FC<IProps> = ({ onAdd, issueId, flow, children }) => {
       },
 
       {
-        label: i18n.s('Work branch', 'dop'),
-        labelTip: i18n.s(
-          'You can customize the branch name, and you can also choose an existing branch or a recommended new branch',
-          'dop',
+        label: i18n.t('dop:Work branch'),
+        labelTip: i18n.t(
+          'dop:You can customize the branch name, and you can also choose an existing branch or a recommended new branch',
         ),
         name: 'currentBranch',
         getComp: () => {
@@ -242,7 +241,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, issueId, flow, children }) => {
                   );
                 } else if (currentBranchRule && !validateBranchRule(value, currentBranchRule)) {
                   return Promise.reject(
-                    new Error(`${i18n.s('Please fill in the correct branch rule', 'dop')}, ${currentBranchRule}`),
+                    new Error(`${i18n.t('dop:Please fill in the correct branch rule')}, ${currentBranchRule}`),
                   );
                 }
               }
@@ -269,7 +268,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, issueId, flow, children }) => {
   }, [form, apps, chosenApp]);
   return (
     <Popover
-      title={`${i18n.s('Create workflow', 'dop')}: ${flow?.name}`}
+      title={`${i18n.t('dop:Create workflow')}: ${flow?.name}`}
       trigger={['click']}
       content={content}
       visible={visible}
