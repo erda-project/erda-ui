@@ -22,6 +22,7 @@ module.exports = [
       './layout/entry': './app/layout/entry.js',
       './layout/error-page': './app/layout/common/error-page.tsx',
       './common/utils': './app/common/utils/index.ts',
+      './common/constants': './app/common/constants.ts',
       './common/use-hooks': './app/common/use-hooks.tsx',
       './common/all': './app/common',
       './cmp/pages/cluster-manage/operation-history': './app/modules/cmp/pages/cluster-manage/operation-history',
