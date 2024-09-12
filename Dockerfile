@@ -19,7 +19,7 @@ FROM registry.erda.cloud/erda-x/node:14
 WORKDIR /usr/src/app
 
 COPY --from=build /build/erda-ui/public ./public
-COPY scheduler ./scheduler
+COPY --from=build /build/erda-ui/scheduler ./scheduler
 
 WORKDIR /usr/src/app/scheduler
 
