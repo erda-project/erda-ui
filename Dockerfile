@@ -1,5 +1,5 @@
 # syntax = registry.erda.cloud/retag/dockerfile:latest
-FROM registry.erda.cloud/erda-x/node:14 as build
+FROM registry.erda.cloud/erda-x/node:14 AS build
 
 WORKDIR /build
 
