@@ -38,42 +38,13 @@ stages:
           params:
             git_dir: ${{ dirs.erda-ui-enterprise }}
   - stage:
-      - js-build:
-          alias: build-erda-ui
-          description: 针对 nodejs 工程的编译打包任务
-          version: "1.0"
-          params:
-            build_cmd:
-              - cd ${{ dirs.erda-ui }}/shell && npm run extra-logic
-              - cd ${{ dirs.erda-ui }}
-              - npm cache clean --force
-              - npm i -g --force pnpm@6.x
-              - pnpm i --frozen-lockfile --no-optional --unsafe-perm
-              - pnpm run build-online
-              - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
-            node_version: 14
-          resources:
-            cpu: 0.5
-            mem: 6144
-      - js-build:
-          alias: build-erda-ui-enterprise
-          description: 针对 nodejs 工程的编译打包任务
-          version: "1.0"
-          params:
-            build_cmd:
-              - cd ${{ dirs.erda-ui-enterprise }}/admin && npm ci
-              - npm run build
-              - cp -r ${{ dirs.erda-ui-enterprise }}/{public,server} $WORKDIR
-            node_version: 14
-          resources:
-            cpu: 0.5
-            mem: 2048
-  - stage:
       - dockerfile:
           alias: build-erda-ui-image
           description: 针对自定义 dockerfile 打包，产出可运行镜像
           version: "1.0"
           params:
+            build_context:
+              erda-ui-enterprise: ${{ dirs.erda-ui-enterprise }}
             image:
               name: ui
               tag: ${{ outputs.ui-version.image_tag }}
@@ -82,8 +53,7 @@ stages:
               password: ${{ configs.docker_registry_password }}
               url: ${{ configs.docker_registry }}
               username: ${{ configs.docker_registry_username }}
-            workdir: ${{ dirs.build-erda-ui }}
-          image: registry.erda.cloud/erda-actions/dockerfile-action:1.0-20230509080433-9515bd6
+            workdir: ${{ dirs.erda-ui }}
           resources:
             cpu: 0.5
             mem: 2048
@@ -100,8 +70,7 @@ stages:
               password: ${{ configs.docker_registry_password }}
               url: ${{ configs.docker_registry }}
               username: ${{ configs.docker_registry_username }}
-            workdir: ${{ dirs.build-erda-ui-enterprise }}
-          image: registry.erda.cloud/erda-actions/dockerfile-action:1.0-20230509080433-9515bd6
+            workdir: ${{ dirs.erda-ui-enterprise }}
           resources:
             cpu: 0.5
             mem: 2048
