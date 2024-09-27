@@ -33,6 +33,7 @@ declare namespace CUSTOM_ADDON {
     vars: string[] | null;
     tenantVars: string[] | null;
     version: string;
+    versions?: string[];
   }
 
   interface InsQuery {
@@ -53,6 +54,7 @@ declare namespace CUSTOM_ADDON {
     workspace: string;
     plan: Plan;
     addonInstanceRoutingId?: string;
+    optionVersion?: string;
     importConfig?: string;
   }
 

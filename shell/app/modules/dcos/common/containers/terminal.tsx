@@ -27,10 +27,11 @@ interface IProps {
   containerId?: string;
   instanceTerminal?: boolean;
   clusterExist?: boolean;
+  instance?: any;
 }
 
 const ServiceTerminal = (props: IProps) => {
-  const { clusterName, instanceTerminal = false, host, user, port, containerId, clusterExist } = props;
+  const { clusterName, instanceTerminal = false, host, user, port, containerId, clusterExist, instance } = props;
   const [clusterDetail, setClusterDetail] = React.useState<ORG_CLUSTER.ICluster | null>(null);
   React.useEffect(() => {
     if (clusterName && clusterExist !== true) {
@@ -65,6 +66,9 @@ const ServiceTerminal = (props: IProps) => {
         host,
         port: 2375,
         container: containerId,
+        podName: instance?.podName,
+        namespace: instance?.podNamespace,
+        containerName: instance?.containerName,
       },
     };
     if (!initData.args.host) {

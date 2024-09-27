@@ -62,7 +62,7 @@ const ThirdAddonForm = (props: IProps) => {
       itemProps: {
         onChange(v: string) {
           onFieldChange('addonName', v);
-          form.setFieldsValue({ plan: undefined });
+          form.setFieldsValue({ plan: undefined, optionVersion: undefined });
         },
         disabled: editData !== null || query.addon === AddonType.APIGateway,
       },
@@ -117,6 +117,12 @@ const ThirdAddonForm = (props: IProps) => {
       ],
     };
     const appendField = [
+      {
+        label: i18n.t('version'),
+        name: 'optionVersion',
+        type: 'select',
+        options: curAddon.versions?.map((item: string) => ({ name: item, value: item })),
+      },
       {
         label: i18n.t('dop:Environment'),
         name: 'workspace',
