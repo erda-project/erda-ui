@@ -99,7 +99,7 @@ export const AddonCategory = () => {
         })
         .then(after);
     } else {
-      const { addonName, name, plan, addonInstanceRoutingId, configs, importConfig } = values;
+      const { addonName, name, plan, optionVersion, addonInstanceRoutingId, configs, importConfig } = values;
       const newAddonType = addonSpecList.find((a) => a.addonName === addonName);
       let config = null;
       if (importConfig) {
@@ -133,7 +133,7 @@ export const AddonCategory = () => {
         addons: {
           [name]: {
             plan,
-            options: configs,
+            options: { ...(configs || {}), version: optionVersion },
           },
         },
         workspace: values.workspace,
