@@ -122,6 +122,7 @@ const ThirdAddonForm = (props: IProps) => {
         name: 'optionVersion',
         type: 'select',
         options: curAddon.versions?.map((item: string) => ({ name: item, value: item })),
+        required: false,
       },
       {
         label: i18n.t('dop:Environment'),
@@ -185,6 +186,7 @@ const ThirdAddonForm = (props: IProps) => {
       }
       return [typeField, createTypeField, nameField, ...appendField];
     }
+
     return [typeField, nameField, ...appendField];
   };
 
