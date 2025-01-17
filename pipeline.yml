@@ -52,7 +52,7 @@ stages:
               - erda-ui init --online
               - erda-ui build --online
               - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
-            node_version: 12
+            node_version: 14
           resources:
             cpu: 2
             mem: 6144
@@ -68,7 +68,7 @@ stages:
               - cd ${{ dirs.erda-ui-enterprise }}/admin && npm i
               - npm run build
               - cp -r ${{ dirs.erda-ui-enterprise }}/{public,server} $WORKDIR
-            node_version: 12
+            node_version: 14
           resources:
             cpu: 2
             mem: 2048
