@@ -1893,6 +1893,17 @@
       "en": ""
     }
   },
+  "killPod": {
+    "desc": "删除 Pod",
+    "success": {
+      "zh": "在环境 [@workspace] 中的 [@projectName] 项目 / [@appName] 应用下，成功删除了运行时 [@runtime] 的 Pod 实例 [@podName]",
+      "en": "Successfully deleted the Pod instance [@podName] of runtime [@runtime] in the [@projectName] project / [@appName] app under the [@workspace] environment"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
   "archiveTestPlan": {
     "desc": "测试计划归档",
     "success": {
