@@ -72,7 +72,7 @@
     "micromark": "^3.0.10",
     "micromark-extension-gfm": "^2.0.1",
     "mock-json-schema": "^1.0.8",
-    "moment": "^2.18.1",
+    "moment": "^2.29.4",
     "openapi-types": "^9.1.0",
     "path-browserify": "^1.0.1",
     "path-to-regexp": "^6.2.0",
