@@ -799,6 +799,7 @@
     "please confirm that the user has joined the project": "请确认该用户已加入项目",
     "please confirm that the user is registered": "请确认该用户已注册",
     "please enter any time from 1 to 60 minutes": "请输入 1 至 60 分钟内任意时长",
+    "please enter any time from 1 to {max} minutes": "请输入 1 至 {max} 分钟内任意时长",
     "please fill in the format correctly": "请正确填写格式",
     "please fill out": "请填写",
     "please input": "请键入",

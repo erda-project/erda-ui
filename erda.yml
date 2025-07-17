@@ -24,6 +24,7 @@ services:
       COLLECTOR_ADDR: "collector:7076"
       COLLECTOR_PUBLIC_ADDR: "collector:7076"
       SCHEDULER_ADDR: "scheduler:9091"
+      MONITOR_ADDR: "monitor:7096"
     resources:
       cpu: ${request_cpu:0.5}
       max_cpu: 0.5

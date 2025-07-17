@@ -48,6 +48,28 @@ export const fetchLog = ({
     .then((response: any) => response.body);
 };
 
+// 获取最大日志下载时长（分钟）
+let cachedLogDownloadMaxRange: number | undefined;
+
+export const fetchLogDownloadMaxRange = async (): Promise<number> => {
+  if (typeof cachedLogDownloadMaxRange === 'number') {
+    return cachedLogDownloadMaxRange;
+  }
+  try {
+    const res = await agent.get('/api/logs/download/max-range');
+    // 返回小时，需转为分钟
+    const hour = res?.body?.data?.maxRangeHour;
+    if (typeof hour === 'number' && hour > 0) {
+      cachedLogDownloadMaxRange = hour * 60;
+      return cachedLogDownloadMaxRange;
+    }
+  } catch (e) {
+    // ignore
+  }
+  cachedLogDownloadMaxRange = 60; // 默认 1 小时
+  return 60;
+};
+
 const convert = (payload: MEMBER.UpdateMemberBody) => {
   if (payload.scope.type === MemberScope.MSP) {
     return {
