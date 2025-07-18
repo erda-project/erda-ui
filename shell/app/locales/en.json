@@ -799,6 +799,7 @@
     "please confirm that the user has joined the project": "please confirm that the user has joined the project",
     "please confirm that the user is registered": "please confirm that the user is registered",
     "please enter any time from 1 to 60 minutes": "please enter any time from 1 to 60 minutes",
+    "please enter any time from 1 to {max} minutes": "please enter any time from 1 to {max} minutes",
     "please fill in the format correctly": "please fill in the format correctly",
     "please fill out": "please fill out",
     "please input": "please input",

@@ -20,7 +20,7 @@ import qs from 'query-string';
 const isProd = process.env.NODE_ENV === 'production';
 
 const { envConfig } = getEnv();
-const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL, FDP_URL, AI_BACKEND_URL, ERDA_AI_BACKEND_URL } =
+const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL, FDP_URL, AI_BACKEND_URL, ERDA_AI_BACKEND_URL, MONITOR_ADDR } =
   envConfig;
 
 const API_URL = getHttpUrl(BACKEND_URL);
@@ -29,6 +29,7 @@ const ENTERPRISE_UI_URL = getHttpUrl(ENTERPRISE_URL);
 const FDP_UI_URL = getHttpUrl(FDP_URL);
 const AI_URL = getHttpUrl(AI_BACKEND_URL);
 const ERDA_AI_URL = getHttpUrl(ERDA_AI_BACKEND_URL);
+const MONITOR_URL = getHttpUrl(MONITOR_ADDR);
 
 const GITTAR_URL = isProd ? getHttpUrl(GITTAR_ADDR) : API_URL;
 
@@ -82,6 +83,22 @@ export const createProxyService = (app: INestApplication) => {
       },
       onError,
     },
+  );
+  // max-range 代理规则，必须放在 /api 之前
+  app.use(
+    createProxyMiddleware(
+      (pathname: string) => {
+        // 支持 /api/任意组织名/logs/download/max-range
+        return /^\/api\/[^/]+\/logs\/download\/max-range$/.test(pathname);
+      },
+      {
+        target: MONITOR_URL,
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: replaceApiOrgPath,
+        onError,
+      },
+    ),
   );
   app.use(
     createProxyMiddleware(

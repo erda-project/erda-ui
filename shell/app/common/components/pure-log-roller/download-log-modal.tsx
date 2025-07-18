@@ -17,6 +17,7 @@ import { FormModal } from 'common';
 import { qs, setApiWithOrg } from 'common/utils';
 import moment, { Moment } from 'moment';
 import i18n from 'i18n';
+import { fetchLogDownloadMaxRange } from 'common/services';
 
 const DAY_RANGE = 30; // unit: d
 const DEFAULT_INTERVAL_H = 1; // unit: h
@@ -33,7 +34,15 @@ interface IProps {
 }
 
 const DownloadLogFormModal = ({ start, visible, query, onCancel, downloadFallback = false }: IProps) => {
-  const handleDownload = ({ startTime, endTime }: { startTime: Moment; endTime: number }) => {
+  const [logDownloadTimeLimit, setLogDownloadTimeLimit] = React.useState(60);
+
+  React.useEffect(() => {
+    fetchLogDownloadMaxRange().then(setLogDownloadTimeLimit);
+  }, []);
+  
+  const handleDownload = (result: any) => {
+    const { startTime, endTime } = result || {};
+    if (!startTime || !endTime) return;
     const { taskID, downloadAPI, fetchApi, end, stream, ...rest }: any = query;
     const requestQuery = { ...rest };
     requestQuery.stream = stream;
@@ -84,16 +93,16 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel, downloadFallbac
       name: 'endTime',
       label: i18n.t('common:duration(minutes)'),
       required: true,
-      initialValue: 60,
+      initialValue: logDownloadTimeLimit,
       getComp: ({ form }: { form: FormInstance }) => (
         <InputNumber
           min={1}
-          max={60}
+          max={logDownloadTimeLimit}
           className="w-full"
           onChange={(duration) => {
             form.setFieldsValue({ endTime: duration });
           }}
-          placeholder={i18n.t('common:please enter any time from 1 to 60 minutes')}
+          placeholder={i18n.t('common:please enter any time from 1 to {max} minutes', { max: logDownloadTimeLimit.toString() })}
         />
       ),
     },
