@@ -16,12 +16,14 @@ import { Popover, message, Upload } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import { getOrgFromPath } from 'common/utils';
 import { getCSRFToken } from 'core/config';
+import { getFormatter } from 'charts/utils';
 import i18n from 'i18n';
 import './upload-plugin.scss';
 
 let isLoading = false;
 let hideLoading: any;
 const UploadPlugin = (props: any) => {
+  const formatSize = (size?: number | string) => getFormatter('STORAGE', 'B').format(Number(size) || 0);
   // let hideLoading: any;
   const getUploadProps = (isImage?: boolean) => ({
     action: '/api/files',
@@ -55,7 +57,8 @@ const UploadPlugin = (props: any) => {
         message.error(err.msg);
       } else {
         const { name, size, url } = data;
-        props.editor.insertText(`\n${isImage ? '!' : ''}[${name}（${size}）](${url})\n`);
+        const formattedSize = formatSize(size);
+        props.editor.insertText(`\n${isImage ? '!' : ''}[${name}（${formattedSize}）](${url})\n`);
       }
     },
   });

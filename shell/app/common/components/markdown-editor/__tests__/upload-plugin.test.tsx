@@ -25,34 +25,34 @@ jest.mock('antd', () => {
   const React = require('react');
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const antd = jest.requireActual('antd');
-  const OldUpload = antd.Upload;
-  const Upload: React.FC<UploadProps> = ({ children, onChange, ...rest }) => {
+  const Upload: React.FC<UploadProps> = ({ children, onChange }) => {
     return (
-      <OldUpload
-        {...rest}
-        onChange={(data: UploadChangeParam) => {
-          const file = data.file;
-          const response = {};
-          onChange?.({
-            ...data,
-            file: {
-              status: 'success',
-              response: file.name
-                ? {
-                    success: true,
-                    err: {},
-                    data: {
-                      ...file,
-                      url: 'filePath',
-                    },
-                  }
-                : undefined,
-            },
-          });
-        }}
-      >
+      <label>
+        <input
+          type="file"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            onChange?.({
+              file: {
+                ...file,
+                status: 'success',
+                response: {
+                  success: true,
+                  err: {},
+                  data: {
+                    name: file.name,
+                    size: file.size,
+                    url: 'filePath',
+                  },
+                },
+              },
+            } as UploadChangeParam);
+          }}
+          style={{ display: 'none' }}
+        />
         {children}
-      </OldUpload>
+      </label>
     );
   };
   return {
@@ -64,6 +64,15 @@ jest.mock('antd', () => {
 describe('UploadPlugin', () => {
   const images = new File(['this is an images'], 'logo.png', {
     type: 'image/png',
+  });
+  const kbFile = new File([new ArrayBuffer(1024)], 'small.bin', {
+    type: 'application/octet-stream',
+  });
+  const mbFile = new File([new ArrayBuffer(2 * 1024 * 1024)], 'big.bin', {
+    type: 'application/octet-stream',
+  });
+  const decimalFile = new File([new Uint8Array(1500)], 'decimal.bin', {
+    type: 'application/octet-stream',
   });
   beforeAll(() => {
     jest.mock('agent');
@@ -100,7 +109,25 @@ describe('UploadPlugin', () => {
       userEvent.upload(imageUpload, images);
       await flushPromises();
     });
-    expect(insertTextFn).toHaveBeenLastCalledWith('\n![logo.png（17）](filePath)\n');
+    expect(insertTextFn).toHaveBeenLastCalledWith('\n![logo.png（17 B）](filePath)\n');
+
+    await act(async () => {
+      userEvent.upload(imageUpload, kbFile);
+      await flushPromises();
+    });
+    expect(insertTextFn).toHaveBeenLastCalledWith('\n![small.bin（1 KB）](filePath)\n');
+
+    await act(async () => {
+      userEvent.upload(imageUpload, mbFile);
+      await flushPromises();
+    });
+    expect(insertTextFn).toHaveBeenLastCalledWith('\n![big.bin（2 MB）](filePath)\n');
+
+    await act(async () => {
+      userEvent.upload(imageUpload, decimalFile);
+      await flushPromises();
+    });
+    expect(insertTextFn).toHaveBeenLastCalledWith('\n![decimal.bin（1.46 KB）](filePath)\n');
     spyOnError.mockClear();
   });
 });
