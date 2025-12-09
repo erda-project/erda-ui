@@ -96,7 +96,7 @@ const AddRelease = ({
             }}
             type="link"
             size={16}
-            className="ml-1 hover:text-purple-deep jump-out-link"
+            className="ml-1 hover:text-blue-deep jump-out-link"
           />
         </span>
       ),
@@ -151,7 +151,7 @@ const AddRelease = ({
     >
       <div
         onClick={() => setVisible(true)}
-        className="rounded-sm py-0.5 px-2 flex-h-center cursor-pointer text-purple-deep bg-purple-light"
+        className="rounded-sm py-0.5 px-2 flex-h-center cursor-pointer text-blue-deep bg-blue-light"
       >
         {detail ? (
           <>

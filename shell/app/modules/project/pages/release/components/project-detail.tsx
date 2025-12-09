@@ -188,7 +188,7 @@ const ModesList = ({ value }: { value?: { [keys: string]: Mode } }) => {
                     <>
                       <div className="text-xs text-default-6 mb-1">{i18n.t('dop:dependence')}</div>
                       <Ellipsis
-                        className="hover:text-purple-deep hover:underline mb-4"
+                        className="hover:text-blue-deep hover:underline mb-4"
                         title={(mode.dependOn || []).join(' ')}
                       />
                     </>
@@ -237,7 +237,7 @@ const GroupsList = ({ value }: { value: Application[][] }) => {
               {item.map((app) => (
                 <div className="hover:bg-default-06 px-4 py-2" key={app.releaseID}>
                   <div
-                    className="mb-1 hover:text-purple-deep truncate cursor-pointer"
+                    className="mb-1 hover:text-blue-deep truncate cursor-pointer"
                     onClick={() =>
                       goTo(goTo.resolve.applicationReleaseDetail({ releaseId: app.releaseID }), { jumpOut: true })
                     }

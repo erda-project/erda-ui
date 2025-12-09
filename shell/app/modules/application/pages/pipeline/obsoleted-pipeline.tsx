@@ -31,7 +31,7 @@ const Pipeline = () => {
               onClick={() => {
                 goTo(goTo.pages.pipelineNewRoot);
               }}
-              className="text-purple-deep cursor-pointer"
+              className="text-blue-deep cursor-pointer"
             >
               {i18n.t('dop:Try it right now')}
             </span>

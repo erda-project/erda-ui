@@ -105,7 +105,7 @@ export const IssueCommentBox = (props: IProps) => {
         </>
       ) : (
         <div
-          className="issue-comment-arrow h-8 leading-8 bg-default-04 rounded-sm cursor-pointer px-3 flex-1 hover:text-purple-deep"
+          className="issue-comment-arrow h-8 leading-8 bg-default-04 rounded-sm cursor-pointer px-3 flex-1 hover:text-blue-deep"
           onClick={() => {
             updater.visible(true);
             enterEsc();

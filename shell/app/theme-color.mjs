@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const colors = {
-  primary: 'rgba(48, 38, 71, 1)', // #302647
-  normal: 'rgba(48, 38, 71, .8)',
-  sub: 'rgba(48, 38, 71, .6)',
-  desc: 'rgba(48, 38, 71, .4)',
-  icon: 'rgba(48, 38, 71, .3)',
-  disabled: 'rgba(48, 38, 71, .3)',
-  holder: 'rgba(48, 38, 71, .2)',
+  primary: 'rgba(5, 18, 51, 1)', // #302647
+  normal: 'rgba(5, 18, 51, .8)',
+  sub: 'rgba(5, 18, 51, .6)',
+  desc: 'rgba(5, 18, 51, .4)',
+  icon: 'rgba(5, 18, 51, .3)',
+  disabled: 'rgba(5, 18, 51, .3)',
+  holder: 'rgba(5, 18, 51, .2)',
 
   red: '#d84b65',
   'red-1': 'rgba(216,75,101,0.1)',
@@ -75,17 +75,17 @@ const colors = {
   'light-border': 'rgba(222,222,222,0.5)', // 标准化后的颜色
 
   default: '#302647',
-  'default-1': 'rgba(48, 38, 71, 0.1)',
-  'default-2': 'rgba(48, 38, 71, 0.2)',
-  'default-3': 'rgba(48, 38, 71, 0.3)',
-  'default-4': 'rgba(48, 38, 71, 0.4)',
-  'default-6': 'rgba(48, 38, 71, 0.6)',
-  'default-8': 'rgba(48, 38, 71, 0.8)',
-  'default-01': 'rgba(48, 38, 71, 0.01)',
-  'default-02': 'rgba(48, 38, 71, 0.02)',
-  'default-04': 'rgba(48, 38, 71, 0.04)',
-  'default-06': 'rgba(48, 38, 71, 0.06)',
-  'default-08': 'rgba(48, 38, 71, 0.08)',
+  'default-1': 'rgba(5, 18, 51, 0.1)',
+  'default-2': 'rgba(5, 18, 51, 0.2)',
+  'default-3': 'rgba(5, 18, 51, 0.3)',
+  'default-4': 'rgba(5, 18, 51, 0.4)',
+  'default-6': 'rgba(5, 18, 51, 0.6)',
+  'default-8': 'rgba(5, 18, 51, 0.8)',
+  'default-01': 'rgba(5, 18, 51, 0.01)',
+  'default-02': 'rgba(5, 18, 51, 0.02)',
+  'default-04': 'rgba(5, 18, 51, 0.04)',
+  'default-06': 'rgba(5, 18, 51, 0.06)',
+  'default-08': 'rgba(5, 18, 51, 0.08)',
 
   // auxiliary color
   'purple-dark': '#302647',
@@ -156,12 +156,12 @@ export const getLessTheme = () => {
     '@height-lg': '36px',
     '@height-sm': '28px',
     '@border-radius-base': '2px;',
-    '@font-family': '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
-    '@outline-color': '#a051ff',
+    '@font-family':
+      '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
+    '@outline-color': '#1890FF',
     '@select-item-selected-bg': '#f7f7f8',
-    '@select-item-selected-color': '#a051ff',
+    '@select-item-selected-color': 'red',
   };
 };
-
 
 export default colors;

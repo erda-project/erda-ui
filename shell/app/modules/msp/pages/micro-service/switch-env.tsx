@@ -42,7 +42,7 @@ const SwitchEnv = () => {
               <div className={` px-2 ${checked ? ' text-white' : 'text-white-6'} flex`}>
                 <span>{item.displayWorkspace}</span>
                 <span className="flex">
-                  {checked ? <ErdaIcon type="check" className="ml-2 text-purple-deep" /> : null}
+                  {checked ? <ErdaIcon type="check" className="ml-2 text-blue-deep" /> : null}
                 </span>
               </div>
             </Menu.Item>

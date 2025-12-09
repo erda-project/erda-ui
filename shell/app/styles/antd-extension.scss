@@ -478,7 +478,7 @@ body {
       max-width: 600px;
       overflow: auto;
       a {
-        color: $color-purple-highlight;
+        color: $color-blue-highlight;
       }
       span {
         color: $white;
@@ -575,7 +575,7 @@ body {
       }
 
       .ant-select-item-option-state {
-        color: $color-purple-highlight;
+        color: $color-blue-highlight;
       }
 
       .rc-virtual-list-holder {
@@ -623,7 +623,7 @@ body {
 
       &.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) {
         .ant-select-selector {
-          border: 1px solid $color-purple-highlight;
+          border: 1px solid $color-blue-highlight;
         }
       }
     }
@@ -653,8 +653,8 @@ body {
       color: $white;
 
       &.ant-btn-primary {
-        background-color: $color-purple-highlight;
-        border-color: $color-purple-highlight;
+        background-color: $color-blue-highlight;
+        border-color: $color-blue-highlight;
       }
     }
   }
@@ -666,14 +666,14 @@ body {
       }
       .ant-radio-checked {
         &::after {
-          border: 1px solid $color-purple-highlight;
+          border: 1px solid $color-blue-highlight;
         }
         .ant-radio-inner {
-          border-color: $color-purple-highlight;
+          border-color: $color-blue-highlight;
         }
       }
       .ant-radio-inner::after {
-        background-color: $color-purple-highlight;
+        background-color: $color-blue-highlight;
       }
     }
   }

@@ -34,8 +34,8 @@ export const Branch = ({
         goTo(goTo.pages.repoBranch, { appId, projectId, branch, jumpOut: true });
       }}
     >
-      <ErdaIcon type="hebing" className="mr-1 text-default-4 group-hover:text-purple-deep" />
-      <Ellipsis className="text-default-8 group-hover:text-purple-deep" title={branch} />
+      <ErdaIcon type="hebing" className="mr-1 text-default-4 group-hover:text-blue-deep" />
+      <Ellipsis className="text-default-8 group-hover:text-blue-deep" title={branch} />
     </div>
   );
 };
@@ -62,8 +62,8 @@ export const Mr = ({
         goTo(goTo.pages.appMr, { appId, projectId, mrId, state, jumpOut: true });
       }}
     >
-      <ErdaIcon type="mr" className="mr-1 text-default-4 group-hover:text-purple-deep" />
-      <Ellipsis className="text-default-8 group-hover:text-purple-deep" title={title} />
+      <ErdaIcon type="mr" className="mr-1 text-default-4 group-hover:text-blue-deep" />
+      <Ellipsis className="text-default-8 group-hover:text-blue-deep" title={title} />
     </div>
   );
 };
@@ -91,8 +91,8 @@ export const Commit = ({
         });
       }}
     >
-      <ErdaIcon type="commitID" className="mr-1 mt-0.5 text-default-4 group-hover:text-purple-deep" />
-      <span className="text-default-8 group-hover:text-purple-deep">{commitId.slice(0, 6)}</span>
+      <ErdaIcon type="commitID" className="mr-1 mt-0.5 text-default-4 group-hover:text-blue-deep" />
+      <span className="text-default-8 group-hover:text-blue-deep">{commitId.slice(0, 6)}</span>
     </div>
   );
 };

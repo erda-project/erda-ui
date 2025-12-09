@@ -14,6 +14,13 @@
 import { goTo, insertWhen } from 'common/utils';
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
+import dovopsIcon from 'app/images/icons/devops.png';
+import cmpIcon from 'app/images/icons/cmp.png';
+import fdpIcon from 'app/images/icons/fdp.png';
+import galleryIcon from 'app/images/icons/gallery.png';
+import orgCenterIcon from 'app/images/icons/orgCenter.png';
+// import mspIcon from 'app/images/icons/msp.png';
+import ecpIcon from 'app/images/icons/ecp.png';
 
 export const appList: () => LAYOUT.IApp[] = () =>
   filterMenu(
@@ -21,6 +28,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
       {
         key: 'dop',
         icon: 'DevOps-entry',
+        iconImg: dovopsIcon,
         name: i18n.t('DevOps Platform'),
         breadcrumbName: i18n.t('DevOps Platform'),
         path: (params: any, routes: any[]): string => {
@@ -46,6 +54,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
       // {
       //   key: 'msp',
       //   icon: 'MSP-entry',
+      //   iconImg: mspIcon,
       //   name: i18n.t('Microservice Platform'),
       //   breadcrumbName: i18n.t('Microservice Platform'),
       //   href: goTo.resolve.mspRootOverview(),
@@ -53,6 +62,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
       {
         key: 'cmp',
         icon: 'CMP-entry',
+        iconImg: cmpIcon,
         name: i18n.t('Cloud Management Platform'),
         breadcrumbName: i18n.t('Cloud Management Platform'),
         href: goTo.resolve.cmpRoot(),
@@ -61,6 +71,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
         {
           key: 'fdp',
           icon: 'FDP-entry',
+          iconImg: fdpIcon,
           name: i18n.t('Fast Data Platform'),
           breadcrumbName: i18n.t('Fast Data Platform'),
           href: goTo.resolve.dataAppEntry(),
@@ -69,6 +80,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
       {
         key: 'ecp',
         icon: 'ECP-entry',
+        iconImg: ecpIcon,
         name: i18n.t('ecp:Edge computing'),
         breadcrumbName: i18n.t('ecp:Edge computing'),
         href: goTo.resolve.ecpApp(),
@@ -76,6 +88,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
       {
         key: 'orgCenter',
         icon: 'control-entry',
+        iconImg: orgCenterIcon,
         name: i18n.t('Admin Center'),
         breadcrumbName: i18n.t('Admin Center'),
         href: goTo.resolve.orgCenterRoot(),
@@ -83,6 +96,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
       {
         key: 'gallery',
         icon: 'market-entry',
+        iconImg: galleryIcon,
         name: 'Gallery',
         breadcrumbName: 'Gallery',
         href: goTo.resolve.galleryRoot(),

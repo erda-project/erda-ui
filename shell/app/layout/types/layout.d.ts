@@ -28,6 +28,7 @@ declare namespace LAYOUT {
     name: string;
     shortName: string;
     icon: string;
+    iconImg: string;
     breadcrumbName: string;
     href: string;
     path?: string | Function;

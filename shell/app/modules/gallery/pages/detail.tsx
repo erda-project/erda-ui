@@ -64,9 +64,7 @@ const Detail = () => {
                 <ErdaIcon size={16} type="version" />
                 <Ellipsis className="ml-2 text-default" title={item.version} />
               </div>
-              {curVersion?.version === item.version ? (
-                <ErdaIcon type="check" className="text-purple-deep mr-1" />
-              ) : null}
+              {curVersion?.version === item.version ? <ErdaIcon type="check" className="text-blue-deep mr-1" /> : null}
             </div>
           </Menu.Item>
         );

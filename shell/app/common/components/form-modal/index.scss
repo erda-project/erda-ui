@@ -77,7 +77,7 @@
 
       &:hover,
       &:focus {
-        border: 1px solid $color-purple-highlight;
+        border: 1px solid $color-blue-highlight;
       }
 
       &::placeholder {
@@ -95,7 +95,7 @@
         margin-right: 8px;
       }
       &:last-child {
-        background: $color-purple-deep;
+        background: $color-blue-deep;
         margin-left: 0;
       }
     }

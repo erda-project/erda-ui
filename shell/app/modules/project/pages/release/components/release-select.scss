@@ -3,12 +3,12 @@
   min-width: 460px;
 
   &-btn {
-    background-color: rgba($color-purple-highlight, 0.1);
-    color: $color-purple-highlight;
+    background-color: rgba($color-blue-highlight, 0.1);
+    color: $color-blue-highlight;
     transition: all 0.5s;
 
     &.dropdown-open {
-      background-color: $color-purple-highlight;
+      background-color: $color-blue-highlight;
       color: $white;
     }
   }
@@ -24,7 +24,7 @@
 
     .erda-list-select-selected-item:hover {
       .text-hover {
-        color: $color-purple-highlight !important;
+        color: $color-blue-highlight !important;
       }
 
       .erda-list-select-selected-item-delete {
@@ -114,7 +114,7 @@
 
   .erda-list-select-selected-item:hover {
     .text-hover {
-      color: $color-purple-highlight !important;
+      color: $color-blue-highlight !important;
     }
 
     .erda-list-select-selected-item-delete {
@@ -137,7 +137,7 @@
     }
 
     .active {
-      background-color: $color-purple-highlight !important;
+      background-color: $color-blue-highlight !important;
     }
   }
 

@@ -56,7 +56,7 @@ const CodeCard = (props: CardProps) => {
                   });
               }}
               className={`px-3 rounded cursor-pointer ${
-                canJoin ? ' bg-purple-deep text-white' : 'bg-default-08 text-default-4'
+                canJoin ? ' bg-blue-deep text-white' : 'bg-default-08 text-default-4'
               }`}
             >
               {canJoin ? i18n.t('dop:Merge into temporary branch') : i18n.t('dop:Merged into temporary branch')}

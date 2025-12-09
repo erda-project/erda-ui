@@ -127,7 +127,7 @@ const Guide = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () => vo
                         {i18n.t('Remove')}
                       </div>
                       <span
-                        className="cursor-pointer hover:text-purple-deep"
+                        className="cursor-pointer hover:text-blue-deep"
                         onClick={() => {
                           addPipeliningQuickly(appID, branch, pipelineYmls);
                         }}
@@ -148,7 +148,7 @@ const Guide = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () => vo
                         <span>{yml}</span>
                         <div className="flex-1 justify-end flex-h-center">
                           <span
-                            className="cursor-pointer hover:text-purple-deep"
+                            className="cursor-pointer hover:text-blue-deep"
                             onClick={() => {
                               addPipeliningQuickly(appID, branch, [yml]);
                             }}

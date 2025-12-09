@@ -577,7 +577,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                                   initAdd(nodeData);
                                 }}
                                 size={14}
-                                className="px-1 font-medium invisible group-hover:visible text-purple-deep"
+                                className="px-1 font-medium invisible group-hover:visible text-blue-deep"
                               />
                             ) : null}
                           </div>
@@ -637,7 +637,7 @@ const CodeResource = () => {
     <div className="my-6 flex">
       {list.map((item) => (
         <div className="flex-h-center" key={item.label}>
-          <div className="w-5 h-5 inline-block rounded-full border border-solid border-white-300 flex-all-center bg-purple-deep border-purple-deep mr-2">
+          <div className="w-5 h-5 inline-block rounded-full border border-solid border-white-300 flex-all-center bg-blue-deep border-blue-deep mr-2">
             <ErdaIcon type="check" className="text-white" size="12" />
           </div>
           <div className="mr-2 flex-h-center">{item.icon}</div>

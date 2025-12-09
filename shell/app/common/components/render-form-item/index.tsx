@@ -432,7 +432,7 @@ const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemP
                 {fixOptions.map((item: IOption) => (
                   <div
                     key={item.label}
-                    className="px-1 text-purple-deep cursor-pointer"
+                    className="px-1 text-blue-deep cursor-pointer"
                     onClick={() => onChange([item.value])}
                   >
                     {item.label}

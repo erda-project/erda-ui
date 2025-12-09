@@ -190,7 +190,7 @@ const Pipeline = (props: IProps) => {
             message={
               <div>
                 {`${i18n.t('dop:pipeline-changed-tip2')} `}
-                <span className="text-purple-deep cursor-pointer" onClick={() => setMode(DetailMode.file)}>
+                <span className="text-blue-deep cursor-pointer" onClick={() => setMode(DetailMode.file)}>
                   {i18n.t('dop:edit to check')}
                 </span>
               </div>

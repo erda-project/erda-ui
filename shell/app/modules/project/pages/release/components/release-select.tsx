@@ -185,7 +185,7 @@ const ReleaseSelect = ({
                     ))}
                     {!readOnly ? (
                       <div
-                        className="text-center text-purple-deep cursor-pointer"
+                        className="text-center text-blue-deep cursor-pointer"
                         onClick={() => {
                           setReleaseVisible(true);
                           setCurrentGroup(index);
@@ -204,7 +204,7 @@ const ReleaseSelect = ({
                     <div>
                       <div className="text-lg leading-6">{i18n.t('dop:No app artifacts selected')}</div>
                       <div
-                        className="text-xs text-purple-deep cursor-pointer leading-5"
+                        className="text-xs text-blue-deep cursor-pointer leading-5"
                         onClick={() => {
                           setReleaseVisible(true);
                           setCurrentGroup(index);
@@ -530,7 +530,7 @@ const defaultRenderSelectedItem = (item: Item, isDark?: boolean) => {
     <div className="flex justify-between items-center">
       <div className="flex-1 min-w-0">
         <div
-          className="text-purple-deep truncate cursor-pointer"
+          className="text-blue-deep truncate cursor-pointer"
           title={item.version}
           onClick={() => goTo(goTo.resolve.applicationReleaseDetail({ releaseId: item.id }), { jumpOut: true })}
         >
@@ -578,7 +578,7 @@ const Radio = ({ checked, multiple = false }: RadioProps) => {
   return multiple ? (
     <div
       className={`w-6 h-6 inline-block rounded-full border border-solid border-default-3 flex p-1 text-white ${
-        checked ? 'bg-purple-deep border-purple-deep' : ''
+        checked ? 'bg-blue-deep border-blue-deep' : ''
       }`}
     >
       {checked ? <ErdaIcon type="check" /> : null}
@@ -586,10 +586,10 @@ const Radio = ({ checked, multiple = false }: RadioProps) => {
   ) : (
     <div
       className={`w-6 h-6 inline-block rounded-full border border-solid border-default-3 flex p-1 text-white ${
-        checked ? 'border-purple-deep' : ''
+        checked ? 'border-blue-deep' : ''
       }`}
     >
-      <div className={`inline-block flex-1 rounded-full ${checked ? 'bg-purple-deep' : ''}`} />
+      <div className={`inline-block flex-1 rounded-full ${checked ? 'bg-blue-deep' : ''}`} />
     </div>
   );
 };

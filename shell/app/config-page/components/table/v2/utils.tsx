@@ -250,7 +250,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
 
         Comp = enableCopy ? (
           <span className="flex group">
-            <span className="ant-table-cell-ellipsis group-hover:text-purple-deep" title={text}>
+            <span className="ant-table-cell-ellipsis group-hover:text-blue-deep" title={text}>
               {text}
             </span>
             <Copy>
@@ -259,7 +259,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                 size={12}
                 data-clipboard-text={text}
                 onClick={(e) => e.stopPropagation()}
-                className="ml-1 cursor-copy text-desc opacity-0 group-hover:text-purple-deep group-hover:opacity-100"
+                className="ml-1 cursor-copy text-desc opacity-0 group-hover:text-blue-deep group-hover:opacity-100"
               />
             </Copy>
           </span>

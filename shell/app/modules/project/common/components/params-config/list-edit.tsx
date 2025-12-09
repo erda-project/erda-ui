@@ -368,7 +368,7 @@ const EditableCell = ({
       case 'op':
         Comp = (
           <div className="flex-h-center">
-            <span className="mr-2 fake-link text-purple-deep" onClick={save}>
+            <span className="mr-2 fake-link text-blue-deep" onClick={save}>
               {i18n.t('Save')}
             </span>
             <span className="fake-link" onClick={cancel}>

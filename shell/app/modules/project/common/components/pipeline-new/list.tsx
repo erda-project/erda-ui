@@ -404,7 +404,7 @@ const PipelineProtocol = React.forwardRef(
                           {record.total > 20 ? (
                             <div className="flex justify-center mt-2 ">
                               <span
-                                className="text-purple-deep cursor-pointer"
+                                className="text-blue-deep cursor-pointer"
                                 onClick={() => {
                                   const params = {
                                     projectId,

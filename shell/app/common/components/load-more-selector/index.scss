@@ -164,7 +164,7 @@
         &.ant-menu-item-selected {
           background-color: $white !important;
           position: relative;
-          color: $color-purple-600;
+          color: $color-blue-600;
 
           &:before {
             display: block;
@@ -172,7 +172,7 @@
             content: '';
             width: 3px;
             height: 100%;
-            background-color: $color-purple-600;
+            background-color: $color-blue-600;
             top: 0;
             bottom: 0;
             right: 0;

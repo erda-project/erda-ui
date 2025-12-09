@@ -27,7 +27,7 @@ export const replaceWithLink = (str: string, href: string) => {
     result.push(item);
     if (index !== strArr.length - 1) {
       result.push(
-        <a key={index} className="text-purple-deep mx-1" href={href} target="_blank" rel="noopener noreferrer">
+        <a key={index} className="text-blue-deep mx-1" href={href} target="_blank" rel="noopener noreferrer">
           {matchArr[index]?.replace(/\[|]/g, '')}
         </a>,
       );

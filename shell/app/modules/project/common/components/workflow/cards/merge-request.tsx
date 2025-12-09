@@ -110,7 +110,7 @@ const MergeRequestCard = (props: CardProps) => {
                       },
                     });
               }}
-              className={`px-3 rounded cursor-pointer bg-purple-deep text-white`}
+              className={`px-3 rounded cursor-pointer bg-blue-deep text-white`}
             >
               {mergeRequestInfo ? i18n.t('dop:check merge request', 'dop') : i18n.t('dop:create merge request')}
             </div>

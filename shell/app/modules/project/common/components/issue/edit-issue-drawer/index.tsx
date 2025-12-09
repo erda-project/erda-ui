@@ -777,7 +777,7 @@ export const EditIssueDrawer = (props: IProps) => {
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center bg-default-06 rounded-sm px-2 hover:text-purple-deep overflow-hidden cursor-pointer"
+                      className="inline-flex items-center bg-default-06 rounded-sm px-2 hover:text-blue-deep overflow-hidden cursor-pointer"
                       style={{ maxWidth: '320px' }}
                     >
                       <ErdaIcon className="mr-1" type="xuqiu" size="20px" />

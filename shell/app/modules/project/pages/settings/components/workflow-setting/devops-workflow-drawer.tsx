@@ -259,7 +259,7 @@ const FlowDrawer = ({
                       goTo(goTo.resolve.projectSetting(), { jumpOut: true, query: { tabKey: 'branchPolicy' } });
                     }}
                   >
-                    <div className="mx-3 text-purple-deep">
+                    <div className="mx-3 text-blue-deep">
                       {i18n.t('edit {name}', { name: i18n.t('dop:Branch Policy') })}
                     </div>
                   </Link>

@@ -114,7 +114,7 @@ const Market = () => {
       <div className="bg-cover mx-4 bg-top h-[200px] rounded-b" style={{ backgroundImage: `url(${galleryHeader})` }} />
       <div className={`pt-3 px-4 pb-2 w-full bg-white sticky top-0 z-10 ${tabFixed ? 'shadow' : ''}`}>
         <div className="w-[160] h-[26px] my-3 font-sans">
-          <span className="text-purple-deep text-3xl font-bold leading-[26px]">G</span>
+          <span className="text-blue-deep text-3xl font-bold leading-[26px]">G</span>
           <span className="text-3xl font-bold text-black  leading-[26px]">allery</span>
         </div>
         <div className="mt-4 flex-h-center justify-between">
@@ -179,7 +179,7 @@ const ServiceCard = ({ data, onClick }: { data: MARKET.Service; onClick: () => v
       </div>
       <div className="w-[250px] info-container">
         <Ellipsis
-          className="text-default group-hover:text-purple-deep leading-[22px]"
+          className="text-default group-hover:text-blue-deep leading-[22px]"
           title={data.displayName || data.name}
         />
         <Ellipsis className="text-default-8 text-xs leading-5" title={data.summary || '-'} />

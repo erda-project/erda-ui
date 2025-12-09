@@ -118,7 +118,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
         <div>
           {value?.map((item) => (
             <span
-              className={`label-item text-purple-deep bg-purple-light border-0 border-solid border-l-2 border-l-purple-mid inline-block mr-2 m-w-[40px] h-[28px] leading-[28px] pl-3 pr-3`}
+              className={`label-item text-blue-deep bg-blue-light border-0 border-solid border-l-2 border-l-blue-mid inline-block mr-2 m-w-[40px] h-[28px] leading-[28px] pl-3 pr-3`}
               key={item}
             >
               {item}

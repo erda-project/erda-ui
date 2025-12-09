@@ -110,7 +110,7 @@ export const CardItem = (props: CardItemProps) => {
                     handleClick(card, 'title');
                   }}
                 >
-                  <div className="text-base text-default truncate hover:text-purple-deep">
+                  <div className="text-base text-default truncate hover:text-blue-deep">
                     <Ellipsis title={title} />
                   </div>
                 </div>
