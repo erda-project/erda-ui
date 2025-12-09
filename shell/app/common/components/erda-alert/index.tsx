@@ -69,7 +69,7 @@ const ErdaAlert = ({
             closeText: (
               <ErdaIcon
                 type="close"
-                className={`${theme === 'dark' ? 'text-white-6 hover:text-purple-deep' : 'hover-active'}`}
+                className={`${theme === 'dark' ? 'text-white-6 hover:text-blue-deep' : 'hover-active'}`}
               />
             ),
             afterClose,

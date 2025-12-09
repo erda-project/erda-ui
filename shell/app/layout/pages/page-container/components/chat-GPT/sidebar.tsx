@@ -144,7 +144,7 @@ const Sidebar = ({
           <span className="mr-1 flex-none hidden group-hover:inline-flex w-[24px] h-[24px] rounded-full hover:bg-default-2 leading-[20px] flex items-center justify-center hover:text-default">
             <ErdaIcon
               type="edit-unselected"
-              className="cursor-pointer text-base text-purple"
+              className="cursor-pointer text-base text-blue"
               onClick={(e) => {
                 e.stopPropagation();
                 edit(item);
@@ -215,7 +215,7 @@ const Sidebar = ({
             overlayClassName="no-border-right-menu"
           >
             <span className="flex-none hidden group-hover:inline-flex w-[24px] h-[24px] rounded-full hover:bg-default-2 leading-[20px] flex items-center justify-center hover:text-default">
-              <ErdaIcon type="more" className="cursor-pointer text-base text-purple" />
+              <ErdaIcon type="more" className="cursor-pointer text-base text-blue" />
             </span>
           </Popover>
         </div>

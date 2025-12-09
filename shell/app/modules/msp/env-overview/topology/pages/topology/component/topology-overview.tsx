@@ -122,8 +122,8 @@ export const Cards: React.FC<ICardsProps> = ({ list, defaultActiveKey, onClick, 
           <div
             key={key}
             className={`flex-shrink-0 m-1 text-center card-item py-3 border border-solid ${
-              canSelect && key === selectKey ? 'border-purple-deep' : 'border-transparent'
-            } ${canSelect ? 'cursor-pointer hover:border-purple-deep' : ''}`}
+              canSelect && key === selectKey ? 'border-blue-deep' : 'border-transparent'
+            } ${canSelect ? 'cursor-pointer hover:border-blue-deep' : ''}`}
             onClick={() => {
               handleClick(key);
             }}

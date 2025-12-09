@@ -114,7 +114,7 @@ const Editor = (props: IProps) => {
           message={
             <div>
               {fileChanged ? `${i18n.t('dop:pipeline-changed-tip1')} ` : `${i18n.t('dop:pipeline-changed-tip3')} `}
-              <span className="text-purple-deep cursor-pointer" onClick={switchToExecute}>
+              <span className="text-blue-deep cursor-pointer" onClick={switchToExecute}>
                 {i18n.t('dop:the latest execution status')}
               </span>
             </div>

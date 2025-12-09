@@ -65,13 +65,13 @@
 
   .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
     background-color: $color-default-06;
-    color: $purple !important;
+    color: $blue !important;
     opacity: 1;
     font-weight: 500;
 
     &:after {
       border-right: none;
-      border-bottom: 2px solid $purple;
+      border-bottom: 2px solid $blue;
       left: 0;
       top: auto;
     }

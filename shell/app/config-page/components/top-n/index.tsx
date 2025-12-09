@@ -55,7 +55,7 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
                     </span>
                   ) : null}
 
-                  <p className="mb-0 flex-1 text-purple-dark font-medium overflow-hidden overflow-ellipsis whitespace-nowrap text-purple-dark ">
+                  <p className="mb-0 flex-1 text-blue-dark font-medium overflow-hidden overflow-ellipsis whitespace-nowrap text-blue-dark ">
                     {title}
                   </p>
                 </div>
@@ -74,9 +74,9 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
                           }}
                         >
                           <div className="flex py-1">
-                            <Ellipsis className="flex-1 text-purple-dark" title={name} />
+                            <Ellipsis className="flex-1 text-blue-dark" title={name} />
                             <div className="ml-2">
-                              <span className="text-purple-dark">{value}</span>
+                              <span className="text-blue-dark">{value}</span>
                               {unit ? <span className="text-sub text-xs ml-0.5">{unit}</span> : null}
                             </div>
                           </div>

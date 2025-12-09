@@ -105,22 +105,22 @@ const SideBar = () => {
       siderInfo.detail = siderInfo.getDetail();
     }
   }
-  const foldSidebar = currentRoute?.layout?.foldSidebar;
+  // const foldSidebar = currentRoute?.layout?.foldSidebar;
 
   const [state, updater, update] = useUpdate({
-    float: foldSidebar || localStorage.getItem('sidebarFixed') === 'false',
+    float: localStorage.getItem('sidebarFixed') === 'false',
     menus: [],
     openKeys: [],
     selectedKey: '',
   });
 
   React.useEffect(() => {
-    if (foldSidebar) {
-      updater.float(true);
-    } else {
-      updater.float(localStorage.getItem('sidebarFixed') === 'false');
-    }
-  }, [foldSidebar, updater]);
+    // if (foldSidebar) {
+    //   updater.float(true);
+    // } else {
+    updater.float(localStorage.getItem('sidebarFixed') === 'false');
+    // }
+  }, [updater]);
 
   const organizeInfo = (menu: IMenu[]) => {
     let activeKeyList = [] as string[];
@@ -158,7 +158,7 @@ const SideBar = () => {
         selectedKey = subActiveKey as string;
         activeKeyList = parentActiveKeyList as string[];
       }
-      const IconComp = () => item.icon as React.ReactElement;
+      // const IconComp = () => item.icon as React.ReactElement;
       return {
         ...item,
         title: title ?? allWordsFirstLetterUpper(item.text), // 如果存在title，则直接使用title（如Approved by Me），否则全部首字母大写
@@ -207,20 +207,20 @@ const SideBar = () => {
 
   return (
     <>
-      <div className={`erda-sidebar-trigger ${state.float ? 'float' : ''}`}>
-        <div className="toggle-btn inline-flex items-center justify-center">
+      <div className={`erda-sidebar-trigger ${state.float ? 'float' : ''} `}>
+        <div className={`toggle-btn inline-flex items-center justify-center ${state.float ? 'trigger-float' : ''}`}>
           <ErdaIcon
-            className="icon cursor-pointer p-1"
-            type={state.float ? 'erjicaidan' : 'zuofan'}
-            size={20}
+            className="icon cursor-pointer"
+            type={state.float ? 'youfan' : 'zuofan'}
+            size={16}
             onClick={() => handleToggleFixed(!state.float)}
           />
-          <ErdaIcon
-            className="icon cursor-pointer p-1 absolute hover-show"
+          {/* <ErdaIcon
+            className="icon cursor-pointer absolute hover-show"
             type="youfan"
-            size={20}
+            size={16}
             onClick={() => handleToggleFixed(!state.float)}
-          />
+          /> */}
         </div>
         <SidebarMenu
           openKeys={state.openKeys}

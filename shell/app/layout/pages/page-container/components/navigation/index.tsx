@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Badge, message, Tooltip } from 'antd';
+import { Badge, Tooltip } from 'antd';
 import orgStore from 'app/org-home/stores/org';
 import { ErdaIcon } from 'common';
 import { DOC_HELP_HOME, erdaEnv } from 'common/constants';
@@ -22,10 +22,12 @@ import React from 'react';
 import { usePerm } from 'user/common';
 import { goTo } from 'common/utils';
 import routeStore from 'core/stores/route';
+import homepageIcon from 'app/images/icons/homepage.png';
 import UserMenu from './user-menu';
-import './index.scss';
 import { Link } from 'react-router-dom';
 import OrgSelector from '../org-selector';
+import { PlatformSelector } from './platform-selector';
+import './index.scss';
 
 const usePlatformEntries = () => {
   const permMap = usePerm((s) => s.org);
@@ -39,7 +41,7 @@ const usePlatformEntries = () => {
     msp: permMap.entryMsp.pass,
     ecp: erdaEnv.ENABLE_EDGE === 'true' && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
     gallery: `${erdaEnv.ENABLE_GALLERY}` !== 'false',
-  };
+  } as Record<string, boolean>;
   return appList.filter((app) => openMap[app.key]);
 };
 
@@ -48,17 +50,21 @@ export interface NavItemProps {
   icon: React.ReactNode;
   link?: string;
   onClick?: () => void;
+  isActive?: boolean;
+  onHover?: boolean;
 }
 
-export const NavItem = ({ icon, label, link, onClick }: NavItemProps) => {
+export const NavItem = ({ icon, label, link, onClick, isActive, onHover }: NavItemProps) => {
   const content = (
-    <Tooltip title={label} placement={'rightBottom'} align={{ points: ['tl', 'tr'], offset: [-20, 30] }}>
-      <div
-        key={label}
-        className="erda-global-nav-item relative flex-all-center cursor-pointer w-full h-11"
-        onClick={onClick}
-      >
-        {icon}
+    <Tooltip title={label} placement={'right'} align={{ offset: [-8, 0] }}>
+      <div key={label} className="erda-global-nav-item relative flex-all-center w-full h-12" onClick={onClick}>
+        <div
+          className={`w-9 h-9 flex-all-center cursor-pointer rounded-[4px] erda-logo-container ${
+            isActive ? 'active' : ''
+          } ${onHover ? 'no-hover' : ''}`}
+        >
+          {icon}
+        </div>
       </div>
     </Tooltip>
   );
@@ -83,14 +89,14 @@ const Navigation = () => {
   const curOrgName = currentOrg.name;
   const bottomItems = [
     {
-      icon: <ErdaIcon type="bangzhuwendang" className="text-normal" size={20} />,
+      icon: <ErdaIcon type="help-ja4b0080" className="nav-botton-icon" size={20} />,
       label: i18n.t('layout:Docs'),
       onClick: () => {
         window.open(DOC_HELP_HOME);
       },
     },
     {
-      icon: <ErdaIcon type={current === 'zh' ? 'zhongwen' : 'yingwen'} className="text-normal" size={20} />,
+      icon: <ErdaIcon type={current === 'zh' ? 'chinese' : 'english'} className="nav-botton-icon" size={20} />,
       label: i18n.t('default:Language'),
       onClick: () => {
         const next = current === 'zh' ? 'en' : 'zh';
@@ -107,7 +113,7 @@ const Navigation = () => {
           className="message-icon select-none"
           style={{ boxShadow: 'none' }}
         >
-          <ErdaIcon type="xiaoxi" className="text-normal" size={20} />
+          <ErdaIcon type="message-ja4b007a" className="nav-botton-icon" size={20} />
         </Badge>
       ),
       label: i18n.t('default:Message'),
@@ -119,18 +125,25 @@ const Navigation = () => {
 
   return (
     <div className={`erda-global-nav flex flex-col items-center relative`}>
+      <div className={'mt-1 h-12 w-full flex flex-all-center'}>
+        <div className="w-9 h-9 flex-all-center cursor-pointer rounded-[4px] erda-logo-container">
+          <PlatformSelector />
+        </div>
+      </div>
+      <div className="split-line" />
       <div
-        className={`logo-wrap relative min-h-[32px] w-8 h-8 m-3 ${process.env.FOR_COMMUNITY ? '' : 'cursor-pointer'}`}
+        className={`logo-wrap relative flex-all-center w-full h-12 ${
+          process.env.FOR_COMMUNITY ? '' : 'cursor-pointer'
+        }`}
       >
-        {process.env.FOR_COMMUNITY ? (
-          <ErdaIcon type="gerengongzuotai" size={32} />
-        ) : (
-          <>
-            <ErdaIcon type="gerengongzuotai" size={32} className="absolute erda-global-logo" />
-            <ErdaIcon
-              type="gerengongzuotaihover"
-              className="absolute workbench-icon"
-              size={32}
+        <div className={'w-9 h-9 flex-all-center cursor-pointer rounded-[4px] erda-logo-container'}>
+          {process.env.FOR_COMMUNITY ? (
+            <img src={homepageIcon} alt="home page icon" className="w-6 h-6" />
+          ) : (
+            <img
+              src={homepageIcon}
+              alt="home page icon"
+              className="w-6 h-6"
               onClick={() => {
                 layoutStore.reducers.switchMessageCenter(false);
                 const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
@@ -149,39 +162,45 @@ const Navigation = () => {
                 }
               }}
             />
-          </>
-        )}
+          )}
+        </div>
       </div>
-      <div className="py-2 relative left-1">
-        <OrgSelector mode="simple" size="middle" />
+      <div className="split-line" />
+      <div className="py-2 relative h-14 w-full flex flex-all-center">
+        <OrgSelector mode="simple" size="middle" trigger={['hover']} noIcon align={{ offset: [-40, -30] }} />
       </div>
+      <div className="split-line" />
       {platformEntries.map((item) => {
         return (
           <NavItem
             key={item.key}
             label={item.name}
+            isActive={currentApp.key === item.key}
             link={item.href}
             onClick={() => {
               layoutStore.reducers.switchMessageCenter(false);
               layoutStore.reducers.switchToApp(item.key);
             }}
             icon={
-              currentApp.key === item.key ? (
-                <ErdaIcon className="absolute icon active-icon opacity-100" size={24} type={item.icon} />
-              ) : (
-                <>
-                  <ErdaIcon className="absolute icon active-icon" size={24} type={item.icon} />
-                  <ErdaIcon className="absolute icon normal-icon" size={24} type={`${item.icon}-normal`} />
-                </>
-              )
+              <img src={item.iconImg} alt={item.name} className="w-6 h-6" />
+              // currentApp.key === item.key ? (
+              //   <ErdaIcon className="absolute icon active-icon opacity-100" size={24} type={item.icon} />
+              // ) : (
+              //   <>
+              //     <ErdaIcon className="absolute icon active-icon" size={24} type={item.icon} />
+              //     <ErdaIcon className="absolute icon normal-icon" size={24} type={`${item.icon}-normal`} />
+              //   </>
+              // )
             }
           />
         );
       })}
+
       <div className={`w-full flex flex-1 flex-col items-center justify-end`}>
         {bottomItems.map((item) => (
-          <NavItem key={item.label} label={item.label} icon={item.icon} onClick={item.onClick} />
+          <NavItem key={item.label} label={item.label} icon={item.icon} onClick={item.onClick} onHover />
         ))}
+        <div className="split-line" />
         <div className={`erda-global-nav-avatar-item my-4 flex-all-center cursor-pointer`}>
           <UserMenu />
         </div>

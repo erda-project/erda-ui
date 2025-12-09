@@ -40,7 +40,7 @@
 }
 
 .erda-dropdown-select-option-item {
-  padding: 16px 8px;
+  padding: 8px 8px;
 
   &:hover {
     background-color: rgba($white, 0.08);
@@ -53,6 +53,9 @@
 
   .option-desc {
     font-size: 12px;
+    color: $color-white-6;
+  }
+  .option-check-icon {
     color: $color-white-6;
   }
 

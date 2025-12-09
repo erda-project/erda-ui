@@ -44,7 +44,7 @@ export default defineConfig({
   ],
   lessLoader: {
     javascriptEnabled: true,
-    modifyVars: { '@primary-color': '#302647' },
+    modifyVars: { '@primary-color': '#051233' },
   },
   // more config: https://d.umijs.org/config
 });

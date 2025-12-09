@@ -58,7 +58,7 @@ const renderSelectedItem = (item: PROJECT_DEPLOY.DeployDetailApp) => {
       <span>
         {item.name}
         <span
-          className="ml-2 text-xs text-purple-deep truncate cursor-pointer"
+          className="ml-2 text-xs text-blue-deep truncate cursor-pointer"
           title={item.releaseVersion}
           onClick={() => window.open(goTo.resolve.applicationReleaseDetail({ releaseId: item.releaseId }))}
         >
@@ -105,7 +105,7 @@ const DeployDetail = (props: IProps) => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-purple-deep jump-out-link"
+            className="hover:text-blue-deep jump-out-link"
             onClick={() => {
               if (value.type === 'application') {
                 goTo(goTo.pages.applicationReleaseDetail, { projectId, releaseId: value.id, jumpOut: true });
@@ -246,7 +246,7 @@ const BaseInfo = ({ data }: ISubProps) => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-purple-deep jump-out-link"
+            className="hover:text-blue-deep jump-out-link"
             onClick={() =>
               goTo(goTo.pages.applicationReleaseDetail, { projectId, releaseId: record.releaseId, jumpOut: true })
             }
@@ -274,7 +274,7 @@ const BaseInfo = ({ data }: ISubProps) => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-purple-deep jump-out-link"
+            className="hover:text-blue-deep jump-out-link"
             onClick={() => goTo(goTo.pages.commit, { projectId, appId: record?.id, commitId: val, jumpOut: true })}
           >
             {curText}

@@ -1,29 +1,45 @@
 .erda-global-nav {
   height: 100%;
   width: 56px;
-  background: #fcfcfc;
+  background: $color-primary;
   z-index: 10;
 
+  .split-line {
+    width: 14px;
+    height: 1px;
+    background-color: #505759;
+  }
+
+  .nav-botton-icon {
+    color: #acb8c3;
+  }
+
   .logo-wrap {
-    .erda-global-logo {
-      transform: scale(1);
-      transition: all 0.1s ease-in;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     .workbench-icon {
       opacity: 0;
       transform: scale(1.3);
       transition: all 0.1s ease-in 0.05s;
     }
     &:hover {
-      .erda-global-logo {
-        transform: scale(1.3);
-        opacity: 0;
-      }
       .workbench-icon {
         opacity: 1;
         transform: scale(1);
       }
     }
+  }
+}
+
+.erda-logo-container {
+  &:hover,
+  &.active {
+    background-color: #2b3652;
+  }
+  &.no-hover:hover {
+    background-color: unset;
   }
 }
 
@@ -34,6 +50,7 @@
   .icon {
     transition: opacity 0.2s cubic-bezier(0.48, 0.43, 0.29, 1.3);
   }
+
   .active-icon {
     opacity: 0;
   }

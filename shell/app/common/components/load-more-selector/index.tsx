@@ -364,7 +364,7 @@ const PureLoadMoreSelector = (props: IProps) => {
                     {i18n.t('common:item')}
                   </div>
                   {chosenItem.length ? (
-                    <span className="fake-link ml-4 text-purple-deep" onClick={clearValue}>
+                    <span className="fake-link ml-4 text-blue-deep" onClick={clearValue}>
                       {i18n.t('common:Clear selected')}
                     </span>
                   ) : null}
@@ -467,7 +467,7 @@ const OptionContainer = ({ list, value, clickItem, optionRender, isMultiple, vie
           >
             <div className="w-full flex justify-between items-center">
               <Ellipsis className="flex-1" title={options} />
-              {checked ? <ErdaIcon type="check" className="ml-2 text-purple-deep" /> : null}
+              {checked ? <ErdaIcon type="check" className="ml-2 text-blue-deep" /> : null}
             </div>
           </div>
         );

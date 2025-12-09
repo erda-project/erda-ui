@@ -122,7 +122,7 @@ const Activity = () => {
           <span className="ml-2">{`${i18n.t('runtime:Time')} ${timeCost}`}</span>
           <Tooltip title={activity.releaseId}>
             <span
-              className="ml-2 cursor-pointer hover:text-purple-deep"
+              className="ml-2 cursor-pointer hover:text-blue-deep"
               onClick={() =>
                 goTo(goTo.pages.applicationReleaseDetail, { projectId, releaseId: activity.releaseId, jumpOut: true })
               }

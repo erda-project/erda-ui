@@ -75,7 +75,7 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id }) => {
           <span>
             <span>{i18n.t('dop:Please contact the project administrator, go to')}</span> &nbsp;
             <span
-              className="text-purple-deep cursor-pointer"
+              className="text-blue-deep cursor-pointer"
               onClick={() => {
                 goTo(goTo.pages.projectSetting, { jumpOut: true, query: { tabKey: 'workflow' } });
               }}

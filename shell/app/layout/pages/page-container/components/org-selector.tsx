@@ -13,6 +13,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { DropdownSelectNew } from 'common';
+
 import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
@@ -23,9 +24,12 @@ interface IProps {
   mode?: 'simple' | 'normal';
   size?: Size;
   optionSize?: Size;
+  noIcon?: boolean;
+  align?: { offset?: [number, number] };
+  trigger?: Array<'click' | 'hover' | 'contextMenu'>;
 }
 const OrgSelector = (props: IProps) => {
-  const { mode, size, optionSize } = props;
+  const { mode, size, optionSize, ...rest } = props;
   // const { getPublicOrgs } = orgStore.effects;
   const orgName = routeInfoStore.useStore((s) => s.params.orgName);
   const orgs = orgStore.useStore((s) => s.orgs);
@@ -67,6 +71,7 @@ const OrgSelector = (props: IProps) => {
 
   return (
     <DropdownSelectNew
+      {...rest}
       title={i18n.t('dop:Switch organization')}
       value={orgName}
       options={options}

@@ -34,7 +34,7 @@ interface IProps extends MenuProps {
   openKeys: string[];
   selectedKey: string;
   dataSource: IMenu[];
-  isFloat: boolean;
+  isFloat?: boolean;
   extraNode: () => React.ReactElement;
   linkRender: (child: React.ReactNode, item: IMenu) => React.ReactNode;
 }

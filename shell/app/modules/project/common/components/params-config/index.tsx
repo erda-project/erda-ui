@@ -517,7 +517,7 @@ const TextConfig = (props: ITextProps) => {
             key={item.key}
             className={`p-1 h-[24px] rounded-sm cursor-pointer  ${idx === 0 ? 'rounded-l-sm' : ''} ${
               idx === typeList.length - 1 ? 'rounded-r-sm' : ''
-            } ${editType === item.key ? 'bg-purple-deep text-white' : 'bg-default-1'}`}
+            } ${editType === item.key ? 'bg-blue-deep text-white' : 'bg-default-1'}`}
             onClick={() => toggleEditType(item.key)}
           >
             <Tooltip title={item.tip}>

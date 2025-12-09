@@ -89,8 +89,8 @@ const TabItem = ({
                   onClick={() => {
                     onSelect(g.key, key);
                   }}
-                  className={`cursor-pointer p-1 hover:bg-default-06 hover:text-purple-deep ${
-                    value === g.key ? 'text-purple-deep bg-default-06' : ''
+                  className={`cursor-pointer p-1 hover:bg-default-06 hover:text-blue-deep ${
+                    value === g.key ? 'text-blue-deep bg-default-06' : ''
                   }`}
                 >
                   {g.text}
@@ -111,7 +111,7 @@ const TabItem = ({
         onClick={() => {
           isSelectedChildren && onSelect(item.key, item.key);
         }}
-        className={`${isSelectedChildren ? 'text-purple-deep hover:underline' : ''}`}
+        className={`${isSelectedChildren ? 'text-blue-deep hover:underline' : ''}`}
       >
         {item.text}
       </span>

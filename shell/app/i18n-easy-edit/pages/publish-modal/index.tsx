@@ -59,13 +59,13 @@ const PublishModal = (props: IProps) => {
       >
         <p>
           Step1: Download the JSON file.&nbsp;&nbsp;
-          <Button type="default" size="small" className="text-purple-deep" onClick={downloadHandler}>
+          <Button type="default" size="small" className="text-blue-deep" onClick={downloadHandler}>
             Download
           </Button>
         </p>
         <p>
           Step2: Go to the collaboration link.&nbsp;&nbsp;
-          <Button type="default" size="small" className="text-purple-deep">
+          <Button type="default" size="small" className="text-blue-deep">
             <a href="https://erda.cloud/erda/dop/projects/387/issues/all" target="_blank">
               Go to Link
             </a>

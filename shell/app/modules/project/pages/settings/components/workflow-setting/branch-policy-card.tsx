@@ -138,9 +138,7 @@ const BranchPolicyItem = ({
               <div>
                 <span
                   className={`px-2 py-1 rounded  mr-2  ${
-                    saveable
-                      ? 'cursor-pointer text-purple-deep hover:bg-purple-light'
-                      : 'cursor-not-allowed text-default-6'
+                    saveable ? 'cursor-pointer text-blue-deep hover:bg-blue-light' : 'cursor-not-allowed text-default-6'
                   }`}
                   onClick={() => saveable && onSave?.(data)}
                 >
@@ -236,7 +234,7 @@ const BranchPolicyItem = ({
                       setDataValue(d);
                       onEdit?.();
                     }}
-                    className="text-purple-deep cursor-pointer"
+                    className="text-blue-deep cursor-pointer"
                   >
                     {i18n.t('dop:Click to add a branch policy')}
                   </span>
@@ -523,7 +521,7 @@ const TargetBranchCard = (props: CardProps) => {
             setPick('', pickBranchArr.length);
           }}
         >
-          <ErdaIcon type="plus" size={18} className="text-purple-deep" />
+          <ErdaIcon type="plus" size={18} className="text-blue-deep" />
         </div>
       ) : null}
     </div>

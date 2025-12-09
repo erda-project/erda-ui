@@ -57,7 +57,7 @@ const AppPipeline = () => {
               onClick={() => {
                 goTo('../obsoleted');
               }}
-              className="text-purple-deep cursor-pointer"
+              className="text-blue-deep cursor-pointer"
             >
               {i18n.t('dop:Switch to old version')}
             </span>

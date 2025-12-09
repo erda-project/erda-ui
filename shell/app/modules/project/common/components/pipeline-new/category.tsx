@@ -103,7 +103,7 @@ const Category = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () =>
                 <div
                   key={item.key}
                   className={`pipeline-category-item px-4 py-2 cursor-pointer rounded-sm flex flex-col ${
-                    chosenCategory.key === item.key ? 'text-purple-deep active' : 'hover:bg-white'
+                    chosenCategory.key === item.key ? 'text-blue-deep active' : 'hover:bg-white'
                   }`}
                   onClick={() => {
                     if (item.key !== chosenCategory.key) {

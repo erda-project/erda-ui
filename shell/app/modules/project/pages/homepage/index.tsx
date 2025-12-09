@@ -229,7 +229,7 @@ export const ProjectHomepage = () => {
                         {i18n.t('dop:Briefly describe your project. Please go to')}
                         <span
                           onClick={() => goTo(goTo.pages.projectSetting, { projectId })}
-                          className="text-purple-deep mx-1 cursor-pointer"
+                          className="text-blue-deep mx-1 cursor-pointer"
                         >
                           {i18n.t('Settings-project')}
                         </span>

@@ -93,8 +93,8 @@ const PipelineCard = (props: CardProps) => {
             });
           }}
         >
-          <ErdaIcon type="liushuixian-5i55l85f" className="mr-1 text-default-4 group-hover:text-purple-deep" />
-          <Ellipsis className="text-default-8 group-hover:text-purple-deep" title={pipelineName} />
+          <ErdaIcon type="liushuixian-5i55l85f" className="mr-1 text-default-4 group-hover:text-blue-deep" />
+          <Ellipsis className="text-default-8 group-hover:text-blue-deep" title={pipelineName} />
         </div>
         <div className="text-xs mt-2 text-default-8">
           <span>{i18n.t('dop:The pipeline is not configured with triggers yet.')}</span>
@@ -108,7 +108,7 @@ const PipelineCard = (props: CardProps) => {
               </div>
             }
           >
-            <span className="text-purple-deep cursor-pointer">{i18n.t('dop:How to configure?')}</span>
+            <span className="text-blue-deep cursor-pointer">{i18n.t('dop:How to configure?')}</span>
           </Popover>
         </div>
       </>
@@ -127,8 +127,8 @@ const PipelineCard = (props: CardProps) => {
             });
           }}
         >
-          <ErdaIcon type="liushuixian-5i55l85f" className="mr-1 text-default-4 group-hover:text-purple-deep" />
-          <Ellipsis className="text-default-8 group-hover:text-purple-deep" title={pipeline.ymlName} />
+          <ErdaIcon type="liushuixian-5i55l85f" className="mr-1 text-default-4 group-hover:text-blue-deep" />
+          <Ellipsis className="text-default-8 group-hover:text-blue-deep" title={pipeline.ymlName} />
         </div>
         <div>
           <Badge status={status} text={text} onlyText size={'small'} />

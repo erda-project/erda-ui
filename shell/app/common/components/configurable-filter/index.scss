@@ -55,7 +55,7 @@
     }
 
     .ant-select-item-option-state {
-      color: $color-purple-deep;
+      color: $color-blue-deep;
     }
 
     .rc-virtual-list-holder {
@@ -138,7 +138,7 @@
         right: 0;
         top: -1rem;
         width: auto;
-        color: $color-purple-highlight;
+        color: $color-blue-highlight;
         background-color: transparent;
       }
 
@@ -149,7 +149,7 @@
       }
 
       .anticon-check {
-        color: $color-purple-highlight;
+        color: $color-blue-highlight;
       }
 
       .ant-select-item-option-grouped {
@@ -168,7 +168,7 @@
 
     .ant-select-open {
       .ant-select-selector {
-        border: 1px solid $color-purple-highlight !important;
+        border: 1px solid $color-blue-highlight !important;
       }
 
       .ant-select-arrow {
@@ -197,11 +197,11 @@
       background-color: $color-default-06 !important;
 
       &.erda-form-date-range-open {
-        border: 1px solid $color-purple-highlight !important;
+        border: 1px solid $color-blue-highlight !important;
       }
 
       .erda-form-date-range-clear {
-        color: $color-purple-highlight;
+        color: $color-blue-highlight;
       }
 
       &:hover {
@@ -237,7 +237,7 @@
       }
 
       &:focus {
-        border: 1px solid $color-purple-highlight;
+        border: 1px solid $color-blue-highlight;
       }
     }
   }

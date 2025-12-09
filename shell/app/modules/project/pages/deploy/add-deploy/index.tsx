@@ -89,7 +89,7 @@ const AddDeploy = ({
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-purple-deep jump-out-link"
+            className="hover:text-blue-deep jump-out-link"
             onClick={() => {
               if (value.type === 'application') {
                 goTo(goTo.pages.applicationReleaseDetail, { projectId, releaseId: value.id, jumpOut: true });
@@ -206,7 +206,7 @@ const AddDeploy = ({
                             </div>
                           }
                         >
-                          <span className="hover:text-purple-deep">{i18n.t('dop:check failed reason')}</span>
+                          <span className="hover:text-blue-deep">{i18n.t('dop:check failed reason')}</span>
                         </Tooltip>
                       ) : (
                         '-'

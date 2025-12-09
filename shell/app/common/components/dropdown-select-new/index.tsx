@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Dropdown, Menu, Input } from 'antd';
+import { Dropdown, Menu, Input, DropDownProps } from 'antd';
 import { ErdaIcon, Ellipsis } from 'common';
 import React from 'react';
 import { map } from 'lodash';
@@ -34,9 +34,12 @@ export interface DropdownSelectNewProps {
   width?: number;
   value?: string;
   disabled?: boolean;
+  forceValue?: boolean;
   onChange?: (val: string, option: Option) => void;
   onClickItem?: (val: string, option: Option) => void;
   children?: React.ReactElement;
+  noIcon?: boolean;
+  align?: DropDownProps['align'];
 }
 
 interface Option {
@@ -58,10 +61,12 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
     optionSize = 'middle',
     size = 'middle',
     mode = 'normal',
+    noIcon = false,
     required,
     className = '',
     overlayClassName = '',
     value: pValue,
+    forceValue = false,
     width,
     disabled,
     children,
@@ -69,6 +74,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
     onClickItem: pClickItem,
     ...restProps
   } = props;
+
   const [filterValue, setFilterValue] = React.useState('');
   const [active, setActive] = React.useState(false);
   const [value, setValue] = React.useState(pValue);
@@ -98,7 +104,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
     if (option.key === value && required) return;
     const curValue = option.key === value ? '' : option.key;
     if (onChange) {
-      setValue(curValue);
+      !forceValue && setValue(curValue);
       onChange(curValue, option);
     }
   };
@@ -127,7 +133,15 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
           const isGroup = item.children?.length;
 
           if (isGroup) {
-            return <GroupOpt onClickItem={onClickItem} key={item.key} value={value} option={item} size={optionSize} />;
+            return (
+              <GroupOpt
+                onClickItem={onClickItem}
+                key={item.key}
+                value={value as string}
+                option={item}
+                size={optionSize}
+              />
+            );
           } else {
             return (
               <Item
@@ -150,13 +164,20 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
     .filter((opt) => String(opt.key).toLowerCase().includes(filterValue));
 
   const chosenItem = allOption?.find((item) => item.key === value);
+
   return (
     <Dropdown
       overlayClassName={overlayClassName}
       className="erda-dropdown-select"
       overlay={overlay}
       visible={active}
+      placement="bottomRight"
       trigger={trigger || ['click']}
+      onVisibleChange={(v) => {
+        if (trigger?.includes('hover')) {
+          setActive(v);
+        }
+      }}
       {...restProps}
     >
       <div
@@ -177,7 +198,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
                 className={`p-0 selected-item ${className}`}
                 switcher={
                   <span
-                    className="whitespace-nowrap rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1 hover:bg-purple-deep hover:text-white"
+                    className="whitespace-nowrap rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1 hover:bg-blue-deep hover:text-white"
                     onClick={() => !disabled && setActive(!active)}
                   >
                     {i18n.t('common:Switch')}
@@ -187,7 +208,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
             ) : (
               <div onClick={() => !disabled && setActive(!active)}>{i18n.t('Please Select')}</div>
             )}
-            {mode === 'simple' ? <ErdaIcon type="caret-down" className="icon" size="14" /> : null}
+            {mode === 'simple' ? noIcon ? null : <ErdaIcon type="caret-down" className="icon" size="14" /> : null}
           </>
         )}
       </div>
@@ -227,14 +248,16 @@ const Item = (props: ItemProps) => {
         {onlyIcon ? null : (
           <div className="flex-1 overflow-hidden">
             <div className="flex items-center">
-              <Ellipsis className="option-label" title={label} />
+              <Ellipsis className={`option-label ${value === key ? 'text-blue-deep' : ''}`} title={label} />
               {switcher}
             </div>
             {desc ? <div className="option-desc truncate ">{desc}</div> : null}
           </div>
         )}
       </div>
-      <span className="flex">{value === key ? <ErdaIcon type="check" className="ml-2 text-purple-deep" /> : null}</span>
+      <span className="flex">
+        {value === key ? <ErdaIcon type="check" className="ml-2 option-check-icon" /> : null}
+      </span>
     </div>
   );
 };

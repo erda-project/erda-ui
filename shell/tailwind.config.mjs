@@ -137,6 +137,9 @@ export default {
           'align-items': 'center',
           'justify-content': 'center',
         },
+        '.text-blue-deep': {
+          color: '#0073ff',
+        },
       };
       const contentUtilities = {
         '.required': {

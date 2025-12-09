@@ -290,7 +290,7 @@ const Import = (props: ImportProps) => {
           </Upload>
         </div>
         <div className="flex mt-2">
-          <span onClick={() => window.open(templateUrl)} className="text-purple-deep cursor-pointer">
+          <span onClick={() => window.open(templateUrl)} className="text-blue-deep cursor-pointer">
             {i18n.t('dop:download the template')}
           </span>
         </div>

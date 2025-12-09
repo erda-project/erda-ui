@@ -94,7 +94,7 @@ const MergeCard = (props: CardProps) => {
                 });
               }}
               className={`px-3 rounded ${
-                isJoinTempBranch ? 'cursor-pointer bg-purple-deep text-white' : 'bg-default-08 text-default-4'
+                isJoinTempBranch ? 'cursor-pointer bg-blue-deep text-white' : 'bg-default-08 text-default-4'
               }`}
             >
               {i18n.t('dop:Revoke temporary merge')}
@@ -106,7 +106,7 @@ const MergeCard = (props: CardProps) => {
             <div className="flex-h-center mb-2 text-xs">
               <Branch appId={appID} projectId={projectID} branch={tempBranch} className="overflow-hidden" />
               <Popover content={ChangeList}>
-                <span className="text-purple-deep cursor-pointer ml-2 whitespace-nowrap">
+                <span className="text-blue-deep cursor-pointer ml-2 whitespace-nowrap">
                   {i18n.t('dop:More merger information')}
                 </span>
               </Popover>
@@ -134,7 +134,7 @@ const MergeCard = (props: CardProps) => {
             <span>{i18n.t('dop:The temporary merge function is not currently enabled, please go to')}</span>
             &nbsp;
             <span
-              className="text-purple-deep cursor-pointer"
+              className="text-blue-deep cursor-pointer"
               onClick={() => {
                 goTo(goTo.pages.projectSetting, {
                   jumpOut: true,

@@ -304,7 +304,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
       {showSelfChosen ? (
         <a
           onClick={() => !rest.disabled && selectSelfOp()}
-          className={`${rest.disabled ? 'not-allowed' : 'text-purple-deep cursor-pointer'} ml-2`}
+          className={`${rest.disabled ? 'not-allowed' : 'text-blue-deep cursor-pointer'} ml-2`}
         >
           {i18n.t('Choose yourself')}
         </a>
