@@ -21,6 +21,7 @@ import fdpIcon from 'app/images/icons/FDP.svg';
 import trantorIcon from 'app/images/icons/Trantor.svg';
 import './platform-selector.scss';
 
+// 平台选择器
 export const PlatformSelector = () => {
   const options = [
     ...(erdaEnv.TRANTOR_URL

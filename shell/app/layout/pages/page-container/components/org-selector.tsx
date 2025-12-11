@@ -33,6 +33,7 @@ const OrgSelector = (props: IProps) => {
   // const { getPublicOrgs } = orgStore.effects;
   const orgName = routeInfoStore.useStore((s) => s.params.orgName);
   const orgs = orgStore.useStore((s) => s.orgs);
+
   // useMount(() => {
   //   getPublicOrgs();
   // });
