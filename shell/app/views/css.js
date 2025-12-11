@@ -17,7 +17,7 @@ body{margin:0;font-family:"Roboto-Regular";background-color:#F0F1F3;}
 #erda-skeleton{position:fixed;top:0;left:0;z-index:999;display:flex;width:100%;height:100%;pointer-events:none}
 .skeleton-nav{display:flex;align-items:center;justify-content:space-between;flex-direction:column;background-color:#fcfcfc;width:56px;height:100%;margin-right:16px}
 .skeleton-sidebar-item{width:24px;height:24px;border-radius:100%;margin:10px auto;margin-bottom:20px}
-.skeleton-sidebar-info{display:flex;margin:36px 0 0;padding:12px;background-color:rgba(48,38,71,0.03)}
+.skeleton-sidebar-info{display:flex;margin:36px 0 0;padding:12px;background-color:rgba(5,18,51,0.03)}
 .skeleton-body{position:relative;display:flex;flex:1;flex-direction:column;overflow:hidden}
 .skeleton-logo{display:inline-block;width:36px;height:36px;border-radius:100%}
 .skeleton-line{height:20px;margin-top:6px;margin-bottom:12px}

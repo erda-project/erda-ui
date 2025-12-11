@@ -166,7 +166,7 @@ const Navigation = () => {
         </div>
       </div>
       <div className="split-line" />
-      <div className="py-2 relative h-14 w-full flex flex-all-center">
+      <div className="py-2 relative h-12 w-full flex flex-all-center">
         <OrgSelector mode="simple" size="middle" trigger={['hover']} noIcon align={{ offset: [-40, -30] }} />
       </div>
       <div className="split-line" />

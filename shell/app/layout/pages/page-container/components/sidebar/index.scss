@@ -39,7 +39,7 @@
 .erda-sidebar-trigger {
   position: relative;
   padding-left: 16px;
-  // margin-right: 12px;
+  margin-right: 16px;
   flex-shrink: 0;
   background-color: $white;
 
@@ -89,7 +89,7 @@
       background: $color-bg;
       padding: 16px;
       height: 100vh;
-      box-shadow: 0 2px 24px 0 rgba(48, 38, 71, 0.32);
+      box-shadow: 0 2px 24px 0 rgba(5, 18, 51, 0.32);
       transition: transform 0.3s ease-in-out 0.2s;
     }
     // .hover-show {

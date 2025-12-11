@@ -20,6 +20,7 @@ import { useEffectOnce } from 'react-use';
 import Chat from './chat';
 import FunctionalTestCases from './functional-test-cases';
 import KnowledgeBase from './knowledge-base';
+import AIIcon from 'app/images/AI.png';
 
 import './index.scss';
 
@@ -59,11 +60,12 @@ const ChatGPT = () => {
     <>
       <div
         ref={divRef}
-        className="fixed right-[8px] shadow-card p-2 rounded-[10px] bg-white cursor-pointer w-[40px] text-center z-[2050]"
+        className="fixed right-[8px] shadow-card rounded-[10px] cursor-pointer w-[48px] text-center z-[2050]"
         onClick={() => setVisible(true)}
         style={{ bottom }}
       >
-        <CustomIcon type="ai" className="text-xl mr-0" />
+        <img src={AIIcon} className={'w-12 h-12'} />
+        {/* <CustomIcon type="ai" className="text-xl mr-0" /> */}
       </div>
       <Modal
         title={

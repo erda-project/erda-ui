@@ -42,7 +42,11 @@ const ScaleCard = (props: CP_SCALE_CARD.Props) => {
             }}
           >
             <div className="icon-wrap">
-              {typeof item.icon === 'string' ? (
+              {item.iconImg ? (
+                <>
+                  <img src={item.iconImg} className="w-6 h-6" />{' '}
+                </>
+              ) : typeof item.icon === 'string' ? (
                 <>
                   <ErdaIcon className="icon active-icon" type={item.icon} size={20} />
                   <ErdaIcon className="icon normal-icon" type={`${item.icon}-normal`} size={20} />{' '}
