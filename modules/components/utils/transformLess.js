@@ -29,7 +29,7 @@ function transformLess(lessContent, lessFilePath, config = {}) {
     filename: resolvedLessFile,
     plugins: [new NpmImportPlugin({ prefix: '~' })],
     javascriptEnabled: true,
-    modifyVars: { 'root-entry-name': 'default', '@primary-color': '#302647' },
+    modifyVars: { 'root-entry-name': 'default', '@primary-color': '#051233' },
     ...lessConfig,
   };
   return less

@@ -186,7 +186,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
         <If condition={!!operationBtns?.length}>
           <div
             className={`${btnCls} w-full left-0 bottom-0 pl-4 py-3 space-x-3`}
-            style={{ borderTop: '1px solid rgba(48, 38, 71, 0.2)' }}
+            style={{ borderTop: '1px solid rgba(5, 18, 51, 0.2)' }}
           >
             {map(operationBtns, (operationBtn, i) => {
               const { text, type, size, className: btnItemCls = '', onClick } = operationBtn;

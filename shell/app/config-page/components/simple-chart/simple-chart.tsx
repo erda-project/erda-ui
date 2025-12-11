@@ -35,7 +35,7 @@ const getOption = (chart?: CP_SIMPLE_CHART.IData['chart']) => {
     },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(48,38,71,0.96)',
+      backgroundColor: 'rgba(5,18,51,0.96)',
       borderWidth: 0,
       padding: [8, 16],
       formatter: (params: Obj[]) => {
@@ -56,7 +56,7 @@ const getOption = (chart?: CP_SIMPLE_CHART.IData['chart']) => {
         },
         lineStyle: {
           type: 'dashed',
-          color: 'rgba(48,38,71,0.40)',
+          color: 'rgba(5,18,51,0.40)',
         },
       },
     },

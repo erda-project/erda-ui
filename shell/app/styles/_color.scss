@@ -1,14 +1,14 @@
 // Color palette
-$red: #d84b65 !default;
-$blue: #1890ff !default;
+$red: #fa5446 !default;
+$blue: #2496ff !default;
 $darkblue: #070a1a !default;
-$green: #27c99a !default;
+$green: #0dd475 !default;
 $palegreen: #8db36c !default;
 $darkcyan: #498e9e !default;
 $orange: #f47201 !default;
 $cyan: rgba(91, 214, 208, 1) !default;
 $purple: #6a549e !default;
-$yellow: #f4b518 !default;
+$yellow: #ff912c !default;
 $black: #000000 !default;
 $navy: #333333 !default;
 $gray: #666666 !default;
@@ -45,10 +45,10 @@ $color-white-04: rgba(255, 255, 255, 0.04) !default;
 $color-white-02: rgba(255, 255, 255, 0.02) !default;
 
 // Color primary
-$color-primary: #302647 !default;
+$color-primary: #051233 !default;
 $color-primary-light: #0c0b14 !default;
 
-$color-default: #302647; // rgba(48,38,71,1);
+$color-default: #051233; // rgba(48,38,71,1);
 $color-default-8: rgba($color-default, 0.8);
 $color-default-6: rgba($color-default, 0.6);
 $color-default-4: rgba($color-default, 0.4);
@@ -132,14 +132,14 @@ $color-text-holder: $color-default-2 !default;
 $color-border: $color-default-08 !default;
 
 //Color Tree background-color
-$color-tree-bg: #d7d1de !default;
+$color-tree-bg: #f7f7f8 !default;
 $color-tree-bg-active: #f5f4fd !default;
 
 //Color List background-color
 $color-list-bg-active: #f6f5f9 !default;
 
 // Color decorator
-$color-hover: #f2f1fc;
+$color-hover: #ebf4ff;
 $color-bg: #f0f1f3;
 $color-shadow: #9998b1 !default;
 $color-code-bg: rgba($black, 0.02);

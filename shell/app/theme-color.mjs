@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const colors = {
-  primary: 'rgba(5, 18, 51, 1)', // #302647
+  primary: 'rgba(5, 18, 51, 1)', // #051233
   normal: 'rgba(5, 18, 51, .8)',
   sub: 'rgba(5, 18, 51, .6)',
   desc: 'rgba(5, 18, 51, .4)',
@@ -20,10 +20,10 @@ const colors = {
   disabled: 'rgba(5, 18, 51, .3)',
   holder: 'rgba(5, 18, 51, .2)',
 
-  red: '#d84b65',
+  red: '#FA5446',
   'red-1': 'rgba(216,75,101,0.1)',
   danger: 'rgba(216,75,101,1)',
-  error: 'rgba(216,75,101,1)',
+  error: 'rgb(108, 67, 74)',
   blue: 'rgba(24,144,255,1)',
   'blue-1': 'rgba(24,144,255,0.1)',
   info: 'rgba(24,144,255,1)',
@@ -74,7 +74,7 @@ const colors = {
   'log-bg': '#3c444f',
   'light-border': 'rgba(222,222,222,0.5)', // 标准化后的颜色
 
-  default: '#302647',
+  default: '#051233',
   'default-1': 'rgba(5, 18, 51, 0.1)',
   'default-2': 'rgba(5, 18, 51, 0.2)',
   'default-3': 'rgba(5, 18, 51, 0.3)',
@@ -94,7 +94,7 @@ const colors = {
   'purple-light': '#F9F0FF',
 
   'blue-dark': '#003A8C',
-  'blue-deep': '#1890FF',
+  'blue-deep': '#2496FF',
   'blue-mid': '#81D5FF',
   'blue-light': '#E6F7FF',
 
@@ -146,9 +146,9 @@ const themeColor = colors.primary;
 export const getLessTheme = () => {
   return {
     '@primary-color': themeColor,
-    '@success-color': '#27c99a',
-    '@error-color': '#d84b65',
-    '@warning-color': '#f4b518',
+    '@success-color': '#0DD475',
+    '@error-color': '#FA5446',
+    '@warning-color': '#FF912C',
     '@link-color': themeColor,
     '@progress-remaining-color': '#E1E7FF',
     '@font-size-base': '14px',
@@ -158,9 +158,9 @@ export const getLessTheme = () => {
     '@border-radius-base': '2px;',
     '@font-family':
       '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
-    '@outline-color': '#1890FF',
+    '@outline-color': '#2496FF',
     '@select-item-selected-bg': '#f7f7f8',
-    '@select-item-selected-color': 'red',
+    '@select-item-selected-color': '#0073FF',
   };
 };
 

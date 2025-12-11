@@ -28,12 +28,12 @@
   // }
   .ant-tree-node-content-wrapper:hover {
     &:before {
-      background-color: #d7d1de;
+      background-color: #f7f7f8;
     }
 
     .case-tree-op,
     .ant-tree-title {
-      background-color: #d7d1de;
+      background-color: #f7f7f8;
       transition: background-color 0.3s;
     }
   }

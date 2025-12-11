@@ -52,7 +52,7 @@ const defaultSeriesConfig = (color?: string) => ({
 });
 
 const option = {
-  backgroundColor: 'rgba(48, 38, 71, 0.01)',
+  backgroundColor: 'rgba(5, 18, 51, 0.01)',
   xAxis: {
     show: false,
   },
