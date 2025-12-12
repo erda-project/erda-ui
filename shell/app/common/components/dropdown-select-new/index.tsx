@@ -172,7 +172,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
       overlay={overlay}
       visible={active}
       placement="bottomRight"
-      trigger={['click']}
+      trigger={trigger || ['click']}
       onVisibleChange={(v) => {
         if (trigger?.includes('hover')) {
           setActive(v);
