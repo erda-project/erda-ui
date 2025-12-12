@@ -42,9 +42,9 @@
 .erda-dropdown-select-option-item {
   padding: 8px 8px;
 
-  // &:hover {
-  //   background-color: rgba($white, 0.08);
-  // }
+  &:hover {
+    background-color: rgba($white, 0.08);
+  }
 
   .option-label {
     font-weight: bold;
