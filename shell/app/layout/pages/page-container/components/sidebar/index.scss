@@ -38,8 +38,8 @@
 
 .erda-sidebar-trigger {
   position: relative;
-  padding-left: 16px;
-  margin-right: 16px;
+  padding-left: 12px;
+  margin-right: 12px;
   flex-shrink: 0;
   background-color: $white;
 
@@ -119,7 +119,7 @@ div.side-nav-menu {
   top: 12px;
   height: calc(100% - 16px);
   width: 184px;
-  margin-right: 16px;
+  margin-right: 12px;
   user-select: none;
 
   .ant-menu {
