@@ -125,6 +125,8 @@ const Navigation = () => {
     },
   ];
 
+  const isPersonalWorkbench = currentPath === '/:orgName';
+
   return (
     <div className={`erda-global-nav flex flex-col items-center relative`}>
       <div className={'mt-1 h-12 w-full flex flex-all-center'}>
@@ -141,7 +143,7 @@ const Navigation = () => {
         <Tooltip title={i18n.t('Personal workbench')} placement={'right'} align={{ offset: [2, 0] }}>
           <div
             className={`w-9 h-9 flex-all-center cursor-pointer rounded-[4px] erda-logo-container ${
-              currentPath === '/:orgName' ? 'active' : ''
+              isPersonalWorkbench ? 'active' : ''
             }`}
           >
             {process.env.FOR_COMMUNITY ? (
@@ -185,7 +187,7 @@ const Navigation = () => {
           <NavItem
             key={item.key}
             label={item.name}
-            isActive={currentApp.key === item.key}
+            isActive={isPersonalWorkbench ? false : currentApp.key === item.key}
             link={item.href}
             onClick={() => {
               layoutStore.reducers.switchMessageCenter(false);
