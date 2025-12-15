@@ -79,12 +79,14 @@ export const NavItem = ({ icon, label, link, onClick, isActive, onHover }: NavIt
 
 const Navigation = () => {
   const currentApp = layoutStore.useStore((s) => s.currentApp);
+
   const { switchMessageCenter } = layoutStore.reducers;
   const unreadCount = messageStore.useStore((s) => s.unreadCount);
   const current = window.localStorage.getItem('locale') || 'zh';
   const [currentOrg, orgs] = orgStore.useStore((s) => [s.currentOrg, s.orgs]);
   const platformEntries = usePlatformEntries();
   const isIn = routeStore.getState((s) => s.isIn);
+  const currentPath = routeStore.getState((s) => s.currentRoute.path);
   const isAdminRoute = isIn('sysAdmin');
   const curOrgName = currentOrg.name;
   const bottomItems = [
@@ -136,38 +138,46 @@ const Navigation = () => {
           process.env.FOR_COMMUNITY ? '' : 'cursor-pointer'
         }`}
       >
-        <div className={'w-9 h-9 flex-all-center cursor-pointer rounded-[4px] erda-logo-container'}>
-          {process.env.FOR_COMMUNITY ? (
-            <img src={homepageIcon} alt="home page icon" className="w-6 h-6" />
-          ) : (
-            <img
-              src={homepageIcon}
-              alt="home page icon"
-              className="w-6 h-6"
-              onClick={() => {
-                layoutStore.reducers.switchMessageCenter(false);
-                const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
-                if (isAdminRoute) {
-                  const lastOrg = window.localStorage.getItem('lastOrg');
-                  const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
-                  if (isInLastOrg) {
-                    goTo(goTo.pages.orgRoot, { orgName: lastOrg });
+        <Tooltip title={i18n.t('Personal workbench')} placement={'right'} align={{ offset: [2, 0] }}>
+          <div
+            className={`w-9 h-9 flex-all-center cursor-pointer rounded-[4px] erda-logo-container ${
+              currentPath === '/:orgName' ? 'active' : ''
+            }`}
+          >
+            {process.env.FOR_COMMUNITY ? (
+              <img src={homepageIcon} alt="home page icon" className="w-6 h-6" />
+            ) : (
+              <img
+                src={homepageIcon}
+                alt="home page icon"
+                className="w-6 h-6"
+                onClick={() => {
+                  layoutStore.reducers.switchMessageCenter(false);
+                  const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
+                  if (isAdminRoute) {
+                    const lastOrg = window.localStorage.getItem('lastOrg');
+                    const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
+                    if (isInLastOrg) {
+                      goTo(goTo.pages.orgRoot, { orgName: lastOrg });
+                    } else {
+                      goTo(goTo.pages.landPage);
+                    }
+                  } else if (isIncludeOrg) {
+                    goTo(goTo.pages.orgRoot);
                   } else {
                     goTo(goTo.pages.landPage);
                   }
-                } else if (isIncludeOrg) {
-                  goTo(goTo.pages.orgRoot);
-                } else {
-                  goTo(goTo.pages.landPage);
-                }
-              }}
-            />
-          )}
-        </div>
+                }}
+              />
+            )}
+          </div>
+        </Tooltip>
       </div>
       <div className="split-line" />
       <div className="py-2 relative h-12 w-full flex flex-all-center">
-        <OrgSelector mode="simple" size="middle" trigger={['hover']} noIcon align={{ offset: [-40, -30] }} />
+        <div className="w-9 h-9 erda-logo-container rounded-[4px] flex flex-all-center">
+          <OrgSelector mode="simple" size="middle" trigger={['hover']} noIcon align={{ offset: [-40, -30] }} />
+        </div>
       </div>
       <div className="split-line" />
       {platformEntries.map((item) => {
