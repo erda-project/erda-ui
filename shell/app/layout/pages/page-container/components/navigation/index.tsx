@@ -138,38 +138,40 @@ const Navigation = () => {
           process.env.FOR_COMMUNITY ? '' : 'cursor-pointer'
         }`}
       >
-        <div
-          className={`w-9 h-9 flex-all-center cursor-pointer rounded-[4px] erda-logo-container ${
-            currentPath === '/:orgName' ? 'active' : ''
-          }`}
-        >
-          {process.env.FOR_COMMUNITY ? (
-            <img src={homepageIcon} alt="home page icon" className="w-6 h-6" />
-          ) : (
-            <img
-              src={homepageIcon}
-              alt="home page icon"
-              className="w-6 h-6"
-              onClick={() => {
-                layoutStore.reducers.switchMessageCenter(false);
-                const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
-                if (isAdminRoute) {
-                  const lastOrg = window.localStorage.getItem('lastOrg');
-                  const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
-                  if (isInLastOrg) {
-                    goTo(goTo.pages.orgRoot, { orgName: lastOrg });
+        <Tooltip title={i18n.t('Personal workbench')} placement={'right'} align={{ offset: [2, 0] }}>
+          <div
+            className={`w-9 h-9 flex-all-center cursor-pointer rounded-[4px] erda-logo-container ${
+              currentPath === '/:orgName' ? 'active' : ''
+            }`}
+          >
+            {process.env.FOR_COMMUNITY ? (
+              <img src={homepageIcon} alt="home page icon" className="w-6 h-6" />
+            ) : (
+              <img
+                src={homepageIcon}
+                alt="home page icon"
+                className="w-6 h-6"
+                onClick={() => {
+                  layoutStore.reducers.switchMessageCenter(false);
+                  const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
+                  if (isAdminRoute) {
+                    const lastOrg = window.localStorage.getItem('lastOrg');
+                    const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
+                    if (isInLastOrg) {
+                      goTo(goTo.pages.orgRoot, { orgName: lastOrg });
+                    } else {
+                      goTo(goTo.pages.landPage);
+                    }
+                  } else if (isIncludeOrg) {
+                    goTo(goTo.pages.orgRoot);
                   } else {
                     goTo(goTo.pages.landPage);
                   }
-                } else if (isIncludeOrg) {
-                  goTo(goTo.pages.orgRoot);
-                } else {
-                  goTo(goTo.pages.landPage);
-                }
-              }}
-            />
-          )}
-        </div>
+                }}
+              />
+            )}
+          </div>
+        </Tooltip>
       </div>
       <div className="split-line" />
       <div className="py-2 relative h-12 w-full flex flex-all-center">
