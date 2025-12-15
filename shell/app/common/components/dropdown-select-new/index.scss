@@ -46,6 +46,10 @@
     background-color: rgba($white, 0.08);
   }
 
+  &.selected-item {
+    background-color: unset;
+  }
+
   .option-label {
     font-weight: bold;
     color: $white;
