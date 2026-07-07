@@ -2657,6 +2657,7 @@
     "selector": "selector",
     "server response": "server response",
     "service API prefix": "service API prefix",
+    "forward rule preview": "forward rule preview",
     "set datum point": "set datum point",
     "set to benchmark log": "set to benchmark log",
     "skip authentication": "skip authentication",
