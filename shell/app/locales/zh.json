@@ -2657,6 +2657,7 @@
     "selector": "选择器",
     "server response": "服务器响应",
     "service API prefix": "服务 API 前缀",
+    "forward rule preview": "转发规则预览",
     "set datum point": "设置基准点",
     "set to benchmark log": "设置为基准日志",
     "skip authentication": "跳过鉴权",
