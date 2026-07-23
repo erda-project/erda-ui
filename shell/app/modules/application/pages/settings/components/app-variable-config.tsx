@@ -60,6 +60,14 @@ const configTypeMap = {
   deploy: 'DeployConfig',
 };
 
+const convertExportConfigs = (configs: PIPELINE_CONFIG.ConfigItem[] = []) =>
+  configs
+    .filter(({ encrypt }) => !encrypt)
+    .map(({ key, value }) => ({
+      key,
+      value,
+    }));
+
 interface IProps {
   envToNs: Obj<string>;
   configs: PIPELINE_CONFIG.ConfigItemMap;
@@ -370,7 +378,7 @@ const VariableConfig = ({
                 <Button type="primary" className="mb-3" ghost onClick={() => openModal(null, env)}>
                   {i18n.t('dop:Add Variable')}
                 </Button>
-                {configType === configTypeMap.deploy && (
+                {importConfig && exportConfig && (
                   <>
                     <Button
                       type="primary"
@@ -509,6 +517,23 @@ export const PipelineConfig = () => {
       addConfig={configStore.addConfigs}
       updateConfig={configStore.updateConfigs}
       deleteConfig={configStore.removeConfigWithoutDeploy}
+      importConfig={({ query, configs }) => {
+        const encryptedKeys = new Set(
+          fullConfigs[query.namespace_name]?.filter(({ encrypt }) => encrypt).map(({ key }) => key),
+        );
+        return configStore.updateConfigs({
+          query: { ...query, encrypt: false },
+          configs: JSON.parse(configs)
+            .filter(({ key }: PIPELINE_CONFIG.ConfigItem) => !encryptedKeys.has(key))
+            .map((item: PIPELINE_CONFIG.ConfigItem) => ({
+              ...item,
+              encrypt: false,
+              type: item.type || typeMap.kv,
+            })),
+          batch: true,
+        });
+      }}
+      exportConfig={({ namespace_name }) => Promise.resolve(convertExportConfigs(fullConfigs[namespace_name]))}
       uploadTip={i18n.t('dop:upload-file-tip')}
     />
   );
