@@ -26,6 +26,7 @@ export const projectRoleMap = {
   Creator: { name: i18n.t('user:Creator'), value: 'Creator', isCustomRole: true },
   Assignee: { name: i18n.t('user:Assignee'), value: 'Assignee', isCustomRole: true },
   Guest: { name: i18n.t('user:Guest'), value: 'Guest' },
+  SpecForgeManager: { name: i18n.t('user:SpecForgeManager'), value: 'SpecForgeManager' },
 };
 
 // 通过权限配置页面导出数据覆盖，勿手动修改
@@ -34,28 +35,28 @@ export const projectPerm = {
   addApp: {
     pass: false,
     name: i18n.t('Add'),
-    role: ['Owner', 'Lead'],
+    role: ['Owner', 'Lead', 'SpecForgeManager'],
   },
   editProject: {
     pass: false,
     name: i18n.t('user:edit project'),
-    role: ['Owner', 'Lead'],
+    role: ['Owner', 'Lead', 'SpecForgeManager'],
   },
   deleteProject: {
     pass: false,
     name: i18n.t('dop:Delete project'),
-    role: ['Owner', 'Lead'],
+    role: ['Owner', 'Lead', 'SpecForgeManager'],
   },
   service: {
     name: i18n.t('dop:addon category'),
     addProjectService: {
       pass: false,
       name: i18n.t('user:add project service'),
-      role: ['Owner', 'Lead'],
+      role: ['Owner', 'Lead', 'SpecForgeManager'],
     },
     viewService: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -64,16 +65,16 @@ export const projectPerm = {
     read: {
       pass: false,
       name: i18n.t('dop:view'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest', 'SpecForgeManager'],
     },
     operation: {
       pass: false,
       name: i18n.t('user:operation (new/edit/delete)'),
-      role: ['Owner', 'PM', 'Lead', 'PD'],
+      role: ['Owner', 'PM', 'Lead', 'PD', 'SpecForgeManager'],
     },
     handleFiled: {
       pass: false,
-      role: ['Owner', 'PM'],
+      role: ['Owner', 'PM', 'SpecForgeManager'],
       name: i18n.t('user:archive/unarchive'),
     },
   },
@@ -82,22 +83,22 @@ export const projectPerm = {
     read: {
       pass: false,
       name: i18n.t('dop:view'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
     },
     batchOperation: {
       pass: false,
       name: i18n.t('Batch Operation'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     create: {
       pass: false,
       name: i18n.t('Add'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     edit: {
       pass: false,
       name: i18n.t('Edit'),
-      role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA'],
+      role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA', 'SpecForgeManager'],
     },
     delete: {
       pass: false,
@@ -107,21 +108,21 @@ export const projectPerm = {
     updateStatus: {
       pass: false,
       name: i18n.t('user:status change'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'SpecForgeManager'],
     },
     export: {
       pass: false,
       name: i18n.t('Export'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     switchType: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'Creator'],
+      role: ['Owner', 'Lead', 'PM', 'Creator', 'SpecForgeManager'],
       name: i18n.t('user:switch type'),
     },
     import: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
       name: i18n.t('Import'),
     },
   },
@@ -130,17 +131,17 @@ export const projectPerm = {
     read: {
       pass: false,
       name: i18n.t('dop:view'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
     },
     create: {
       pass: false,
       name: i18n.t('Add'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     edit: {
       pass: false,
       name: i18n.t('Edit'),
-      role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA'],
+      role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA', 'SpecForgeManager'],
     },
     delete: {
       pass: false,
@@ -150,12 +151,12 @@ export const projectPerm = {
     updateStatus: {
       pass: false,
       name: i18n.t('user:status change'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'SpecForgeManager'],
     },
     export: {
       pass: false,
       name: i18n.t('Export'),
-      role: ['Owner', 'Lead', 'PM', 'PD'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'SpecForgeManager'],
     },
   },
   task: {
@@ -163,46 +164,46 @@ export const projectPerm = {
     read: {
       pass: false,
       name: i18n.t('dop:view'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
     },
     batchOperation: {
       pass: false,
       name: i18n.t('Batch Operation'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     create: {
       pass: false,
       name: i18n.t('Add'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     edit: {
       pass: false,
       name: i18n.t('Edit'),
-      role: ['Owner', 'Lead', 'QA', 'Creator', 'Assignee', 'PM', 'PD', 'Dev'],
+      role: ['Owner', 'Lead', 'QA', 'Creator', 'Assignee', 'PM', 'PD', 'Dev', 'SpecForgeManager'],
     },
     delete: {
       pass: false,
       name: i18n.t('Delete'),
-      role: ['Owner', 'Lead', 'Creator'],
+      role: ['Owner', 'Lead', 'Creator', 'SpecForgeManager'],
     },
     updateStatus: {
       pass: false,
       name: i18n.t('user:state modification'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'SpecForgeManager'],
     },
     export: {
       pass: false,
       name: i18n.t('Export'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     switchType: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM'],
+      role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       name: i18n.t('user:switch type'),
     },
     import: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
       name: i18n.t('Import'),
     },
   },
@@ -211,51 +212,51 @@ export const projectPerm = {
     read: {
       pass: false,
       name: i18n.t('dop:view'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
     },
     delete: {
       pass: false,
       name: i18n.t('Delete'),
-      role: ['Owner', 'Lead', 'PM', 'QA', 'Creator'],
+      role: ['Owner', 'Lead', 'PM', 'QA', 'Creator', 'SpecForgeManager'],
     },
     export: {
       pass: false,
       name: i18n.t('Export'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     batchOperation: {
       pass: false,
       name: i18n.t('Batch Operation'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     create: {
       pass: false,
       name: i18n.t('establish'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
     },
     edit: {
       pass: false,
       name: i18n.t('Edit'),
-      role: ['Owner', 'PM', 'QA', 'Creator', 'Assignee', 'Lead', 'PD', 'Dev'],
+      role: ['Owner', 'PM', 'QA', 'Creator', 'Assignee', 'Lead', 'PD', 'Dev', 'SpecForgeManager'],
     },
     updateStatus: {
       pass: false,
       name: i18n.t('user:status change'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'SpecForgeManager'],
     },
     closeBug: {
       pass: false,
       name: i18n.t('close'),
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'SpecForgeManager'],
     },
     switchType: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM'],
+      role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       name: i18n.t('user:switch type'),
     },
     import: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
       name: i18n.t('Import'),
     },
   },
@@ -289,7 +290,7 @@ export const projectPerm = {
       operation: {
         pass: false,
         name: i18n.t('user:operation (add, delete, modify)'),
-        role: ['Owner', 'Lead'],
+        role: ['Owner', 'Lead', 'SpecForgeManager'],
       },
     },
     scanRule: {
@@ -297,7 +298,7 @@ export const projectPerm = {
       operation: {
         pass: false,
         name: i18n.t('user:operation (add, delete, modify)'),
-        role: ['Owner', 'Lead'],
+        role: ['Owner', 'Lead', 'SpecForgeManager'],
       },
     },
     customWorkflow: {
@@ -305,7 +306,7 @@ export const projectPerm = {
       operation: {
         pass: false,
         name: i18n.t('user:operation (add, delete, modify)'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
     },
     blockNetwork: {
@@ -313,12 +314,12 @@ export const projectPerm = {
       applyUnblock: {
         pass: false,
         name: i18n.t('user:apply for unblocking'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
     },
     viewSetting: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -326,27 +327,27 @@ export const projectPerm = {
     name: i18n.t('dop:ticket'),
     read: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Reporter', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Reporter', 'Guest', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
     create: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Reporter', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Reporter', 'Guest', 'SpecForgeManager'],
       name: i18n.t('establish'),
     },
     edit: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest', 'SpecForgeManager'],
       name: i18n.t('Edit'),
     },
     updateStatus: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Assignee', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Assignee', 'Guest', 'SpecForgeManager'],
       name: i18n.t('user:status change'),
     },
     delete: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest', 'SpecForgeManager'],
       name: i18n.t('Delete'),
     },
   },
@@ -357,42 +358,42 @@ export const projectPerm = {
       read: {
         pass: false,
         name: i18n.t('dop:view'),
-        role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+        role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
       },
       edit: {
         pass: false,
         name: i18n.t('user:edit resources'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
       delete: {
         pass: false,
         name: i18n.t('user:delete resource'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
       publicAsset: {
         pass: false,
         name: i18n.t('user:public'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
       addVersion: {
         pass: false,
         name: i18n.t('user:add version'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
       deleteVersion: {
         pass: false,
         name: i18n.t('user:delete version'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
       relatedProjectOrApp: {
         pass: false,
         name: i18n.t('user:associated projects/applications'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
       relatedInstance: {
         pass: false,
         name: i18n.t('related instance'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
     },
     accessManage: {
@@ -400,22 +401,22 @@ export const projectPerm = {
       read: {
         pass: false,
         name: i18n.t('dop:view'),
-        role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+        role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
       },
       edit: {
         pass: false,
         name: i18n.t('Edit'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
       delete: {
         pass: false,
         name: i18n.t('Delete'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
       approve: {
         pass: false,
         name: i18n.t('user:approve'),
-        role: ['Owner', 'Lead', 'PM'],
+        role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
       },
     },
   },
@@ -423,7 +424,7 @@ export const projectPerm = {
     name: i18n.t('dop:applications'),
     viewAppList: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -431,7 +432,7 @@ export const projectPerm = {
     name: i18n.t('user:to do'),
     viewBackLog: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -439,7 +440,7 @@ export const projectPerm = {
     name: i18n.t('test'),
     viewTest: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -447,7 +448,7 @@ export const projectPerm = {
     name: i18n.t('user:project market'),
     viewDashboard: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -455,7 +456,7 @@ export const projectPerm = {
     name: i18n.t('Resource Summary'),
     viewResource: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -463,7 +464,7 @@ export const projectPerm = {
     name: i18n.t('dop:issue'),
     viewIssue: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -473,7 +474,7 @@ export const projectPerm = {
       name: i18n.t('dop:Data Source'),
       view: {
         pass: false,
-        role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops'],
+        role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops', 'SpecForgeManager'],
         name: i18n.t('dop:view'),
       },
     },
@@ -481,7 +482,7 @@ export const projectPerm = {
       name: i18n.t('Configuration Sheet'),
       view: {
         pass: false,
-        role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops'],
+        role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops', 'SpecForgeManager'],
         name: i18n.t('dop:view'),
       },
     },
@@ -490,7 +491,7 @@ export const projectPerm = {
     name: i18n.t('Pipeline'),
     view: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -498,7 +499,7 @@ export const projectPerm = {
     name: i18n.t('dop:Milestone'),
     view: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops', 'Support'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops', 'Support', 'SpecForgeManager'],
       name: i18n.t('dop:view'),
     },
   },
@@ -527,17 +528,17 @@ export const projectPerm = {
       createAccessKey: {
         name: i18n.t('create {name}', { name: 'AccessKey' }),
         pass: false,
-        role: ['Owner', 'Lead'],
+        role: ['Owner', 'Lead', 'SpecForgeManager'],
       },
       deleteAccessKey: {
         name: i18n.t('delete {name}', { name: 'AccessKey' }),
         pass: false,
-        role: ['Owner', 'Lead'],
+        role: ['Owner', 'Lead', 'SpecForgeManager'],
       },
       viewAccessKeySecret: {
         name: i18n.t('view {name}', { name: 'AccessKeySecret' }),
         pass: false,
-        role: ['Owner', 'Lead'],
+        role: ['Owner', 'Lead', 'SpecForgeManager'],
       },
     },
   },
@@ -546,7 +547,7 @@ export const projectPerm = {
     create: {
       name: i18n.t('create {name}', { name: i18n.t('Artifacts') }),
       pass: false,
-      role: ['Owner', 'Lead', 'PM'],
+      role: ['Owner', 'Lead', 'PM', 'SpecForgeManager'],
     },
   },
 };

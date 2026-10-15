@@ -193,7 +193,7 @@ const ProjectSettings = () => {
         },
       ],
     },
-    ...(permProject?.roles?.some((item: string) => ['Owner', 'PM', 'Lead'].includes(item))
+    ...(permProject?.roles?.some((item: string) => ['Owner', 'PM', 'Lead', 'SpecForgeManager'].includes(item))
       ? [
           {
             groupTitle: i18n.t('project'),
