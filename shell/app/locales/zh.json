@@ -2658,6 +2658,8 @@
     "server response": "服务器响应",
     "service API prefix": "服务 API 前缀",
     "forward rule preview": "转发规则预览",
+    "invalid API prefix": "API 前缀格式不正确",
+    "please enter the API prefix": "请输入 API 前缀",
     "set datum point": "设置基准点",
     "set to benchmark log": "设置为基准日志",
     "skip authentication": "跳过鉴权",

@@ -2658,6 +2658,8 @@
     "server response": "server response",
     "service API prefix": "service API prefix",
     "forward rule preview": "forward rule preview",
+    "invalid API prefix": "invalid API prefix",
+    "please enter the API prefix": "please enter the API prefix",
     "set datum point": "set datum point",
     "set to benchmark log": "set to benchmark log",
     "skip authentication": "skip authentication",
