@@ -4,6 +4,11 @@
   "description": "Node server for UI, take effect both development & production mode",
   "main": "src/index.js",
   "private": true,
+  "pnpm": {
+    "overrides": {
+      "@types/node": "17.0.45"
+    }
+  },
   "scripts": {
     "dev": "DEV=true nest start --watch",
     "start": "DEV=true nest start",
